@@ -1,1 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Gorditas:wght@400;700&family=Poppins:wght@400;600;700;800&display=swap');
+
 @import "tailwindcss";
+
+:root {
+  --color-royal-blue-start: #4A6FA5;
+  --color-royal-blue-mid: #6B8DD6;
+  --color-royal-blue-end: #8E9AAF;
+  
+  --color-dark-blue-bubble: #2C4A7C;
+  --color-light-blue-bubble: #7BA7D9;
+  --color-border-blue: #3B5998;
+  --color-focus-blue: #5B8DEF;
+}
+
+body {
+  font-family: 'Gorditas', 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.sinfas-bg {
+  background: linear-gradient(135deg, var(--color-royal-blue-start) 0%, var(--color-royal-blue-mid) 50%, var(--color-royal-blue-end) 100%);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 40px 16px;
+}
+
+/* 3D Glassy/Glossy Bubble Sphere */
+.bubble-3d {
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, var(--color-light-blue-bubble) 0%, var(--color-border-blue) 45%, var(--color-dark-blue-bubble) 85%, #152644 100%);
+  box-shadow: inset -6px -6px 16px rgba(0, 0, 0, 0.4),
+              inset 8px 8px 16px rgba(255, 255, 255, 0.4),
+              0 10px 30px rgba(0, 0, 0, 0.25);
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Animations for bubbles */
+@keyframes floatUp {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(8deg) scale(1.03); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes floatDown {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(20px) rotate(-8deg) scale(0.97); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.float-slow {
+  animation: floatUp 8s ease-in-out infinite;
+}
+
+.float-reverse {
+  animation: floatDown 10s ease-in-out infinite;
+}
+
+.float-fast {
+  animation: floatUp 5s ease-in-out infinite;
+}
+
+/* Playful Title */
+.playful-title {
+  font-family: 'Gorditas', cursive;
+  font-size: 42px;
+  font-weight: 700;
+  color: #000000;
+  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
+  letter-spacing: 2px;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Form Styles */
+.sinfas-card {
+  background: #FFFFFF;
+  border: 3px solid var(--color-border-blue);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+  z-index: 10;
+  display: flex;
+}
+
+.card-decor-left {
+  position: relative;
+  background: #FFFFFF;
+  border-right: 3px solid var(--color-border-blue);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 320px;
+  min-height: 100%;
+}
+
+/* Corner curve on card decorative side */
+.card-curve {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  background: linear-gradient(135deg, var(--color-royal-blue-mid), var(--color-dark-blue-bubble));
+  border-bottom-right-radius: 100%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  z-index: 0;
+}
+
+.sinfas-label {
+  font-family: 'Gorditas', 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #000000;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.sinfas-input {
+  background: #FFFFFF;
+  border: 2px solid var(--color-border-blue);
+  border-radius: 8px;
+  padding: 12px 15px;
+  font-size: 14px;
+  color: #000000;
+  width: 100%;
+  transition: all 0.3s ease;
+  font-family: 'Gorditas', 'Poppins', sans-serif;
+}
+
+.sinfas-input::placeholder {
+  color: #A0A0A0;
+}
+
+.sinfas-input:focus {
+  outline: none;
+  border-color: var(--color-focus-blue);
+  box-shadow: 0 0 12px rgba(91, 141, 239, 0.5);
+}
+
+.sinfas-button {
+  background: linear-gradient(to right, var(--color-light-blue-bubble), var(--color-dark-blue-bubble));
+  color: #FFFFFF;
+  font-family: 'Gorditas', 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 30px;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(44, 74, 124, 0.2);
+}
+
+.sinfas-button:hover {
+  transform: scale(1.02);
+  filter: brightness(1.08);
+  box-shadow: 0 8px 20px rgba(44, 74, 124, 0.35);
+}
+
+.sinfas-button:active {
+  transform: scale(0.98);
+}
+
+.sinfas-link {
+  font-family: 'Gorditas', 'Poppins', sans-serif;
+  font-size: 13px;
+  color: #000000;
+}
+
+.sinfas-link a {
+  color: var(--color-border-blue);
+  text-decoration: underline;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.sinfas-link a:hover {
+  color: var(--color-focus-blue);
+}
