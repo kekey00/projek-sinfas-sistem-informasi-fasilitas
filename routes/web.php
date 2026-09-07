@@ -8,6 +8,9 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminBarangController;
 use App\Http\Controllers\Admin\AdminKategoriController;
 use App\Http\Controllers\Admin\AdminVerifikasiController;
+use App\Http\Controllers\Sistem\SistemDashboardController;
+use App\Http\Controllers\Sistem\SistemAkunController;
+use App\Http\Controllers\Sistem\SistemSettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +56,7 @@ Route::middleware(['auth'])->group(function () {
     // -----------------------------------------------
     // ADMIN Sarana (Master: Barang & Kategori, Verifikasi)
     // -----------------------------------------------
-    Route::prefix('admin')->name('admin.')->group(function () {
+    Route::prefix('admin')->name('admin.')->middleware(['admin.sarana'])->group(function () {
         // Dashboard Admin Sarana
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
@@ -74,6 +77,28 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/verifikasi/approve/{kode_pinjam}', [AdminVerifikasiController::class, 'approve'])->name('verifikasi.approve');
         Route::post('/verifikasi/reject/{kode_pinjam}', [AdminVerifikasiController::class, 'reject'])->name('verifikasi.reject');
         Route::post('/verifikasi/pengembalian/{kode_pinjam}', [AdminVerifikasiController::class, 'verifikasiPengembalian'])->name('verifikasi.pengembalian');
+    });
+
+    // -----------------------------------------------
+    // ADMIN Sistem (Kelola Akun & Pengaturan Sistem)
+    // -----------------------------------------------
+    Route::prefix('sistem')->name('sistem.')->middleware(['admin.sistem'])->group(function () {
+
+        // Dashboard Admin Sistem
+        Route::get('/dashboard', [SistemDashboardController::class, 'index'])->name('dashboard');
+
+        // Kelola Akun
+        Route::get('/akun', [SistemAkunController::class, 'index'])->name('akun.index');
+        Route::post('/akun', [SistemAkunController::class, 'store'])->name('akun.store');
+        Route::put('/akun/{id}', [SistemAkunController::class, 'update'])->name('akun.update');
+        Route::delete('/akun/{id}', [SistemAkunController::class, 'destroy'])->name('akun.destroy');
+        Route::post('/akun/{id}/reset-password', [SistemAkunController::class, 'resetPassword'])->name('akun.reset-password');
+
+        // Pengaturan Sistem
+        Route::get('/settings', [SistemSettingsController::class, 'index'])->name('settings.index');
+        Route::put('/settings', [SistemSettingsController::class, 'update'])->name('settings.update');
+        Route::post('/settings/backup', [SistemSettingsController::class, 'backup'])->name('settings.backup');
+        Route::post('/settings/clear-cache', [SistemSettingsController::class, 'clearCache'])->name('settings.clear-cache');
     });
 
 });

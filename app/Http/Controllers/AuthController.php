@@ -122,8 +122,12 @@ class AuthController extends Controller
     {
         $role = Auth::user()->role;
 
-        if ($role === 'admin_sarana' || $role === 'admin_sistem') {
+        if ($role === 'admin_sarana') {
             return redirect()->route('admin.dashboard');
+        }
+
+        if ($role === 'admin_sistem') {
+            return redirect()->route('sistem.dashboard');
         }
 
         return redirect()->route('user.dashboard');
