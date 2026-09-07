@@ -1,75 +1,146 @@
 @extends('layouts.admin')
 
-@section('title', 'Verifikasi Pengajuan & Pengembalian')
-
-@section('page_title', 'Verifikasi Pengajuan & Pengembalian')
-@section('page_icon')
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M9 11l3 3L22 4"></path>
-    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-</svg>
-@endsection
+@section('title', 'Verifikasi Loan & Return')
+@section('page_title', 'Verifikasi Loan & Return')
 
 @section('styles')
 <style>
     /* Tab Switcher */
-    .tab-nav {
+    .tab-bar {
         display: flex;
-        gap: 8px;
-        background: #EBF3FE;
-        padding: 6px;
-        border-radius: 14px;
-        border: 1.5px solid var(--color-border-blue);
-        width: fit-content;
+        gap: 10px;
         margin-bottom: 20px;
     }
 
-    .tab-btn {
-        padding: 8px 18px;
-        border-radius: 10px;
-        border: none;
-        background: transparent;
-        font-family: 'Gorditas', cursive;
-        font-size: 12.5px;
+    .tab-link {
+        padding: 9px 20px;
+        border-radius: 8px;
+        font-size: 13.5px;
+        font-weight: 500;
+        text-decoration: none;
         color: #475569;
-        cursor: pointer;
+        background: #E2E8F0;
         transition: all 0.2s;
         display: flex;
         align-items: center;
-        gap: 6px;
-        text-decoration: none;
+        gap: 8px;
     }
 
-    .tab-btn:hover {
-        color: var(--color-border-blue);
-        background: rgba(255, 255, 255, 0.6);
+    .tab-link.active {
+        background: #1D4ED8;
+        color: #FFFFFF;
+        font-weight: 600;
     }
 
-    .tab-btn.active {
+    .tab-pill-count {
+        background: rgba(255, 255, 255, 0.25);
+        padding: 2px 7px;
+        border-radius: 12px;
+        font-size: 11.5px;
+    }
+
+    .tab-link:not(.active) .tab-pill-count {
+        background: #CBD5E1;
+        color: #1E293B;
+    }
+
+    .verify-container {
         background: #FFFFFF;
-        color: var(--color-dark-blue-bubble);
-        box-shadow: 0 3px 8px rgba(59, 89, 152, 0.15);
-        font-weight: 700;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        border: 1px solid #F1F5F9;
+        overflow: hidden;
     }
 
-    .tab-badge {
-        background: #EF4444;
-        color: #FFFFFF;
-        padding: 2px 7px;
-        border-radius: 10px;
-        font-size: 10.5px;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700;
+    .verify-header {
+        padding: 18px 24px;
+        border-bottom: 1px solid #F1F5F9;
     }
 
-    .tab-badge-blue {
-        background: #3B82F6;
+    .verify-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #0F172A;
+    }
+
+    .verify-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    .verify-table th {
+        background: #FAFAFA;
+        color: #64748B;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 14px 24px;
+        border-bottom: 1px solid #F1F5F9;
+    }
+
+    .verify-table td {
+        padding: 16px 24px;
+        border-bottom: 1px solid #F8FAFC;
+        font-size: 14px;
+        color: #1E293B;
+        vertical-align: middle;
+    }
+
+    .btn-action-approve {
+        background: #16A34A;
         color: #FFFFFF;
-        padding: 2px 7px;
-        border-radius: 10px;
-        font-size: 10.5px;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700;
+        border: none;
+        border-radius: 6px;
+        padding: 6px 16px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.15s ease;
+    }
+
+    .btn-action-approve:hover {
+        background: #15803D;
+    }
+
+    .btn-action-reject {
+        background: #DC2626;
+        color: #FFFFFF;
+        border: none;
+        border-radius: 6px;
+        padding: 6px 16px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.15s ease;
+    }
+
+    .btn-action-reject:hover {
+        background: #B91C1C;
+    }
+
+    .btn-action-verify {
+        background: #1D4ED8;
+        color: #FFFFFF;
+        border: none;
+        border-radius: 6px;
+        padding: 6px 16px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.15s ease;
+    }
+
+    .btn-action-verify:hover {
+        background: #1E40AF;
+    }
+
+    .condition-select {
+        padding: 6px 10px;
+        border: 1px solid #CBD5E1;
+        border-radius: 6px;
+        font-size: 13px;
+        color: #0F172A;
+        background: #FFFFFF;
     }
 </style>
 @endsection
@@ -77,408 +148,244 @@
 @section('content')
 
     <!-- Tab Bar -->
-    <div class="tab-nav">
-        <a href="{{ route('admin.verifikasi.index', ['tab' => 'requests']) }}" class="tab-btn {{ $tab === 'requests' ? 'active' : '' }}">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            <span>Pengajuan Pinjam (Pending)</span>
-            @if($pendingRequests->total() > 0)
-                <span class="tab-badge">{{ $pendingRequests->total() }}</span>
-            @endif
+    <div class="tab-bar">
+        <a href="{{ route('admin.verifikasi.index', ['tab' => 'requests']) }}" class="tab-link {{ $tab === 'requests' ? 'active' : '' }}">
+            <span>Pending Requests</span>
+            <span class="tab-pill-count">{{ $pendingRequests->total() }}</span>
         </a>
 
-        <a href="{{ route('admin.verifikasi.index', ['tab' => 'returns']) }}" class="tab-btn {{ $tab === 'returns' ? 'active' : '' }}">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
-            <span>Pengembalian (Aktif)</span>
-            @if($activeLoans->total() > 0)
-                <span class="tab-badge-blue">{{ $activeLoans->total() }}</span>
-            @endif
+        <a href="{{ route('admin.verifikasi.index', ['tab' => 'returns']) }}" class="tab-link {{ $tab === 'returns' ? 'active' : '' }}">
+            <span>Pending Returns</span>
+            <span class="tab-pill-count">{{ $activeLoans->total() }}</span>
         </a>
 
-        <a href="{{ route('admin.verifikasi.index', ['tab' => 'history']) }}" class="tab-btn {{ $tab === 'history' ? 'active' : '' }}">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <a href="{{ route('admin.verifikasi.index', ['tab' => 'history']) }}" class="tab-link {{ $tab === 'history' ? 'active' : '' }}">
             <span>Riwayat Selesai</span>
         </a>
     </div>
 
-    <!-- ======================================================== -->
-    <!-- TAB 1: PENDING REQUESTS (Pengajuan Pinjam)                -->
-    <!-- ======================================================== -->
+    <!-- ─── TAB 1: PENDING REQUESTS ──────────────────────────── -->
     @if($tab === 'requests')
-    <div class="content-card">
-        <div class="card-header-row">
-            <div>
-                <div class="card-heading">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    <span>Permohonan Pinjam Menunggu Verifikasi</span>
-                </div>
-                <div style="font-size: 12.5px; color: #64748B; margin-top: 2px;">
-                    Verifikasi pengajuan peminjaman alat oleh siswa sebelum barang diserahkan
-                </div>
-            </div>
+    <div class="verify-container">
+        <div class="verify-header">
+            <h2 class="verify-title">Pending Loan Requests</h2>
         </div>
 
-        <div style="overflow-x: auto;">
-            <table class="custom-table">
-                <thead>
-                    <tr>
-                        <th>Kode Pinjam</th>
-                        <th>Peminjam (Siswa)</th>
-                        <th>Nama Alat / Barang</th>
-                        <th>Tgl Pinjam</th>
-                        <th>Rencana Kembali</th>
-                        <th>Keperluan</th>
-                        <th style="text-align: center; width: 170px;">Aksi Verifikasi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($pendingRequests as $pjm)
-                    <tr>
-                        <td>
-                            <code style="background: #EBF3FE; padding: 3px 6px; border-radius: 6px; font-size: 11.5px; color: var(--color-border-blue); font-weight: 600;">
-                                {{ $pjm->kode_pinjam }}
-                            </code>
-                        </td>
-                        <td>
-                            <div style="font-weight: 600; color: #0F172A;">{{ $pjm->siswa->nama ?? 'Siswa' }}</div>
-                            <div style="font-size: 11.5px; color: #64748B;">NIS: {{ $pjm->nis }}</div>
-                        </td>
-                        <td>
-                            <div style="font-weight: 600; color: #0F172A;">{{ $pjm->barang->nama_barang ?? $pjm->kode_barang }}</div>
-                            <div style="font-size: 11.5px; color: #64748B;">
-                                Sisa Stok Baik: 
-                                <strong style="color: {{ ($pjm->barang->jumlah_baik ?? 0) > 0 ? '#059669' : '#DC2626' }};">
-                                    {{ $pjm->barang->jumlah_baik ?? 0 }}
-                                </strong>
-                            </div>
-                        </td>
-                        <td style="font-family: monospace; font-weight: 600; color: #334155;">
-                            {{ $pjm->tanggal_pinjam ? $pjm->tanggal_pinjam->format('d M Y') : '-' }}
-                        </td>
-                        <td style="font-family: monospace; font-weight: 600; color: #334155;">
-                            {{ $pjm->tanggal_kembali ? $pjm->tanggal_kembali->format('d M Y') : '-' }}
-                        </td>
-                        <td>
-                            <div style="max-width: 220px; font-size: 12px; color: #475569; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ $pjm->keterangan_penggunaan }}">
-                                {{ $pjm->keterangan_penggunaan }}
-                            </div>
-                        </td>
-                        <td>
-                            <div class="actions-cell" style="justify-content: center;">
-                                <!-- Tombol Setujui -->
-                                <button type="button" class="btn-action-sm btn-action-approve" onclick="openApproveModal('{{ $pjm->kode_pinjam }}', '{{ $pjm->barang->nama_barang ?? '' }}', '{{ $pjm->siswa->nama ?? 'Siswa' }}', {{ $pjm->barang->jumlah_baik ?? 0 }})">
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                    <span>Setujui</span>
-                                </button>
+        <table class="verify-table">
+            <thead>
+                <tr>
+                    <th>Borrower</th>
+                    <th>Item</th>
+                    <th>Borrow Date</th>
+                    <th>Due Date</th>
+                    <th style="width: 200px; text-align: right; padding-right: 32px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($pendingRequests as $pjm)
+                <tr>
+                    <td>
+                        <div style="font-weight: 600; color: #0F172A;">{{ $pjm->siswa->nama ?? 'Siswa' }}</div>
+                        <div style="font-size: 12px; color: #64748B;">NIS: {{ $pjm->nis }}</div>
+                    </td>
+                    <td>
+                        <div style="font-weight: 500;">{{ $pjm->barang->nama_barang ?? $pjm->kode_barang }}</div>
+                        <div style="font-size: 12px; color: #64748B;">{{ $pjm->keterangan_penggunaan }}</div>
+                    </td>
+                    <td style="color: #475569;">
+                        {{ $pjm->tanggal_pinjam ? $pjm->tanggal_pinjam->format('Y-m-d') : '-' }}
+                    </td>
+                    <td style="color: #475569;">
+                        {{ $pjm->tanggal_kembali ? $pjm->tanggal_kembali->format('Y-m-d') : '-' }}
+                    </td>
+                    <td style="text-align: right; padding-right: 28px;">
+                        <form action="{{ route('admin.verifikasi.approve', $pjm->kode_pinjam) }}" method="POST" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="btn-action-approve" onclick="return confirm('Setujui peminjaman ini?')">Approve</button>
+                        </form>
 
-                                <!-- Tombol Tolak -->
-                                <button type="button" class="btn-action-sm btn-action-reject" onclick="openRejectModal('{{ $pjm->kode_pinjam }}', '{{ $pjm->barang->nama_barang ?? '' }}', '{{ $pjm->siswa->nama ?? 'Siswa' }}')">
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                    <span>Tolak</span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="7" style="text-align: center; color: #94A3B8; padding: 36px 14px;">
-                            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" stroke-width="1.8" style="margin-bottom: 8px;">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                            <div>Tidak ada permohonan pinjam yang perlu diverifikasi saat ini.</div>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                        <button type="button" class="btn-action-reject" onclick="openRejectModal('{{ $pjm->kode_pinjam }}', '{{ $pjm->barang->nama_barang ?? '' }}', '{{ $pjm->siswa->nama ?? 'Siswa' }}')">
+                            Reject
+                        </button>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="5" style="text-align: center; color: #94A3B8; padding: 28px;">
+                        Tidak ada permohonan pinjam yang menunggu verifikasi saat ini.
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
 
-        <div style="margin-top: 18px; display: flex; justify-content: flex-end;">
+        <div style="padding: 16px 24px; display: flex; justify-content: flex-end;">
             {{ $pendingRequests->links() }}
         </div>
     </div>
     @endif
 
-    <!-- ======================================================== -->
-    <!-- TAB 2: PENDING RETURNS (Verifikasi Pengembalian Alat)      -->
-    <!-- ======================================================== -->
+    <!-- ─── TAB 2: PENDING RETURNS ───────────────────────────── -->
     @if($tab === 'returns')
-    <div class="content-card">
-        <div class="card-header-row">
-            <div>
-                <div class="card-heading">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
-                    <span>Daftar Peminjaman Aktif (Menunggu Dikembalikan)</span>
-                </div>
-                <div style="font-size: 12.5px; color: #64748B; margin-top: 2px;">
-                    Verifikasi fisik pengembalian barang yang sedang dipinjam oleh siswa
-                </div>
-            </div>
+    <div class="verify-container">
+        <div class="verify-header">
+            <h2 class="verify-title">Pending Returns (Peminjaman Aktif)</h2>
         </div>
 
-        <div style="overflow-x: auto;">
-            <table class="custom-table">
-                <thead>
-                    <tr>
-                        <th>Kode Pinjam</th>
-                        <th>Peminjam (Siswa)</th>
-                        <th>Nama Alat / Barang</th>
-                        <th>Tgl Mulai Pinjam</th>
-                        <th>Batas Kembali</th>
-                        <th>Status Waktu</th>
-                        <th style="text-align: center; width: 170px;">Aksi Pengembalian</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($activeLoans as $active)
-                    @php
-                        $isOverdue = $active->tanggal_kembali && $active->tanggal_kembali->isPast() && !$active->tanggal_kembali->isToday();
-                    @endphp
-                    <tr>
-                        <td>
-                            <code style="background: #EBF3FE; padding: 3px 6px; border-radius: 6px; font-size: 11.5px; color: var(--color-border-blue); font-weight: 600;">
-                                {{ $active->kode_pinjam }}
-                            </code>
-                        </td>
-                        <td>
-                            <div style="font-weight: 600; color: #0F172A;">{{ $active->siswa->nama ?? 'Siswa' }}</div>
-                            <div style="font-size: 11.5px; color: #64748B;">NIS: {{ $active->nis }}</div>
-                        </td>
-                        <td>
-                            <div style="font-weight: 600; color: #0F172A;">{{ $active->barang->nama_barang ?? $active->kode_barang }}</div>
-                            <span class="badge badge-info">{{ $active->barang->kategori->nama_kategori ?? '-' }}</span>
-                        </td>
-                        <td style="font-family: monospace; font-weight: 600; color: #334155;">
-                            {{ $active->tanggal_pinjam ? $active->tanggal_pinjam->format('d M Y') : '-' }}
-                        </td>
-                        <td style="font-family: monospace; font-weight: 600; color: #334155;">
-                            {{ $active->tanggal_kembali ? $active->tanggal_kembali->format('d M Y') : '-' }}
-                        </td>
-                        <td>
-                            @if($isOverdue)
-                                <span class="badge badge-danger">Lewat Batas</span>
-                            @else
-                                <span class="badge badge-warning">Sedang Dipinjam</span>
-                            @endif
-                        </td>
-                        <td style="text-align: center;">
-                            <!-- Tombol Verifikasi Pengembalian -->
-                            <button type="button" class="btn-sinfas-primary" style="font-size: 11.5px; padding: 6px 12px;" onclick="openReturnModal('{{ $active->kode_pinjam }}', '{{ $active->barang->nama_barang ?? '' }}', '{{ $active->siswa->nama ?? 'Siswa' }}')">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                <span>Terima Kembali</span>
-                            </button>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="7" style="text-align: center; color: #94A3B8; padding: 36px 14px;">
-                            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" stroke-width="1.8" style="margin-bottom: 8px;">
-                                <polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-                            </svg>
-                            <div>Saat ini tidak ada barang fasilitas yang sedang aktif dipinjam.</div>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+        <table class="verify-table">
+            <thead>
+                <tr>
+                    <th>Borrower</th>
+                    <th>Item</th>
+                    <th>Borrow Date</th>
+                    <th>Due Date</th>
+                    <th style="width: 220px; text-align: right; padding-right: 32px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($activeLoans as $active)
+                <tr>
+                    <td>
+                        <div style="font-weight: 600; color: #0F172A;">{{ $active->siswa->nama ?? 'Siswa' }}</div>
+                        <div style="font-size: 12px; color: #64748B;">NIS: {{ $active->nis }}</div>
+                    </td>
+                    <td>
+                        <div style="font-weight: 500;">{{ $active->barang->nama_barang ?? $active->kode_barang }}</div>
+                        <div style="font-size: 12px; color: #64748B;">Kode Pinjam: {{ $active->kode_pinjam }}</div>
+                    </td>
+                    <td style="color: #475569;">
+                        {{ $active->tanggal_pinjam ? $active->tanggal_pinjam->format('Y-m-d') : '-' }}
+                    </td>
+                    <td style="color: #475569;">
+                        {{ $active->tanggal_kembali ? $active->tanggal_kembali->format('Y-m-d') : '-' }}
+                    </td>
+                    <td style="text-align: right; padding-right: 28px;">
+                        <button type="button" class="btn-action-verify" onclick="openReturnModal('{{ $active->kode_pinjam }}', '{{ $active->barang->nama_barang ?? '' }}', '{{ $active->siswa->nama ?? 'Siswa' }}')">
+                            Verify Return
+                        </button>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="5" style="text-align: center; color: #94A3B8; padding: 28px;">
+                        Tidak ada barang yang sedang dipinjam saat ini.
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
 
-        <div style="margin-top: 18px; display: flex; justify-content: flex-end;">
+        <div style="padding: 16px 24px; display: flex; justify-content: flex-end;">
             {{ $activeLoans->links() }}
         </div>
     </div>
     @endif
 
-    <!-- ======================================================== -->
-    <!-- TAB 3: RIWAYAT SELESAI                                    -->
-    <!-- ======================================================== -->
+    <!-- ─── TAB 3: RIWAYAT SELESAI ───────────────────────────── -->
     @if($tab === 'history')
-    <div class="content-card">
-        <div class="card-header-row">
-            <div>
-                <div class="card-heading">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                    <span>Riwayat Peminjaman Selesai &amp; Ditolak</span>
-                </div>
-                <div style="font-size: 12.5px; color: #64748B; margin-top: 2px;">
-                    Arsip lengkap data peminjaman yang telah selesai dikembalikan atau ditolak
-                </div>
-            </div>
+    <div class="verify-container">
+        <div class="verify-header">
+            <h2 class="verify-title">Riwayat Selesai</h2>
         </div>
 
-        <div style="overflow-x: auto;">
-            <table class="custom-table">
-                <thead>
-                    <tr>
-                        <th>Kode Pinjam</th>
-                        <th>Peminjam (Siswa)</th>
-                        <th>Nama Alat / Barang</th>
-                        <th>Tanggal Pinjam</th>
-                        <th>Tgl Selesai / Dikembalikan</th>
-                        <th>Status Akhir</th>
-                        <th>Kondisi Saat Kembali</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($historyLoans as $hist)
-                    <tr>
-                        <td>
-                            <code style="background: #EBF3FE; padding: 3px 6px; border-radius: 6px; font-size: 11.5px; color: var(--color-border-blue); font-weight: 600;">
-                                {{ $hist->kode_pinjam }}
-                            </code>
-                        </td>
-                        <td>
-                            <div style="font-weight: 600; color: #0F172A;">{{ $hist->siswa->nama ?? 'Siswa' }}</div>
-                            <div style="font-size: 11.5px; color: #64748B;">NIS: {{ $hist->nis }}</div>
-                        </td>
-                        <td>
-                            <div style="font-weight: 600; color: #0F172A;">{{ $hist->barang->nama_barang ?? $hist->kode_barang }}</div>
-                        </td>
-                        <td style="font-family: monospace; font-size: 12px; color: #475569;">
-                            {{ $hist->tanggal_pinjam ? $hist->tanggal_pinjam->format('d M Y') : '-' }}
-                        </td>
-                        <td style="font-family: monospace; font-size: 12px; color: #475569;">
-                            @if($hist->pengembalian)
-                                {{ $hist->pengembalian->tanggal_kembali ? $hist->pengembalian->tanggal_kembali->format('d M Y') : '-' }}
-                            @else
-                                {{ $hist->updated_at ? $hist->updated_at->format('d M Y') : '-' }}
-                            @endif
-                        </td>
-                        <td>
-                            @if($hist->status_pengajuan === 'ditolak')
-                                <span class="badge badge-danger">Ditolak</span>
-                            @elseif($hist->pengembalian)
-                                <span class="badge badge-success">Dikembalikan</span>
-                            @else
-                                <span class="badge badge-info">{{ ucfirst($hist->status_pengajuan) }}</span>
-                            @endif
-                        </td>
-                        <td>
-                            @if($hist->pengembalian)
-                                @if($hist->pengembalian->kondisi_barang === 'Baik')
-                                    <span class="badge badge-success">Baik</span>
-                                @elseif($hist->pengembalian->kondisi_barang === 'Kurang Baik')
-                                    <span class="badge badge-warning">Kurang Baik</span>
-                                @else
-                                    <span class="badge badge-danger">Rusak Berat</span>
-                                @endif
-                            @else
-                                <span style="color: #94A3B8; font-size: 12px;">-</span>
-                            @endif
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="7" style="text-align: center; color: #94A3B8; padding: 36px 14px;">
-                            <div>Belum ada riwayat peminjaman yang tersimpan.</div>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+        <table class="verify-table">
+            <thead>
+                <tr>
+                    <th>Borrower</th>
+                    <th>Item</th>
+                    <th>Tgl Pinjam</th>
+                    <th>Tgl Kembali</th>
+                    <th>Kondisi Saat Kembali</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($historyLoans as $hist)
+                <tr>
+                    <td>
+                        <div style="font-weight: 500;">{{ $hist->siswa->nama ?? 'Siswa' }}</div>
+                    </td>
+                    <td>
+                        {{ $hist->barang->nama_barang ?? $hist->kode_barang }}
+                    </td>
+                    <td style="color: #64748B;">
+                        {{ $hist->tanggal_pinjam ? $hist->tanggal_pinjam->format('Y-m-d') : '-' }}
+                    </td>
+                    <td style="color: #64748B;">
+                        {{ $hist->pengembalian->tanggal_kembali ?? '-' }}
+                    </td>
+                    <td>
+                        <span style="display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 12px; background: #DCFCE7; color: #15803D; font-weight: 500;">
+                            {{ $hist->pengembalian->kondisi_barang ?? 'Baik' }}
+                        </span>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="5" style="text-align: center; color: #94A3B8; padding: 28px;">
+                        Belum ada riwayat pengembalian yang tercatat.
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
 
-        <div style="margin-top: 18px; display: flex; justify-content: flex-end;">
+        <div style="padding: 16px 24px; display: flex; justify-content: flex-end;">
             {{ $historyLoans->links() }}
         </div>
     </div>
     @endif
 
-    <!-- ======================================================== -->
-    <!-- MODALS SECTION                                           -->
-    <!-- ======================================================== -->
-
-    <!-- MODAL 1: Konfirmasi Persetujuan -->
-    <div id="approveModal" class="modal-overlay">
-        <div class="modal-card" style="max-width: 460px; text-align: center;">
-            <div style="width: 56px; height: 56px; border-radius: 50%; background: #DEF7EC; color: #059669; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px;">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    <!-- Modal Verify Return -->
+    <div id="returnModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">Verify Return</div>
+                <button class="modal-close-btn" onclick="closeModal('returnModal')">&times;</button>
             </div>
-            <h3 style="font-family: 'Gorditas', cursive; font-size: 18px; margin-bottom: 8px;">Konfirmasi Persetujuan</h3>
-            <p style="font-size: 13px; color: #64748B; margin-bottom: 12px;" id="approveModalText">
-                Setujui permohonan peminjaman ini?
-            </p>
-            <div id="approveStockAlert" style="background: #F1F5F9; border-radius: 10px; padding: 10px; font-size: 12.5px; color: #334155; margin-bottom: 20px;">
-                <!-- Filled dynamically -->
-            </div>
-            <form id="approveForm" method="POST">
+            <form id="returnForm" method="POST">
                 @csrf
-                <div style="display: flex; justify-content: center; gap: 12px;">
-                    <button type="button" class="btn-sinfas-secondary" onclick="closeModal('approveModal')">Batal</button>
-                    <button type="submit" id="confirmApproveBtn" class="btn-action-sm btn-action-approve" style="padding: 8px 22px; font-size: 12.5px;">Ya, Setujui</button>
+                <div style="margin-bottom: 14px;">
+                    <p style="font-size: 13.5px; color: #475569; margin-bottom: 12px;">
+                        Verifikasi pengembalian barang <strong id="returnItemName"></strong> oleh <strong id="returnStudentName"></strong>.
+                    </p>
+                    
+                    <label style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px;">Kondisi Barang Saat Kembali</label>
+                    <select name="kondisi_barang" class="condition-select" style="width: 100%; margin-bottom: 14px;" required>
+                        <option value="Baik">Baik (Lengkap & Berfungsi Normal)</option>
+                        <option value="Kurang Baik">Kurang Baik (Lecet / Perlu Perbaikan Ringan)</option>
+                        <option value="Rusak Berat">Rusak Berat (Tidak Berfungsi / Patah)</option>
+                    </select>
+
+                    <label style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px;">Tanggal Dikembalikan</label>
+                    <input type="date" name="tanggal_kembali" value="{{ date('Y-m-d') }}" style="width: 100%; padding: 8px 12px; border: 1px solid #CBD5E1; border-radius: 6px;" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="closeModal('returnModal')">Batal</button>
+                    <button type="submit" class="btn-submit">Konfirmasi Kembali</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- MODAL 2: Tolak Pengajuan -->
+    <!-- Modal Reject -->
     <div id="rejectModal" class="modal-overlay">
-        <div class="modal-card" style="max-width: 460px;">
+        <div class="modal-card">
             <div class="modal-header">
-                <div class="modal-title">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    <span>Tolak Pengajuan</span>
-                </div>
+                <div class="modal-title">Reject Request</div>
                 <button class="modal-close-btn" onclick="closeModal('rejectModal')">&times;</button>
             </div>
             <form id="rejectForm" method="POST">
                 @csrf
-                <p style="font-size: 13px; color: #475569; margin-bottom: 14px;" id="rejectModalDesc">
-                    Berikan alasan penolakan peminjaman alat ini:
-                </p>
-                <div class="form-group">
-                    <label class="form-label">Alasan Penolakan <span style="color:red;">*</span></label>
-                    <textarea name="alasan_penolakan" class="form-textarea" rows="3" placeholder="Contoh: Alat sedang dipersiapkan untuk ujian praktik / stok habis" required></textarea>
+                <div style="margin-bottom: 14px;">
+                    <p style="font-size: 13.5px; color: #475569; margin-bottom: 10px;">
+                        Tolak pengajuan peminjaman <strong id="rejectItemName"></strong> oleh <strong id="rejectStudentName"></strong>?
+                    </p>
+                    <label style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px;">Alasan Penolakan</label>
+                    <textarea name="alasan" class="form-control" rows="3" placeholder="Contoh: Barang sedang dalam perawatan atau jadwal bentrok" style="width: 100%; border: 1px solid #CBD5E1; border-radius: 8px; padding: 10px; font-family: inherit; font-size: 13px;"></textarea>
                 </div>
-                <div class="form-actions">
-                    <button type="button" class="btn-sinfas-secondary" onclick="closeModal('rejectModal')">Batal</button>
-                    <button type="submit" class="btn-action-sm btn-action-reject" style="padding: 8px 18px; font-size: 12.5px;">Konfirmasi Tolak</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL 3: Verifikasi Pengembalian Alat (Kondisi Saat Kembali) -->
-    <div id="returnModal" class="modal-overlay">
-        <div class="modal-card" style="max-width: 500px;">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span>Verifikasi Pengembalian Alat</span>
-                </div>
-                <button class="modal-close-btn" onclick="closeModal('returnModal')">&times;</button>
-            </div>
-
-            <form id="returnForm" method="POST">
-                @csrf
-                <div style="background: #EBF3FE; border: 1.5px solid var(--color-border-blue); border-radius: 12px; padding: 12px; margin-bottom: 16px; font-size: 13px;">
-                    <div><strong>Kode Pinjam:</strong> <code id="returnModalKode"></code></div>
-                    <div><strong>Nama Alat:</strong> <span id="returnModalAlat"></span></div>
-                    <div><strong>Peminjam:</strong> <span id="returnModalPeminjam"></span></div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Tanggal Pengembalian Fisik <span style="color:red;">*</span></label>
-                    <input type="date" name="tanggal_kembali" class="form-input" value="{{ date('Y-m-d') }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Kondisi Alat Saat Diterima Kembali <span style="color:red;">*</span></label>
-                    <select name="kondisi_barang" class="form-select" required>
-                        <option value="Baik" selected>✅ Kondisi Baik (Normal tanpa kerusakan)</option>
-                        <option value="Kurang Baik">⚠️ Kurang Baik (Ada baret/kelengkapan kurang)</option>
-                        <option value="Rusak Berat">❌ Rusak Berat (Tidak berfungsi / rusak fisik)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Catatan / Keterangan Kondisi</label>
-                    <textarea name="catatan" class="form-textarea" rows="2" placeholder="Tuliskan catatan pemeriksaan kelengkapan (misal: kabel HDMI lengkap, lensa bersih)"></textarea>
-                </div>
-
-                <div class="form-actions">
-                    <button type="button" class="btn-sinfas-secondary" onclick="closeModal('returnModal')">Batal</button>
-                    <button type="submit" class="btn-sinfas-primary">Konfirmasi Pengembalian</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="closeModal('rejectModal')">Batal</button>
+                    <button type="submit" class="btn-action-reject" style="padding: 8px 20px;">Konfirmasi Tolak</button>
                 </div>
             </form>
         </div>
@@ -488,50 +395,18 @@
 
 @section('scripts')
 <script>
-    function openApproveModal(kodePinjam, namaAlat, namaSiswa, stokBaik) {
-        const form = document.getElementById('approveForm');
-        form.action = "{{ url('/admin/verifikasi/approve') }}/" + kodePinjam;
-
-        document.getElementById('approveModalText').innerHTML = 
-            'Setujui permohonan peminjaman alat <strong>' + namaAlat + '</strong> oleh siswa <strong>' + namaSiswa + '</strong>?';
-
-        const alertBox = document.getElementById('approveStockAlert');
-        const btn = document.getElementById('confirmApproveBtn');
-
-        if (stokBaik < 1) {
-            alertBox.innerHTML = '<span style="color: #DC2626; font-weight: bold;">⚠️ Perhatian: Stok barang kondisi baik habis (0). Anda tidak dapat menyetujui peminjaman ini.</span>';
-            btn.disabled = true;
-            btn.style.opacity = '0.5';
-            btn.style.cursor = 'not-allowed';
-        } else {
-            alertBox.innerHTML = 'Saat disetujui, <strong>1 unit stok kondisi baik</strong> akan dialokasikan ke peminjam. (Sisa stok baik saat ini: <strong>' + stokBaik + '</strong>)';
-            btn.disabled = false;
-            btn.style.opacity = '1';
-            btn.style.cursor = 'pointer';
-        }
-
-        openModal('approveModal');
-    }
-
-    function openRejectModal(kodePinjam, namaAlat, namaSiswa) {
-        const form = document.getElementById('rejectForm');
-        form.action = "{{ url('/admin/verifikasi/reject') }}/" + kodePinjam;
-
-        document.getElementById('rejectModalDesc').innerHTML = 
-            'Tolak permohonan peminjaman alat <strong>' + namaAlat + '</strong> oleh siswa <strong>' + namaSiswa + '</strong>:';
-
-        openModal('rejectModal');
-    }
-
-    function openReturnModal(kodePinjam, namaAlat, namaSiswa) {
-        const form = document.getElementById('returnForm');
-        form.action = "{{ url('/admin/verifikasi/pengembalian') }}/" + kodePinjam;
-
-        document.getElementById('returnModalKode').innerText = kodePinjam;
-        document.getElementById('returnModalAlat').innerText = namaAlat;
-        document.getElementById('returnModalPeminjam').innerText = namaSiswa;
-
+    function openReturnModal(kodePinjam, itemName, studentName) {
+        document.getElementById('returnItemName').innerText = itemName;
+        document.getElementById('returnStudentName').innerText = studentName;
+        document.getElementById('returnForm').action = "{{ url('/admin/verifikasi/pengembalian') }}/" + kodePinjam;
         openModal('returnModal');
+    }
+
+    function openRejectModal(kodePinjam, itemName, studentName) {
+        document.getElementById('rejectItemName').innerText = itemName;
+        document.getElementById('rejectStudentName').innerText = studentName;
+        document.getElementById('rejectForm').action = "{{ url('/admin/verifikasi/reject') }}/" + kodePinjam;
+        openModal('rejectModal');
     }
 </script>
 @endsection

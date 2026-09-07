@@ -15,7 +15,10 @@ class AdminBarangController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Barang::with('kategori');
+        $query = Barang::with('kategori')
+            ->withCount(['peminjaman as dipinjam_count' => function ($q) {
+                $q->where('status_pengajuan', 'disetujui')->whereDoesntHave('pengembalian');
+            }]);
 
         // Pencarian (Nama barang, kode barang, merk)
         if ($request->filled('q')) {

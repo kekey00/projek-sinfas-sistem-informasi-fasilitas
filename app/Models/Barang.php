@@ -38,6 +38,11 @@ class Barang extends Model
         return $this->hasMany(Peminjaman::class, 'kode_barang', 'kode_barang');
     }
 
+    public function peminjaman()
+    {
+        return $this->peminjamans();
+    }
+
     /**
      * Cek apakah barang sedang aktif dipinjam (status disetujui & belum dikembalikan).
      */
