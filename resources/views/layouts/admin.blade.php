@@ -398,13 +398,13 @@
 
             <!-- Menu List -->
             <nav class="sidebar-nav">
-                <!-- 1. Home -->
+                <!-- 1. Beranda -->
                 <a href="{{ route('admin.dashboard') }}" class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                         <polyline points="9 22 9 12 15 12 15 22"></polyline>
                     </svg>
-                    <span>Home</span>
+                    <span>Beranda</span>
                 </a>
 
                 <!-- 2. Kelola Alat -->
@@ -425,24 +425,24 @@
                     <span>Kelola Kategori</span>
                 </a>
 
-                <!-- 4. Verifikasi Loan & Return -->
+                <!-- 4. Verifikasi Pinjam & Kembali -->
                 <a href="{{ route('admin.verifikasi.index') }}" class="nav-item {{ request()->routeIs('admin.verifikasi.*') ? 'active' : '' }}">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M9 11l3 3L22 4"></path>
                         <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
                     </svg>
-                    <span>Verifikasi Loan &amp; Return</span>
+                    <span>Verifikasi Pinjam &amp; Kembali</span>
                 </a>
 
                 <div class="sidebar-spacer"></div>
 
-                <!-- 5. Profile -->
+                <!-- 5. Profil -->
                 <a href="javascript:void(0)" onclick="openProfileModal()" class="nav-item">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
-                    <span>Profile</span>
+                    <span>Profil</span>
                 </a>
 
                 <!-- 6. Keluar -->

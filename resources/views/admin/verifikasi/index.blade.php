@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Verifikasi Loan & Return')
-@section('page_title', 'Verifikasi Loan & Return')
+@section('title', 'Verifikasi Pinjam & Kembali')
+@section('page_title', 'Verifikasi Pinjam & Kembali')
 
 @section('styles')
 <style>
@@ -150,12 +150,12 @@
     <!-- Tab Bar -->
     <div class="tab-bar">
         <a href="{{ route('admin.verifikasi.index', ['tab' => 'requests']) }}" class="tab-link {{ $tab === 'requests' ? 'active' : '' }}">
-            <span>Pending Requests</span>
+            <span>Permohonan Pinjam</span>
             <span class="tab-pill-count">{{ $pendingRequests->total() }}</span>
         </a>
 
         <a href="{{ route('admin.verifikasi.index', ['tab' => 'returns']) }}" class="tab-link {{ $tab === 'returns' ? 'active' : '' }}">
-            <span>Pending Returns</span>
+            <span>Pengembalian (Aktif)</span>
             <span class="tab-pill-count">{{ $activeLoans->total() }}</span>
         </a>
 
@@ -164,21 +164,21 @@
         </a>
     </div>
 
-    <!-- ─── TAB 1: PENDING REQUESTS ──────────────────────────── -->
+    <!-- ─── TAB 1: PERMOHONAN PINJAM ─────────────────────────── -->
     @if($tab === 'requests')
     <div class="verify-container">
         <div class="verify-header">
-            <h2 class="verify-title">Pending Loan Requests</h2>
+            <h2 class="verify-title">Permintaan Peminjaman Menunggu Verifikasi</h2>
         </div>
 
         <table class="verify-table">
             <thead>
                 <tr>
-                    <th>Borrower</th>
-                    <th>Item</th>
-                    <th>Borrow Date</th>
-                    <th>Due Date</th>
-                    <th style="width: 200px; text-align: right; padding-right: 32px;">Actions</th>
+                    <th>Peminjam</th>
+                    <th>Nama Alat</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Rencana Kembali</th>
+                    <th style="width: 200px; text-align: right; padding-right: 32px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -201,11 +201,11 @@
                     <td style="text-align: right; padding-right: 28px;">
                         <form action="{{ route('admin.verifikasi.approve', $pjm->kode_pinjam) }}" method="POST" style="display: inline;">
                             @csrf
-                            <button type="submit" class="btn-action-approve" onclick="return confirm('Setujui peminjaman ini?')">Approve</button>
+                            <button type="submit" class="btn-action-approve" onclick="return confirm('Setujui peminjaman ini?')">Setujui</button>
                         </form>
 
                         <button type="button" class="btn-action-reject" onclick="openRejectModal('{{ $pjm->kode_pinjam }}', '{{ $pjm->barang->nama_barang ?? '' }}', '{{ $pjm->siswa->nama ?? 'Siswa' }}')">
-                            Reject
+                            Tolak
                         </button>
                     </td>
                 </tr>
@@ -225,21 +225,21 @@
     </div>
     @endif
 
-    <!-- ─── TAB 2: PENDING RETURNS ───────────────────────────── -->
+    <!-- ─── TAB 2: PENGEMBALIAN AKTIF ────────────────────────── -->
     @if($tab === 'returns')
     <div class="verify-container">
         <div class="verify-header">
-            <h2 class="verify-title">Pending Returns (Peminjaman Aktif)</h2>
+            <h2 class="verify-title">Daftar Peminjaman Aktif (Menunggu Dikembalikan)</h2>
         </div>
 
         <table class="verify-table">
             <thead>
                 <tr>
-                    <th>Borrower</th>
-                    <th>Item</th>
-                    <th>Borrow Date</th>
-                    <th>Due Date</th>
-                    <th style="width: 220px; text-align: right; padding-right: 32px;">Actions</th>
+                    <th>Peminjam</th>
+                    <th>Nama Alat</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Batas Kembali</th>
+                    <th style="width: 220px; text-align: right; padding-right: 32px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -261,7 +261,7 @@
                     </td>
                     <td style="text-align: right; padding-right: 28px;">
                         <button type="button" class="btn-action-verify" onclick="openReturnModal('{{ $active->kode_pinjam }}', '{{ $active->barang->nama_barang ?? '' }}', '{{ $active->siswa->nama ?? 'Siswa' }}')">
-                            Verify Return
+                            Verifikasi Kembali
                         </button>
                     </td>
                 </tr>
@@ -285,16 +285,16 @@
     @if($tab === 'history')
     <div class="verify-container">
         <div class="verify-header">
-            <h2 class="verify-title">Riwayat Selesai</h2>
+            <h2 class="verify-title">Riwayat Peminjaman Selesai</h2>
         </div>
 
         <table class="verify-table">
             <thead>
                 <tr>
-                    <th>Borrower</th>
-                    <th>Item</th>
-                    <th>Tgl Pinjam</th>
-                    <th>Tgl Kembali</th>
+                    <th>Peminjam</th>
+                    <th>Nama Alat</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Tanggal Kembali</th>
                     <th>Kondisi Saat Kembali</th>
                 </tr>
             </thead>
@@ -335,18 +335,18 @@
     </div>
     @endif
 
-    <!-- Modal Verify Return -->
+    <!-- Modal Verifikasi Pengembalian -->
     <div id="returnModal" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-header">
-                <div class="modal-title">Verify Return</div>
+                <div class="modal-title">Verifikasi Pengembalian</div>
                 <button class="modal-close-btn" onclick="closeModal('returnModal')">&times;</button>
             </div>
             <form id="returnForm" method="POST">
                 @csrf
                 <div style="margin-bottom: 14px;">
                     <p style="font-size: 13.5px; color: #475569; margin-bottom: 12px;">
-                        Verifikasi pengembalian barang <strong id="returnItemName"></strong> oleh <strong id="returnStudentName"></strong>.
+                        Verifikasi fisik pengembalian barang <strong id="returnItemName"></strong> oleh <strong id="returnStudentName"></strong>.
                     </p>
                     
                     <label style="display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px;">Kondisi Barang Saat Kembali</label>
@@ -361,17 +361,17 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn-cancel" onclick="closeModal('returnModal')">Batal</button>
-                    <button type="submit" class="btn-submit">Konfirmasi Kembali</button>
+                    <button type="submit" class="btn-submit">Konfirmasi Pengembalian</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Modal Reject -->
+    <!-- Modal Tolak Pengajuan -->
     <div id="rejectModal" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-header">
-                <div class="modal-title">Reject Request</div>
+                <div class="modal-title">Tolak Pengajuan</div>
                 <button class="modal-close-btn" onclick="closeModal('rejectModal')">&times;</button>
             </div>
             <form id="rejectForm" method="POST">

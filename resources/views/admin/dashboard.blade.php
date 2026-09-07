@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
-@section('title', 'Admin Sarana Dashboard')
-@section('page_title', 'Home')
+@section('title', 'Dashboard Admin Sarana')
+@section('page_title', 'Beranda')
 
 @section('styles')
 <style>
-    /* ─── 4 STAT CARDS ─────────────────────────────────────── */
+    /* ─── 4 KARTU STATISTIK ─────────────────────────────────── */
     .stat-cards-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -40,11 +40,11 @@
     }
 
     .stat-label.damaged {
-        color: #D97706; /* Golden Amber / Orange Sesuai Gambar */
+        color: #D97706; /* Warna Oranye / Amber */
         font-weight: 500;
     }
 
-    /* ─── PENDING LOAN REQUESTS ───────────────────────────── */
+    /* ─── PERMINTAAN PEMINJAMAN MENUNGGU ───────────────────── */
     .section-wrapper {
         margin-bottom: 24px;
     }
@@ -129,7 +129,7 @@
         gap: 8px;
     }
 
-    /* ─── BAR LINE CHART ──────────────────────────────────── */
+    /* ─── GRAFIK PEMINJAMAN ALAT ──────────────────────────── */
     .chart-section {
         margin-top: 6px;
     }
@@ -205,37 +205,37 @@
     <div class="stat-cards-grid">
         <div class="stat-card">
             <span class="stat-number">{{ $menungguCount }}</span>
-            <span class="stat-label">Pending Verification</span>
+            <span class="stat-label">Menunggu Verifikasi</span>
         </div>
 
         <div class="stat-card">
             <span class="stat-number">{{ $totalAlat }}</span>
-            <span class="stat-label">Total Items</span>
+            <span class="stat-label">Total Alat / Barang</span>
         </div>
 
         <div class="stat-card">
             <span class="stat-number">{{ $sedangDipinjamCount }}</span>
-            <span class="stat-label">Currently Borrowed</span>
+            <span class="stat-label">Sedang Dipinjam</span>
         </div>
 
         <div class="stat-card">
             <span class="stat-number">{{ $rusakCount }}</span>
-            <span class="stat-label damaged">Damaged</span>
+            <span class="stat-label damaged">Rusak</span>
         </div>
     </div>
 
-    <!-- 2. Pending Loan Requests Section -->
+    <!-- 2. Tabel Permintaan Peminjaman Menunggu -->
     <div class="section-wrapper">
-        <h2 class="section-title">Pending Loan Requests</h2>
+        <h2 class="section-title">Permintaan Peminjaman Menunggu</h2>
         
         <div class="table-container">
             <table class="dashboard-table">
                 <thead>
                     <tr>
-                        <th style="width: 25%;">Borrower</th>
-                        <th style="width: 35%;">Item</th>
-                        <th style="width: 20%;">Date</th>
-                        <th style="width: 20%;">Actions</th>
+                        <th style="width: 25%;">Peminjam</th>
+                        <th style="width: 35%;">Nama Alat</th>
+                        <th style="width: 20%;">Tanggal Pinjam</th>
+                        <th style="width: 20%;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -252,15 +252,15 @@
                         </td>
                         <td>
                             <div class="actions-cell-wrapper">
-                                <!-- Approve Form -->
+                                <!-- Form Setujui -->
                                 <form action="{{ route('admin.verifikasi.approve', $req->kode_pinjam) }}" method="POST" style="display: inline;">
                                     @csrf
-                                    <button type="submit" class="btn-approve">Approve</button>
+                                    <button type="submit" class="btn-approve">Setujui</button>
                                 </form>
 
-                                <!-- Reject Button -->
+                                <!-- Tombol Tolak -->
                                 <button type="button" class="btn-reject" onclick="openRejectModal('{{ $req->kode_pinjam }}', '{{ $req->barang->nama_barang ?? '' }}', '{{ $req->siswa->nama ?? 'Siswa' }}')">
-                                    Reject
+                                    Tolak
                                 </button>
                             </div>
                         </td>
@@ -268,7 +268,7 @@
                     @empty
                     <tr>
                         <td colspan="4" style="text-align: center; color: #94A3B8; padding: 24px;">
-                            Tidak ada permohonan peminjaman yang menunggu.
+                            Tidak ada permohonan peminjaman yang menunggu saat ini.
                         </td>
                     </tr>
                     @endforelse
@@ -277,16 +277,16 @@
         </div>
     </div>
 
-    <!-- 3. BarLineChart Section -->
+    <!-- 3. Bagian Grafik Tren Peminjaman -->
     <div class="chart-section">
-        <div class="chart-section-title">BarLineChart</div>
+        <div class="chart-section-title">Grafik Tren Peminjaman Alat</div>
         
         <div class="chart-box">
             <div class="chart-canvas-wrapper">
                 <canvas id="sinfasBarChart"></canvas>
             </div>
 
-            <!-- Legend Baris Bawah Persis Screenshot -->
+            <!-- Legend Baris Bawah -->
             <div class="chart-bottom-row">
                 <span class="chart-zero-label">00</span>
                 <div class="legend-row-exact">
@@ -323,7 +323,7 @@
     <div id="rejectModal" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-header">
-                <div class="modal-title">Reject Request</div>
+                <div class="modal-title">Tolak Pengajuan</div>
                 <button class="modal-close-btn" onclick="closeModal('rejectModal')">&times;</button>
             </div>
             <form id="rejectForm" method="POST">
@@ -370,7 +370,7 @@
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        display: false // Menggunakan legend kustom di bawah persis gambar
+                        display: false
                     },
                     tooltip: {
                         backgroundColor: '#1E293B',
@@ -382,7 +382,7 @@
                 },
                 scales: {
                     x: {
-                        position: 'top', // Bulan (Jan, Feb, Mar, Apr, Mei, Jun) di atas grid seperti screenshot
+                        position: 'top',
                         grid: {
                             display: false
                         },

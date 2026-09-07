@@ -180,7 +180,7 @@
 
                 <button type="button" class="btn-add-category" onclick="openModal('addCategoryModal')">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    <span>+ Add Category</span>
+                    <span>+ Tambah Kategori</span>
                 </button>
             </div>
         </div>
@@ -191,7 +191,7 @@
                 <tr>
                     <th>Nama Kategori</th>
                     <th>Jumlah Barang</th>
-                    <th style="text-align: right; padding-right: 32px;">Actions</th>
+                    <th style="text-align: right; padding-right: 32px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -223,32 +223,32 @@
         </table>
     </div>
 
-    <!-- Modal Add Category Sesuai Figma -->
+    <!-- Modal Tambah Kategori -->
     <div id="addCategoryModal" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-header">
-                <div class="modal-title">Add Category</div>
+                <div class="modal-title">Tambah Kategori</div>
                 <button class="modal-close-btn" onclick="closeModal('addCategoryModal')">&times;</button>
             </div>
             <form action="{{ route('admin.kategori.store') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label class="form-label">Nama Kategori</label>
-                    <input type="text" name="nama_kategori" class="form-control" placeholder="Enter Category Name" required>
+                    <input type="text" name="nama_kategori" class="form-control" placeholder="Masukkan Nama Kategori" required>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-cancel" onclick="closeModal('addCategoryModal')">Cancel</button>
-                    <button type="submit" class="btn-submit">Save</button>
+                    <button type="button" class="btn-cancel" onclick="closeModal('addCategoryModal')">Batal</button>
+                    <button type="submit" class="btn-submit">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Modal Edit Category -->
+    <!-- Modal Edit Kategori -->
     <div id="editCategoryModal" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-header">
-                <div class="modal-title">Edit Category</div>
+                <div class="modal-title">Edit Kategori</div>
                 <button class="modal-close-btn" onclick="closeModal('editCategoryModal')">&times;</button>
             </div>
             <form id="editCategoryForm" method="POST">
@@ -259,8 +259,8 @@
                     <input type="text" id="edit_nama_kategori" name="nama_kategori" class="form-control" required>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-cancel" onclick="closeModal('editCategoryModal')">Cancel</button>
-                    <button type="submit" class="btn-submit">Save</button>
+                    <button type="button" class="btn-cancel" onclick="closeModal('editCategoryModal')">Batal</button>
+                    <button type="submit" class="btn-submit">Simpan Perubahan</button>
                 </div>
             </form>
         </div>

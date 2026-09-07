@@ -201,7 +201,7 @@
 
                 <button type="button" class="btn-add-item" onclick="openModal('addItemModal')">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    <span>+ Add Item</span>
+                    <span>+ Tambah Alat</span>
                 </button>
             </div>
         </div>
@@ -215,7 +215,7 @@
                     <th>Stok</th>
                     <th>Di Pakai</th>
                     <th>Kondisi</th>
-                    <th style="text-align: right; padding-right: 32px;">Actions</th>
+                    <th style="text-align: right; padding-right: 32px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -270,24 +270,24 @@
         </div>
     </div>
 
-    <!-- Modal: Add Item Sesuai Figma -->
+    <!-- Modal: Tambah Alat -->
     <div id="addItemModal" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-header">
-                <div class="modal-title">Add Item</div>
+                <div class="modal-title">Tambah Alat</div>
                 <button class="modal-close-btn" onclick="closeModal('addItemModal')">&times;</button>
             </div>
             <form action="{{ route('admin.barang.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label class="form-label">Nama Barang</label>
-                    <input type="text" name="nama_barang" class="form-control" placeholder="e.g. Proyektor Epson X300" required>
+                    <input type="text" name="nama_barang" class="form-control" placeholder="Contoh: Proyektor Epson X300" required>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Kategori</label>
                     <select name="id_kategori" class="form-control" required>
-                        <option value="">Select category</option>
+                        <option value="">Pilih Kategori</option>
                         @foreach($kategoris as $k)
                             <option value="{{ $k->id_kategori }}">{{ $k->nama_kategori }}</option>
                         @endforeach
@@ -307,7 +307,7 @@
 
                 <div class="form-group">
                     <label class="form-label">Merk / Model</label>
-                    <input type="text" name="merk_model" class="form-control" placeholder="e.g. Epson EB-X300">
+                    <input type="text" name="merk_model" class="form-control" placeholder="Contoh: Epson EB-X300">
                 </div>
 
                 <div class="form-group">
@@ -316,18 +316,18 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn-cancel" onclick="closeModal('addItemModal')">Cancel</button>
-                    <button type="submit" class="btn-submit">Save</button>
+                    <button type="button" class="btn-cancel" onclick="closeModal('addItemModal')">Batal</button>
+                    <button type="submit" class="btn-submit">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Modal: Edit Item Sesuai Figma -->
+    <!-- Modal: Edit Alat -->
     <div id="editItemModal" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-header">
-                <div class="modal-title">Edit Item</div>
+                <div class="modal-title">Edit Alat</div>
                 <button class="modal-close-btn" onclick="closeModal('editItemModal')">&times;</button>
             </div>
             <form id="editItemForm" method="POST" enctype="multipart/form-data">
@@ -369,8 +369,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn-cancel" onclick="closeModal('editItemModal')">Cancel</button>
-                    <button type="submit" class="btn-submit">Save Changes</button>
+                    <button type="button" class="btn-cancel" onclick="closeModal('editItemModal')">Batal</button>
+                    <button type="submit" class="btn-submit">Simpan Perubahan</button>
                 </div>
             </form>
         </div>
