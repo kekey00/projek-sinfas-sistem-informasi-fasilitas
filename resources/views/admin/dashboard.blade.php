@@ -15,10 +15,10 @@
 
     .stat-card {
         background: #FFFFFF;
-        border-radius: 8px;
+        border-radius: 14px;
         padding: 20px 22px;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-        border: 1px solid #E2E8F0;
+        box-shadow: 0 4px 16px rgba(44, 74, 124, 0.08);
+        border: 2px solid #3B5998;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -50,17 +50,19 @@
     }
 
     .section-title {
-        font-size: 15px;
+        font-family: 'Gorditas', cursive;
+        font-size: 17px;
         font-weight: 700;
         color: #0F172A;
         margin-bottom: 12px;
+        letter-spacing: 0.3px;
     }
 
     .table-container {
         background: #FFFFFF;
-        border-radius: 8px;
-        border: 1px solid #E2E8F0;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        border-radius: 14px;
+        border: 2px solid #3B5998;
+        box-shadow: 0 4px 16px rgba(44, 74, 124, 0.08);
         overflow: hidden;
     }
 
@@ -135,18 +137,20 @@
     }
 
     .chart-section-title {
-        font-size: 14px;
-        font-weight: 500;
-        color: #94A3B8;
+        font-family: 'Gorditas', cursive;
+        font-size: 16px;
+        font-weight: 700;
+        color: #3B5998;
         margin-bottom: 8px;
+        letter-spacing: 0.3px;
     }
 
     .chart-box {
         background: #FFFFFF;
-        border-radius: 8px;
+        border-radius: 14px;
         padding: 24px;
-        border: 1px solid #E2E8F0;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        border: 2px solid #3B5998;
+        box-shadow: 0 4px 16px rgba(44, 74, 124, 0.08);
         position: relative;
     }
 
@@ -322,6 +326,7 @@
     <!-- Modal Konfirmasi Penolakan -->
     <div id="rejectModal" class="modal-overlay">
         <div class="modal-card">
+            <div class="modal-card-top"></div>
             <div class="modal-header">
                 <div class="modal-title">Tolak Pengajuan</div>
                 <button class="modal-close-btn" onclick="closeModal('rejectModal')">&times;</button>

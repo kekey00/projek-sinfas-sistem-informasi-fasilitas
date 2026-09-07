@@ -176,7 +176,8 @@ class BarangSeeder extends Seeder
                 'kode_barang'           => 'BRG-001', // Projector Epson X300
                 'tanggal_pinjam'        => '2024-03-15',
                 'tanggal_kembali'       => '2024-03-16',
-                'keterangan_penggunaan' => 'Presentasi Tugas Akhir Kelas XII',
+                'lokasi'                => 'Ruang 31',
+                'keterangan_penggunaan' => 'Projector kelas rusak, butuh untuk presentasi kelompok',
                 'status_pengajuan'      => 'menunggu',
                 'created_at'            => '2024-03-15 08:30:00',
                 'updated_at'            => '2024-03-15 08:30:00',
@@ -185,23 +186,25 @@ class BarangSeeder extends Seeder
                 'kode_pinjam'           => 'PINJAM-20240315-002',
                 'nis'                   => '10002', // Siti Nurhaliza
                 'kode_barang'           => 'BRG-002', // Portable Speaker JBL
-                'tanggal_pinjam'        => '2024-03-15',
-                'tanggal_kembali'       => '2024-03-15',
-                'keterangan_penggunaan' => 'Latihan Paduan Suara Ekstrakurikuler',
+                'tanggal_pinjam'        => '2024-03-16',
+                'tanggal_kembali'       => '2024-03-16',
+                'lokasi'                => 'Ruang 1',
+                'keterangan_penggunaan' => 'Butuh speaker untuk latihan vokal paduan suara',
                 'status_pengajuan'      => 'menunggu',
-                'created_at'            => '2024-03-15 09:15:00',
-                'updated_at'            => '2024-03-15 09:15:00',
+                'created_at'            => '2024-03-16 09:15:00',
+                'updated_at'            => '2024-03-16 09:15:00',
             ],
             [
                 'kode_pinjam'           => 'PINJAM-20240314-001',
                 'nis'                   => '10003', // Budi Santoso
                 'kode_barang'           => 'BRG-003', // Folding Table 180cm
-                'tanggal_pinjam'        => '2024-03-14',
+                'tanggal_pinjam'        => '2024-03-16',
                 'tanggal_kembali'       => '2024-03-17',
-                'keterangan_penggunaan' => 'Bazar dan Pameran Karya Siswa',
+                'lokasi'                => 'Ruang 7',
+                'keterangan_penggunaan' => 'Kebutuhan praktek karya seni dan bazar kelas',
                 'status_pengajuan'      => 'menunggu',
-                'created_at'            => '2024-03-14 11:20:00',
-                'updated_at'            => '2024-03-14 11:20:00',
+                'created_at'            => '2024-03-16 11:20:00',
+                'updated_at'            => '2024-03-16 11:20:00',
             ],
         ];
 

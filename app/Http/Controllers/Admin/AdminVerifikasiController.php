@@ -91,11 +91,11 @@ class AdminVerifikasiController extends Controller
             return back()->with('error', 'Status pengajuan peminjaman ini sudah diproses sebelumnya.');
         }
 
-        $alasan = $request->input('alasan_penolakan', 'Ditolak oleh admin sarana');
+        $alasan = $request->input('alasan') ?: $request->input('alasan_penolakan', 'Ditolak oleh admin sarana');
 
         $peminjaman->update([
             'status_pengajuan'      => 'ditolak',
-            'keterangan_penggunaan' => $peminjaman->keterangan_penggunaan . ' [Catatan Penolakan: ' . $alasan . ']',
+            'keterangan_penggunaan' => $peminjaman->keterangan_penggunaan . ($alasan ? ' [Catatan: ' . $alasan . ']' : ''),
         ]);
 
         return back()->with('success', 'Pengajuan peminjaman #' . $peminjaman->kode_pinjam . ' telah DITOLAK.');

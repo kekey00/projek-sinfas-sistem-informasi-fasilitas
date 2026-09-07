@@ -7,9 +7,9 @@
 <style>
     .kategori-container {
         background: #FFFFFF;
-        border-radius: 12px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-        border: 1px solid #F1F5F9;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(44, 74, 124, 0.09);
+        border: 2.5px solid #3B5998;
         overflow: hidden;
     }
 
@@ -17,15 +17,18 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 20px 24px;
+        padding: 22px 24px 16px;
         flex-wrap: wrap;
         gap: 16px;
+        border-bottom: 1.5px solid #EEF2F6;
     }
 
     .kategori-title {
-        font-size: 17px;
-        font-weight: 600;
+        font-family: 'Gorditas', cursive;
+        font-size: 18px;
+        font-weight: 700;
         color: #0F172A;
+        letter-spacing: 0.3px;
     }
 
     .header-actions {
@@ -41,16 +44,18 @@
 
     .search-input-wrap input {
         width: 100%;
-        padding: 8px 14px 8px 36px;
-        border: 1px solid #CBD5E1;
-        border-radius: 8px;
+        padding: 9px 14px 9px 38px;
+        border: 2px solid #3B5998;
+        border-radius: 9px;
         font-size: 13.5px;
         color: #0F172A;
         outline: none;
+        transition: all 0.2s;
     }
 
     .search-input-wrap input:focus {
-        border-color: #1D4ED8;
+        border-color: #5B8DEF;
+        box-shadow: 0 0 8px rgba(91, 141, 239, 0.35);
     }
 
     .search-icon {
@@ -58,27 +63,32 @@
         left: 12px;
         top: 50%;
         transform: translateY(-50%);
-        color: #94A3B8;
+        color: #3B5998;
         pointer-events: none;
     }
 
     .btn-add-category {
-        background: #1D4ED8;
+        background: linear-gradient(to right, #7BA7D9, #2C4A7C);
         color: #FFFFFF;
         border: none;
-        border-radius: 8px;
-        padding: 8px 18px;
+        border-radius: 9px;
+        padding: 9px 20px;
         font-size: 13.5px;
-        font-weight: 500;
+        font-weight: 700;
         cursor: pointer;
         display: flex;
         align-items: center;
         gap: 6px;
-        transition: background 0.2s;
+        transition: all 0.25s ease;
+        font-family: 'Gorditas', 'Poppins', sans-serif;
+        box-shadow: 0 4px 12px rgba(44, 74, 124, 0.22);
+        letter-spacing: 0.3px;
     }
 
     .btn-add-category:hover {
-        background: #1E40AF;
+        transform: scale(1.02);
+        filter: brightness(1.08);
+        box-shadow: 0 6px 16px rgba(44, 74, 124, 0.32);
     }
 
     .kategori-table {
@@ -226,6 +236,7 @@
     <!-- Modal Tambah Kategori -->
     <div id="addCategoryModal" class="modal-overlay">
         <div class="modal-card">
+            <div class="modal-card-top"></div>
             <div class="modal-header">
                 <div class="modal-title">Tambah Kategori</div>
                 <button class="modal-close-btn" onclick="closeModal('addCategoryModal')">&times;</button>
@@ -247,6 +258,7 @@
     <!-- Modal Edit Kategori -->
     <div id="editCategoryModal" class="modal-overlay">
         <div class="modal-card">
+            <div class="modal-card-top"></div>
             <div class="modal-header">
                 <div class="modal-title">Edit Kategori</div>
                 <button class="modal-close-btn" onclick="closeModal('editCategoryModal')">&times;</button>
