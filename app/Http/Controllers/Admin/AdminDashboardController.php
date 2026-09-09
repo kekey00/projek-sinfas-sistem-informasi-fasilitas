@@ -46,6 +46,13 @@ class AdminDashboardController extends Controller
             ->take(3)
             ->get();
 
+        // 4. Riwayat Peminjaman (sudah disetujui/ditolak/dikembalikan)
+        $riwayatPeminjaman = Peminjaman::with(['barang', 'siswa'])
+            ->whereIn('status_pengajuan', ['disetujui', 'ditolak', 'dikembalikan'])
+            ->orderBy('updated_at', 'desc')
+            ->take(10)
+            ->get();
+
         // 3. Data Tren Peminjaman untuk BarLineChart (Bulan Jan - Jun)
         $chartLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'];
 
@@ -80,6 +87,7 @@ class AdminDashboardController extends Controller
             'sedangDipinjamCount',
             'rusakCount',
             'pendingRequests',
+            'riwayatPeminjaman',
             'chartLabels',
             'chartDatasets'
         ));

@@ -3,536 +3,418 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard User - SINFAS</title>
+    <title>Dashboard - SINFAS</title>
     <meta name="description" content="Dashboard peminjaman fasilitas sekolah - SINFAS">
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --navy-900: #16264F;
+            --navy-800: #1B2F63;
+            --indigo-700: #2D4FA0;
+            --indigo-600: #3B66C4;
+            --indigo-500: #4A76D2;
+            --indigo-400: #6690DE;
+            --indigo-100: #E8EEFC;
+            --indigo-50:  #F0F4FF;
+            --green-700:  #0E5E2C;
+            --green-600:  #16A34A;
+            --red-700:    #8B1E1E;
+            --bg:     #F0F2F8;
+            --surface:#FFFFFF;
+            --border: #E4E8F4;
+            --text:   #1B2333;
+            --muted:  #64748B;
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #ECEEF2;
-            min-height: 100vh;s
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 24px 16px;
-            color: #1E293B;
-        }
+        /* APP SHELL */
+        .app { display: flex; min-height: 100vh; }
 
-        /* ── Outer Container ── */
-        .user-dashboard-card {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            max-width: 1280px;
-            background: #FFFFFF;
-            border: 3.5px solid #3B66C4;
-            border-radius: 28px;
-            box-shadow: 0 16px 40px rgba(44,74,124,0.22);
-            min-height: 750px;
-            overflow: hidden;
-        }
-
-        /* ── SIDEBAR ── */
+        /* SIDEBAR */
         .sidebar {
-            width: 230px;
-            min-width: 230px;
-            background: linear-gradient(180deg, #4673CE 0%, #375FB7 45%, #254790 100%);
-            padding: 26px 20px 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            color: #FFF;
-            border-right: 3px solid #3B66C4;
-        }
-        .brand-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .brand-avatar {
-            width: 44px; height: 44px;
-            border-radius: 50%;
-            background: #D1D5DB;
-            border: 2px solid #FFF;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
-            box-shadow: 0 3px 8px rgba(0,0,0,.15);
-        }
-        .brand-title {
-            font-family: 'Baloo 2', sans-serif;
-            font-size: 22px; font-weight: 700;
-            color: #FFF; letter-spacing: .5px;
-        }
-
-        /* nav tersebar merata: Home dekat atas, Profile di tengah, Logout paling bawah */
-        .nav-top { margin-top: 26px; }
-        .nav-middle { flex: 1; display: flex; align-items: center; }
-        .nav-link {
-            font-family: 'Baloo 2', sans-serif;
-            font-size: 17px; font-weight: 600; color: #FFF; text-decoration: none;
-            display: flex; align-items: center; gap: 12px;
-            padding: 8px 6px; border-radius: 10px;
-            transition: all .2s ease;
-        }
-        .nav-link:hover { transform: translateX(4px); opacity: .9; }
-        .nav-icon { width: 24px; height: 24px; stroke-width: 2.2; flex-shrink: 0; }
-        .nav-logout { padding-top: 10px; }
-
-        /* ── MAIN CONTENT ── */
-        .main-content {
-            flex: 1;
-            background: #FFF;
-            padding: 24px 30px;
-            display: flex; flex-direction: column; gap: 18px;
-            overflow-y: auto;
-        }
-
-        /* ── TOP BAR ── */
-        .topbar { display: flex; align-items: center; gap: 12px; width: 100%; }
-        .search-form { flex: 1; display: flex; gap: 10px; align-items: center; }
-
-        .search-container { flex: 1; position: relative; }
-        .search-input {
-            width: 100%;
-            background: #EDEFF4;
-            border: none;
-            border-radius: 30px;
-            padding: 12px 18px 12px 44px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 13.5px; color: #1E293B;
-            outline: none; transition: all .2s ease;
-        }
-        .search-input::placeholder { color: #94A3B8; font-weight: 400; }
-        .search-input:focus { background: #E2E6EE; box-shadow: 0 0 0 2px #C7D2E3; }
-        .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #64748B; pointer-events: none; }
-
-        /* dropdown filter kategori - tetap terlihat sebagai select biasa */
-        .filter-select {
-            background: #EDEFF4;
-            border: none;
-            border-radius: 30px;
-            padding: 11px 36px 11px 18px;
-            font-family: 'Baloo 2', sans-serif;
-            font-size: 14px; font-weight: 600; color: #334155;
-            cursor: pointer; outline: none;
-            white-space: nowrap;
-            appearance: none;
-            -webkit-appearance: none;
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23334155' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
-            background-repeat: no-repeat;
-            background-position: right 14px center;
-            transition: all .2s ease;
-        }
-        .filter-select:focus { background-color: #E2E6EE; box-shadow: 0 0 0 2px #C7D2E3; }
-
-        .search-btn {
-            background: linear-gradient(135deg, #4673CE, #254790);
-            border: none; border-radius: 30px;
-            padding: 11px 22px;
-            font-family: 'Baloo 2', sans-serif;
-            font-size: 13px; font-weight: 600; color: #FFF;
-            cursor: pointer; transition: all .2s ease;
-        }
-        .search-btn:hover { transform: scale(1.03); }
-
-        .top-icons-group { display: flex; align-items: center; gap: 14px; flex-shrink: 0; margin-left: 4px; }
-        .header-icon-btn {
-            width: 38px; height: 38px;
-            border-radius: 50%; border: none;
-            background: transparent;
-            display: flex; align-items: center; justify-content: center;
-            color: #334155; cursor: pointer; transition: all .2s ease;
-        }
-        .header-icon-btn:hover { background: #F1F5F9; }
-
-        /* ── WELCOME BANNER ── */
-        .welcome-banner {
-            width: 100%;
-            background: linear-gradient(180deg, #4A76D2 0%, #2D54A8 100%);
-            border: 3px solid #3B66C4; border-radius: 20px;
-            padding: 22px 30px;
-            box-shadow: 0 6px 16px rgba(44,74,124,.18);
-            display: flex; align-items: center; justify-content: space-between;
-            min-height: 80px;
-        }
-        .welcome-title {
-            font-family: 'Baloo 2', sans-serif;
-            font-size: 30px; font-weight: 700; color: #FFF;
-            letter-spacing: .5px;
-        }
-        .welcome-sub {
-            font-size: 13px; color: rgba(255,255,255,.8);
-            font-weight: 400; margin-top: 4px;
-        }
-
-        /* ── SUCCESS ALERT ── */
-        .alert-success {
-            background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
-            border: 2px solid #10B981;
-            border-radius: 14px; padding: 14px 20px;
-            display: flex; align-items: center; gap: 12px;
-            font-size: 13.5px; color: #065F46; font-weight: 500;
-            animation: slideIn .4s ease;
-        }
-        @keyframes slideIn { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
-
-        /* ── FACILITY CONTAINER ── */
-        .section-label {
-            font-family: 'Baloo 2', sans-serif;
-            font-size: 14px; font-weight: 600; color: rgba(255,255,255,.8);
-            margin-bottom: 14px; letter-spacing: .3px;
-        }
-        .facility-container {
-            background: linear-gradient(180deg, #5D82D6 0%, #2C4E9E 100%);
-            border: 3px solid #1E3A75; border-radius: 22px;
-            padding: 26px 22px;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,.12), 0 6px 20px rgba(37,71,144,.2);
-            flex: 1;
-        }
-
-        /* ── NO RESULT ── */
-        .no-result {
-            text-align: center; padding: 40px 20px;
-            color: rgba(255,255,255,.7);
-            font-family: 'Baloo 2', sans-serif; font-weight: 600; font-size: 16px;
-        }
-        .no-result svg { opacity: .5; margin-bottom: 12px; }
-
-        /* ── GRID ── */
-        .facility-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            column-gap: 20px; row-gap: 26px;
-        }
-        .facility-card-wrapper { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .facility-card {
-            width: 100%; aspect-ratio: 1/1;
-            background: #CBD8FB;
-            border: none; border-radius: 20px;
+            width: 240px; min-width: 240px;
+            background: linear-gradient(175deg, var(--indigo-500) 0%, var(--navy-800) 55%, var(--navy-900) 100%);
             display: flex; flex-direction: column;
-            align-items: center; justify-content: space-between;
-            padding: 14px 10px 10px;
-            position: relative;
-            box-shadow: 0 4px 12px rgba(0,0,0,.12);
-            transition: transform .2s ease, box-shadow .2s ease;
-            cursor: pointer; text-decoration: none;
+            color: #fff;
+            position: sticky; top: 0; height: 100vh;
+            overflow-y: auto;
+            box-shadow: 4px 0 24px rgba(27,47,99,.18);
+            z-index: 50;
         }
-        .facility-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,.2); }
+        .sidebar-brand {
+            display: flex; align-items: center; gap: 12px;
+            padding: 24px 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+        }
+        .brand-logo {
+            width: 40px; height: 40px; border-radius: 12px;
+            background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.3);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .brand-name { font-family: 'Baloo 2', sans-serif; font-size: 21px; font-weight: 800; letter-spacing: .4px; color: #fff; }
+        .sidebar-nav { flex: 1; padding: 14px 12px; display: flex; flex-direction: column; gap: 3px; }
+        .nav-section-label {
+            font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+            color: rgba(255,255,255,.45); padding: 12px 8px 6px;
+        }
+        .nav-link {
+            display: flex; align-items: center; gap: 11px;
+            padding: 10px 12px; border-radius: 10px;
+            color: rgba(255,255,255,.78); text-decoration: none;
+            font-family: 'Baloo 2', sans-serif; font-size: 14.5px; font-weight: 600;
+            transition: all .18s ease;
+            cursor: pointer; background: none; border: none; width: 100%; text-align: left;
+        }
+        .nav-link svg { width: 18px; height: 18px; stroke-width: 2.1; flex-shrink: 0; opacity: .85; }
+        .nav-link:hover { background: rgba(255,255,255,.1); color: #fff; }
+        .nav-link.active { background: rgba(255,255,255,.16); color: #fff; border-left: 3px solid rgba(255,255,255,.8); }
+        .nav-link.active svg { opacity: 1; }
+        .sidebar-footer { padding: 12px; border-top: 1px solid rgba(255,255,255,.12); }
+        .nav-link.logout { color: rgba(255,180,180,.85); }
+        .nav-link.logout:hover { background: rgba(220,38,38,.15); color: #FCA5A5; }
 
-        /* Status Badge */
+        /* MAIN */
+        .main { flex: 1; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+
+        /* TOPBAR */
+        .topbar {
+            background: var(--surface); border-bottom: 1px solid var(--border);
+            padding: 12px 28px; display: flex; align-items: center; gap: 14px;
+            position: sticky; top: 0; z-index: 40;
+            box-shadow: 0 1px 4px rgba(0,0,0,.04);
+        }
+        .search-wrap { flex: 1; display: flex; align-items: center; gap: 10px; }
+        .search-box { flex: 1; position: relative; max-width: 440px; }
+        .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+        .search-input {
+            width: 100%; background: var(--bg); border: 1.5px solid var(--border);
+            border-radius: 30px; padding: 9px 18px 9px 42px;
+            font-family: 'Inter', sans-serif; font-size: 13.5px; color: var(--text);
+            outline: none; transition: border-color .15s, box-shadow .15s;
+        }
+        .search-input::placeholder { color: #94A3B8; }
+        .search-input:focus { border-color: var(--indigo-600); box-shadow: 0 0 0 3px var(--indigo-100); background: #fff; }
+        .filter-select {
+            background: var(--bg); border: 1.5px solid var(--border); border-radius: 30px;
+            padding: 9px 36px 9px 16px; font-family: 'Baloo 2', sans-serif; font-size: 13.5px; font-weight: 600; color: #334155;
+            cursor: pointer; outline: none; appearance: none; -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23334155' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+            background-repeat: no-repeat; background-position: right 12px center;
+        }
+        .filter-select:focus { border-color: var(--indigo-600); box-shadow: 0 0 0 3px var(--indigo-100); }
+        .topbar-icons { display: flex; align-items: center; gap: 6px; }
+        .icon-btn {
+            width: 36px; height: 36px; border-radius: 10px; border: none;
+            background: var(--bg); display: flex; align-items: center; justify-content: center;
+            color: var(--muted); cursor: pointer; transition: all .15s;
+        }
+        .icon-btn:hover { background: var(--indigo-100); color: var(--indigo-600); }
+
+        /* PAGE BODY */
+        .page-body { flex: 1; padding: 22px 28px; display: flex; flex-direction: column; gap: 18px; }
+
+        /* ALERT */
+        .alert-success {
+            background: linear-gradient(135deg, #DCFCE7, #BBF7D0); border: 1.5px solid #86EFAC;
+            border-radius: 12px; padding: 13px 18px; display: flex; align-items: center; gap: 10px;
+            font-size: 13.5px; color: #15803D; font-weight: 500; animation: slideDown .35s ease;
+        }
+        @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+
+        /* WELCOME BANNER */
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--indigo-500) 0%, var(--navy-800) 60%, var(--navy-900) 100%);
+            border-radius: 20px; padding: 22px 28px;
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 6px 20px rgba(27,47,99,.2); position: relative; overflow: hidden;
+        }
+        .welcome-banner::before {
+            content: ''; position: absolute; top: -40px; right: -40px;
+            width: 180px; height: 180px; border-radius: 50%; background: rgba(255,255,255,.06);
+        }
+        .welcome-text h1 { font-family: 'Baloo 2', sans-serif; font-size: 26px; font-weight: 800; color: #fff; }
+        .welcome-text p { font-size: 13.5px; color: rgba(255,255,255,.75); margin-top: 4px; }
+        .welcome-icon {
+            width: 56px; height: 56px; border-radius: 16px;
+            background: rgba(255,255,255,.12); display: flex; align-items: center; justify-content: center;
+            border: 1.5px solid rgba(255,255,255,.2); flex-shrink: 0; position: relative; z-index: 1;
+        }
+
+        /* SECTION HEADER */
+        .section-header { display: flex; align-items: center; justify-content: space-between; }
+        .section-title { font-family: 'Baloo 2', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); }
+        .section-count {
+            font-size: 13px; color: var(--muted); background: var(--bg);
+            border: 1px solid var(--border); border-radius: 20px; padding: 3px 12px;
+        }
+
+        /* FACILITY GRID */
+        .facility-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+
+        .facility-card {
+            background: var(--surface); border: 1.5px solid var(--border); border-radius: 16px;
+            padding: 16px 12px 14px; display: flex; flex-direction: column;
+            align-items: center; gap: 10px; position: relative;
+            text-decoration: none; color: var(--text);
+            transition: transform .2s, box-shadow .2s, border-color .2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,.04); cursor: pointer;
+        }
+        .facility-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(27,47,99,.12); border-color: var(--indigo-400); }
+
         .status-badge {
-            position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-            padding: 3px 16px; border-radius: 20px;
-            font-family: 'Baloo 2', sans-serif; font-size: 12px; font-weight: 700;
-            color: #FFF; letter-spacing: .3px;
-            box-shadow: 0 2px 6px rgba(0,0,0,.2);
-            z-index: 5; white-space: nowrap;
-            border: 1.5px solid #FFF;
+            position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+            padding: 2px 14px; border-radius: 20px;
+            font-family: 'Baloo 2', sans-serif; font-size: 10.5px; font-weight: 700;
+            color: #fff; white-space: nowrap; border: 1.5px solid #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,.15); z-index: 5;
         }
-        .status-badge.available { background-color: #146C34; }
-        .status-badge.unavailable { background-color: #8B1E1E; }
+        .status-badge.available   { background: var(--green-700); }
+        .status-badge.unavailable { background: var(--red-700); }
 
-        /* Card Image */
+        .card-icon-wrap {
+            width: 68px; height: 68px; border-radius: 16px;
+            background: var(--indigo-50); display: flex; align-items: center; justify-content: center;
+            color: var(--indigo-600); transition: background .2s; margin-top: 8px;
+        }
+        .facility-card:hover .card-icon-wrap { background: var(--indigo-100); }
         .card-image-box {
-            flex: 1; width: 100%;
-            display: flex; align-items: center; justify-content: center;
-            padding: 4px; margin-top: 8px;
+            width: 68px; height: 68px; border-radius: 16px; overflow: hidden;
+            display: flex; align-items: center; justify-content: center; margin-top: 8px;
         }
-        .card-image-box img {
-            max-width: 82%; max-height: 78px;
-            object-fit: contain;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,.2));
-            transition: transform .2s ease;
-        }
+        .card-image-box img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform .2s; filter: drop-shadow(0 3px 5px rgba(0,0,0,.15)); }
         .facility-card:hover .card-image-box img { transform: scale(1.08); }
 
-        /* Icon fallback */
-        .card-icon-fallback {
-            width: 58px; height: 58px;
-            background: rgba(59,102,196,.15);
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            color: #3B66C4;
-        }
+        .card-bottom { width: 100%; text-align: center; }
+        .card-name { font-family: 'Baloo 2', sans-serif; font-size: 12.5px; font-weight: 700; color: var(--text); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+        .card-action { display: inline-block; font-size: 11.5px; font-weight: 600; color: var(--indigo-600); text-decoration: none; transition: color .15s; }
+        .card-action:hover { color: var(--indigo-700); text-decoration: underline; }
+        .card-action.disabled { color: var(--muted); pointer-events: none; }
 
-        /* Bottom Name Pill */
-        .name-pill {
-            width: 100%;
-            background: #6F91C7; border: none;
-            border-radius: 10px; padding: 5px 6px;
-            text-align: center;
-        }
-        .name-text {
-            font-family: 'Baloo 2', sans-serif; font-size: 13px; font-weight: 700;
-            color: #FFF; display: block;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
+        /* EMPTY STATE */
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); grid-column: 1 / -1; }
+        .empty-state svg { margin: 0 auto 14px; display: block; opacity: .35; }
+        .empty-state p { font-family: 'Baloo 2', sans-serif; font-size: 16px; font-weight: 600; margin-bottom: 4px; }
 
-        /* Apply Link */
-        .apply-link {
-            font-family: 'Baloo 2', sans-serif; font-size: 12.5px; font-weight: 600;
-            color: #FFF; text-decoration: none; letter-spacing: .2px;
-            transition: color .15s ease;
-            text-align: center;
-        }
-        .apply-link:hover { color: #D1E4FF; text-decoration: underline; }
-        .apply-link.disabled-link { color: rgba(255,255,255,.45); pointer-events: none; }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 1024px) { .facility-grid { grid-template-columns: repeat(3,1fr); } }
-        @media (max-width: 768px) {
-            .user-dashboard-card { flex-direction: column; }
-            .sidebar { width:100%; min-width:100%; border-right:none; border-bottom:3px solid #3B66C4; flex-direction: row; align-items: center; }
-            .nav-middle { flex: none; }
-            .facility-grid { grid-template-columns: repeat(2,1fr); }
-        }
-        @media (max-width: 480px) { .facility-grid { grid-template-columns: 1fr; } }
+        /* RESPONSIVE */
+        @media (max-width: 1200px) { .facility-grid { grid-template-columns: repeat(4,1fr); } }
+        @media (max-width: 960px)  { .facility-grid { grid-template-columns: repeat(3,1fr); } }
+        @media (max-width: 720px)  { .facility-grid { grid-template-columns: repeat(2,1fr); } }
+        @media (max-width: 680px)  { .app { flex-direction: column; } .sidebar { width:100%; min-width:100%; height:auto; position:static; } }
+        @media (max-width: 480px)  { .facility-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
+<div class="app">
 
-<div class="user-dashboard-card">
-
-    <!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+    <!-- SIDEBAR -->
     <aside class="sidebar">
-        <div>
-            <!-- Brand -->
-            <div class="brand-header">
-                <div class="brand-avatar">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3B66C4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                    </svg>
-                </div>
-                <span class="brand-title">SINFAS</span>
+        <div class="sidebar-brand">
+            <div class="brand-logo">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
             </div>
-
-            <!-- Home -->
-            <div class="nav-top">
-                <a href="{{ route('user.dashboard') }}" class="nav-link" id="nav-home">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                        <polyline points="9 22 9 12 15 12 15 22"/>
-                    </svg>
-                    <span>Home</span>
-                </a>
-            </div>
+            <span class="brand-name">SINFAS</span>
         </div>
 
-        <!-- Profile (di tengah) -->
-        <div class="nav-middle">
-            <a href="#profile" class="nav-link" id="nav-profile">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <nav class="sidebar-nav">
+            <span class="nav-section-label">Menu</span>
+
+            <a href="{{ route('user.dashboard') }}" class="nav-link active" id="nav-home">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span>Beranda</span>
+            </a>
+
+            <a href="#" class="nav-link" id="nav-riwayat">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10 9 9 9 8 9"/>
+                </svg>
+                <span>Riwayat Pinjam</span>
+            </a>
+
+            <span class="nav-section-label">Akun</span>
+
+            <a href="#" class="nav-link" id="nav-profile">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
                 </svg>
-                <span>Profile</span>
+                <span>Profil Saya</span>
             </a>
-        </div>
+        </nav>
 
-        <!-- Logout -->
-        <div class="nav-logout">
+        <div class="sidebar-footer">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="nav-link" id="btn-logout" style="background:none;border:none;width:100%;text-align:left;cursor:pointer;">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                        <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+                <button type="submit" class="nav-link logout" id="btn-logout">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
                     </svg>
-                    <span>Logout</span>
+                    <span>Keluar</span>
                 </button>
             </form>
         </div>
     </aside>
 
-    <!-- ═══════════════════ MAIN CONTENT ═══════════════════ -->
-    <main class="main-content">
+    <!-- MAIN -->
+    <div class="main">
 
-        <!-- 1. TOP BAR -->
+        <!-- TOPBAR -->
         <div class="topbar">
-            <!-- Search + Filter Form -->
-            <form method="GET" action="{{ route('user.dashboard') }}" class="search-form" id="search-form">
-                <div class="search-container">
-                    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <form method="GET" action="{{ route('user.dashboard') }}" class="search-wrap" id="search-form">
+                <div class="search-box">
+                    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                     </svg>
-                    <input
-                        type="text"
-                        id="search-input"
-                        name="q"
-                        class="search-input"
-                        placeholder="Cari barang yang ingin dipinjam..."
-                        value="{{ request('q') }}"
-                        autocomplete="off"
-                    >
+                    <input type="text" id="search-input" name="q" class="search-input" placeholder="Cari nama barang�" value="{{ request('q') }}" autocomplete="off">
                 </div>
-
-                <!-- Filter Kategori -->
                 <select name="kategori" id="filter-kategori" class="filter-select" onchange="this.form.submit()">
                     <option value="">Semua Kategori</option>
                     @foreach($kategoris as $kat)
-                        <option value="{{ $kat->id_kategori }}" {{ request('kategori') == $kat->id_kategori ? 'selected' : '' }}>
-                            {{ $kat->nama_kategori }}
-                        </option>
+                        <option value="{{ $kat->id_kategori }}" {{ request('kategori') == $kat->id_kategori ? 'selected' : '' }}>{{ $kat->nama_kategori }}</option>
                     @endforeach
                 </select>
             </form>
-
-            <!-- Icon Grup -->
-            <div class="top-icons-group">
-                <button class="header-icon-btn" id="btn-notif" title="Notifikasi">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            <div class="topbar-icons">
+                <button class="icon-btn" id="btn-notif" title="Notifikasi">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
                     </svg>
                 </button>
-                <button class="header-icon-btn" id="btn-user-icon" title="Akun">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <button class="icon-btn" id="btn-user-icon" title="Profil">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
                     </svg>
                 </button>
             </div>
         </div>
 
-        <!-- 2. FLASH SUCCESS -->
-        @if(session('success'))
-            <div class="alert-success" id="alert-success">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                    <polyline points="22 4 12 14.01 9 11.01"/>
-                </svg>
-                {{ session('success') }}
-            </div>
-        @endif
+        <!-- PAGE BODY -->
+        <div class="page-body">
 
-        <!-- 3. WELCOME BANNER -->
-        <div class="welcome-banner">
-            <div>
-                <h1 class="welcome-title">Hi, {{ Auth::user()->nama }}!</h1>
-                <p class="welcome-sub">Pilih barang yang ingin Anda pinjam</p>
-            </div>
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-            </svg>
-        </div>
-
-        <!-- 4. GRID BARANG -->
-        <div class="facility-container">
-            @if(request('q') || request('kategori'))
-                <p class="section-label">
-                    Hasil pencarian
-                    @if(request('q')) untuk "{{ request('q') }}" @endif
-                    @if(request('kategori')) · {{ $kategoris->find(request('kategori'))?->nama_kategori ?? '' }} @endif
-                    — {{ $barangs->count() }} barang ditemukan
-                </p>
+            @if(session('success'))
+                <div class="alert-success" id="alert-success">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    {{ session('success') }}
+                </div>
             @endif
 
-            @if($barangs->isEmpty())
-                <div class="no-result">
-                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 16px; display:block;">
-                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                    </svg>
-                    Tidak ada barang yang ditemukan.<br>
-                    <small style="font-family:'Poppins';font-size:13px;font-weight:400;">Coba kata kunci yang berbeda.</small>
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <div class="welcome-text">
+                    <h1>Halo, {{ Auth::user()->nama }}! ??</h1>
+                    <p>Temukan dan pinjam peralatan yang kamu butuhkan</p>
                 </div>
-            @else
-                <div class="facility-grid" id="facility-grid">
+                <div class="welcome-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Section header -->
+            <div class="section-header">
+                <span class="section-title">
+                    @if(request('q') || request('kategori'))
+                        Hasil pencarian@if(request('q')) untuk "<em>{{ request('q') }}</em>"@endif
+                    @else
+                        Daftar Peralatan
+                    @endif
+                </span>
+                <span class="section-count">{{ $barangs->count() }} barang</span>
+            </div>
+
+            <!-- Grid -->
+            <div class="facility-grid" id="facility-grid">
+                @if($barangs->isEmpty())
+                    <div class="empty-state">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        <p>Tidak ada barang ditemukan</p>
+                        <small>Coba kata kunci atau kategori yang berbeda</small>
+                    </div>
+                @else
                     @foreach($barangs as $barang)
-                        @php
-                            $tersedia = $barang->jumlah_baik > 0;
-                        @endphp
-                        <div class="facility-card-wrapper">
-                            <!-- Kartu Barang -->
-                            <a href="{{ route('user.barang.show', $barang->kode_barang) }}"
-                               class="facility-card"
-                               id="card-{{ $barang->kode_barang }}"
-                               title="Lihat detail {{ $barang->nama_barang }}">
+                        @php $tersedia = $barang->jumlah_baik > 0; @endphp
+                        <div class="facility-card" onclick="window.location='{{ route('user.barang.show', $barang->kode_barang) }}'">
+                            <span class="status-badge {{ $tersedia ? 'available' : 'unavailable' }}">
+                                {{ $tersedia ? 'Tersedia' : 'Digunakan' }}
+                            </span>
 
-                                <!-- Status Badge -->
-                                <div class="status-badge {{ $tersedia ? 'available' : 'unavailable' }}">
-                                    {{ $tersedia ? 'Tersedia' : 'Digunakan' }}
-                                </div>
-
-                                <!-- Gambar / Icon -->
+                            @if($barang->foto)
                                 <div class="card-image-box">
-                                    @if($barang->foto)
-                                        <img src="{{ asset('storage/' . $barang->foto) }}" alt="{{ $barang->nama_barang }}">
+                                    <img src="{{ asset('storage/' . $barang->foto) }}" alt="{{ $barang->nama_barang }}">
+                                </div>
+                            @else
+                                @php $katNama = strtolower($barang->kategori->nama_kategori ?? ''); @endphp
+                                <div class="card-icon-wrap">
+                                    @if(str_contains($barang->nama_barang,'Camera') || str_contains($barang->nama_barang,'Kamera'))
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                                    @elseif(str_contains($barang->nama_barang,'Mikrofon') || str_contains($barang->nama_barang,'Mic') || str_contains($katNama,'audio'))
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                                    @elseif(str_contains($barang->nama_barang,'Proyektor') || str_contains($barang->nama_barang,'Projector'))
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M12 3v4"/><path d="M8 3h8"/></svg>
+                                    @elseif(str_contains($barang->nama_barang,'Laptop') || str_contains($katNama,'elektronik'))
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                                    @elseif(str_contains($barang->nama_barang,'Speaker'))
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="2" width="16" height="20" rx="2"/><circle cx="12" cy="14" r="4"/><line x1="12" y1="6" x2="12.01" y2="6"/></svg>
+                                    @elseif(str_contains($barang->nama_barang,'HT') || str_contains($katNama,'komunik'))
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.29 6.29l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                                     @else
-                                        <!-- Placeholder icon berdasarkan kategori -->
-                                        <div class="card-icon-fallback">
-                                            @php $katNama = strtolower($barang->kategori->nama_kategori ?? ''); @endphp
-                                            @if(str_contains($katNama,'elektronik') || str_contains($barang->nama_barang,'Laptop'))
-                                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                                            @elseif(str_contains($katNama,'audio') || str_contains($barang->nama_barang,'Mikrofon') || str_contains($barang->nama_barang,'Speaker'))
-                                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-                                            @elseif(str_contains($katNama,'listrik'))
-                                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                            @elseif(str_contains($katNama,'komunik') || str_contains($barang->nama_barang,'HT'))
-                                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.29 6.29l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                                            @elseif(str_contains($barang->nama_barang,'Camera') || str_contains($barang->nama_barang,'Kamera'))
-                                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                                            @elseif(str_contains($barang->nama_barang,'Proyektor'))
-                                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M12 3v4"/><path d="M8 3h8"/></svg>
-                                            @else
-                                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
-                                            @endif
-                                        </div>
+                                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
                                     @endif
                                 </div>
-
-                                <!-- Nama Pill -->
-                                <div class="name-pill">
-                                    <span class="name-text" title="{{ $barang->nama_barang }}">{{ $barang->nama_barang }}</span>
-                                </div>
-                            </a>
-
-                            <!-- Link Ajukan Peminjaman -->
-                            @if($tersedia)
-                                <a href="{{ route('user.barang.show', $barang->kode_barang) }}"
-                                   class="apply-link"
-                                   id="apply-{{ $barang->kode_barang }}">
-                                    Ajukan Peminjaman
-                                </a>
-                            @else
-                                <span class="apply-link disabled-link">Sedang Digunakan</span>
                             @endif
+
+                            <div class="card-bottom">
+                                <span class="card-name" title="{{ $barang->nama_barang }}">{{ $barang->nama_barang }}</span>
+                                @if($tersedia)
+                                    <a href="{{ route('user.barang.show', $barang->kode_barang) }}" class="card-action" id="apply-{{ $barang->kode_barang }}" onclick="event.stopPropagation()">
+                                        + Ajukan Pinjam
+                                    </a>
+                                @else
+                                    <span class="card-action disabled">Sedang Digunakan</span>
+                                @endif
+                            </div>
                         </div>
                     @endforeach
-                </div>
-            @endif
+                @endif
+            </div>
         </div>
-
-    </main>
+    </div>
 </div>
 
 <script>
-    // Auto-submit search saat user mengetik (debounce 400ms)
     const searchInput = document.getElementById('search-input');
     let debounceTimer;
     if (searchInput) {
         searchInput.addEventListener('input', () => {
             clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => {
-                document.getElementById('search-form').submit();
-            }, 400);
+            debounceTimer = setTimeout(() => { document.getElementById('search-form').submit(); }, 420);
         });
     }
-
-    // Auto-hide success alert setelah 5 detik
-    const alert = document.getElementById('alert-success');
-    if (alert) {
+    const alertEl = document.getElementById('alert-success');
+    if (alertEl) {
         setTimeout(() => {
-            alert.style.transition = 'opacity .5s ease';
-            alert.style.opacity = '0';
-            setTimeout(() => alert.remove(), 500);
+            alertEl.style.transition = 'opacity .5s ease';
+            alertEl.style.opacity = '0';
+            setTimeout(() => alertEl.remove(), 500);
         }, 5000);
     }
 </script>
-
 </body>
 </html>

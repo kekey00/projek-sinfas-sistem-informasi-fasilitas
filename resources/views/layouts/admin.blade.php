@@ -6,10 +6,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin Sarana') - SINFAS</title>
 
-    <!-- Google Fonts: Gorditas + Poppins (Sama dengan Tampilan Login) -->
+    <!-- Google Fonts: Baloo 2 + Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gorditas:wght@400;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -98,21 +98,20 @@
         }
 
         .user-role-top {
-            font-family: 'Gorditas', cursive;
+            font-family: 'Baloo 2', sans-serif;
             font-size: 13px;
             color: #FFFFFF;
             line-height: 1.1;
             letter-spacing: 0.3px;
+            opacity: .8;
         }
-
         .user-name-top {
-            font-family: 'Gorditas', cursive;
+            font-family: 'Baloo 2', sans-serif;
             font-size: 18px;
             font-weight: 700;
             color: #FFFFFF;
             line-height: 1.2;
             margin-top: 2px;
-            letter-spacing: 0.3px;
         }
 
         /* 2. Section Navigasi (Menu & Account) */
@@ -126,14 +125,14 @@
         }
 
         .section-heading {
-            font-family: 'Gorditas', cursive;
-            font-size: 23px;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 11px;
             font-weight: 700;
-            color: rgba(255, 255, 255, 0.95);
-            text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
-            margin-bottom: 14px;
-            padding-left: 6px;
-            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 8px;
+            padding-left: 12px;
         }
 
         .sidebar-nav-list {
@@ -144,29 +143,34 @@
 
         .nav-link-gorditas {
             text-decoration: none;
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             padding: 9px 12px;
-            border-radius: 8px;
-            font-family: 'Gorditas', cursive;
+            border-radius: 10px;
+            font-family: 'Baloo 2', sans-serif;
             font-size: 14px;
-            color: #FFFFFF;
-            transition: all 0.2s ease;
-            letter-spacing: 0.2px;
+            font-weight: 600;
+            color: rgba(255,255,255,.82);
+            transition: all 0.18s ease;
+        }
+        .nav-link-gorditas svg {
+            width: 17px; height: 17px;
+            stroke-width: 2.1; flex-shrink: 0; opacity: .8;
         }
 
         .nav-link-gorditas:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateX(4px);
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            transform: translateX(3px);
         }
-
-        /* Active Nav Item */
         .nav-link-gorditas.active {
-            background: rgba(255, 255, 255, 0.22);
+            background: rgba(255, 255, 255, 0.18);
             color: #FFFFFF;
             font-weight: 700;
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.15), 0 2px 8px rgba(0, 0, 0, 0.12);
-            border-left: 3px solid #FFFFFF;
+            border-left: 3px solid rgba(255,255,255,.8);
         }
+        .nav-link-gorditas.active svg { opacity: 1; }
 
         /* ─── MAIN CONTENT ───────────────────────────────────── */
         .main-wrapper {
@@ -190,11 +194,10 @@
         }
 
         .page-title {
-            font-family: 'Gorditas', 'Poppins', sans-serif;
+            font-family: 'Baloo 2', sans-serif;
             font-size: 18px;
             font-weight: 700;
             color: #0F172A;
-            letter-spacing: 0.3px;
         }
 
         .topbar-actions {
@@ -453,19 +456,33 @@
 
             <!-- 2. Bagian Menu -->
             <div class="sidebar-section">
-                <div class="section-heading">Menu</div>
+                <div class="section-heading">MENU</div>
                 <nav class="sidebar-nav-list">
                     <a href="{{ route('admin.dashboard') }}" class="nav-link-gorditas {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
                         Home
                     </a>
                     <a href="{{ route('admin.barang.index') }}" class="nav-link-gorditas {{ request()->routeIs('admin.barang.*') ? 'active' : '' }}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        </svg>
                         Kelola Data Alat
                     </a>
                     <a href="{{ route('admin.kategori.index') }}" class="nav-link-gorditas {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+                            <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+                        </svg>
                         Kelola Kategori
                     </a>
                     <a href="{{ route('admin.verifikasi.index') }}" class="nav-link-gorditas {{ request()->routeIs('admin.verifikasi.*') ? 'active' : '' }}">
-                        Verifikasi Pengajuan &amp; Pengembalian
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 11 12 14 22 4"/>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                        </svg>
+                        Verifikasi Pengajuan
                     </a>
                 </nav>
             </div>
@@ -474,14 +491,21 @@
 
             <!-- 3. Bagian Account -->
             <div class="sidebar-section">
-                <div class="section-heading">Account</div>
+                <div class="section-heading">AKUN</div>
                 <nav class="sidebar-nav-list">
                     <a href="javascript:void(0)" onclick="openProfileModal()" class="nav-link-gorditas">
-                        Profile
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        Profil
                     </a>
                     <form action="{{ route('logout') }}" method="POST" id="logoutForm">
                         @csrf
-                        <a href="javascript:void(0)" onclick="document.getElementById('logoutForm').submit()" class="nav-link-gorditas">
+                        <a href="javascript:void(0)" onclick="document.getElementById('logoutForm').submit()" class="nav-link-gorditas" style="color:rgba(255,160,160,.85);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+                            </svg>
                             Keluar
                         </a>
                     </form>

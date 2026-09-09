@@ -5,201 +5,125 @@
 
 @section('styles')
 <style>
-    /* ─── 4 KARTU STATISTIK ─────────────────────────────────── */
+    /* ─── STAT CARDS ─── */
     .stat-cards-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 16px;
         margin-bottom: 24px;
     }
-
     .stat-card {
         background: #FFFFFF;
-        border-radius: 14px;
+        border-radius: 16px;
         padding: 20px 22px;
-        box-shadow: 0 4px 16px rgba(44, 74, 124, 0.08);
-        border: 2px solid #3B5998;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .stat-number {
-        font-size: 34px;
-        font-weight: 700;
-        color: #0F172A;
-        line-height: 1;
-        letter-spacing: -0.5px;
-    }
-
-    .stat-label {
-        font-size: 13px;
-        font-weight: 400;
-        color: #64748B;
-        margin-top: 6px;
-    }
-
-    .stat-label.damaged {
-        color: #D97706; /* Warna Oranye / Amber */
-        font-weight: 500;
-    }
-
-    /* ─── PERMINTAAN PEMINJAMAN MENUNGGU ───────────────────── */
-    .section-wrapper {
-        margin-bottom: 24px;
-    }
-
-    .section-title {
-        font-family: 'Gorditas', cursive;
-        font-size: 17px;
-        font-weight: 700;
-        color: #0F172A;
-        margin-bottom: 12px;
-        letter-spacing: 0.3px;
-    }
-
-    .table-container {
-        background: #FFFFFF;
-        border-radius: 14px;
-        border: 2px solid #3B5998;
-        box-shadow: 0 4px 16px rgba(44, 74, 124, 0.08);
-        overflow: hidden;
-    }
-
-    .dashboard-table {
-        width: 100%;
-        border-collapse: collapse;
-        text-align: left;
-    }
-
-    .dashboard-table th {
-        background: #FFFFFF;
-        color: #64748B;
-        font-size: 13px;
-        font-weight: 500;
-        padding: 14px 24px;
-        border-bottom: 1px solid #F1F5F9;
-    }
-
-    .dashboard-table td {
-        padding: 16px 24px;
-        border-bottom: 1px solid #F8FAFC;
-        font-size: 13.5px;
-        color: #1E293B;
-        vertical-align: middle;
-    }
-
-    .dashboard-table tr:last-child td {
-        border-bottom: none;
-    }
-
-    .btn-approve {
-        background: #16A34A;
-        color: #FFFFFF;
-        border: none;
-        border-radius: 6px;
-        padding: 6px 20px;
-        font-size: 13px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: background 0.15s ease;
-    }
-
-    .btn-approve:hover {
-        background: #15803D;
-    }
-
-    .btn-reject {
-        background: #DC2626;
-        color: #FFFFFF;
-        border: none;
-        border-radius: 6px;
-        padding: 6px 20px;
-        font-size: 13px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: background 0.15s ease;
-    }
-
-    .btn-reject:hover {
-        background: #B91C1C;
-    }
-
-    .actions-cell-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    /* ─── GRAFIK PEMINJAMAN ALAT ──────────────────────────── */
-    .chart-section {
-        margin-top: 6px;
-    }
-
-    .chart-section-title {
-        font-family: 'Gorditas', cursive;
-        font-size: 16px;
-        font-weight: 700;
-        color: #3B5998;
-        margin-bottom: 8px;
-        letter-spacing: 0.3px;
-    }
-
-    .chart-box {
-        background: #FFFFFF;
-        border-radius: 14px;
-        padding: 24px;
-        border: 2px solid #3B5998;
-        box-shadow: 0 4px 16px rgba(44, 74, 124, 0.08);
-        position: relative;
-    }
-
-    .chart-canvas-wrapper {
-        position: relative;
-        height: 280px;
-        width: 100%;
-    }
-
-    .chart-bottom-row {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        margin-top: 14px;
-        gap: 16px;
-        padding-left: 10px;
-        overflow-x: auto;
-    }
-
-    .chart-zero-label {
-        font-size: 12px;
-        color: #64748B;
-        font-weight: 500;
-        margin-right: 8px;
-    }
-
-    .legend-row-exact {
+        box-shadow: 0 2px 12px rgba(44, 74, 124, 0.08);
+        border: 1.5px solid #E8EDF8;
         display: flex;
         align-items: center;
         gap: 16px;
-        flex-wrap: nowrap;
+        transition: box-shadow .2s, transform .2s;
     }
-
-    .legend-item-exact {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 11.5px;
-        color: #334155;
-        white-space: nowrap;
-    }
-
-    .legend-box-color {
-        width: 11px;
-        height: 11px;
-        border-radius: 2px;
-        display: inline-block;
+    .stat-card:hover { box-shadow: 0 6px 20px rgba(44,74,124,.14); transform: translateY(-2px); }
+    .stat-icon {
+        width: 52px; height: 52px;
+        border-radius: 14px;
+        display: flex; align-items: center; justify-content: center;
         flex-shrink: 0;
     }
+    .stat-icon.orange  { background: #FEF3C7; color: #D97706; }
+    .stat-icon.blue    { background: #DBEAFE; color: #2563EB; }
+    .stat-icon.green   { background: #DCFCE7; color: #16A34A; }
+    .stat-icon.red     { background: #FEE2E2; color: #DC2626; }
+    .stat-info { flex: 1; min-width: 0; }
+    .stat-number {
+        font-size: 32px; font-weight: 700; color: #0F172A;
+        line-height: 1; letter-spacing: -0.5px;
+    }
+    .stat-label { font-size: 12.5px; font-weight: 500; color: #64748B; margin-top: 5px; }
+
+    /* ─── SECTION WRAPPER ─── */
+    .section-wrapper { margin-bottom: 24px; }
+    .section-title {
+        font-family: 'Baloo 2', sans-serif;
+        font-size: 16px; font-weight: 700; color: #0F172A;
+        margin-bottom: 12px;
+        display: flex; align-items: center; gap: 8px;
+    }
+    .section-title svg { opacity: .65; }
+
+    /* ─── TABLE ─── */
+    .table-container {
+        background: #FFFFFF;
+        border-radius: 16px;
+        border: 1.5px solid #E8EDF8;
+        box-shadow: 0 2px 12px rgba(44, 74, 124, 0.06);
+        overflow: hidden;
+    }
+    .dashboard-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .dashboard-table th {
+        background: #F8FAFF;
+        color: #64748B; font-size: 12px; font-weight: 600;
+        padding: 13px 20px; border-bottom: 1.5px solid #EEF2FB;
+        text-transform: uppercase; letter-spacing: .5px;
+    }
+    .dashboard-table td {
+        padding: 14px 20px; border-bottom: 1px solid #F8FAFC;
+        font-size: 13.5px; color: #1E293B; vertical-align: middle;
+    }
+    .dashboard-table tr:last-child td { border-bottom: none; }
+    .dashboard-table tr:hover td { background: #FAFBFF; }
+
+    /* ─── ACTION BUTTONS ─── */
+    .btn-approve {
+        background: #16A34A; color: #FFFFFF; border: none;
+        border-radius: 8px; padding: 6px 16px;
+        font-size: 12.5px; font-weight: 600; cursor: pointer;
+        transition: background .15s; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .btn-approve:hover { background: #15803D; }
+    .btn-reject {
+        background: #DC2626; color: #FFFFFF; border: none;
+        border-radius: 8px; padding: 6px 16px;
+        font-size: 12.5px; font-weight: 600; cursor: pointer;
+        transition: background .15s; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .btn-reject:hover { background: #B91C1C; }
+    .actions-cell-wrapper { display: flex; align-items: center; gap: 8px; }
+
+    /* ─── STATUS PILLS ─── */
+    .status-pill {
+        display: inline-flex; align-items: center; gap: 5px;
+        padding: 3px 12px; border-radius: 20px;
+        font-size: 12px; font-weight: 600; white-space: nowrap;
+    }
+    .status-pill.disetujui  { background: #DCFCE7; color: #15803D; }
+    .status-pill.ditolak    { background: #FEE2E2; color: #B91C1C; }
+    .status-pill.dikembalikan { background: #EDE9FE; color: #7C3AED; }
+    .status-pill.menunggu   { background: #FEF3C7; color: #B45309; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+    /* ─── CHART ─── */
+    .chart-section { margin-top: 6px; }
+    .chart-box {
+        background: #FFFFFF; border-radius: 16px; padding: 24px;
+        border: 1.5px solid #E8EDF8;
+        box-shadow: 0 2px 12px rgba(44, 74, 124, 0.06);
+        position: relative;
+    }
+    .chart-canvas-wrapper { position: relative; height: 280px; width: 100%; }
+    .chart-bottom-row {
+        display: flex; align-items: center; justify-content: flex-start;
+        margin-top: 14px; gap: 16px; padding-left: 10px; overflow-x: auto;
+    }
+    .chart-zero-label { font-size: 12px; color: #64748B; font-weight: 500; margin-right: 8px; }
+    .legend-row-exact { display: flex; align-items: center; gap: 16px; flex-wrap: nowrap; }
+    .legend-item-exact { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: #334155; white-space: nowrap; }
+    .legend-box-color { width: 11px; height: 11px; border-radius: 2px; display: inline-block; flex-shrink: 0; }
+
+    /* ─── EMPTY TABLE ─── */
+    .table-empty { text-align: center; padding: 32px; color: #94A3B8; }
+    .table-empty svg { opacity: .35; margin: 0 auto 10px; display: block; }
+    .table-empty p { font-size: 13.5px; font-weight: 500; }
 </style>
 @endsection
 
@@ -207,63 +131,105 @@
 
     <!-- 1. Empat Kartu Statistik -->
     <div class="stat-cards-grid">
+
         <div class="stat-card">
-            <span class="stat-number">{{ $menungguCount }}</span>
-            <span class="stat-label">Menunggu Verifikasi</span>
+            <div class="stat-icon orange">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+            </div>
+            <div class="stat-info">
+                <div class="stat-number">{{ $menungguCount }}</div>
+                <div class="stat-label">Menunggu Verifikasi</div>
+            </div>
         </div>
 
         <div class="stat-card">
-            <span class="stat-number">{{ $totalAlat }}</span>
-            <span class="stat-label">Total Alat / Barang</span>
+            <div class="stat-icon blue">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                </svg>
+            </div>
+            <div class="stat-info">
+                <div class="stat-number">{{ $totalAlat }}</div>
+                <div class="stat-label">Total Alat / Barang</div>
+            </div>
         </div>
 
         <div class="stat-card">
-            <span class="stat-number">{{ $sedangDipinjamCount }}</span>
-            <span class="stat-label">Sedang Dipinjam</span>
+            <div class="stat-icon green">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+            </div>
+            <div class="stat-info">
+                <div class="stat-number">{{ $sedangDipinjamCount }}</div>
+                <div class="stat-label">Sedang Dipinjam</div>
+            </div>
         </div>
 
         <div class="stat-card">
-            <span class="stat-number">{{ $rusakCount }}</span>
-            <span class="stat-label damaged">Rusak</span>
+            <div class="stat-icon red">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+            </div>
+            <div class="stat-info">
+                <div class="stat-number">{{ $rusakCount }}</div>
+                <div class="stat-label">Rusak Berat</div>
+            </div>
         </div>
+
     </div>
 
     <!-- 2. Tabel Permintaan Peminjaman Menunggu -->
     <div class="section-wrapper">
-        <h2 class="section-title">Permintaan Peminjaman Menunggu</h2>
-        
+        <h2 class="section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            Permintaan Peminjaman Menunggu
+        </h2>
+
         <div class="table-container">
             <table class="dashboard-table">
                 <thead>
                     <tr>
-                        <th style="width: 25%;">Peminjam</th>
-                        <th style="width: 35%;">Nama Alat</th>
-                        <th style="width: 20%;">Tanggal Pinjam</th>
-                        <th style="width: 20%;">Aksi</th>
+                        <th>Peminjam</th>
+                        <th>Nama Alat</th>
+                        <th>Tgl. Pinjam</th>
+                        <th>Tgl. Kembali</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($pendingRequests as $req)
                     <tr>
-                        <td style="color: #0F172A; font-weight: 500;">
+                        <td style="font-weight: 600; color: #0F172A;">
                             {{ $req->siswa->nama ?? 'Siswa (NIS: ' . $req->nis . ')' }}
                         </td>
                         <td style="color: #334155;">
                             {{ $req->barang->nama_barang ?? $req->kode_barang }}
                         </td>
                         <td style="color: #475569;">
-                            {{ $req->tanggal_pinjam ? $req->tanggal_pinjam->format('Y-m-d') : '-' }}
+                            {{ $req->tanggal_pinjam ? $req->tanggal_pinjam->format('d M Y') : '-' }}
+                        </td>
+                        <td style="color: #475569;">
+                            {{ $req->tanggal_kembali ? $req->tanggal_kembali->format('d M Y') : '-' }}
                         </td>
                         <td>
                             <div class="actions-cell-wrapper">
-                                <!-- Form Setujui -->
-                                <form action="{{ route('admin.verifikasi.approve', $req->kode_pinjam) }}" method="POST" style="display: inline;">
+                                <form action="{{ route('admin.verifikasi.approve', $req->kode_pinjam) }}" method="POST" style="display:inline;">
                                     @csrf
-                                    <button type="submit" class="btn-approve">Setujui</button>
+                                    <button type="submit" class="btn-approve">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                        Setujui
+                                    </button>
                                 </form>
-
-                                <!-- Tombol Tolak -->
                                 <button type="button" class="btn-reject" onclick="openRejectModal('{{ $req->kode_pinjam }}', '{{ $req->barang->nama_barang ?? '' }}', '{{ $req->siswa->nama ?? 'Siswa' }}')">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                                     Tolak
                                 </button>
                             </div>
@@ -271,8 +237,13 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" style="text-align: center; color: #94A3B8; padding: 24px;">
-                            Tidak ada permohonan peminjaman yang menunggu saat ini.
+                        <td colspan="5">
+                            <div class="table-empty">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                                <p>Tidak ada permohonan peminjaman yang menunggu</p>
+                            </div>
                         </td>
                     </tr>
                     @endforelse
@@ -281,43 +252,93 @@
         </div>
     </div>
 
-    <!-- 3. Bagian Grafik Tren Peminjaman -->
+    <!-- 3. Riwayat Peminjaman -->
+    <div class="section-wrapper">
+        <h2 class="section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            Riwayat Peminjaman
+        </h2>
+
+        <div class="table-container">
+            <table class="dashboard-table">
+                <thead>
+                    <tr>
+                        <th>Peminjam</th>
+                        <th>Nama Alat</th>
+                        <th>Tgl. Pinjam</th>
+                        <th>Tgl. Kembali</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($riwayatPeminjaman as $rw)
+                    <tr>
+                        <td style="font-weight: 600; color: #0F172A;">
+                            {{ $rw->siswa->nama ?? 'Siswa (NIS: ' . $rw->nis . ')' }}
+                        </td>
+                        <td style="color: #334155;">{{ $rw->barang->nama_barang ?? $rw->kode_barang }}</td>
+                        <td style="color: #475569;">{{ $rw->tanggal_pinjam ? $rw->tanggal_pinjam->format('d M Y') : '-' }}</td>
+                        <td style="color: #475569;">{{ $rw->tanggal_kembali ? $rw->tanggal_kembali->format('d M Y') : '-' }}</td>
+                        <td>
+                            @php
+                                $st = $rw->status_pengajuan;
+                                $stLabel = match($st) {
+                                    'disetujui'    => 'Disetujui',
+                                    'ditolak'      => 'Ditolak',
+                                    'dikembalikan' => 'Dikembalikan',
+                                    default        => ucfirst($st),
+                                };
+                            @endphp
+                            <span class="status-pill {{ $st }}">
+                                <span class="status-dot"></span>
+                                {{ $stLabel }}
+                            </span>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5">
+                            <div class="table-empty">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                </svg>
+                                <p>Belum ada riwayat peminjaman</p>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 4. Bagian Grafik Tren Peminjaman -->
     <div class="chart-section">
-        <div class="chart-section-title">Grafik Tren Peminjaman Alat</div>
-        
+        <h2 class="section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3B66C4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
+                <line x1="6" y1="20" x2="6" y2="14"/><line x1="1" y1="20" x2="23" y2="20"/>
+            </svg>
+            Grafik Tren Peminjaman Alat
+        </h2>
+
         <div class="chart-box">
             <div class="chart-canvas-wrapper">
                 <canvas id="sinfasBarChart"></canvas>
             </div>
-
-            <!-- Legend Baris Bawah -->
             <div class="chart-bottom-row">
                 <span class="chart-zero-label">00</span>
                 <div class="legend-row-exact">
-                    <div class="legend-item-exact">
-                        <span class="legend-box-color" style="background: #FF7E79;"></span>
-                        <span>Kabel HDMI 10 Meter</span>
-                    </div>
-                    <div class="legend-item-exact">
-                        <span class="legend-box-color" style="background: #38BDF8;"></span>
-                        <span>Kamera DSLR Canon 3000D</span>
-                    </div>
-                    <div class="legend-item-exact">
-                        <span class="legend-box-color" style="background: #FBBF24;"></span>
-                        <span>Wireless Presenter Laser</span>
-                    </div>
-                    <div class="legend-item-exact">
-                        <span class="legend-box-color" style="background: #60A5FA;"></span>
-                        <span>Microphone Wireless Clip-on</span>
-                    </div>
-                    <div class="legend-item-exact">
-                        <span class="legend-box-color" style="background: #4ADE80;"></span>
-                        <span>Tripod Kamera Takara</span>
-                    </div>
-                    <div class="legend-item-exact">
-                        <span class="legend-box-color" style="background: #A855F7;"></span>
-                        <span>Speaker Portable ...</span>
-                    </div>
+                    <div class="legend-item-exact"><span class="legend-box-color" style="background: #FF7E79;"></span><span>Kabel HDMI 10 Meter</span></div>
+                    <div class="legend-item-exact"><span class="legend-box-color" style="background: #38BDF8;"></span><span>Kamera DSLR Canon 3000D</span></div>
+                    <div class="legend-item-exact"><span class="legend-box-color" style="background: #FBBF24;"></span><span>Wireless Presenter Laser</span></div>
+                    <div class="legend-item-exact"><span class="legend-box-color" style="background: #60A5FA;"></span><span>Microphone Wireless Clip-on</span></div>
+                    <div class="legend-item-exact"><span class="legend-box-color" style="background: #4ADE80;"></span><span>Tripod Kamera Takara</span></div>
+                    <div class="legend-item-exact"><span class="legend-box-color" style="background: #A855F7;"></span><span>Speaker Portable ...</span></div>
                 </div>
             </div>
         </div>
