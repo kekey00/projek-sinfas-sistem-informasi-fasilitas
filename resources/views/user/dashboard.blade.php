@@ -9,7 +9,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gorditas:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -17,7 +17,7 @@
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #ECEEF2;
-            min-height: 100vh;
+            min-height: 100vh;s
             display: flex;
             justify-content: center;
             align-items: center;
@@ -44,7 +44,7 @@
             width: 230px;
             min-width: 230px;
             background: linear-gradient(180deg, #4673CE 0%, #375FB7 45%, #254790 100%);
-            padding: 26px 20px;
+            padding: 26px 20px 30px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -55,7 +55,6 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding-bottom: 24px;
         }
         .brand-avatar {
             width: 44px; height: 44px;
@@ -67,23 +66,24 @@
             box-shadow: 0 3px 8px rgba(0,0,0,.15);
         }
         .brand-title {
-            font-family: 'Gorditas', cursive;
+            font-family: 'Baloo 2', sans-serif;
             font-size: 22px; font-weight: 700;
-            color: #FFF; letter-spacing: 1px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,.25);
+            color: #FFF; letter-spacing: .5px;
         }
-        .nav-list { display: flex; flex-direction: column; gap: 16px; list-style: none; margin-top: 10px; }
+
+        /* nav tersebar merata: Home dekat atas, Profile di tengah, Logout paling bawah */
+        .nav-top { margin-top: 26px; }
+        .nav-middle { flex: 1; display: flex; align-items: center; }
         .nav-link {
-            font-family: 'Gorditas', cursive;
-            font-size: 16px; color: #FFF; text-decoration: none;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 17px; font-weight: 600; color: #FFF; text-decoration: none;
             display: flex; align-items: center; gap: 12px;
-            padding: 10px 14px; border-radius: 12px;
+            padding: 8px 6px; border-radius: 10px;
             transition: all .2s ease;
         }
-        .nav-link:hover { background: rgba(255,255,255,.18); transform: translateX(4px); }
-        .nav-link.active { background: rgba(255,255,255,.22); border: 1.5px solid rgba(255,255,255,.35); }
-        .nav-icon { width: 22px; height: 22px; stroke-width: 2.3; flex-shrink: 0; }
-        .nav-logout { margin-top: auto; padding-top: 20px; }
+        .nav-link:hover { transform: translateX(4px); opacity: .9; }
+        .nav-icon { width: 24px; height: 24px; stroke-width: 2.2; flex-shrink: 0; }
+        .nav-logout { padding-top: 10px; }
 
         /* ── MAIN CONTENT ── */
         .main-content {
@@ -95,71 +95,77 @@
         }
 
         /* ── TOP BAR ── */
-        .topbar { display: flex; align-items: center; gap: 14px; width: 100%; }
-        .search-form { flex: 1; display: flex; gap: 10px; }
+        .topbar { display: flex; align-items: center; gap: 12px; width: 100%; }
+        .search-form { flex: 1; display: flex; gap: 10px; align-items: center; }
+
         .search-container { flex: 1; position: relative; }
         .search-input {
             width: 100%;
-            background: #C7DBF8;
-            border: 2.5px solid #00A2FF;
-            border-radius: 14px;
-            padding: 10px 16px 10px 42px;
+            background: #EDEFF4;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 18px 12px 44px;
             font-family: 'Poppins', sans-serif;
             font-size: 13.5px; color: #1E293B;
             outline: none; transition: all .2s ease;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,.05);
         }
-        .search-input::placeholder { color: #64748B; font-weight: 500; }
-        .search-input:focus { background: #E2EEFC; border-color: #3B66C4; }
-        .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #334155; pointer-events: none; }
+        .search-input::placeholder { color: #94A3B8; font-weight: 400; }
+        .search-input:focus { background: #E2E6EE; box-shadow: 0 0 0 2px #C7D2E3; }
+        .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #64748B; pointer-events: none; }
 
+        /* dropdown filter kategori - tetap terlihat sebagai select biasa */
         .filter-select {
-            background: #C2D1F7;
-            border: 2px solid #3B66C4;
-            border-radius: 12px;
-            padding: 9px 14px;
-            font-family: 'Gorditas', cursive;
-            font-size: 13px; color: #1E293B;
+            background: #EDEFF4;
+            border: none;
+            border-radius: 30px;
+            padding: 11px 36px 11px 18px;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 14px; font-weight: 600; color: #334155;
             cursor: pointer; outline: none;
+            white-space: nowrap;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23334155' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
             transition: all .2s ease;
         }
-        .filter-select:focus { background: #ADC2F5; }
+        .filter-select:focus { background-color: #E2E6EE; box-shadow: 0 0 0 2px #C7D2E3; }
 
         .search-btn {
             background: linear-gradient(135deg, #4673CE, #254790);
-            border: none; border-radius: 12px;
-            padding: 9px 18px;
-            font-family: 'Gorditas', cursive;
-            font-size: 13px; color: #FFF;
+            border: none; border-radius: 30px;
+            padding: 11px 22px;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 13px; font-weight: 600; color: #FFF;
             cursor: pointer; transition: all .2s ease;
-            box-shadow: 0 4px 12px rgba(59,102,196,.3);
         }
-        .search-btn:hover { transform: scale(1.03); box-shadow: 0 6px 16px rgba(59,102,196,.4); }
+        .search-btn:hover { transform: scale(1.03); }
 
-        .top-icons-group { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+        .top-icons-group { display: flex; align-items: center; gap: 14px; flex-shrink: 0; margin-left: 4px; }
         .header-icon-btn {
-            width: 40px; height: 40px;
-            border-radius: 50%; border: 1.5px solid #CBD5E1;
-            background: #FFF;
+            width: 38px; height: 38px;
+            border-radius: 50%; border: none;
+            background: transparent;
             display: flex; align-items: center; justify-content: center;
             color: #334155; cursor: pointer; transition: all .2s ease;
         }
-        .header-icon-btn:hover { background: #F1F5F9; border-color: #94A3B8; transform: scale(1.06); }
+        .header-icon-btn:hover { background: #F1F5F9; }
 
         /* ── WELCOME BANNER ── */
         .welcome-banner {
             width: 100%;
             background: linear-gradient(180deg, #4A76D2 0%, #2D54A8 100%);
             border: 3px solid #3B66C4; border-radius: 20px;
-            padding: 20px 30px;
+            padding: 22px 30px;
             box-shadow: 0 6px 16px rgba(44,74,124,.18);
             display: flex; align-items: center; justify-content: space-between;
             min-height: 80px;
         }
         .welcome-title {
-            font-family: 'Gorditas', cursive;
-            font-size: 32px; font-weight: 700; color: #FFF;
-            letter-spacing: 1.5px; text-shadow: 2px 2px 5px rgba(0,0,0,.4);
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 30px; font-weight: 700; color: #FFF;
+            letter-spacing: .5px;
         }
         .welcome-sub {
             font-size: 13px; color: rgba(255,255,255,.8);
@@ -179,15 +185,15 @@
 
         /* ── FACILITY CONTAINER ── */
         .section-label {
-            font-family: 'Gorditas', cursive;
-            font-size: 14px; color: rgba(255,255,255,.75);
-            margin-bottom: 14px; letter-spacing: .5px;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 14px; font-weight: 600; color: rgba(255,255,255,.8);
+            margin-bottom: 14px; letter-spacing: .3px;
         }
         .facility-container {
-            background: linear-gradient(180deg, #375EB6 0%, #264790 100%);
+            background: linear-gradient(180deg, #5D82D6 0%, #2C4E9E 100%);
             border: 3px solid #1E3A75; border-radius: 22px;
-            padding: 24px 20px;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,.15), 0 6px 20px rgba(37,71,144,.2);
+            padding: 26px 22px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,.12), 0 6px 20px rgba(37,71,144,.2);
             flex: 1;
         }
 
@@ -195,7 +201,7 @@
         .no-result {
             text-align: center; padding: 40px 20px;
             color: rgba(255,255,255,.7);
-            font-family: 'Gorditas', cursive; font-size: 16px;
+            font-family: 'Baloo 2', sans-serif; font-weight: 600; font-size: 16px;
         }
         .no-result svg { opacity: .5; margin-bottom: 12px; }
 
@@ -203,16 +209,16 @@
         .facility-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            column-gap: 18px; row-gap: 22px;
+            column-gap: 20px; row-gap: 26px;
         }
-        .facility-card-wrapper { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .facility-card-wrapper { display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .facility-card {
             width: 100%; aspect-ratio: 1/1;
-            background: #C7D7FA;
-            border: 2.5px solid #3B66C4; border-radius: 18px;
+            background: #CBD8FB;
+            border: none; border-radius: 20px;
             display: flex; flex-direction: column;
             align-items: center; justify-content: space-between;
-            padding: 12px 10px 10px;
+            padding: 14px 10px 10px;
             position: relative;
             box-shadow: 0 4px 12px rgba(0,0,0,.12);
             transition: transform .2s ease, box-shadow .2s ease;
@@ -222,25 +228,25 @@
 
         /* Status Badge */
         .status-badge {
-            position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
-            padding: 2px 14px; border-radius: 20px;
-            font-family: 'Gorditas', cursive; font-size: 11px; font-weight: 700;
-            color: #FFF; letter-spacing: .5px;
+            position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+            padding: 3px 16px; border-radius: 20px;
+            font-family: 'Baloo 2', sans-serif; font-size: 12px; font-weight: 700;
+            color: #FFF; letter-spacing: .3px;
             box-shadow: 0 2px 6px rgba(0,0,0,.2);
             z-index: 5; white-space: nowrap;
             border: 1.5px solid #FFF;
         }
-        .status-badge.available { background-color: #0E5E2C; }
-        .status-badge.unavailable { background-color: #8C1C1C; }
+        .status-badge.available { background-color: #146C34; }
+        .status-badge.unavailable { background-color: #8B1E1E; }
 
         /* Card Image */
         .card-image-box {
             flex: 1; width: 100%;
             display: flex; align-items: center; justify-content: center;
-            padding: 4px; margin-top: 6px;
+            padding: 4px; margin-top: 8px;
         }
         .card-image-box img {
-            max-width: 85%; max-height: 80px;
+            max-width: 82%; max-height: 78px;
             object-fit: contain;
             filter: drop-shadow(0 4px 6px rgba(0,0,0,.2));
             transition: transform .2s ease;
@@ -249,7 +255,7 @@
 
         /* Icon fallback */
         .card-icon-fallback {
-            width: 60px; height: 60px;
+            width: 58px; height: 58px;
             background: rgba(59,102,196,.15);
             border-radius: 12px;
             display: flex; align-items: center; justify-content: center;
@@ -259,33 +265,32 @@
         /* Bottom Name Pill */
         .name-pill {
             width: 100%;
-            background: #7D9FEA; border: 1.5px solid #3B66C4;
-            border-radius: 10px; padding: 3px 6px;
-            text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,.1);
+            background: #6F91C7; border: none;
+            border-radius: 10px; padding: 5px 6px;
+            text-align: center;
         }
         .name-text {
-            font-family: 'Gorditas', cursive; font-size: 11px; font-weight: 700;
+            font-family: 'Baloo 2', sans-serif; font-size: 13px; font-weight: 700;
             color: #FFF; display: block;
-            text-shadow: 1px 1px 2px rgba(0,0,0,.25);
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
         /* Apply Link */
         .apply-link {
-            font-family: 'Gorditas', cursive; font-size: 12px; font-weight: 700;
-            color: #FFF; text-decoration: none; letter-spacing: .3px;
+            font-family: 'Baloo 2', sans-serif; font-size: 12.5px; font-weight: 600;
+            color: #FFF; text-decoration: none; letter-spacing: .2px;
             transition: color .15s ease;
-            text-shadow: 1px 1px 2px rgba(0,0,0,.4);
             text-align: center;
         }
         .apply-link:hover { color: #D1E4FF; text-decoration: underline; }
-        .apply-link.disabled-link { color: rgba(255,255,255,.4); pointer-events: none; }
+        .apply-link.disabled-link { color: rgba(255,255,255,.45); pointer-events: none; }
 
         /* ── RESPONSIVE ── */
         @media (max-width: 1024px) { .facility-grid { grid-template-columns: repeat(3,1fr); } }
         @media (max-width: 768px) {
             .user-dashboard-card { flex-direction: column; }
-            .sidebar { width:100%; min-width:100%; border-right:none; border-bottom:3px solid #3B66C4; }
+            .sidebar { width:100%; min-width:100%; border-right:none; border-bottom:3px solid #3B66C4; flex-direction: row; align-items: center; }
+            .nav-middle { flex: none; }
             .facility-grid { grid-template-columns: repeat(2,1fr); }
         }
         @media (max-width: 480px) { .facility-grid { grid-template-columns: 1fr; } }
@@ -308,26 +313,26 @@
                 <span class="brand-title">SINFAS</span>
             </div>
 
-            <!-- Nav -->
-            <ul class="nav-list">
-                <li>
-                    <a href="{{ route('user.dashboard') }}" class="nav-link active" id="nav-home">
-                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                            <polyline points="9 22 9 12 15 12 15 22"/>
-                        </svg>
-                        <span>Home</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#profile" class="nav-link" id="nav-profile">
-                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                        </svg>
-                        <span>Profile</span>
-                    </a>
-                </li>
-            </ul>
+            <!-- Home -->
+            <div class="nav-top">
+                <a href="{{ route('user.dashboard') }}" class="nav-link" id="nav-home">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    <span>Home</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Profile (di tengah) -->
+        <div class="nav-middle">
+            <a href="#profile" class="nav-link" id="nav-profile">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span>Profile</span>
+            </a>
         </div>
 
         <!-- Logout -->
@@ -376,25 +381,18 @@
                         </option>
                     @endforeach
                 </select>
-
-                <button type="submit" class="search-btn" id="btn-search">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:middle;margin-right:4px;">
-                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                    </svg>
-                    Cari
-                </button>
             </form>
 
             <!-- Icon Grup -->
             <div class="top-icons-group">
                 <button class="header-icon-btn" id="btn-notif" title="Notifikasi">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
                         <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
                     </svg>
                 </button>
                 <button class="header-icon-btn" id="btn-user-icon" title="Akun">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
                     </svg>
                 </button>
@@ -436,7 +434,7 @@
 
             @if($barangs->isEmpty())
                 <div class="no-result">
-                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" display="block" style="margin:0 auto 16px;">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 16px; display:block;">
                         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                     </svg>
                     Tidak ada barang yang ditemukan.<br>
@@ -457,7 +455,7 @@
 
                                 <!-- Status Badge -->
                                 <div class="status-badge {{ $tersedia ? 'available' : 'unavailable' }}">
-                                    {{ $tersedia ? 'Tersedia' : 'Tidak Tersedia' }}
+                                    {{ $tersedia ? 'Tersedia' : 'Digunakan' }}
                                 </div>
 
                                 <!-- Gambar / Icon -->
@@ -469,19 +467,19 @@
                                         <div class="card-icon-fallback">
                                             @php $katNama = strtolower($barang->kategori->nama_kategori ?? ''); @endphp
                                             @if(str_contains($katNama,'elektronik') || str_contains($barang->nama_barang,'Laptop'))
-                                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                                             @elseif(str_contains($katNama,'audio') || str_contains($barang->nama_barang,'Mikrofon') || str_contains($barang->nama_barang,'Speaker'))
-                                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
                                             @elseif(str_contains($katNama,'listrik'))
-                                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                                             @elseif(str_contains($katNama,'komunik') || str_contains($barang->nama_barang,'HT'))
-                                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.29 6.29l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.29 6.29l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                                             @elseif(str_contains($barang->nama_barang,'Camera') || str_contains($barang->nama_barang,'Kamera'))
-                                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
                                             @elseif(str_contains($barang->nama_barang,'Proyektor'))
-                                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M12 3v4"/><path d="M8 3h8"/></svg>
+                                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M12 3v4"/><path d="M8 3h8"/></svg>
                                             @else
-                                                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+                                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
                                             @endif
                                         </div>
                                     @endif
@@ -501,7 +499,7 @@
                                     Ajukan Peminjaman
                                 </a>
                             @else
-                                <span class="apply-link disabled-link">Tidak Tersedia</span>
+                                <span class="apply-link disabled-link">Sedang Digunakan</span>
                             @endif
                         </div>
                     @endforeach
