@@ -30,4 +30,10 @@ class Akun extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class, 'nis', 'nis');
+    }
 }
+

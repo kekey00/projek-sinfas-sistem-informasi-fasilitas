@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminBarangController;
 use App\Http\Controllers\Admin\AdminKategoriController;
@@ -52,6 +53,17 @@ Route::middleware(['auth'])->group(function () {
 
     // Kirim pengajuan peminjaman
     Route::post('/user/peminjaman', [PeminjamanController::class, 'store'])->name('user.peminjaman.store');
+
+    // Status Pengajuan (Daftar & Riwayat Pinjaman)
+    Route::get('/user/status', [PeminjamanController::class, 'status'])->name('user.status');
+
+    // Form Pengembalian Barang
+    Route::get('/user/pengembalian/{kode_pinjam}', [PeminjamanController::class, 'createPengembalian'])->name('user.pengembalian.create');
+    Route::post('/user/pengembalian/{kode_pinjam}', [PeminjamanController::class, 'storePengembalian'])->name('user.pengembalian.store');
+
+    // My Profile (Profil & Ganti Password)
+    Route::get('/user/profile', [UserProfileController::class, 'index'])->name('user.profile');
+    Route::put('/user/profile', [UserProfileController::class, 'update'])->name('user.profile.update');
 
     // -----------------------------------------------
     // ADMIN Sarana (Master: Barang & Kategori, Verifikasi)

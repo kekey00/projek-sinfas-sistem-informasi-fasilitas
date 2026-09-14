@@ -421,10 +421,84 @@
         ::-webkit-scrollbar-track {
             background: transparent;
         }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 4px;
+        /* ─── TOAST NOTIFICATION SESUAI MOCKUP ─── */
+        .sinfas-toast-container {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            pointer-events: none;
         }
+        .sinfas-toast-card {
+            pointer-events: auto;
+            background: #FFFFFF;
+            border-radius: 14px;
+            border: 1.5px solid #E2E8F0;
+            box-shadow: 0 14px 35px -5px rgba(15, 23, 42, 0.18), 0 4px 12px rgba(0, 0, 0, 0.06);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            min-width: 320px;
+            max-width: 440px;
+            animation: toastSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        @keyframes toastSlideIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .toast-icon-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 20px;
+            font-weight: 800;
+        }
+        .toast-icon-circle.success {
+            background: #10B981;
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+        }
+        .toast-icon-circle.error {
+            background: #EF4444;
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+        }
+        .toast-text-wrap {
+            flex: 1;
+            min-width: 0;
+        }
+        .toast-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #0F172A;
+            line-height: 1.3;
+        }
+        .toast-subtitle {
+            font-size: 12px;
+            color: #64748B;
+            margin-top: 3px;
+            line-height: 1.4;
+        }
+        .toast-close-btn {
+            background: none;
+            border: none;
+            color: #94A3B8;
+            font-size: 20px;
+            cursor: pointer;
+            line-height: 1;
+            padding: 2px;
+            transition: color 0.15s;
+        }
+        .toast-close-btn:hover { color: #0F172A; }
     </style>
 
     @yield('styles')
@@ -585,6 +659,31 @@
         </div>
     </div>
 
+    <!-- Toast Notifications Container Sesuai Mockup -->
+    <div class="sinfas-toast-container" id="toastContainer">
+        @if(session('success'))
+            <div class="sinfas-toast-card" id="sessionToast">
+                <div class="toast-icon-circle success">✓</div>
+                <div class="toast-text-wrap">
+                    <div class="toast-title">{{ session('toast_title') ?? session('success') }}</div>
+                    <div class="toast-subtitle">{{ session('toast_subtitle') ?? 'Data telah berhasil disimpan dan disinkronkan ke dalam sistem.' }}</div>
+                </div>
+                <button type="button" class="toast-close-btn" onclick="this.closest('.sinfas-toast-card').remove()">&times;</button>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="sinfas-toast-card" id="sessionToastErr">
+                <div class="toast-icon-circle error">✗</div>
+                <div class="toast-text-wrap">
+                    <div class="toast-title">{{ session('toast_title') ?? session('error') }}</div>
+                    <div class="toast-subtitle">{{ session('toast_subtitle') ?? 'Terjadi kesalahan sistem, silakan periksa input data Anda.' }}</div>
+                </div>
+                <button type="button" class="toast-close-btn" onclick="this.closest('.sinfas-toast-card').remove()">&times;</button>
+            </div>
+        @endif
+    </div>
+
     <script>
         function openModal(id) {
             const modal = document.getElementById(id);
@@ -606,8 +705,48 @@
                 e.target.classList.remove('active');
             }
         });
+
+        // Global Toast Trigger Function
+        window.showSinfasToast = function(type, title, subtitle) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = 'sinfas-toast-card';
+            const icon = type === 'success' ? '✓' : '✗';
+            const iconClass = type === 'success' ? 'success' : 'error';
+            const sub = subtitle || (type === 'success' ? 'Data telah berhasil disimpan dan disinkronkan ke dalam sistem.' : 'Terjadi kesalahan pada sistem.');
+
+            toast.innerHTML = `
+                <div class="toast-icon-circle ${iconClass}">${icon}</div>
+                <div class="toast-text-wrap">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-subtitle">${sub}</div>
+                </div>
+                <button type="button" class="toast-close-btn" onclick="this.closest('.sinfas-toast-card').remove()">&times;</button>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(15px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        };
+
+        // Auto dismiss session toasts after 4 seconds
+        setTimeout(function() {
+            const sessionToasts = document.querySelectorAll('.sinfas-toast-card');
+            sessionToasts.forEach(function(el) {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(15px)';
+                setTimeout(() => el.remove(), 300);
+            });
+        }, 4000);
     </script>
 
     @yield('scripts')
 </body>
 </html>
+

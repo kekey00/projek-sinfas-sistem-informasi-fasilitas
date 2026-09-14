@@ -370,6 +370,8 @@
     <table class="kda-table">
         <thead>
             <tr>
+                <th style="width: 60px;">Photo</th>
+                <th style="width: 120px;">Code</th>
                 <th>Item Name</th>
                 <th>Category</th>
                 <th>Baik</th>
@@ -387,10 +389,20 @@
                 $statusClass = $isAvailable ? 'status-available' : 'status-unavailable';
             @endphp
             <tr>
-                <td style="font-weight: 500; color: #0F172A;">{{ $item->nama_barang }}</td>
-                <td style="color: #6B7280;">{{ $item->kategori->nama_kategori ?? '-' }}</td>
-                <td>{{ $item->jumlah_baik }}</td>
-                <td>{{ $item->jumlah_kurang_baik }}</td>
+                <td>
+                    <div style="width: 44px; height: 44px; border-radius: 8px; background: #F8FAFC; border: 1.5px solid #E2E8F0; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                        @if($item->foto)
+                            <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->nama_barang }}" style="width:100%; height:100%; object-fit:cover;">
+                        @else
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M12 3v4"/><path d="M8 3h8"/></svg>
+                        @endif
+                    </div>
+                </td>
+                <td style="font-family: monospace; font-weight: 700; color: #475569; font-size: 12.5px;">{{ $item->kode_barang }}</td>
+                <td style="font-weight: 600; color: #0F172A;">{{ $item->nama_barang }}</td>
+                <td style="color: #64748B;">{{ $item->kategori->nama_kategori ?? '-' }}</td>
+                <td><span style="color:#16A34A; font-weight:700;">{{ $item->jumlah_baik }}</span></td>
+                <td><span style="color:#D97706; font-weight:600;">{{ $item->jumlah_kurang_baik }}</span></td>
                 <td class="{{ $item->jumlah_rusak_berat > 0 ? 'rusak-berat-red' : '' }}">
                     {{ $item->jumlah_rusak_berat }}
                 </td>
@@ -409,7 +421,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="7" style="text-align:center; color:#9CA3AF; padding:32px;">
+                <td colspan="9" style="text-align:center; color:#9CA3AF; padding:32px;">
                     Tidak ada data alat ditemukan.
                 </td>
             </tr>
@@ -449,7 +461,7 @@
             <button type="button" class="modal-item-close" onclick="closeModal('addItemModal')">&times;</button>
         </div>
 
-        <form action="{{ route('admin.barang.store') }}" method="POST">
+        <form action="{{ route('admin.barang.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <!-- Nama Barang -->
@@ -467,6 +479,15 @@
                         <option value="{{ $k->id_kategori }}">{{ $k->nama_kategori }}</option>
                     @endforeach
                 </select>
+            </div>
+
+            <!-- Foto Barang -->
+            <div class="item-form-group">
+                <label class="item-form-label">Foto Alat / Barang (Opsional)</label>
+                <input type="file" name="foto" class="item-form-input" accept="image/*" onchange="previewItemPhoto(this, 'addPhotoPreview', 'addPhotoImg')">
+                <div id="addPhotoPreview" style="display:none; margin-top:8px;">
+                    <img id="addPhotoImg" src="" alt="Preview Foto" style="max-height: 100px; border-radius: 8px; border: 1.5px solid #E2E8F0;">
+                </div>
             </div>
 
             <!-- Merk/Model -->
@@ -540,7 +561,7 @@
             <button type="button" class="modal-item-close" onclick="closeModal('editItemModal')">&times;</button>
         </div>
 
-        <form id="editItemForm" method="POST">
+        <form id="editItemForm" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -559,6 +580,20 @@
                         <option value="{{ $k->id_kategori }}">{{ $k->nama_kategori }}</option>
                     @endforeach
                 </select>
+            </div>
+
+            <!-- Foto Barang -->
+            <div class="item-form-group">
+                <label class="item-form-label">Foto Alat / Barang</label>
+                <div id="editCurrentPhotoBox" style="display:none; margin-bottom:8px;">
+                    <span style="font-size:11.5px; color:#64748B; display:block; margin-bottom:4px;">Foto Saat Ini:</span>
+                    <img id="editCurrentPhotoImg" src="" alt="Foto Saat Ini" style="max-height: 90px; border-radius: 8px; border: 1.5px solid #E2E8F0;">
+                </div>
+                <input type="file" name="foto" class="item-form-input" accept="image/*" onchange="previewItemPhoto(this, 'editNewPhotoPreview', 'editNewPhotoImg')">
+                <div id="editNewPhotoPreview" style="display:none; margin-top:8px;">
+                    <span style="font-size:11.5px; color:#16A34A; display:block; margin-bottom:4px;">Foto Baru Dipilih:</span>
+                    <img id="editNewPhotoImg" src="" alt="Foto Baru" style="max-height: 90px; border-radius: 8px; border: 1.5px solid #86EFAC;">
+                </div>
             </div>
 
             <!-- Merk/Model -->
@@ -628,6 +663,17 @@
 
 @section('scripts')
 <script>
+    function previewItemPhoto(input, previewId, imgId) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById(imgId).src = e.target.result;
+                document.getElementById(previewId).style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
     function openEditModal(item) {
         document.getElementById('edit_nama_barang').value        = item.nama_barang || '';
         document.getElementById('edit_id_kategori').value        = item.id_kategori || '';
@@ -641,6 +687,15 @@
         document.getElementById('edit_jumlah_rusak_berat').value = item.jumlah_rusak_berat ?? 0;
         document.getElementById('edit_keterangan').value         = item.keterangan || '';
         document.getElementById('editItemForm').action           = "{{ url('/admin/barang') }}/" + item.kode_barang;
+
+        if (item.foto) {
+            document.getElementById('editCurrentPhotoImg').src = "{{ asset('storage') }}/" + item.foto;
+            document.getElementById('editCurrentPhotoBox').style.display = 'block';
+        } else {
+            document.getElementById('editCurrentPhotoBox').style.display = 'none';
+        }
+        document.getElementById('editNewPhotoPreview').style.display = 'none';
+
         openModal('editItemModal');
     }
 </script>

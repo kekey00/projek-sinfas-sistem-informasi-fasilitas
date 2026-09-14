@@ -1,294 +1,397 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ $barang->nama_barang }} - SINFAS</title>
+@extends('layouts.user')
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+@section('title', 'Request Loan ' . $barang->nama_barang . ' - SINFAS')
 
+@section('styles')
 <style>
-    :root{
-        --navy-900:#16264F;
-        --navy-800:#1B2F63;
-        --indigo-600:#3B66C4;
-        --indigo-500:#4A76D2;
-        --indigo-100:#E8EEFC;
-        --green-600:#16A34A;
-        --red-600:#DC2626;
-        --bg:#F4F6FB;
-        --surface:#FFFFFF;
-        --border:#E5E9F5;
-        --text:#1B2333;
-        --muted:#6B7280;
+    .loan-request-grid {
+        display: grid;
+        grid-template-columns: 440px 1fr;
+        gap: 32px;
+        align-items: start;
     }
-    *{box-sizing:border-box;margin:0;padding:0;}
-    html,body{height:100%;}
-    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
-    .app{display:flex;min-height:100vh;}
 
-    /* SIDEBAR (sama seperti dashboard) */
-    .sidebar{
-        width:250px;min-width:250px;
-        background:linear-gradient(190deg,var(--indigo-500) 0%, var(--navy-800) 55%, var(--navy-900) 100%);
-        padding:28px 18px;display:flex;flex-direction:column;color:#fff;
+    /* LEFT PREVIEW CARD */
+    .facility-hero-card {
+        background: #FFFFFF;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 26px;
+        overflow: hidden;
+        box-shadow: var(--shadow-card);
+        position: relative;
     }
-    .brand{display:flex;align-items:center;gap:12px;padding:0 6px 26px;}
-    .brand-avatar{
-        width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.15);
-        border:2px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;
-    }
-    .brand-name{font-family:'Baloo 2',sans-serif;font-size:20px;font-weight:700;letter-spacing:.3px;}
-    .nav{display:flex;flex-direction:column;gap:6px;}
-    .nav-item{
-        display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;
-        color:rgba(255,255,255,.82);text-decoration:none;font-family:'Baloo 2',sans-serif;
-        font-weight:600;font-size:15px;border-left:3px solid transparent;
-        transition:background .15s ease, color .15s ease;
-    }
-    .nav-item svg{width:20px;height:20px;stroke-width:2.1;flex-shrink:0;}
-    .nav-item:hover{background:rgba(255,255,255,.08);color:#fff;}
-    .nav-item.active{background:rgba(255,255,255,.14);color:#fff;border-left:3px solid #fff;}
-    .nav-spacer{flex:1;}
-    .nav-bottom{border-top:1px solid rgba(255,255,255,.15);padding-top:10px;margin-top:10px;}
-    .nav-bottom button{
-        all:unset;display:flex;align-items:center;gap:12px;width:100%;cursor:pointer;
-        padding:11px 14px;border-radius:12px;color:rgba(255,255,255,.75);
-        font-family:'Baloo 2',sans-serif;font-weight:600;font-size:15px;box-sizing:border-box;
-    }
-    .nav-bottom button:hover{background:rgba(255,255,255,.08);color:#fff;}
-    .nav-bottom svg{width:20px;height:20px;stroke-width:2.1;flex-shrink:0;}
 
-    /* MAIN */
-    .main{flex:1;padding:26px 34px;display:flex;flex-direction:column;gap:20px;}
+    .facility-hero-image-wrap {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 4/3;
+        background: linear-gradient(135deg, #EEF2FF, #F8FAFC);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border-bottom: 1px solid #F1F5F9;
+    }
 
-    .topbar{display:flex;align-items:center;gap:14px;}
-    .back-link{
-        display:flex;align-items:center;gap:6px;color:var(--indigo-600);text-decoration:none;
-        font-family:'Baloo 2',sans-serif;font-weight:600;font-size:14px;
+    .facility-hero-image-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
-    .back-link:hover{text-decoration:underline;}
-    .back-link svg{width:16px;height:16px;}
 
-    /* CONTENT SPLIT */
-    .content{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
+    .badge-status-glow {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        padding: 6px 16px;
+        border-radius: var(--radius-pill);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.3px;
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+        backdrop-filter: blur(8px);
+        z-index: 2;
+    }
 
-    /* ITEM DETAIL PANEL */
-    .item-panel{
-        background:var(--surface);border:1.5px solid var(--border);border-radius:20px;
-        padding:22px;box-shadow:0 8px 20px rgba(27,47,99,.06);
+    .facility-hero-content {
+        padding: 28px;
     }
-    .item-photo{
-        position:relative;width:100%;aspect-ratio:4/3;border-radius:16px;overflow:hidden;
-        background:var(--indigo-100);display:flex;align-items:center;justify-content:center;margin-bottom:16px;
-    }
-    .item-photo img{width:100%;height:100%;object-fit:cover;}
-    .badge{
-        position:absolute;top:12px;left:12px;font-family:'Baloo 2',sans-serif;font-size:12px;font-weight:700;
-        padding:5px 14px;border-radius:20px;color:#fff;background:var(--green-600);letter-spacing:.2px;
-    }
-    .item-name{font-family:'Baloo 2',sans-serif;font-size:22px;font-weight:700;margin-bottom:10px;}
-    .item-meta{display:flex;flex-direction:column;gap:5px;margin-bottom:18px;}
-    .item-meta div{font-size:13.5px;color:var(--muted);}
-    .item-meta strong{color:var(--text);font-weight:600;}
-    .item-desc-label{font-family:'Baloo 2',sans-serif;font-size:14px;font-weight:700;margin-bottom:6px;}
-    .item-desc{font-size:13.5px;color:var(--muted);line-height:1.6;}
 
-    /* FORM PANEL */
-    .form-panel{
-        background:var(--surface);border:1.5px solid var(--border);border-radius:20px;
-        padding:26px;box-shadow:0 8px 20px rgba(27,47,99,.06);
+    .facility-title-hero {
+        font-size: 24px;
+        font-weight: 900;
+        letter-spacing: -0.5px;
+        color: var(--text-main);
+        margin-bottom: 6px;
     }
-    .form-title{font-family:'Baloo 2',sans-serif;font-size:19px;font-weight:700;margin-bottom:4px;}
-    .form-sub{font-size:13px;color:var(--muted);margin-bottom:20px;}
-    .field{margin-bottom:16px;}
-    .field label{display:block;font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;}
-    .field input, .field textarea{
-        width:100%;border:1.5px solid var(--border);border-radius:12px;padding:11px 14px;
-        font-family:'Inter',sans-serif;font-size:13.5px;color:var(--text);outline:none;
-        transition:border-color .15s ease, box-shadow .15s ease;
-    }
-    .field input:focus, .field textarea:focus{border-color:var(--indigo-600);box-shadow:0 0 0 3px var(--indigo-100);}
-    .field textarea{resize:vertical;min-height:90px;}
-    .field-row{display:flex;align-items:center;gap:12px;}
-    .field-row input{max-width:110px;}
-    .field-hint{font-size:12px;color:var(--muted);}
 
-    .submit-btn{
-        width:100%;background:var(--indigo-600);color:#fff;border:none;border-radius:12px;
-        padding:13px;font-family:'Baloo 2',sans-serif;font-size:15px;font-weight:700;cursor:pointer;
-        transition:opacity .15s ease;
+    .facility-category-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--brand-primary);
+        background: #EEF2FF;
+        padding: 4px 12px;
+        border-radius: var(--radius-pill);
+        margin-bottom: 22px;
     }
-    .submit-btn:hover{opacity:.92;}
-    .form-note{font-size:12px;color:var(--muted);text-align:center;margin-top:12px;}
 
-    @media (max-width:900px){
-        .content{grid-template-columns:1fr;}
+    .specs-chips-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 22px;
     }
-    @media (max-width:860px){
-        .app{flex-direction:column;}
-        .sidebar{width:100%;min-width:100%;flex-direction:row;align-items:center;padding:16px 18px;}
-        .nav{flex-direction:row;}
-        .nav-spacer{display:none;}
-        .nav-bottom{border:none;margin:0;padding:0;}
+
+    .spec-chip-item {
+        background: #F8FAFC;
+        border: 1px solid #E2E8F0;
+        border-radius: var(--radius-md);
+        padding: 12px 14px;
+    }
+
+    .spec-label {
+        font-size: 11.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+    }
+
+    .spec-val {
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--text-main);
+    }
+
+    .desc-bubble {
+        background: #F8FAFC;
+        border-left: 3px solid var(--brand-primary);
+        padding: 14px 16px;
+        border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+        font-size: 13.5px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+
+    /* RIGHT FORM CARD */
+    .form-card-vibe {
+        background: #FFFFFF;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 26px;
+        padding: 36px 40px;
+        box-shadow: var(--shadow-card);
+    }
+
+    .form-title-wrap {
+        margin-bottom: 26px;
+        padding-bottom: 16px;
+        border-bottom: 1.5px solid #F1F5F9;
+    }
+
+    .form-title-text {
+        font-size: 24px;
+        font-weight: 900;
+        letter-spacing: -0.4px;
+        color: var(--text-main);
+        margin-bottom: 4px;
+    }
+
+    .form-title-sub {
+        font-size: 14px;
+        color: var(--text-secondary);
+    }
+
+    .form-input-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label-vibe {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13.5px;
+        font-weight: 800;
+        color: var(--text-main);
+        margin-bottom: 8px;
+    }
+
+    .form-control-vibe {
+        width: 100%;
+        background: #F8FAFC;
+        border: 1.5px solid #E2E8F0;
+        border-radius: var(--radius-md);
+        padding: 12px 16px;
+        font-size: 14.5px;
+        font-weight: 500;
+        color: var(--text-main);
+        outline: none;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        font-family: inherit;
+    }
+
+    .form-control-vibe:focus {
+        background: #FFFFFF;
+        border-color: var(--brand-primary);
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+    }
+
+    .form-control-vibe[readonly],
+    .form-control-vibe:disabled {
+        background: #F1F5F9;
+        color: #64748B;
+        cursor: not-allowed;
+        border-color: #E2E8F0;
+    }
+
+    .date-inputs-split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    .btn-submit-loan-vibe {
+        width: 100%;
+        background: var(--brand-gradient);
+        color: #fff;
+        border: none;
+        border-radius: var(--radius-md);
+        padding: 14px;
+        font-size: 15.5px;
+        font-weight: 800;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: var(--shadow-glow);
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        margin-top: 10px;
+    }
+
+    .btn-submit-loan-vibe:hover {
+        background: var(--brand-gradient-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 28px -4px rgba(79, 70, 229, 0.45);
+    }
+
+    @media (max-width: 960px) {
+        .loan-request-grid { grid-template-columns: 1fr; }
+        .form-card-vibe { padding: 26px 24px; }
     }
 </style>
-</head>
-<body>
+@endsection
 
-<div class="app">
-    <aside class="sidebar">
-        <div class="brand">
-            <div class="brand-avatar">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                </svg>
-            </div>
-            <span class="brand-name">SINFAS</span>
-        </div>
+@section('content')
 
-        <nav class="nav">
-            <a href="{{ route('user.dashboard') }}" class="nav-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-                </svg>
-                <span>Beranda</span>
-            </a>
-            <a href="#" class="nav-item active">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
-                </svg>
-                <span>Ajukan Pinjam</span>
-            </a>
-            <a href="#" class="nav-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                </svg>
-                <span>Profil Saya</span>
-            </a>
-        </nav>
+    <!-- BACK NAV PILL -->
+    <a href="{{ route('user.dashboard') }}" class="back-pill-link" id="btn-back-catalog">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        <span>Back to Home</span>
+    </a>
 
-        <div class="nav-spacer"></div>
+    @php
+        $isAvailable = $barang->jumlah_baik > 0;
+    @endphp
 
-        <div class="nav-bottom">
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                        <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+    <div class="loan-request-grid">
+
+        <!-- LEFT PANEL: ITEM PREVIEW -->
+        <div class="facility-hero-card">
+            <div class="facility-hero-image-wrap">
+                <span class="badge-status-glow" style="background: {{ $isAvailable ? 'linear-gradient(135deg, #10B981, #059669)' : 'linear-gradient(135deg, #F43F5E, #E11D48)' }};">
+                    <span style="width: 6px; height: 6px; border-radius: 50%; background: #fff;"></span>
+                    <span>{{ $isAvailable ? 'Available' : 'Habis' }}</span>
+                </span>
+
+                @if($barang->foto)
+                    <img src="{{ asset('storage/' . $barang->foto) }}" alt="{{ $barang->nama_barang }}">
+                @else
+                    <svg width="84" height="84" viewBox="0 0 24 24" fill="none" stroke="#818CF8" stroke-width="1.5">
+                        <rect x="2" y="7" width="20" height="14" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M12 3v4"/><path d="M8 3h8"/>
                     </svg>
-                    <span>Keluar</span>
-                </button>
-            </form>
-        </div>
-    </aside>
+                @endif
+            </div>
 
-    <main class="main">
-        <div class="topbar">
-            <a href="{{ route('user.dashboard') }}" class="back-link" id="btn-kembali">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="15 18 9 12 15 6"/></svg>
-                Kembali ke Dashboard
-            </a>
-        </div>
+            <div class="facility-hero-content">
+                <h1 class="facility-title-hero" id="barang-detail-title">{{ $barang->nama_barang }}</h1>
+                <div class="facility-category-chip">
+                    <span>#</span>
+                    <span>{{ $barang->kategori->nama_kategori ?? 'Umum' }}</span>
+                </div>
 
-        <div class="content">
-
-            <!-- DETAIL BARANG -->
-            <div class="item-panel">
-                <div class="item-photo">
-                    @php $tersedia = $barang->jumlah_baik > 0; @endphp
-                    <span class="badge" style="background:{{ $tersedia ? '#0E5E2C' : '#8B1E1E' }}">
-                        {{ $tersedia ? 'Tersedia' : 'Tidak Tersedia' }}
-                    </span>
-                    @if($barang->foto)
-                        <img src="{{ asset('storage/' . $barang->foto) }}" alt="{{ $barang->nama_barang }}">
-                    @else
-                        @php $katNama = strtolower($barang->kategori->nama_kategori ?? ''); @endphp
-                        @if(str_contains($barang->nama_barang,'Camera') || str_contains($barang->nama_barang,'Kamera'))
-                            <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#3B66C4" stroke-width="1.4"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                        @elseif(str_contains($barang->nama_barang,'Mikrofon') || str_contains($barang->nama_barang,'Mic'))
-                            <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#3B66C4" stroke-width="1.4"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-                        @elseif(str_contains($barang->nama_barang,'Proyektor'))
-                            <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#3B66C4" stroke-width="1.4"><rect x="2" y="7" width="20" height="14" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M12 3v4"/><path d="M8 3h8"/></svg>
-                        @elseif(str_contains($barang->nama_barang,'Laptop'))
-                            <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#3B66C4" stroke-width="1.4"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                        @else
-                            <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#3B66C4" stroke-width="1.4"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-                        @endif
+                <div class="specs-chips-grid">
+                    <div class="spec-chip-item">
+                        <div class="spec-label">Kondisi Fisik</div>
+                        <div class="spec-val">{{ $barang->kondisi ?? 'Baik' }} ✨</div>
+                    </div>
+                    <div class="spec-chip-item">
+                        <div class="spec-label">Stok Ready</div>
+                        <div class="spec-val">{{ $barang->jumlah_baik }} Unit 📦</div>
+                    </div>
+                    @if($barang->merk_model)
+                        <div class="spec-chip-item" style="grid-column: 1 / -1;">
+                            <div class="spec-label">Merk / Model</div>
+                            <div class="spec-val">{{ $barang->merk_model }}</div>
+                        </div>
                     @endif
                 </div>
-                <h1 class="item-name" id="barang-nama">{{ $barang->nama_barang }}</h1>
-                <div class="item-meta">
-                    <div>Kategori &nbsp;&nbsp;: <strong>{{ $barang->kategori->nama_kategori ?? '-' }}</strong></div>
-                    <div>Kondisi &nbsp;&nbsp;&nbsp;&nbsp; : <strong>{{ $barang->kondisi ?? 'Baik' }}</strong></div>
-                    <div>Stok Tersedia : <strong>{{ $barang->jumlah_baik }} unit baik</strong></div>
-                    @if($barang->merk_model)<div>Merk/Model : <strong>{{ $barang->merk_model }}</strong></div>@endif
-                </div>
+
                 @if($barang->keterangan)
-                    <div class="item-desc-label">Deskripsi</div>
-                    <p class="item-desc">{{ $barang->keterangan }}</p>
-                @endif
-            </div>
-
-            <!-- FORM PENGAJUAN -->
-            <div class="form-panel">
-                <div class="form-title">Formulir Pengajuan Peminjaman</div>
-                <div class="form-sub">Lengkapi data di bawah ini untuk mengajukan peminjaman barang.</div>
-
-                @if(!$tersedia)
-                    <div style="text-align:center;padding:30px 0;">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="1.5" style="margin:0 auto 12px;display:block;">
-                            <circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
-                        </svg>
-                        <p style="font-family:'Baloo 2',sans-serif;font-size:16px;font-weight:700;color:#DC2626;margin-bottom:8px;">Barang Tidak Tersedia</p>
-                        <p style="font-size:13px;color:#64748B;">Barang ini sedang tidak tersedia untuk dipinjam.</p>
-                        <a href="{{ route('user.dashboard') }}" style="display:inline-block;margin-top:16px;padding:10px 24px;background:#3B66C4;color:#fff;border-radius:10px;text-decoration:none;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;">
-                            ← Kembali ke Dashboard
-                        </a>
+                    <div class="desc-bubble">
+                        <strong>Catatan Fasilitas:</strong><br>
+                        {{ $barang->keterangan }}
                     </div>
-                @else
-                    <form method="POST" action="{{ route('user.peminjaman.store') }}" id="form-pengajuan">
-                        @csrf
-                        <input type="hidden" name="kode_barang" value="{{ $barang->kode_barang }}">
-
-                        @error('stok')
-                            <div style="background:#FEE2E2;border:1.5px solid #EF4444;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#991B1B;">
-                                {{ $message }}
-                            </div>
-                        @enderror
-
-                        <div class="field">
-                            <label for="tanggal_pinjam">Tanggal Pinjam</label>
-                            <input type="date" id="tanggal_pinjam" name="tanggal_pinjam" value="{{ old('tanggal_pinjam') }}" min="{{ date('Y-m-d') }}" required {{ $errors->has('tanggal_pinjam') ? 'style=border-color:#DC2626' : '' }}>
-                            @error('tanggal_pinjam')<span style="font-size:12px;color:#DC2626;display:block;margin-top:4px;">{{ $message }}</span>@enderror
-                        </div>
-                        <div class="field">
-                            <label for="tanggal_kembali">Rencana Tanggal Kembali</label>
-                            <input type="date" id="tanggal_kembali" name="tanggal_kembali" value="{{ old('tanggal_kembali') }}" min="{{ date('Y-m-d', strtotime('+1 day')) }}" required {{ $errors->has('tanggal_kembali') ? 'style=border-color:#DC2626' : '' }}>
-                            @error('tanggal_kembali')<span style="font-size:12px;color:#DC2626;display:block;margin-top:4px;">{{ $message }}</span>@enderror
-                        </div>
-                        <div class="field">
-                            <label for="keterangan_penggunaan">Tujuan / Alasan Peminjaman</label>
-                            <textarea id="keterangan_penggunaan" name="keterangan_penggunaan" placeholder="Contoh: Dokumentasi acara sekolah tanggal 15 September" required>{{ old('keterangan_penggunaan') }}</textarea>
-                            @error('keterangan_penggunaan')<span style="font-size:12px;color:#DC2626;display:block;margin-top:4px;">{{ $message }}</span>@enderror
-                        </div>
-
-                        <button class="submit-btn" type="submit" id="btn-kirim-pengajuan">Kirim Pengajuan Pinjaman</button>
-                        <p class="form-note">Catatan: Pengajuan pinjaman memerlukan persetujuan admin.</p>
-                    </form>
                 @endif
             </div>
-
         </div>
-    </main>
-</div>
 
+        <!-- RIGHT PANEL: LOAN REQUEST FORM -->
+        <div class="form-card-vibe">
+            <div class="form-title-wrap">
+                <h2 class="form-title-text">Loan Request Form 📝</h2>
+                <p class="form-title-sub">Isi keperluan peminjaman fasilitas untuk diverifikasi Admin Sarpras.</p>
+            </div>
+
+            @if(!$isAvailable)
+                <div style="background:#FFF1F2; border: 1.5px solid #FECDD3; border-radius: var(--radius-md); padding: 24px; text-align:center; color:#9F1239;">
+                    <div style="font-size: 32px; margin-bottom: 8px;">⛔</div>
+                    <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 4px;">Stok Barang Sedang Tidak Tersedia</h3>
+                    <p style="font-size: 13.5px; color:#BE123C; margin-bottom: 16px;">Barang ini sedang dipinjam seluruhnya atau sedang dalam pemeliharaan.</p>
+                    <a href="{{ route('user.dashboard') }}" class="btn-genz-primary" style="font-size: 13.5px; padding: 10px 20px;">
+                        Pilih Fasilitas Lain
+                    </a>
+                </div>
+            @else
+                <form method="POST" action="{{ route('user.peminjaman.store') }}" id="form-peminjaman">
+                    @csrf
+                    <input type="hidden" name="kode_barang" value="{{ $barang->kode_barang }}">
+
+                    <!-- BORROWER NAME -->
+                    <div class="form-input-group">
+                        <label class="form-label-vibe">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            <span>Borrower Name</span>
+                        </label>
+                        <input type="text" class="form-control-vibe" value="{{ Auth::user()->nama }}" readonly title="Nama peminjam terverifikasi">
+                    </div>
+
+                    <!-- BORROWER IDENTITY / NIM / NIS -->
+                    <div class="form-input-group">
+                        <label class="form-label-vibe">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="16" rx="2"></rect><line x1="7" y1="8" x2="17" y2="8"></line><line x1="7" y1="12" x2="13" y2="12"></line></svg>
+                            <span>Borrower Identity / NIM / NIS</span>
+                        </label>
+                        <input type="text" class="form-control-vibe" value="{{ Auth::user()->nis ?? '-' }}" readonly title="NIS resmi">
+                    </div>
+
+                    <!-- PURPOSE / REASON -->
+                    <div class="form-input-group">
+                        <label for="keterangan_penggunaan" class="form-label-vibe">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                            <span>Purpose / Reason (Keperluan Pinjam)</span>
+                        </label>
+                        <textarea id="keterangan_penggunaan" name="keterangan_penggunaan" class="form-control-vibe" rows="3"
+                                  placeholder="Contoh: Digunakan untuk presentasi kelas atau dokumentasi kegiatan OSIS..." required>{{ old('keterangan_penggunaan') }}</textarea>
+                        @error('keterangan_penggunaan')
+                            <span style="font-size:12px; color:var(--badge-rose); display:block; margin-top:4px;">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- DATES ROW -->
+                    <div class="date-inputs-split">
+                        <div class="form-input-group">
+                            <label for="tanggal_pinjam" class="form-label-vibe">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                <span>Borrow Date</span>
+                            </label>
+                            <input type="date" id="tanggal_pinjam" name="tanggal_pinjam" class="form-control-vibe"
+                                   value="{{ old('tanggal_pinjam', date('Y-m-d')) }}" min="{{ date('Y-m-d') }}" required>
+                            @error('tanggal_pinjam')
+                                <span style="font-size:12px; color:var(--badge-rose); display:block; margin-top:4px;">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-input-group">
+                            <label for="tanggal_kembali" class="form-label-vibe">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                                <span>Return Date</span>
+                            </label>
+                            <input type="date" id="tanggal_kembali" name="tanggal_kembali" class="form-control-vibe"
+                                   value="{{ old('tanggal_kembali', date('Y-m-d', strtotime('+1 day'))) }}" min="{{ date('Y-m-d', strtotime('+1 day')) }}" required>
+                            @error('tanggal_kembali')
+                                <span style="font-size:12px; color:var(--badge-rose); display:block; margin-top:4px;">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit-loan-vibe" id="btn-submit-loan">
+                        <span>Submit Loan Request</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+
+                    <p style="font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 14px;">
+                        🔒 Data peminjamanmu langsung terhubung ke sistem sarana prasarana sekolah.
+                    </p>
+                </form>
+            @endif
+        </div>
+
+    </div>
+
+@endsection
+
+@section('scripts')
 <script>
-    // Pastikan tanggal kembali selalu setelah tanggal pinjam
     const tglPinjam = document.getElementById('tanggal_pinjam');
     const tglKembali = document.getElementById('tanggal_kembali');
     if (tglPinjam && tglKembali) {
@@ -298,19 +401,11 @@
                 nextDay.setDate(nextDay.getDate() + 1);
                 const minKembali = nextDay.toISOString().split('T')[0];
                 tglKembali.min = minKembali;
-                if (tglKembali.value && tglKembali.value <= this.value) tglKembali.value = minKembali;
+                if (tglKembali.value && tglKembali.value <= this.value) {
+                    tglKembali.value = minKembali;
+                }
             }
         });
     }
-    const form = document.getElementById('form-pengajuan');
-    const btnKirim = document.getElementById('btn-kirim-pengajuan');
-    if (form && btnKirim) {
-        form.addEventListener('submit', function () {
-            btnKirim.disabled = true;
-            btnKirim.textContent = 'Mengirim...';
-        });
-    }
 </script>
-
-</body>
-</html>
+@endsection
