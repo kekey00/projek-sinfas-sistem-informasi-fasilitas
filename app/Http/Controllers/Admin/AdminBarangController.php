@@ -125,7 +125,8 @@ class AdminBarangController extends Controller
         ]);
 
         return redirect()->route('admin.barang.index')
-            ->with('success', 'Data alat/barang "' . $request->nama_barang . '" berhasil ditambahkan!');
+            ->with('success', 'Data alat/barang "' . $request->nama_barang . '" berhasil ditambahkan!')
+            ->with('toast_title', 'Penambahan data telah berhasil');
     }
 
     /**
@@ -184,7 +185,8 @@ class AdminBarangController extends Controller
         ]);
 
         return redirect()->route('admin.barang.index')
-            ->with('success', 'Data alat/barang "' . $barang->nama_barang . '" berhasil diperbarui!');
+            ->with('success', 'Data alat/barang "' . $barang->nama_barang . '" berhasil diperbarui!')
+            ->with('toast_title', 'Pembaruan data telah berhasil');
     }
 
     /**
@@ -197,7 +199,8 @@ class AdminBarangController extends Controller
         // Cek jika barang sedang dipinjam
         if ($barang->isSedangDipinjam()) {
             return redirect()->route('admin.barang.index')
-                ->with('error', 'Barang "' . $barang->nama_barang . '" tidak dapat dihapus karena saat ini sedang aktif dipinjam!');
+                ->with('error', 'Barang "' . $barang->nama_barang . '" tidak dapat dihapus karena saat ini sedang aktif dipinjam!')
+                ->with('toast_title', 'Penghapusan data gagal');
         }
 
         // Hapus file foto
@@ -209,6 +212,8 @@ class AdminBarangController extends Controller
         $barang->delete();
 
         return redirect()->route('admin.barang.index')
-            ->with('success', 'Data alat/barang "' . $nama . '" berhasil dihapus!');
+            ->with('success', 'Data alat/barang "' . $nama . '" berhasil dihapus!')
+            ->with('toast_title', 'Penghapusan data telah berhasil');
     }
+
 }

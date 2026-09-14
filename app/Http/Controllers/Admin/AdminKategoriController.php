@@ -41,7 +41,8 @@ class AdminKategoriController extends Controller
         ]);
 
         return redirect()->route('admin.kategori.index')
-            ->with('success', 'Kategori "' . $request->nama_kategori . '" berhasil ditambahkan!');
+            ->with('success', 'Kategori "' . $request->nama_kategori . '" berhasil ditambahkan!')
+            ->with('toast_title', 'Penambahan kategori berhasil');
     }
 
     /**
@@ -63,7 +64,8 @@ class AdminKategoriController extends Controller
         ]);
 
         return redirect()->route('admin.kategori.index')
-            ->with('success', 'Kategori berhasil diperbarui menjadi "' . $kategori->nama_kategori . '"!');
+            ->with('success', 'Kategori berhasil diperbarui menjadi "' . $kategori->nama_kategori . '"!')
+            ->with('toast_title', 'Pembaruan kategori berhasil');
     }
 
     /**
@@ -75,13 +77,15 @@ class AdminKategoriController extends Controller
 
         if ($kategori->barangs_count > 0) {
             return redirect()->route('admin.kategori.index')
-                ->with('error', 'Kategori "' . $kategori->nama_kategori . '" tidak dapat dihapus karena masih memiliki ' . $kategori->barangs_count . ' data alat/barang terkait!');
+                ->with('error', 'Kategori "' . $kategori->nama_kategori . '" tidak dapat dihapus karena masih memiliki ' . $kategori->barangs_count . ' data alat/barang terkait!')
+                ->with('toast_title', 'Gagal menghapus kategori');
         }
 
         $nama = $kategori->nama_kategori;
         $kategori->delete();
 
         return redirect()->route('admin.kategori.index')
-            ->with('success', 'Kategori "' . $nama . '" berhasil dihapus!');
+            ->with('success', 'Kategori "' . $nama . '" berhasil dihapus!')
+            ->with('toast_title', 'Kategori berhasil dihapus');
     }
 }

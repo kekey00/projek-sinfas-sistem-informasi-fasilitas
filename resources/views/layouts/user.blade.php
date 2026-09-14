@@ -560,9 +560,9 @@
 
                         <div style="height: 1px; background: var(--border-subtle); margin: 6px 0;"></div>
 
-                        <form method="POST" action="{{ route('logout') }}">
+                        <form method="POST" action="{{ route('logout') }}" id="userLogoutForm">
                             @csrf
-                            <button type="submit" class="dropdown-menu-item" style="color: var(--badge-rose);">
+                            <button type="button" onclick="toggleUserLogoutModal()" class="dropdown-menu-item" style="color: var(--badge-rose); width: 100%; text-align: left; background: none; border: none; cursor: pointer;">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                                 <span>Keluar</span>
                             </button>
@@ -635,6 +635,27 @@
         </div>
     </div>
 
+    <!-- LOGOUT CONFIRMATION MODAL USER -->
+    <div class="modal-shade" id="user-logout-modal">
+        <div class="modal-box-vibe" style="max-width: 420px;">
+            <div class="modal-pulse-circle" style="background: #FFF1F2; color: #E11D48;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+            </div>
+            <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 6px; color: #1E293B;">Konfirmasi Keluar</h3>
+            <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5;">
+                Apakah kamu yakin ingin keluar dari akun <strong>{{ Auth::user()->nama ?? 'Siswa' }}</strong>?
+            </p>
+            <div style="display: flex; gap: 10px;">
+                <button type="button" class="btn-genz-secondary" onclick="toggleUserLogoutModal()" style="flex: 1;">Batal</button>
+                <button type="button" class="btn-genz-primary" onclick="document.getElementById('userLogoutForm').submit()" style="flex: 1; background: #E11D48; box-shadow: 0 4px 14px rgba(225, 29, 72, 0.35);">Ya, Keluar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- FOOTER -->
     <footer class="glass-footer">
         <strong>SINFAS</strong> &bull; Sistem Informasi Fasilitas Sekolah Next-Gen &bull; {{ date('Y') }}
@@ -651,6 +672,13 @@
 
         function toggleNotifModal() {
             document.getElementById('notif-modal').classList.toggle('open');
+        }
+
+        function toggleUserLogoutModal() {
+            const m = document.getElementById('user-logout-modal');
+            if (m) m.classList.toggle('open');
+            const dropdown = document.getElementById('dropdown-box');
+            if (dropdown) dropdown.classList.remove('open');
         }
 
         window.addEventListener('click', function(e) {

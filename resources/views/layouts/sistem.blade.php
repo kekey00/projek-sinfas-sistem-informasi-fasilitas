@@ -6,39 +6,65 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin Sistem') - SINFAS</title>
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gorditas:wght@400;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root {
-            /* Warna SINFAS Khas Tampilan Login */
-            --color-royal-blue-start:  #4A6FA5;
-            --color-royal-blue-mid:    #6B8DD6;
-            --color-royal-blue-end:    #8E9AAF;
-            --color-dark-blue-bubble:  #2C4A7C;
-            --color-light-blue-bubble: #7BA7D9;
-            --color-border-blue:       #3B5998;
-            --color-focus-blue:        #5B8DEF;
+            /* ─── BLUE/INDIGO PALETTE SESUAI SINFAS MODERN ─── */
+            --sidebar-bg:          #2D4E9E;
+            --sidebar-dark:        #243f85;
+            --sidebar-active:      rgba(255,255,255,0.18);
+            --sidebar-hover:       rgba(255,255,255,0.10);
+            --sidebar-text:        rgba(255,255,255,0.75);
+            --sidebar-text-active: #FFFFFF;
+            --sidebar-border:      rgba(255,255,255,0.12);
+            --sidebar-section:     rgba(255,255,255,0.45);
 
-            --bg-canvas:    #F4F6F9;
-            --text-dark:    #0F172A;
-            --text-muted:   #64748B;
-            --border-color: #E2E8F0;
+            /* Main Brand Colors */
+            --brand-blue:      #2D4E9E;
+            --brand-blue-dark: #1e3a7a;
+            --brand-emerald:   #10B981;
+            --brand-amber:     #F59E0B;
+            --brand-rose:      #EF4444;
+
+            /* Surfaces & Grays */
+            --bg-canvas:       #F0F4FF;
+            --surface-card:    #FFFFFF;
+            --border-color:    #E2E8F0;
+            --border-subtle:   #F1F5F9;
+            --surface-hover:   #F8FAFF;
+
+            --text-dark:       #1E293B;
+            --text-muted:      #64748B;
+            --text-subtle:     #94A3B8;
+
+            --radius-sm:       6px;
+            --radius-md:       10px;
+            --radius-lg:       14px;
+            --radius-xl:       18px;
+            --radius-pill:     9999px;
+
+            --shadow-subtle:   0 1px 3px 0 rgba(15,23,42,0.06);
+            --shadow-card:     0 1px 4px 0 rgba(30,41,80,0.06);
+            --shadow-hover:    0 4px 16px rgba(30,41,80,0.10);
+            --shadow-modal:    0 20px 25px -5px rgba(15,23,42,0.12), 0 8px 10px -6px rgba(15,23,42,0.06);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--bg-canvas);
             color: var(--text-dark);
             min-height: 100vh;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         .admin-layout {
@@ -46,18 +72,16 @@
             min-height: 100vh;
         }
 
-        /* ─── SIDEBAR SINFAS KHAS TAMPILAN LOGIN ─── */
+        /* ─── SIDEBAR MODERN (BIRU INDIGO) ─── */
         .sidebar {
-            width: 235px;
-            min-width: 235px;
-            background: linear-gradient(180deg, var(--color-royal-blue-start) 0%, var(--color-border-blue) 48%, var(--color-dark-blue-bubble) 100%);
-            border-right: 2.5px solid var(--color-border-blue);
-            color: #FFFFFF;
+            width: 240px;
+            min-width: 240px;
+            background: var(--sidebar-bg);
+            color: var(--sidebar-text-active);
             display: flex;
             flex-direction: column;
             padding: 0;
             min-height: 100vh;
-            box-shadow: 4px 0 22px rgba(44, 74, 124, 0.2);
             z-index: 50;
             position: sticky;
             top: 0;
@@ -65,135 +89,125 @@
             overflow-y: auto;
         }
 
-        /* Sidebar Brand */
-        .sidebar-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 22px 18px 18px;
-            border-bottom: 1.5px solid rgba(123, 167, 217, 0.45);
-            margin-bottom: 14px;
-        }
-
-        .brand-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 8px;
-            background: #FFFFFF;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(44, 74, 124, 0.25);
-        }
-
-        .brand-text {
-            font-family: 'Gorditas', cursive;
-            font-size: 16.5px;
-            font-weight: 700;
-            color: #FFFFFF;
-            letter-spacing: 0.5px;
-            line-height: 1.2;
-            text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Nav Section */
-        .nav-section {
-            padding: 0 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 14px;
-            border-radius: 10px;
-            text-decoration: none;
-            color: #FFFFFF;
-            font-size: 13.5px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .nav-item:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: #FFFFFF;
-            transform: translateX(2px);
-        }
-
-        .nav-item.active {
-            background: #FFFFFF !important;
-            color: var(--color-border-blue) !important;
-            font-weight: 700;
-            box-shadow: 0 4px 12px rgba(44, 74, 124, 0.2);
-        }
-
-        .nav-item.active svg {
-            stroke: var(--color-border-blue);
-        }
-
-        .nav-item svg {
-            flex-shrink: 0;
-        }
-
-        .nav-divider {
-            height: 1.5px;
-            background: rgba(123, 167, 217, 0.45);
-            margin: 16px 14px;
-        }
-
-        /* Sidebar Bottom User */
-        .sidebar-bottom {
-            margin-top: auto;
-            padding: 16px 14px 20px;
-            border-top: 1.5px solid rgba(123, 167, 217, 0.45);
-        }
-
-        .user-card-bottom {
+        /* Brand / Logo */
+        .sidebar-brand-wrap {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 6px 4px;
+            padding: 20px 20px 16px;
+            border-bottom: 1px solid var(--sidebar-border);
+            text-decoration: none;
         }
 
-        .user-avatar-bottom {
+        .brand-logo-icon {
             width: 36px;
             height: 36px;
-            border-radius: 50%;
-            background: #EFF6FF;
-            border: 2px solid #FFFFFF;
+            border-radius: var(--radius-md);
+            background: rgba(255,255,255,0.20);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--color-border-blue);
-            font-size: 13px;
-            font-weight: 700;
+            color: #FFFFFF;
             flex-shrink: 0;
-            overflow: hidden;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
 
-        .user-info-bottom { overflow: hidden; }
-
-        .user-name-bottom {
-            font-family: 'Gorditas', cursive;
-            font-size: 13.5px;
+        .brand-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 19px;
             font-weight: 700;
             color: #FFFFFF;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            line-height: 1.2;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.4px;
         }
 
-        .user-role-bottom {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 2px;
+        /* Sidebar Nav */
+        .sidebar-nav-wrap {
+            padding: 20px 12px 12px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .section-heading {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: var(--sidebar-section);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            margin-top: 16px;
+            padding-left: 10px;
+        }
+
+        .section-heading:first-child {
+            margin-top: 0;
+        }
+
+        .sidebar-nav-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .nav-link-item {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: var(--radius-md);
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--sidebar-text);
+            transition: all 0.15s ease;
+            position: relative;
+        }
+
+        .nav-link-item svg {
+            width: 18px;
+            height: 18px;
+            stroke-width: 2;
+            flex-shrink: 0;
+            color: rgba(255,255,255,0.60);
+            transition: color 0.15s ease;
+        }
+
+        .nav-link-item:hover {
+            background: var(--sidebar-hover);
+            color: #FFFFFF;
+        }
+
+        .nav-link-item:hover svg {
+            color: #FFFFFF;
+        }
+
+        .nav-link-item.active {
+            background: var(--sidebar-active);
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        .nav-link-item.active svg {
+            color: #FFFFFF;
+        }
+
+        /* Logout / Footer */
+        .sidebar-footer {
+            border-top: 1px solid var(--sidebar-border);
+            padding: 12px;
+        }
+
+        .nav-link-item.logout {
+            color: rgba(255,255,255,0.65);
+        }
+
+        .nav-link-item.logout:hover {
+            background: rgba(239,68,68,0.20);
+            color: #fca5a5;
+        }
+
+        .nav-link-item.logout:hover svg {
+            color: #fca5a5;
         }
 
         /* ─── MAIN CONTENT ─── */
@@ -211,54 +225,85 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 14px 30px;
+            padding: 14px 32px;
             background: #FFFFFF;
-            border-bottom: 2px solid var(--color-border-blue);
+            border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
             z-index: 40;
-            height: 56px;
-            box-shadow: 0 2px 8px rgba(44, 74, 124, 0.05);
-        }
-
-        .topbar-left {
-            display: flex;
-            align-items: center;
+            height: 60px;
         }
 
         .page-title {
-            font-family: 'Gorditas', cursive;
-            font-size: 16px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
             font-weight: 700;
-            color: var(--color-dark-blue-bubble);
-            letter-spacing: 0.3px;
+            color: var(--text-dark);
+            letter-spacing: -0.2px;
         }
 
-        .topbar-right {
+        .topbar-actions {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
         }
 
-        .topbar-icon-btn {
-            background: none;
-            border: none;
+        /* Admin Profile Pill */
+        .admin-profile-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 99px;
+            padding: 5px 14px 5px 6px;
             cursor: pointer;
-            color: var(--color-border-blue);
+            transition: all 0.15s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            text-decoration: none;
+        }
+
+        .admin-profile-pill:hover {
+            border-color: #CBD5E1;
+            background: #F8FAFC;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+        }
+
+        .profile-avatar-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #EFF6FF;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 6px;
-            border-radius: 50%;
-            transition: color 0.15s, background 0.15s;
+            color: #2563EB;
+            flex-shrink: 0;
+            font-weight: 700;
+            font-size: 13px;
         }
 
-        .topbar-icon-btn:hover {
-            color: var(--color-dark-blue-bubble);
-            background: #EFF6FF;
+        .profile-info-block {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            line-height: 1.2;
         }
 
-        /* Content */
+        .profile-name-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .profile-role-sub {
+            font-size: 11px;
+            color: #64748B;
+            font-weight: 400;
+        }
+
+        /* Page Content */
         .page-content {
             padding: 24px 32px 36px;
             display: flex;
@@ -267,63 +312,43 @@
             flex: 1;
         }
 
-        /* Alert */
-        .alert-sys {
-            padding: 12px 18px;
-            border-radius: 10px;
-            font-size: 13.5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .alert-success {
-            background: #E8F5E9;
-            color: #2E7D32;
-            border: 1px solid #A5D6A7;
-        }
-
-        .alert-danger {
-            background: #FFEBEE;
-            color: #C62828;
-            border: 1px solid #EF9A9A;
-        }
-
-        /* Modal Overlay */
+        /* ─── MODAL MODERN ─── */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(13, 27, 42, 0.5);
+            background: rgba(15, 23, 42, 0.45);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1000;
             opacity: 0;
             pointer-events: none;
-            transition: all 0.25s ease;
+            transition: opacity 0.2s ease;
             backdrop-filter: blur(4px);
         }
 
-        .modal-overlay.active {
+        .modal-overlay.active,
+        .modal-overlay.open {
             opacity: 1;
             pointer-events: auto;
         }
 
-        .modal-box {
+        .modal-card {
             background: #FFFFFF;
-            border-radius: 18px;
-            border: 2.5px solid var(--color-border-blue);
-            padding: 28px;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-color);
+            padding: 24px 28px;
             width: 90%;
             max-width: 520px;
-            box-shadow: 0 20px 50px rgba(44, 74, 124, 0.2);
-            transform: translateY(20px) scale(0.98);
-            transition: transform 0.25s ease;
+            box-shadow: var(--shadow-modal);
+            transform: translateY(12px) scale(0.98);
+            transition: transform 0.2s ease;
             max-height: 90vh;
             overflow-y: auto;
         }
 
-        .modal-overlay.active .modal-box {
+        .modal-overlay.active .modal-card,
+        .modal-overlay.open .modal-card {
             transform: translateY(0) scale(1);
         }
 
@@ -331,68 +356,70 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             padding-bottom: 14px;
-            border-bottom: 2px solid var(--border-color);
+            border-bottom: 1px solid var(--border-subtle);
         }
 
         .modal-title {
+            font-family: 'Outfit', sans-serif;
             font-size: 17px;
             font-weight: 700;
-            color: var(--color-dark-blue-bubble);
-            font-family: 'Gorditas', cursive;
-            letter-spacing: 0.3px;
+            color: #1E293B;
+            letter-spacing: -0.2px;
         }
 
-        .modal-close {
+        .modal-close-btn {
             background: none;
             border: none;
             font-size: 22px;
-            color: #90A4AE;
+            color: #94A3B8;
             cursor: pointer;
             line-height: 1;
             transition: color 0.15s;
+            border-radius: 6px;
+            padding: 2px 6px;
         }
 
-        .modal-close:hover { color: #C62828; }
+        .modal-close-btn:hover { color: #E11D48; }
 
         .modal-footer {
             display: flex;
             align-items: center;
             justify-content: flex-end;
             gap: 10px;
-            margin-top: 22px;
+            margin-top: 20px;
             padding-top: 14px;
-            border-top: 2px solid var(--border-color);
+            border-top: 1px solid var(--border-subtle);
         }
 
-        /* Form */
+        /* Form Controls Modern */
         .form-group { margin-bottom: 14px; }
 
         .form-label {
             display: block;
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 600;
-            color: var(--color-dark-blue-bubble);
-            margin-bottom: 5px;
+            color: #334155;
+            margin-bottom: 6px;
         }
 
         .form-control {
             width: 100%;
-            padding: 9px 14px;
-            border: 2px solid #CBD5E1;
-            border-radius: 10px;
+            padding: 9px 12px;
+            border: 1px solid #CBD5E1;
+            border-radius: var(--radius-md);
             font-size: 13.5px;
             color: var(--text-dark);
             outline: none;
-            font-family: 'Poppins', sans-serif;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+            transition: all 0.15s ease;
             background: #FFFFFF;
         }
 
         .form-control:focus {
-            border-color: var(--color-focus-blue);
-            box-shadow: 0 0 0 3px rgba(91, 141, 239, 0.2);
+            border-color: var(--brand-blue);
+            box-shadow: 0 0 0 3px rgba(45, 78, 158, 0.12);
         }
 
         .form-grid-2 {
@@ -403,57 +430,107 @@
 
         /* Buttons */
         .btn-cancel {
-            padding: 8px 20px;
-            border-radius: 10px;
+            padding: 8px 18px;
+            border-radius: var(--radius-md);
             background: #F8FAFC;
             color: var(--text-muted);
-            border: 2px solid #CBD5E1;
-            font-size: 13.5px;
+            border: 1px solid #E2E8F0;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            font-family: 'Poppins', sans-serif;
+            font-family: inherit;
             transition: background 0.15s;
         }
 
-        .btn-cancel:hover { background: #F1F5F9; }
+        .btn-cancel:hover { background: #F1F5F9; color: #1E293B; }
 
         .btn-primary {
-            padding: 8px 22px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--color-royal-blue-start) 0%, var(--color-border-blue) 100%);
+            padding: 8px 20px;
+            border-radius: var(--radius-md);
+            background: var(--brand-blue);
             color: #FFFFFF;
             border: none;
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.2s;
-            box-shadow: 0 4px 14px rgba(44, 74, 124, 0.25);
+            font-family: inherit;
+            transition: background 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 18px rgba(44, 74, 124, 0.35);
+            background: var(--sidebar-dark);
         }
 
-        .btn-danger {
-            padding: 6px 14px;
-            border-radius: 7px;
-            background: #FFEBEE;
-            color: #C62828;
-            border: 1.5px solid #EF9A9A;
-            font-size: 12.5px;
-            font-weight: 500;
+        /* ─── TOAST NOTIFICATION ─── */
+        .sinfas-toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .sinfas-toast-card {
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: var(--radius-lg);
+            padding: 12px 18px;
+            box-shadow: 0 10px 25px -5px rgba(15,23,42,0.12);
+            min-width: 300px;
+            max-width: 420px;
+            animation: toastSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transition: opacity 0.25s, transform 0.25s;
+        }
+
+        @keyframes toastSlideIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .toast-icon-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .toast-icon-circle.success { background: #ECFDF5; color: #059669; }
+        .toast-icon-circle.error { background: #FFF1F2; color: #E11D48; }
+
+        .toast-text-wrap { flex: 1; }
+        .toast-title { font-size: 13px; font-weight: 600; color: #1E293B; }
+        .toast-subtitle { font-size: 11.5px; color: #64748B; margin-top: 1px; }
+
+        .toast-close-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #94A3B8;
             cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.15s;
+            line-height: 1;
+            padding: 2px;
         }
 
-        .btn-danger:hover { background: #FFCDD2; }
+        .toast-close-btn:hover { color: #64748B; }
 
-        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(21, 101, 192, 0.2); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: rgba(45, 78, 158, 0.2); border-radius: 4px; }
     </style>
 
     @yield('styles')
@@ -461,87 +538,72 @@
 <body>
 <div class="admin-layout">
 
-    <!-- ─── SIDEBAR ─── -->
+    <!-- ─── SIDEBAR BIRU INDIGO SINFAS ─── -->
     <aside class="sidebar">
 
-        <!-- Brand Persis Mockup -->
-        <div class="sidebar-brand">
-            <div class="brand-icon">
-                <!-- White square logo icon -->
+        <!-- Brand / Header -->
+        <a href="{{ route('sistem.dashboard') }}" class="sidebar-brand-wrap">
+            <div class="brand-logo-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M6 20v-2a6 6 0 0 1 12 0v2"></path>
+                </svg>
             </div>
-            <div class="brand-text">SINFAS Admin</div>
+            <span class="brand-title">SINFAS Admin</span>
+        </a>
+
+        <!-- Navigation Menu -->
+        <div class="sidebar-nav-wrap">
+            <div class="section-heading">Menu Utama</div>
+            <nav class="sidebar-nav-list">
+
+                <!-- Beranda / Dashboard -->
+                <a href="{{ route('sistem.dashboard') }}" class="nav-link-item {{ request()->routeIs('sistem.dashboard') ? 'active' : '' }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                        <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+                        <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+                        <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+                    </svg>
+                    Beranda
+                </a>
+
+                <!-- Kelola Akun -->
+                <a href="{{ route('sistem.akun.index') }}" class="nav-link-item {{ request()->routeIs('sistem.akun.*') ? 'active' : '' }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    Kelola Akun
+                </a>
+
+                <!-- Pengaturan Sistem -->
+                <a href="{{ route('sistem.settings.index') }}" class="nav-link-item {{ request()->routeIs('sistem.settings.*') ? 'active' : '' }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
+                    Kelola Sistem
+                </a>
+
+            </nav>
         </div>
 
-        <!-- Menu Section -->
-        <div class="nav-section">
-            <a href="{{ route('sistem.dashboard') }}" class="nav-item {{ request()->routeIs('sistem.dashboard') ? 'active' : '' }}">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
-                </svg>
-                Beranda
-            </a>
-
-            <a href="{{ route('sistem.akun.index') }}" class="nav-item {{ request()->routeIs('sistem.akun.*') ? 'active' : '' }}">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                </svg>
-                Kelola Akun
-            </a>
-
-            <a href="{{ route('sistem.settings.index') }}" class="nav-item {{ request()->routeIs('sistem.settings.*') ? 'active' : '' }}">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="3"/>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                </svg>
-                Kelola Sistem
-            </a>
-        </div>
-
-        <div class="nav-divider"></div>
-
-        <!-- Account Section -->
-        <div class="nav-section">
-            <a href="javascript:void(0)" onclick="openModal('profileModal')" class="nav-item">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                </svg>
-                Profil
-            </a>
-
+        <!-- Sidebar Footer / Logout -->
+        <div class="sidebar-footer">
             <form action="{{ route('logout') }}" method="POST" id="logoutForm">
                 @csrf
-                <a href="javascript:void(0)" onclick="document.getElementById('logoutForm').submit()" class="nav-item">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                        <polyline points="16 17 21 12 16 7"/>
-                        <line x1="21" y1="12" x2="9" y2="12"/>
+                <a href="javascript:void(0)" onclick="openLogoutModal()" class="nav-link-item logout">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
                     </svg>
-                    Keluar
+                    Logout
                 </a>
             </form>
-        </div>
-
-        <!-- Bottom User Card -->
-        <div class="sidebar-bottom">
-            <div class="user-card-bottom">
-                <div class="user-avatar-bottom">
-                    <svg width="34" height="34" viewBox="0 0 36 36" fill="none">
-                        <circle cx="18" cy="18" r="18" fill="#93C5FD"/>
-                        <circle cx="18" cy="13" r="5.5" fill="#FDBA74"/>
-                        <path d="M12.5 11C12.5 11 14 7.5 18 7.5C22 7.5 23.5 11 23.5 11C23.5 11 21.5 9 18 9C14.5 9 12.5 11 12.5 11Z" fill="#1F2937"/>
-                        <path d="M8 32C8 26.5 12.5 23 18 23C23.5 23 28 26.5 28 32" fill="#1E293B"/>
-                        <polygon points="15.5,23 18,27.5 20.5,23" fill="#FFFFFF"/>
-                        <polygon points="17.2,25.5 18.8,25.5 18.5,31 17.5,31" fill="#DC2626"/>
-                    </svg>
-                </div>
-                <div class="user-info-bottom">
-                    <div class="user-name-bottom">{{ Auth::user()->nama ?? 'Admin Sistem' }}</div>
-                    <div class="user-role-bottom">Operator</div>
-                </div>
-            </div>
         </div>
 
     </aside>
@@ -551,83 +613,196 @@
 
         <!-- Topbar -->
         <header class="topbar">
-            <div class="topbar-left">
-                <div class="page-title">@yield('page_title', 'Beranda')</div>
-            </div>
-            <div class="topbar-right">
-                <button class="topbar-icon-btn" title="Notifikasi">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#000000">
-                        <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
-                    </svg>
-                </button>
-                <button class="topbar-icon-btn" title="Bantuan">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#000000">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/>
-                    </svg>
+            <h1 class="page-title">@yield('page_title', 'Beranda')</h1>
+            <div class="topbar-actions">
+                <button type="button" class="admin-profile-pill" onclick="openProfileModal()">
+                    <div class="profile-avatar-circle">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <div class="profile-info-block">
+                        <span class="profile-name-text">{{ Auth::user()->nama ?? 'Admin Sistem' }}</span>
+                        <span class="profile-role-sub">Operator Sistem</span>
+                    </div>
                 </button>
             </div>
         </header>
-
-        <!-- Alerts -->
-        <div style="padding: 0 32px;">
-            @if(session('success'))
-                <div class="alert-sys alert-success" style="margin-top: 16px;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                    <span>{{ session('success') }}</span>
-                </div>
-            @endif
-            @if(session('error'))
-                <div class="alert-sys alert-danger" style="margin-top: 16px;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                    <span>{{ session('error') }}</span>
-                </div>
-            @endif
-        </div>
 
         <!-- Page Body -->
         <div class="page-content">
             @yield('content')
         </div>
+
     </main>
 </div>
 
-<!-- ─── Modal Profil ─── -->
+<!-- Modal Profil & Pengaturan Akun Admin Sistem -->
 <div id="profileModal" class="modal-overlay">
-    <div class="modal-box" style="max-width: 400px;">
+    <div class="modal-card" style="max-width: 480px;">
         <div class="modal-header">
-            <div class="modal-title">Profil Pengguna</div>
-            <button class="modal-close" onclick="closeModal('profileModal')">&times;</button>
+            <div class="modal-title">Profil & Akun Admin Sistem</div>
+            <button class="modal-close-btn" onclick="closeModal('profileModal')">&times;</button>
         </div>
-        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
-            <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #1565C0, #1A237E); display: flex; align-items: center; justify-content: center; font-family: 'Gorditas', cursive; font-size: 22px; font-weight: 700; color: #FFFFFF; box-shadow: 0 4px 14px rgba(21, 101, 192, 0.35);">
-                {{ substr(Auth::user()->nama ?? 'A', 0, 1) }}
+        
+        <form action="{{ route('user.profile.update') }}" method="POST">
+            @csrf
+            @method('PUT')
+
+            <!-- Hero Profile Info -->
+            <div style="display:flex;align-items:center;gap:14px;background:#F8FAFC;padding:16px;border-radius:14px;border:1px solid #E2E8F0;margin-bottom:18px;">
+                <div style="width:54px;height:54px;border-radius:14px;background:#2D4E9E;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#FFFFFF;flex-shrink:0;box-shadow:0 4px 12px rgba(45,78,158,0.25);">
+                    {{ strtoupper(substr(Auth::user()->nama ?? 'S', 0, 1)) }}
+                </div>
+                <div style="flex:1;">
+                    <div style="font-family:'Outfit',sans-serif;font-size:16.5px;font-weight:700;color:#1E293B;">{{ Auth::user()->nama ?? 'Admin Sistem' }}</div>
+                    <div style="font-size:12.5px;color:#64748B;">Username: <strong style="color:#334155;">{{ '@' . (Auth::user()->username ?? 'adminsistem') }}</strong></div>
+                    <div style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#4F46E5;font-weight:600;background:#EEF2FF;padding:2px 8px;border-radius:99px;margin-top:4px;border:1px solid #C7D2FE;">
+                        <span style="width:6px;height:6px;border-radius:50%;background:#4F46E5;"></span>
+                        Operator Sistem &bull; Aktif
+                    </div>
+                </div>
             </div>
-            <div>
-                <div style="font-weight: 700; font-size: 15px; color: #0D1B2A;">{{ Auth::user()->nama ?? 'Admin Sistem' }}</div>
-                <div style="font-size: 12.5px; color: #546E7A; margin-top: 2px;">Username: {{ Auth::user()->username ?? 'adminsistem' }}</div>
-                <div style="font-size: 12.5px; color: #1565C0; font-weight: 600; margin-top: 2px;">Role: {{ Auth::user()->role ?? 'admin_sistem' }}</div>
+
+            <!-- Fields -->
+            <div class="form-group">
+                <label class="form-label">Nama Lengkap <span style="color:#E11D48;">*</span></label>
+                <input type="text" name="nama" class="form-control" value="{{ Auth::user()->nama ?? '' }}" required>
             </div>
+
+            <div class="form-group">
+                <label class="form-label">Nomor WhatsApp / HP</label>
+                <input type="text" name="nomor_kontak" class="form-control" value="{{ Auth::user()->nomor_kontak ?? '' }}" placeholder="08xxxxxxxxxx">
+            </div>
+
+            <!-- Ubah Password -->
+            <div style="margin-top:16px;border-top:1px solid #F1F5F9;padding-top:14px;">
+                <div style="font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:700;color:#1E293B;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    Ubah Password <span style="font-size:11px;font-weight:400;color:#94A3B8;">(Opsional)</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password Saat Ini</label>
+                    <input type="password" name="current_password" class="form-control" placeholder="Isi jika ingin mengganti password">
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">Password Baru</label>
+                        <input type="password" name="new_password" class="form-control" placeholder="Min. 6 karakter">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">Konfirmasi Password</label>
+                        <input type="password" name="new_password_confirmation" class="form-control" placeholder="Ulangi password">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="margin-top:20px;">
+                <button type="button" class="btn-cancel" onclick="closeModal('profileModal')">Tutup</button>
+                <button type="submit" class="btn-primary" style="background:#2D4E9E;">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Konfirmasi Logout Admin Sistem -->
+<div id="logoutConfirmModal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 400px; text-align: center;">
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFF1F2; color: #E11D48; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 14px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
         </div>
-        <div class="modal-footer" style="border-top: 1.5px solid #CFD8DC; padding-top: 14px; margin-top: 0; justify-content: flex-end;">
-            <button type="button" class="btn-cancel" onclick="closeModal('profileModal')">Tutup</button>
+        <div style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; color: #1E293B; margin-bottom: 6px;">Konfirmasi Keluar</div>
+        <p style="font-size: 13px; color: #64748B; margin-bottom: 20px; line-height: 1.5;">
+            Apakah Anda yakin ingin keluar dari sesi Admin Sistem? Anda harus login kembali untuk mengakses panel ini.
+        </p>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <button type="button" class="btn-cancel" onclick="closeModal('logoutConfirmModal')" style="flex: 1;">Batal</button>
+            <button type="button" onclick="document.getElementById('logoutForm').submit()" style="flex: 1; padding: 8px 18px; border-radius: var(--radius-md); background: #E11D48; color: #FFFFFF; border: none; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.15s;" onmouseover="this.style.background='#BE123C'" onmouseout="this.style.background='#E11D48'">Ya, Keluar</button>
         </div>
     </div>
+</div>
+
+<!-- Toast Notifications Container -->
+<div class="sinfas-toast-container" id="toastContainer">
+    @if(session('success'))
+        <div class="sinfas-toast-card" id="sessionToast">
+            <div class="toast-icon-circle success">✓</div>
+            <div class="toast-text-wrap">
+                <div class="toast-title">{{ session('toast_title') ?? session('success') }}</div>
+                <div class="toast-subtitle">{{ session('toast_subtitle') ?? 'Data berhasil disimpan ke sistem.' }}</div>
+            </div>
+            <button type="button" class="toast-close-btn" onclick="this.closest('.sinfas-toast-card').remove()">&times;</button>
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="sinfas-toast-card" id="sessionToastErr">
+            <div class="toast-icon-circle error">✗</div>
+            <div class="toast-text-wrap">
+                <div class="toast-title">{{ session('toast_title') ?? session('error') }}</div>
+                <div class="toast-subtitle">{{ session('toast_subtitle') ?? 'Terjadi kesalahan, periksa input Anda.' }}</div>
+            </div>
+            <button type="button" class="toast-close-btn" onclick="this.closest('.sinfas-toast-card').remove()">&times;</button>
+        </div>
+    @endif
 </div>
 
 <script>
     function openModal(id) {
         const m = document.getElementById(id);
-        if (m) m.classList.add('active');
+        if (m) { m.classList.add('active'); m.classList.add('open'); }
     }
     function closeModal(id) {
         const m = document.getElementById(id);
-        if (m) m.classList.remove('active');
+        if (m) { m.classList.remove('active'); m.classList.remove('open'); }
     }
+    function openProfileModal() { openModal('profileModal'); }
+    function openLogoutModal() { openModal('logoutConfirmModal'); }
+
     window.addEventListener('click', function(e) {
         if (e.target.classList.contains('modal-overlay')) {
             e.target.classList.remove('active');
+            e.target.classList.remove('open');
         }
     });
+
+    window.showSinfasToast = function(type, title, subtitle) {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = 'sinfas-toast-card';
+        const icon = type === 'success' ? '✓' : '✗';
+        const iconClass = type === 'success' ? 'success' : 'error';
+        const sub = subtitle || (type === 'success' ? 'Data berhasil disimpan.' : 'Terjadi kesalahan.');
+        toast.innerHTML = `
+            <div class="toast-icon-circle ${iconClass}">${icon}</div>
+            <div class="toast-text-wrap">
+                <div class="toast-title">${title}</div>
+                <div class="toast-subtitle">${sub}</div>
+            </div>
+            <button type="button" class="toast-close-btn" onclick="this.closest('.sinfas-toast-card').remove()">&times;</button>
+        `;
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(10px)';
+            setTimeout(() => toast.remove(), 250);
+        }, 4000);
+    };
+
+    setTimeout(function() {
+        document.querySelectorAll('.sinfas-toast-card').forEach(function(el) {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(10px)';
+            setTimeout(() => el.remove(), 250);
+        });
+    }, 4000);
 </script>
 
 @yield('scripts')

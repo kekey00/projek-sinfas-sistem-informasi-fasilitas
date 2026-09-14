@@ -89,6 +89,19 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/verifikasi/approve/{kode_pinjam}', [AdminVerifikasiController::class, 'approve'])->name('verifikasi.approve');
         Route::post('/verifikasi/reject/{kode_pinjam}', [AdminVerifikasiController::class, 'reject'])->name('verifikasi.reject');
         Route::post('/verifikasi/pengembalian/{kode_pinjam}', [AdminVerifikasiController::class, 'verifikasiPengembalian'])->name('verifikasi.pengembalian');
+
+        // Riwayat Peminjaman
+        Route::get('/riwayat', function (\Illuminate\Http\Request $request) {
+            $request->merge(['tab' => 'history']);
+            return app(\App\Http\Controllers\Admin\AdminVerifikasiController::class)->index($request);
+        })->name('riwayat.index');
+
+        // Profil Admin Sarana
+        Route::get('/profile', function () {
+            $user = auth()->user();
+            return view('admin.profile', compact('user'));
+        })->name('profile');
+        Route::put('/profile', [\App\Http\Controllers\UserProfileController::class, 'update'])->name('profile.update');
     });
 
     // -----------------------------------------------
@@ -98,6 +111,13 @@ Route::middleware(['auth'])->group(function () {
 
         // Dashboard Admin Sistem
         Route::get('/dashboard', [SistemDashboardController::class, 'index'])->name('dashboard');
+
+        // Profil Admin Sistem
+        Route::get('/profile', function () {
+            $user = auth()->user();
+            return view('sistem.profile', compact('user'));
+        })->name('profile');
+        Route::put('/profile', [\App\Http\Controllers\UserProfileController::class, 'update'])->name('profile.update');
 
         // Kelola Akun
         Route::get('/akun', [SistemAkunController::class, 'index'])->name('akun.index');

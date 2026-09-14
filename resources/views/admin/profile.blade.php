@@ -1,6 +1,7 @@
-@extends('layouts.user')
+@extends('layouts.admin')
 
 @section('title', 'Profil Saya - SINFAS')
+@section('page_title', 'Profil Saya')
 
 @section('styles')
 <style>
@@ -36,6 +37,28 @@
     .profile-subtitle {
         font-size: 13.5px;
         color: #64748B;
+    }
+
+    /* ─── ALERT FLASH ─── */
+    .profile-alert {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 18px;
+        border-radius: 12px;
+        font-size: 13.5px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+    .profile-alert-success {
+        background: #F0FDF4;
+        border: 1px solid #BBF7D0;
+        color: #166534;
+    }
+    .profile-alert-error {
+        background: #FEF2F2;
+        border: 1px solid #FECACA;
+        color: #991B1B;
     }
 
     /* ─── 2-COLUMN LAYOUT ─── */
@@ -89,7 +112,7 @@
         margin-bottom: 2px;
         letter-spacing: -0.3px;
     }
-    .id-card-nis {
+    .id-card-sub {
         font-size: 13.5px;
         color: #64748B;
         font-weight: 500;
@@ -294,10 +317,35 @@
 
     <!-- BREADCRUMB -->
     <div class="profile-top-breadcrumb">
-        <a href="{{ route('user.dashboard') }}">Beranda</a>
+        <a href="{{ route('admin.dashboard') }}">Beranda</a>
         <span>/</span>
         <span>Profil</span>
     </div>
+
+    <!-- FLASH MESSAGE -->
+    @if(session('success'))
+        <div class="profile-alert profile-alert-success">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>{{ session('success') }}</span>
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="profile-alert profile-alert-error">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <div>
+                @foreach($errors->all() as $error)
+                    <div>{{ $error }}</div>
+                @endforeach
+            </div>
+        </div>
+    @endif
 
     <!-- TITLE & SUBTITLE -->
     <div class="profile-header-meta">
@@ -311,36 +359,35 @@
         <div class="profile-id-card">
             <div class="avatar-wrapper-center">
                 <div class="avatar-photo-circle">
-                    {{ strtoupper(substr($user->nama ?? 'N', 0, 2)) }}
+                    {{ strtoupper(substr($user->nama ?? 'A', 0, 2)) }}
                 </div>
             </div>
 
-            <div class="id-card-name">{{ $user->nama }}</div>
-            <div class="id-card-nis">{{ $user->nis ?? ($user->username ?? '2024003') }}</div>
+            <div class="id-card-name">{{ $user->nama ?? 'Admin Sarana' }}</div>
+            <div class="id-card-sub">{{ $user->nip ?? ($user->username ?? 'admin_sarana') }}</div>
 
             <div>
                 <span class="role-badge-amber">
-                    {{ ucfirst(str_replace('_', ' ', $user->role ?? 'Siswa')) }}
+                    Admin Sarana
                 </span>
             </div>
 
             <div class="sub-role-desc">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                 </svg>
-                <span>Siswa Aktif</span>
+                <span>Administrator Sarana</span>
             </div>
 
             <!-- List Detail -->
             <div class="id-info-list">
                 <div class="id-info-row">
                     <span class="id-info-label">Email</span>
-                    <span class="id-info-value">{{ $siswa->email ?? ($user->email ?? 'siswa@sinfas.sch.id') }}</span>
+                    <span class="id-info-value">{{ $user->email ?? 'sarana@sinfas.sch.id' }}</span>
                 </div>
                 <div class="id-info-row">
                     <span class="id-info-label">Jenis Kelamin</span>
-                    <span class="id-info-value">Perempuan</span>
+                    <span class="id-info-value">Laki-laki</span>
                 </div>
                 <div class="id-info-row" style="border-bottom: none;">
                     <span class="id-info-label">Bergabung</span>
@@ -362,7 +409,7 @@
                     <span>Edit Profil</span>
                 </div>
 
-                <form method="POST" action="{{ route('user.profile.update') }}">
+                <form method="POST" action="{{ route('admin.profile.update') }}">
                     @csrf
                     @method('PUT')
 
@@ -373,20 +420,20 @@
                         </div>
                         <div class="form-field">
                             <label class="form-label-txt">Email</label>
-                            <input type="email" name="email" class="form-input-txt" value="{{ old('email', $siswa->email ?? '') }}" placeholder="nama@email.com">
+                            <input type="email" name="email" class="form-input-txt" value="{{ old('email', $user->email ?? 'sarana@sinfas.sch.id') }}">
                         </div>
                     </div>
 
                     <div class="form-row-3">
                         <div class="form-field">
-                            <label class="form-label-txt">Kelas / Keperluan</label>
-                            <input type="text" name="nomor_kontak" class="form-input-txt" value="{{ old('nomor_kontak', $user->nomor_kontak ?? '') }}" placeholder="e.g. XII RPL / Panitia">
+                            <label class="form-label-txt">Jabatan / Kontak</label>
+                            <input type="text" name="nomor_kontak" class="form-input-txt" value="{{ old('nomor_kontak', $user->nomor_kontak ?? 'Admin Sarana Prasarana') }}" placeholder="e.g. 08123456789">
                         </div>
                         <div class="form-field">
                             <label class="form-label-txt">Jenis Kelamin</label>
                             <select name="jenis_kelamin" class="form-input-txt">
-                                <option value="Perempuan" selected>Perempuan</option>
-                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Laki-laki" selected>Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
                             </select>
                         </div>
                         <div class="form-field">
@@ -417,10 +464,9 @@
                     <span>Ganti Password</span>
                 </div>
 
-                <form method="POST" action="{{ route('user.profile.update') }}">
+                <form method="POST" action="{{ route('admin.profile.update') }}">
                     @csrf
                     @method('PUT')
-                    <!-- Hidden field to keep existing name -->
                     <input type="hidden" name="nama" value="{{ $user->nama }}">
 
                     <div class="form-row-3">

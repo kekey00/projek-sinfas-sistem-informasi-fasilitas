@@ -6,42 +6,64 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin Sarana') - SINFAS</title>
 
-    <!-- Google Fonts: Baloo 2 + Poppins -->
+    <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root {
-            --color-royal-blue-start:  #4A6FA5;
-            --color-royal-blue-mid:    #6B8DD6;
-            --color-royal-blue-end:    #8E9AAF;
-            --color-dark-blue-bubble:  #2C4A7C;
-            --color-light-blue-bubble: #7BA7D9;
-            --color-border-blue:       #3B5998;
-            --color-focus-blue:        #5B8DEF;
+            /* ─── BLUE/INDIGO SIDEBAR PALETTE ─── */
+            --sidebar-bg:      #2D4E9E;
+            --sidebar-dark:    #243f85;
+            --sidebar-active:  rgba(255,255,255,0.18);
+            --sidebar-hover:   rgba(255,255,255,0.10);
+            --sidebar-text:    rgba(255,255,255,0.75);
+            --sidebar-text-active: #FFFFFF;
+            --sidebar-border:  rgba(255,255,255,0.12);
+            --sidebar-section: rgba(255,255,255,0.45);
 
-            --bg-canvas:    #F4F6F9;
-            --text-dark:    #0F172A;
-            --text-muted:   #64748B;
-            --border-color: #E2E8F0;
+            /* Main palette */
+            --brand-blue:      #2D4E9E;
+            --brand-blue-dark: #1e3a7a;
+            --brand-emerald:   #10B981;
+            --brand-amber:     #F59E0B;
+            --brand-rose:      #EF4444;
+
+            /* Surfaces */
+            --bg-canvas:       #F0F4FF;
+            --surface-card:    #FFFFFF;
+            --border-color:    #E2E8F0;
+            --border-subtle:   #F1F5F9;
+            --surface-hover:   #F8FAFF;
+
+            --text-dark:       #1E293B;
+            --text-muted:      #64748B;
+            --text-subtle:     #94A3B8;
+
+            --radius-sm:       6px;
+            --radius-md:       10px;
+            --radius-lg:       14px;
+            --radius-xl:       18px;
+            --radius-pill:     9999px;
+
+            --shadow-subtle:   0 1px 2px 0 rgba(15,23,42,0.05);
+            --shadow-card:     0 1px 3px 0 rgba(15,23,42,0.08), 0 1px 2px -1px rgba(15,23,42,0.04);
+            --shadow-modal:    0 20px 25px -5px rgba(15,23,42,0.12), 0 8px 10px -6px rgba(15,23,42,0.06);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--bg-canvas);
             color: var(--text-dark);
             min-height: 100vh;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         .admin-layout {
@@ -49,18 +71,16 @@
             min-height: 100vh;
         }
 
-        /* ─── SIDEBAR SINFAS ADMIN (SESUAI TAMPILAN LOGIN & REFERENSI) ─── */
+        /* ─── SIDEBAR BIRU ─── */
         .sidebar {
-            width: 265px;
-            min-width: 265px;
-            background: linear-gradient(180deg, var(--color-royal-blue-start) 0%, var(--color-border-blue) 48%, var(--color-dark-blue-bubble) 100%);
-            border-right: 2px solid var(--color-border-blue);
-            color: #FFFFFF;
+            width: 240px;
+            min-width: 240px;
+            background: var(--sidebar-bg);
+            color: var(--sidebar-text-active);
             display: flex;
             flex-direction: column;
-            padding: 24px 20px 24px;
+            padding: 0;
             min-height: 100vh;
-            box-shadow: 4px 0 20px rgba(44, 74, 124, 0.18);
             z-index: 50;
             position: sticky;
             top: 0;
@@ -68,111 +88,140 @@
             overflow-y: auto;
         }
 
-        /* 1. Header Profil Admin Sarana (di Bagian Atas Sidebar) */
-        .sidebar-user-header {
+        /* Brand/Logo Area */
+        .sidebar-brand-wrap {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 4px 4px 18px 4px;
-            border-bottom: 1.5px solid rgba(123, 167, 217, 0.45);
-            margin-bottom: 20px;
+            gap: 10px;
+            padding: 20px 20px 16px;
+            border-bottom: 1px solid var(--sidebar-border);
+            text-decoration: none;
         }
 
-        .user-avatar-top {
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            background: #EFF6FF;
-            border: 2px solid #FFFFFF;
-            overflow: hidden;
+        .brand-logo-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-md);
+            background: rgba(255,255,255,0.20);
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .user-info-top {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .user-role-top {
-            font-family: 'Baloo 2', sans-serif;
-            font-size: 13px;
             color: #FFFFFF;
-            line-height: 1.1;
-            letter-spacing: 0.3px;
-            opacity: .8;
+            flex-shrink: 0;
         }
-        .user-name-top {
-            font-family: 'Baloo 2', sans-serif;
-            font-size: 18px;
+
+        .brand-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
             font-weight: 700;
             color: #FFFFFF;
-            line-height: 1.2;
-            margin-top: 2px;
+            letter-spacing: 0.5px;
         }
 
-        /* 2. Section Navigasi (Menu & Account) */
-        .sidebar-section {
-            margin-bottom: 20px;
-        }
-
-        .sidebar-section-divider {
-            border-bottom: 1.5px solid rgba(123, 167, 217, 0.45);
-            margin: 18px 0 20px 0;
+        /* Sidebar Nav */
+        .sidebar-nav-wrap {
+            padding: 20px 12px 12px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
         }
 
         .section-heading {
-            font-family: 'Baloo 2', sans-serif;
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 700;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--sidebar-section);
             text-transform: uppercase;
-            letter-spacing: 1.2px;
-            margin-bottom: 8px;
-            padding-left: 12px;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            margin-top: 16px;
+            padding-left: 10px;
+        }
+
+        .section-heading:first-child {
+            margin-top: 0;
         }
 
         .sidebar-nav-list {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 2px;
         }
 
-        .nav-link-gorditas {
+        .nav-link-item {
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 10px;
             padding: 9px 12px;
-            border-radius: 10px;
-            font-family: 'Baloo 2', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            color: rgba(255,255,255,.82);
-            transition: all 0.18s ease;
-        }
-        .nav-link-gorditas svg {
-            width: 17px; height: 17px;
-            stroke-width: 2.1; flex-shrink: 0; opacity: .8;
+            border-radius: var(--radius-md);
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--sidebar-text);
+            transition: all 0.15s ease;
+            position: relative;
         }
 
-        .nav-link-gorditas:hover {
-            background: rgba(255, 255, 255, 0.12);
-            color: #fff;
-            transform: translateX(3px);
+        .nav-link-item svg {
+            width: 18px;
+            height: 18px;
+            stroke-width: 2;
+            flex-shrink: 0;
+            color: rgba(255,255,255,0.60);
+            transition: color 0.15s ease;
         }
-        .nav-link-gorditas.active {
-            background: rgba(255, 255, 255, 0.18);
+
+        .nav-link-item:hover {
+            background: var(--sidebar-hover);
             color: #FFFFFF;
-            font-weight: 700;
-            border-left: 3px solid rgba(255,255,255,.8);
         }
-        .nav-link-gorditas.active svg { opacity: 1; }
 
-        /* ─── MAIN CONTENT ───────────────────────────────────── */
+        .nav-link-item:hover svg {
+            color: #FFFFFF;
+        }
+
+        .nav-link-item.active {
+            background: var(--sidebar-active);
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        .nav-link-item.active svg {
+            color: #FFFFFF;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: #EF4444;
+            color: #FFFFFF;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 99px;
+            padding: 1px 7px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* Logout di bawah sidebar */
+        .sidebar-footer {
+            border-top: 1px solid var(--sidebar-border);
+            padding: 12px;
+        }
+
+        .nav-link-item.logout {
+            color: rgba(255,255,255,0.65);
+        }
+
+        .nav-link-item.logout:hover {
+            background: rgba(239,68,68,0.20);
+            color: #fca5a5;
+        }
+
+        .nav-link-item.logout:hover svg {
+            color: #fca5a5;
+        }
+
+        /* ─── MAIN WRAPPER & TOPBAR ─── */
         .main-wrapper {
             flex: 1;
             display: flex;
@@ -182,323 +231,316 @@
             overflow-y: auto;
         }
 
-        /* Topbar */
         .topbar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 36px;
-            background: #FFFFFF;
+            padding: 14px 32px;
+            background: rgba(255, 255, 255, 0.90);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+            position: sticky;
+            top: 0;
+            z-index: 40;
         }
 
         .page-title {
-            font-family: 'Baloo 2', sans-serif;
-            font-size: 18px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
             font-weight: 700;
-            color: #0F172A;
+            color: var(--text-dark);
+            letter-spacing: -0.2px;
         }
 
         .topbar-actions {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
+        }
+
+        .topbar-date-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #F8FAFC;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 12.5px;
+            font-weight: 500;
+            color: #64748B;
+            border: 1px solid var(--border-color);
         }
 
         .topbar-btn {
-            background: transparent;
-            border: none;
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
             cursor: pointer;
             width: 36px;
             height: 36px;
-            border-radius: 50%;
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #0F172A;
-            transition: all 0.2s ease;
+            color: #64748B;
+            transition: all 0.15s ease;
         }
 
         .topbar-btn:hover {
-            background: rgba(0, 0, 0, 0.05);
-            transform: scale(1.05);
+            background: #F8FAFC;
+            color: var(--brand-blue);
+            border-color: #CBD5E1;
+        }
+
+        .topbar-profile-trigger {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 12px 5px 6px;
+            border-radius: var(--radius-md);
+            background: #F8FAFC;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .topbar-profile-trigger:hover {
+            border-color: #CBD5E1;
+            background: #F0F4FF;
+        }
+
+        .topbar-avatar {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--brand-blue);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
         }
 
         /* Container Isi Halaman */
         .page-content {
-            padding: 24px 36px 36px 36px;
+            padding: 24px 32px 40px 32px;
             display: flex;
             flex-direction: column;
             gap: 20px;
             flex: 1;
         }
 
-        /* Alert Notification */
-        .alert-sinfas {
-            padding: 12px 18px;
-            border-radius: 10px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 6px;
-        }
-
-        .alert-success {
-            background: #DCFCE7;
-            color: #15803D;
-            border: 1px solid #BBF7D0;
-        }
-
-        .alert-danger {
-            background: #FEE2E2;
-            color: #B91C1C;
-            border: 1px solid #FECACA;
-        }
-
-        /* Modal Global SINFAS (Sama dengan Card Login) */
+        /* ─── MODAL GLOBAL SINFAS ─── */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(15, 23, 42, 0.45);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15,23,42,0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
+            z-index: 10000;
             opacity: 0;
             pointer-events: none;
-            transition: all 0.25s ease;
-            backdrop-filter: blur(4px);
+            transition: opacity 0.2s ease;
         }
 
-        .modal-overlay.active {
+        .modal-overlay.active,
+        .modal-overlay.open {
             opacity: 1;
             pointer-events: auto;
         }
 
         .modal-card {
             background: #FFFFFF;
-            border: 2.5px solid var(--color-border-blue);
-            border-radius: 18px;
-            padding: 26px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px;
             width: 90%;
-            max-width: 540px;
-            box-shadow: 0 15px 40px rgba(44, 74, 124, 0.2);
-            transform: translateY(20px);
-            transition: transform 0.25s ease;
+            max-width: 500px;
+            box-shadow: var(--shadow-modal);
+            transform: translateY(12px) scale(0.98);
+            transition: all 0.2s ease;
             position: relative;
-            overflow: hidden;
         }
 
-        .modal-overlay.active .modal-card {
-            transform: translateY(0);
-        }
-
-        .modal-card-top {
-            height: 5px;
-            background: linear-gradient(to right, var(--color-light-blue-bubble), var(--color-dark-blue-bubble));
-            margin: -26px -26px 20px -26px;
+        .modal-overlay.active .modal-card,
+        .modal-overlay.open .modal-card {
+            transform: translateY(0) scale(1);
         }
 
         .modal-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             padding-bottom: 12px;
-            border-bottom: 1.5px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .modal-title {
-            font-family: 'Gorditas', cursive;
+            font-family: 'Outfit', sans-serif;
             font-size: 17px;
             font-weight: 700;
             color: var(--text-dark);
-            letter-spacing: 0.3px;
+            letter-spacing: -0.2px;
         }
 
         .modal-close-btn {
-            background: none;
+            background: transparent;
             border: none;
-            font-size: 22px;
-            color: var(--text-muted);
+            width: 28px;
+            height: 28px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #94A3B8;
             cursor: pointer;
             line-height: 1;
-            transition: color 0.15s;
+            transition: all 0.15s ease;
         }
 
         .modal-close-btn:hover {
-            color: #DC2626;
+            background: #F1F5F9;
+            color: #0F172A;
         }
 
         .modal-footer {
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            gap: 12px;
+            gap: 10px;
             margin-top: 20px;
             padding-top: 14px;
-            border-top: 1.5px solid var(--border-color);
+            border-top: 1px solid var(--border-color);
         }
 
         .btn-cancel {
-            padding: 9px 18px;
-            border-radius: 8px;
-            background: #F1F5F9;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            background: #FFFFFF;
             color: #475569;
-            border: 1.5px solid #CBD5E1;
-            font-size: 13.5px;
-            font-weight: 500;
+            border: 1px solid var(--border-color);
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.15s;
-            font-family: 'Poppins', sans-serif;
+            transition: all 0.15s ease;
+            font-family: inherit;
         }
 
         .btn-cancel:hover {
-            background: #E2E8F0;
+            background: #F8FAFC;
+            border-color: #CBD5E1;
+            color: #0F172A;
         }
 
-        /* Button Gradient SINFAS (Sama dengan Tombol Login) */
         .btn-submit {
-            padding: 9px 24px;
-            border-radius: 8px;
-            background: linear-gradient(to right, var(--color-light-blue-bubble), var(--color-dark-blue-bubble));
+            padding: 8px 18px;
+            border-radius: var(--radius-sm);
+            background: var(--brand-blue);
             color: #FFFFFF;
-            border: none;
-            font-family: 'Gorditas', 'Poppins', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
+            border: 1px solid transparent;
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.25s ease;
-            box-shadow: 0 4px 12px rgba(44, 74, 124, 0.25);
-            letter-spacing: 0.3px;
+            transition: all 0.15s ease;
+            font-family: inherit;
         }
 
         .btn-submit:hover {
-            transform: scale(1.02);
-            filter: brightness(1.08);
-            box-shadow: 0 6px 16px rgba(44, 74, 124, 0.35);
+            background: var(--brand-blue-dark);
         }
 
-        /* Form Utility */
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: #334155;
-            margin-bottom: 6px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px 14px;
-            border: 2px solid var(--color-border-blue);
-            border-radius: 8px;
-            font-size: 13.5px;
-            color: #0F172A;
-            outline: none;
-            font-family: 'Poppins', sans-serif;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            background: #FFFFFF;
-        }
-
-        .form-control:focus {
-            border-color: var(--color-focus-blue);
-            box-shadow: 0 0 8px rgba(91, 141, 239, 0.35);
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        /* ─── TOAST NOTIFICATION SESUAI MOCKUP ─── */
+        /* ─── TOAST NOTIFICATION ─── */
         .sinfas-toast-container {
             position: fixed;
-            bottom: 28px;
-            right: 28px;
+            bottom: 24px;
+            right: 24px;
             z-index: 99999;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             pointer-events: none;
         }
+
         .sinfas-toast-card {
             pointer-events: auto;
             background: #FFFFFF;
-            border-radius: 14px;
-            border: 1.5px solid #E2E8F0;
-            box-shadow: 0 14px 35px -5px rgba(15, 23, 42, 0.18), 0 4px 12px rgba(0, 0, 0, 0.06);
-            padding: 16px 20px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px -5px rgba(15,23,42,0.12), 0 4px 6px -2px rgba(15,23,42,0.06);
+            padding: 14px 16px;
             display: flex;
             align-items: center;
-            gap: 16px;
-            min-width: 320px;
-            max-width: 440px;
-            animation: toastSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            gap: 12px;
+            min-width: 300px;
+            max-width: 400px;
+            animation: toastSlideIn 0.25s ease;
+            transition: opacity 0.25s ease, transform 0.25s ease;
         }
+
         @keyframes toastSlideIn {
-            from { opacity: 0; transform: translateY(20px) scale(0.95); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
+
         .toast-icon-circle {
-            width: 44px;
-            height: 44px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            font-size: 20px;
-            font-weight: 800;
-        }
-        .toast-icon-circle.success {
-            background: #10B981;
-            color: #FFFFFF;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
-        }
-        .toast-icon-circle.error {
-            background: #EF4444;
-            color: #FFFFFF;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
-        }
-        .toast-text-wrap {
-            flex: 1;
-            min-width: 0;
-        }
-        .toast-title {
             font-size: 14px;
+            font-weight: 700;
+        }
+
+        .toast-icon-circle.success { background: #DCFCE7; color: #166534; }
+        .toast-icon-circle.error   { background: #FEE2E2; color: #991B1B; }
+
+        .toast-text-wrap { flex: 1; min-width: 0; }
+
+        .toast-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 13.5px;
             font-weight: 700;
             color: #0F172A;
             line-height: 1.3;
         }
+
         .toast-subtitle {
             font-size: 12px;
             color: #64748B;
-            margin-top: 3px;
-            line-height: 1.4;
+            margin-top: 2px;
+            line-height: 1.35;
         }
+
         .toast-close-btn {
             background: none;
             border: none;
             color: #94A3B8;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
             line-height: 1;
             padding: 2px;
-            transition: color 0.15s;
+            border-radius: 4px;
+            transition: all 0.15s;
         }
-        .toast-close-btn:hover { color: #0F172A; }
+
+        .toast-close-btn:hover { color: #0F172A; background: #F1F5F9; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 4px; }
+        .main-wrapper ::-webkit-scrollbar-thumb { background: #CBD5E1; }
+        ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
     </style>
 
     @yield('styles')
@@ -507,126 +549,124 @@
 
     <div class="admin-layout">
 
-        <!-- ─── SIDEBAR SINFAS ADMIN (TAMPILAN LOGIN & FIGMA) ─── -->
+        <!-- ─── SIDEBAR BIRU SINFAS ADMIN ─── -->
         <aside class="sidebar">
-            
-            <!-- 1. Header Profil Admin Sarana -->
-            <div class="sidebar-user-header">
-                <div class="user-avatar-top">
-                    <svg width="42" height="42" viewBox="0 0 48 48" fill="none">
-                        <circle cx="24" cy="24" r="24" fill="#BFDBFE"/>
-                        <circle cx="24" cy="18" r="8.5" fill="#FDE68A"/>
-                        <path d="M17 16C17 12 20 10 24 10C28 10 31 12 31 16C31 17 30 17 29 17C28 15 26 14 24 14C22 14 20 15 19 17C18 17 17 17 17 16Z" fill="#334155"/>
-                        <path d="M10 44C10 33 16 29 24 29C32 29 38 33 38 44H10Z" fill="#1E293B"/>
-                        <polygon points="20,29 24,35 28,29" fill="#FFFFFF"/>
-                        <polygon points="23,33 25,33 24.5,42 23.5,42" fill="#DC2626"/>
+
+            <!-- Brand Logo -->
+            <a href="{{ route('admin.dashboard') }}" class="sidebar-brand-wrap">
+                <div class="brand-logo-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                     </svg>
                 </div>
-                <div class="user-info-top">
-                    <span class="user-role-top">Admin</span>
-                    <span class="user-name-top">Sarana</span>
-                </div>
-            </div>
+                <span class="brand-title">SINFAS</span>
+            </a>
 
-            <!-- 2. Bagian Menu -->
-            <div class="sidebar-section">
-                <div class="section-heading">MENU</div>
+            <!-- Navigation -->
+            <div class="sidebar-nav-wrap">
+                <div class="section-heading">MENU UTAMA</div>
                 <nav class="sidebar-nav-list">
-                    <a href="{{ route('admin.dashboard') }}" class="nav-link-gorditas {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                            <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                            <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+                            <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+                            <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
                         </svg>
-                        Home
+                        Dashboard
                     </a>
-                    <a href="{{ route('admin.barang.index') }}" class="nav-link-gorditas {{ request()->routeIs('admin.barang.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.barang.index') }}" class="nav-link-item {{ request()->routeIs('admin.barang.*') ? 'active' : '' }}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
                         </svg>
-                        Kelola Data Alat
+                        Data Barang
                     </a>
-                    <a href="{{ route('admin.kategori.index') }}" class="nav-link-gorditas {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.kategori.index') }}" class="nav-link-item {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
-                            <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+                            <line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line>
+                            <circle cx="4" cy="6" r="1.5"></circle><circle cx="4" cy="12" r="1.5"></circle><circle cx="4" cy="18" r="1.5"></circle>
                         </svg>
-                        Kelola Kategori
+                        Kategori
                     </a>
-                    <a href="{{ route('admin.verifikasi.index') }}" class="nav-link-gorditas {{ request()->routeIs('admin.verifikasi.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.verifikasi.index') }}" class="nav-link-item {{ (request()->routeIs('admin.verifikasi.*') && request('tab') !== 'history' && !request()->routeIs('admin.riwayat.*')) ? 'active' : '' }}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="9 11 12 14 22 4"/>
-                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                            <path d="M9 11l3 3L22 4"></path>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
                         </svg>
-                        Verifikasi Pengajuan
+                        Verifikasi
+                        @php
+                            try {
+                                $pendingCount = \App\Models\Peminjaman::where('status_pengajuan','menunggu')->count();
+                            } catch(\Exception $e) {
+                                $pendingCount = 0;
+                            }
+                        @endphp
+                        @if($pendingCount > 0)
+                            <span class="nav-badge">{{ $pendingCount }}</span>
+                        @endif
+                    </a>
+                    <a href="{{ route('admin.riwayat.index') }}" class="nav-link-item {{ (request()->routeIs('admin.riwayat.*') || (request()->routeIs('admin.verifikasi.*') && request('tab') === 'history')) ? 'active' : '' }}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        Riwayat Peminjaman
                     </a>
                 </nav>
             </div>
 
-            <div class="sidebar-section-divider"></div>
-
-            <!-- 3. Bagian Account -->
-            <div class="sidebar-section">
-                <div class="section-heading">AKUN</div>
-                <nav class="sidebar-nav-list">
-                    <a href="javascript:void(0)" onclick="openProfileModal()" class="nav-link-gorditas">
+            <!-- Footer Logout -->
+            <div class="sidebar-footer">
+                <form action="{{ route('logout') }}" method="POST" id="logoutForm">
+                    @csrf
+                    <a href="javascript:void(0)" onclick="openLogoutModal()" class="nav-link-item logout">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
                         </svg>
-                        Profil
+                        Logout
                     </a>
-                    <form action="{{ route('logout') }}" method="POST" id="logoutForm">
-                        @csrf
-                        <a href="javascript:void(0)" onclick="document.getElementById('logoutForm').submit()" class="nav-link-gorditas" style="color:rgba(255,160,160,.85);">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                                <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
-                            </svg>
-                            Keluar
-                        </a>
-                    </form>
-                </nav>
+                </form>
             </div>
 
         </aside>
 
-        <!-- ─── MAIN CONTENT ───────────────────────────────────── -->
+        <!-- ─── MAIN CONTENT ─── -->
         <main class="main-wrapper">
             <!-- Topbar -->
             <header class="topbar">
-                <h1 class="page-title">@yield('page_title', 'Home')</h1>
+                <h1 class="page-title">@yield('page_title', 'Dashboard')</h1>
                 <div class="topbar-actions">
-                    <!-- Bell Icon -->
-                    <button class="topbar-btn" title="Notifikasi" aria-label="Notifikasi">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#000000">
-                            <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+                    <div class="topbar-date-pill">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        <span>{{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</span>
+                    </div>
+
+                    <button class="topbar-btn" title="Notifikasi" onclick="window.showSinfasToast('success', 'Sistem SINFAS Aktif', 'Semua layanan berjalan lancar.')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                         </svg>
                     </button>
 
-                    <!-- Help Question Icon -->
-                    <button class="topbar-btn" title="Bantuan" aria-label="Bantuan">
-                        <svg width="22" height="22" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="11" fill="#000000"/>
-                            <text x="12" y="16.5" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle" font-family="'Poppins', sans-serif">?</text>
-                        </svg>
-                    </button>
+                    <div class="topbar-profile-trigger" onclick="openProfileModal()">
+                        <div class="topbar-avatar">
+                            {{ strtoupper(substr(Auth::user()->nama ?? 'A', 0, 1)) }}
+                        </div>
+                        <div style="display:flex;flex-direction:column;line-height:1.2;">
+                            <span style="font-size:13px;font-weight:600;color:#1E293B;">{{ Auth::user()->nama ?? 'Admin Sarana' }}</span>
+                            <span style="font-size:11px;color:#64748B;">Administrator</span>
+                        </div>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
                 </div>
             </header>
-
-            <!-- Alerts -->
-            <div style="padding: 0 36px;">
-                @if(session('success'))
-                    <div class="alert-sinfas alert-success">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        <span>{{ session('success') }}</span>
-                    </div>
-                @endif
-
-                @if(session('error'))
-                    <div class="alert-sinfas alert-danger">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                        <span>{{ session('error') }}</span>
-                    </div>
-                @endif
-            </div>
 
             <!-- Page Body -->
             <div class="page-content">
@@ -635,49 +675,115 @@
         </main>
     </div>
 
-    <!-- Modal Profil Admin Sarana (Tema Login SINFAS) -->
+    <!-- Modal Profil & Pengaturan Akun Admin Sarana -->
     <div id="profileModal" class="modal-overlay">
-        <div class="modal-card">
-            <div class="modal-card-top"></div>
+        <div class="modal-card" style="max-width: 480px;">
             <div class="modal-header">
-                <div class="modal-title">Profil Pengguna</div>
+                <div class="modal-title">Profil & Akun Admin Sarana</div>
                 <button class="modal-close-btn" onclick="closeModal('profileModal')">&times;</button>
             </div>
-            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
-                <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--color-light-blue-bubble), var(--color-dark-blue-bubble)); border: 2px solid var(--color-border-blue); display: flex; align-items: center; justify-content: center; font-family: 'Gorditas', cursive; font-size: 24px; font-weight: 700; color: #FFFFFF; box-shadow: 0 4px 12px rgba(44, 74, 124, 0.25);">
-                    {{ substr(Auth::user()->nama ?? 'A', 0, 1) }}
+            
+            <form action="{{ route('user.profile.update') }}" method="POST">
+                @csrf
+                @method('PUT')
+
+                <!-- Hero Profile Info -->
+                <div style="display:flex;align-items:center;gap:14px;background:#F8FAFC;padding:16px;border-radius:14px;border:1px solid #E2E8F0;margin-bottom:18px;">
+                    <div style="width:54px;height:54px;border-radius:14px;background:#2D4E9E;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#FFFFFF;flex-shrink:0;box-shadow:0 4px 12px rgba(45,78,158,0.25);">
+                        {{ strtoupper(substr(Auth::user()->nama ?? 'A', 0, 1)) }}
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-family:'Outfit',sans-serif;font-size:16.5px;font-weight:700;color:#1E293B;">{{ Auth::user()->nama ?? 'Admin Sarana' }}</div>
+                        <div style="font-size:12.5px;color:#64748B;">Username: <strong style="color:#334155;">{{ '@' . (Auth::user()->username ?? 'admin') }}</strong></div>
+                        <div style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#059669;font-weight:600;background:#ECFDF5;padding:2px 8px;border-radius:99px;margin-top:4px;border:1px solid #A7F3D0;">
+                            <span style="width:6px;height:6px;border-radius:50%;background:#10B981;"></span>
+                            Admin Sarana &bull; Aktif
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <div style="font-family: 'Gorditas', cursive; font-size: 16px; font-weight: 700; color: #0F172A;">{{ Auth::user()->nama ?? 'Admin Sarana' }}</div>
-                    <div style="font-size: 13px; color: #64748B;">Username: {{ Auth::user()->username ?? 'admin' }}</div>
-                    <div style="font-size: 13px; color: var(--color-border-blue); font-weight: 600;">Role: {{ Auth::user()->role ?? 'admin_sarana' }}</div>
+
+                <!-- Fields -->
+                <div class="form-group">
+                    <label class="form-label">Nama Lengkap <span style="color:#E11D48;">*</span></label>
+                    <input type="text" name="nama" class="form-control" value="{{ Auth::user()->nama ?? '' }}" required>
                 </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nomor WhatsApp / HP</label>
+                    <input type="text" name="nomor_kontak" class="form-control" value="{{ Auth::user()->nomor_kontak ?? '' }}" placeholder="08xxxxxxxxxx">
+                </div>
+
+                <!-- Ubah Password -->
+                <div style="margin-top:16px;border-top:1px solid #F1F5F9;padding-top:14px;">
+                    <div style="font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:700;color:#1E293B;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        Ubah Password <span style="font-size:11px;font-weight:400;color:#94A3B8;">(Opsional)</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Password Saat Ini</label>
+                        <input type="password" name="current_password" class="form-control" placeholder="Isi jika ingin mengganti password">
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Password Baru</label>
+                            <input type="password" name="new_password" class="form-control" placeholder="Min. 6 karakter">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label class="form-label">Konfirmasi Password</label>
+                            <input type="password" name="new_password_confirmation" class="form-control" placeholder="Ulangi password">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer" style="margin-top:20px;">
+                    <button type="button" class="btn-cancel" onclick="closeModal('profileModal')">Tutup</button>
+                    <button type="submit" class="btn-primary" style="background:#2D4E9E;">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Konfirmasi Logout -->
+    <div id="logoutConfirmModal" class="modal-overlay">
+        <div class="modal-card" style="max-width: 400px; text-align: center;">
+            <div style="width: 52px; height: 52px; border-radius: 50%; background: #FFF1F2; color: #E11D48; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 14px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-cancel" onclick="closeModal('profileModal')">Tutup</button>
+            <div style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; color: #1E293B; margin-bottom: 6px;">Konfirmasi Keluar</div>
+            <p style="font-size: 13px; color: #64748B; margin-bottom: 20px; line-height: 1.5;">
+                Apakah Anda yakin ingin keluar dari akun ini? Sesi Anda akan diakhiri.
+            </p>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button type="button" class="btn-cancel" onclick="closeModal('logoutConfirmModal')" style="flex: 1;">Batal</button>
+                <button type="button" onclick="document.getElementById('logoutForm').submit()" style="flex: 1; padding: 8px 18px; border-radius: var(--radius-md); background: #E11D48; color: #FFFFFF; border: none; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.15s;" onmouseover="this.style.background='#BE123C'" onmouseout="this.style.background='#E11D48'">Ya, Keluar</button>
             </div>
         </div>
     </div>
 
-    <!-- Toast Notifications Container Sesuai Mockup -->
+    <!-- Toast Notifications -->
     <div class="sinfas-toast-container" id="toastContainer">
         @if(session('success'))
             <div class="sinfas-toast-card" id="sessionToast">
                 <div class="toast-icon-circle success">✓</div>
                 <div class="toast-text-wrap">
                     <div class="toast-title">{{ session('toast_title') ?? session('success') }}</div>
-                    <div class="toast-subtitle">{{ session('toast_subtitle') ?? 'Data telah berhasil disimpan dan disinkronkan ke dalam sistem.' }}</div>
+                    <div class="toast-subtitle">{{ session('toast_subtitle') ?? 'Data berhasil disimpan ke sistem.' }}</div>
                 </div>
                 <button type="button" class="toast-close-btn" onclick="this.closest('.sinfas-toast-card').remove()">&times;</button>
             </div>
         @endif
-
         @if(session('error'))
             <div class="sinfas-toast-card" id="sessionToastErr">
                 <div class="toast-icon-circle error">✗</div>
                 <div class="toast-text-wrap">
                     <div class="toast-title">{{ session('toast_title') ?? session('error') }}</div>
-                    <div class="toast-subtitle">{{ session('toast_subtitle') ?? 'Terjadi kesalahan sistem, silakan periksa input data Anda.' }}</div>
+                    <div class="toast-subtitle">{{ session('toast_subtitle') ?? 'Terjadi kesalahan, periksa input Anda.' }}</div>
                 </div>
                 <button type="button" class="toast-close-btn" onclick="this.closest('.sinfas-toast-card').remove()">&times;</button>
             </div>
@@ -686,37 +792,31 @@
 
     <script>
         function openModal(id) {
-            const modal = document.getElementById(id);
-            if (modal) modal.classList.add('active');
+            const m = document.getElementById(id);
+            if (m) { m.classList.add('active'); m.classList.add('open'); }
         }
-
         function closeModal(id) {
-            const modal = document.getElementById(id);
-            if (modal) modal.classList.remove('active');
+            const m = document.getElementById(id);
+            if (m) { m.classList.remove('active'); m.classList.remove('open'); }
         }
+        function openProfileModal() { openModal('profileModal'); }
+        function openLogoutModal() { openModal('logoutConfirmModal'); }
 
-        function openProfileModal() {
-            openModal('profileModal');
-        }
-
-        // Close when clicking outside
         window.addEventListener('click', function(e) {
             if (e.target.classList.contains('modal-overlay')) {
                 e.target.classList.remove('active');
+                e.target.classList.remove('open');
             }
         });
 
-        // Global Toast Trigger Function
         window.showSinfasToast = function(type, title, subtitle) {
             const container = document.getElementById('toastContainer');
             if (!container) return;
-
             const toast = document.createElement('div');
             toast.className = 'sinfas-toast-card';
             const icon = type === 'success' ? '✓' : '✗';
             const iconClass = type === 'success' ? 'success' : 'error';
-            const sub = subtitle || (type === 'success' ? 'Data telah berhasil disimpan dan disinkronkan ke dalam sistem.' : 'Terjadi kesalahan pada sistem.');
-
+            const sub = subtitle || (type === 'success' ? 'Data berhasil disimpan.' : 'Terjadi kesalahan.');
             toast.innerHTML = `
                 <div class="toast-icon-circle ${iconClass}">${icon}</div>
                 <div class="toast-text-wrap">
@@ -725,23 +825,19 @@
                 </div>
                 <button type="button" class="toast-close-btn" onclick="this.closest('.sinfas-toast-card').remove()">&times;</button>
             `;
-
             container.appendChild(toast);
-
             setTimeout(() => {
                 toast.style.opacity = '0';
-                toast.style.transform = 'translateY(15px)';
-                setTimeout(() => toast.remove(), 300);
+                toast.style.transform = 'translateY(10px)';
+                setTimeout(() => toast.remove(), 250);
             }, 4000);
         };
 
-        // Auto dismiss session toasts after 4 seconds
         setTimeout(function() {
-            const sessionToasts = document.querySelectorAll('.sinfas-toast-card');
-            sessionToasts.forEach(function(el) {
+            document.querySelectorAll('.sinfas-toast-card').forEach(function(el) {
                 el.style.opacity = '0';
-                el.style.transform = 'translateY(15px)';
-                setTimeout(() => el.remove(), 300);
+                el.style.transform = 'translateY(10px)';
+                setTimeout(() => el.remove(), 250);
             });
         }, 4000);
     </script>
@@ -749,4 +845,3 @@
     @yield('scripts')
 </body>
 </html>
-

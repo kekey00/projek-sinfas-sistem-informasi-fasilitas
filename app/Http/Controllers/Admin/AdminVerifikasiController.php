@@ -77,7 +77,9 @@ class AdminVerifikasiController extends Controller
             $barang->decrement('jumlah_baik', 1);
         });
 
-        return back()->with('success', 'Pengajuan peminjaman #' . $peminjaman->kode_pinjam . ' berhasil DISETUJUI!');
+        return back()
+            ->with('success', 'Pengajuan peminjaman #' . $peminjaman->kode_pinjam . ' berhasil disetujui!')
+            ->with('toast_title', 'Persetujuan pengajuan berhasil');
     }
 
     /**
@@ -88,7 +90,9 @@ class AdminVerifikasiController extends Controller
         $peminjaman = Peminjaman::findOrFail($kode_pinjam);
 
         if ($peminjaman->status_pengajuan !== 'menunggu') {
-            return back()->with('error', 'Status pengajuan peminjaman ini sudah diproses sebelumnya.');
+            return back()
+                ->with('error', 'Status pengajuan peminjaman ini sudah diproses sebelumnya.')
+                ->with('toast_title', 'Penolakan pengajuan gagal');
         }
 
         $alasan = $request->input('alasan') ?: $request->input('alasan_penolakan', 'Ditolak oleh admin sarana');
@@ -98,7 +102,9 @@ class AdminVerifikasiController extends Controller
             'keterangan_penggunaan' => $peminjaman->keterangan_penggunaan . ($alasan ? ' [Catatan: ' . $alasan . ']' : ''),
         ]);
 
-        return back()->with('success', 'Pengajuan peminjaman #' . $peminjaman->kode_pinjam . ' telah DITOLAK.');
+        return back()
+            ->with('success', 'Pengajuan peminjaman #' . $peminjaman->kode_pinjam . ' telah ditolak.')
+            ->with('toast_title', 'Penolakan pengajuan berhasil');
     }
 
     /**
@@ -109,27 +115,37 @@ class AdminVerifikasiController extends Controller
         $request->validate([
             'kondisi_barang'  => 'required|in:Baik,Kurang Baik,Rusak Berat',
             'tanggal_kembali' => 'required|date',
-            'catatan'         => 'nullable|string',
+            'catatan'         => 'nullable|string|max:500',
+            'bukti_foto'      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
         ], [
             'kondisi_barang.required'  => 'Pilih kondisi fisik alat saat dikembalikan.',
             'tanggal_kembali.required' => 'Tanggal pengembalian wajib diisi.',
+            'bukti_foto.image'         => 'File bukti harus berupa gambar (JPG, PNG, WebP).',
+            'bukti_foto.max'           => 'Ukuran foto maksimal 5 MB.',
         ]);
 
         $peminjaman = Peminjaman::with('barang')->findOrFail($kode_pinjam);
 
         // Pastikan belum pernah dikembalikan
         if ($peminjaman->pengembalian()->exists()) {
-            return back()->with('error', 'Peminjaman ini sudah tercatat telah dikembalikan sebelumnya.');
+            return back()
+                ->with('error', 'Peminjaman ini sudah tercatat telah dikembalikan sebelumnya.')
+                ->with('toast_title', 'Konfirmasi pengembalian barang gagal');
         }
 
         DB::transaction(function () use ($request, $peminjaman) {
+            $fotoPath = null;
+            if ($request->hasFile('bukti_foto')) {
+                $fotoPath = $request->file('bukti_foto')->store('pengembalian', 'public');
+            }
+
             // 1. Buat catatan pengembalian
             Pengembalian::create([
-                'kode_kembali'    => Pengembalian::generateKode(),
-                'kode_pinjam'     => $peminjaman->kode_pinjam,
-                'tanggal_kembali' => $request->tanggal_kembali,
-                'kondisi_barang'  => $request->kondisi_barang,
-                'bukti_foto_video'=> $request->catatan,
+                'kode_kembali'     => Pengembalian::generateKode(),
+                'kode_pinjam'      => $peminjaman->kode_pinjam,
+                'tanggal_kembali'  => $request->tanggal_kembali,
+                'kondisi_barang'   => $request->kondisi_barang,
+                'bukti_foto_video' => $fotoPath ?? $request->catatan,
             ]);
 
             // 2. Pulihkan / sesuaikan stok alat sesuai kondisi saat kembali
@@ -145,6 +161,8 @@ class AdminVerifikasiController extends Controller
             }
         });
 
-        return back()->with('success', 'Pengembalian alat untuk peminjaman #' . $peminjaman->kode_pinjam . ' berhasil diverifikasi & stok diperbarui!');
+        return back()
+            ->with('success', 'Pengembalian alat untuk peminjaman #' . $peminjaman->kode_pinjam . ' berhasil diverifikasi & stok fisik diperbarui!')
+            ->with('toast_title', 'Konfirmasi pengembalian barang berhasil');
     }
 }
