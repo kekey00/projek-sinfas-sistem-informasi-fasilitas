@@ -31,13 +31,15 @@ class UserProfileController extends Controller
 
         $rules = [
             'nama'         => 'required|string|max:255',
+            'username'     => 'nullable|string|max:50|unique:akun,username,' . $user->id_akun . ',id_akun',
             'email'        => 'nullable|email|max:255',
-            'nomor_kontak' => 'nullable|string|max:20',
+            'nomor_kontak' => 'nullable|string|max:50',
         ];
 
         $messages = [
-            'nama.required' => 'Nama lengkap wajib diisi.',
-            'email.email'   => 'Format email tidak valid.',
+            'nama.required'   => 'Nama lengkap wajib diisi.',
+            'username.unique' => 'Username ini sudah digunakan.',
+            'email.email'     => 'Format email tidak valid.',
         ];
 
         // Validasi ganti password jika diisi
@@ -66,6 +68,10 @@ class UserProfileController extends Controller
                 'nama'         => $request->nama,
                 'nomor_kontak' => $request->nomor_kontak,
             ];
+
+            if ($request->filled('username')) {
+                $updateData['username'] = $request->username;
+            }
 
             if ($request->filled('new_password')) {
                 $updateData['password'] = Hash::make($request->new_password);

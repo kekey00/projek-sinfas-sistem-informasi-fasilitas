@@ -256,7 +256,7 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
-        <span>Back to Home</span>
+        <span>Kembali ke Beranda</span>
     </a>
 
     <!-- HEADING -->
@@ -344,22 +344,22 @@
                         @if($isReturned)
                             <span class="status-badge-genz returned">
                                 <span class="badge-dot"></span>
-                                <span>Returned</span>
+                                <span>Dikembalikan</span>
                             </span>
                         @elseif($isApproved)
                             <span class="status-badge-genz approved">
                                 <span class="badge-dot"></span>
-                                <span>Approved</span>
+                                <span>Disetujui</span>
                             </span>
                         @elseif($isPending)
                             <span class="status-badge-genz pending">
                                 <span class="badge-dot"></span>
-                                <span>Pending</span>
+                                <span>Menunggu</span>
                             </span>
                         @elseif($isRejected)
                             <span class="status-badge-genz rejected">
                                 <span class="badge-dot"></span>
-                                <span>Rejected</span>
+                                <span>Ditolak</span>
                             </span>
                         @endif
                     </div>

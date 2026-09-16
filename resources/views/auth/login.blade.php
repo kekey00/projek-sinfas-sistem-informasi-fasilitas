@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - SINFAS</title>
+    <title>Masuk - SINFAS</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="sinfas-bg">
@@ -39,7 +39,7 @@
 
         <!-- Right Form Column -->
         <div class="flex-1 w-full p-8 md:p-10 flex flex-col justify-center bg-white">
-            <h1 class="playful-title mb-8">LOGIN</h1>
+            <h1 class="playful-title mb-8">MASUK</h1>
 
             <form action="{{ route('login.process') }}" method="POST" class="space-y-5">
                 @csrf
@@ -66,17 +66,17 @@
 
                 <!-- Password Input -->
                 <div>
-                    <label for="password" class="sinfas-label">Password</label>
-                    <input type="password" id="password" name="password" class="sinfas-input" placeholder="Masukkan password..." required>
+                    <label for="password" class="sinfas-label">Kata Sandi</label>
+                    <input type="password" id="password" name="password" class="sinfas-input" placeholder="Masukkan kata sandi..." required>
                     <!-- Lupa Password Link -->
                     <div class="text-right mt-1.5">
-                        <a href="#" class="text-[13px] text-[#3B5998] hover:text-[#5B8DEF] underline font-semibold transition duration-200">Lupa Password ?</a>
+                        <a href="#" class="text-[13px] text-[#3B5998] hover:text-[#5B8DEF] underline font-semibold transition duration-200">Lupa Kata Sandi ?</a>
                     </div>
                 </div>
 
                 <!-- Login Button -->
                 <div class="pt-2">
-                    <button type="submit" class="sinfas-button">Login</button>
+                    <button type="submit" class="sinfas-button">Masuk</button>
                 </div>
             </form>
 

@@ -588,6 +588,15 @@
                     Kelola Sistem
                 </a>
 
+                <!-- Pengaturan Akun -->
+                <a href="{{ route('sistem.profile') }}" class="nav-link-item {{ request()->routeIs('sistem.profile') ? 'active' : '' }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Pengaturan Akun
+                </a>
+
             </nav>
         </div>
 
@@ -615,7 +624,7 @@
         <header class="topbar">
             <h1 class="page-title">@yield('page_title', 'Beranda')</h1>
             <div class="topbar-actions">
-                <button type="button" class="admin-profile-pill" onclick="openProfileModal()">
+                <a href="{{ route('sistem.profile') }}" class="admin-profile-pill" style="text-decoration:none;">
                     <div class="profile-avatar-circle">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -626,7 +635,7 @@
                         <span class="profile-name-text">{{ Auth::user()->nama ?? 'Admin Sistem' }}</span>
                         <span class="profile-role-sub">Operator Sistem</span>
                     </div>
-                </button>
+                </a>
             </div>
         </header>
 
@@ -676,26 +685,26 @@
                 <input type="text" name="nomor_kontak" class="form-control" value="{{ Auth::user()->nomor_kontak ?? '' }}" placeholder="08xxxxxxxxxx">
             </div>
 
-            <!-- Ubah Password -->
+            <!-- Ubah Kata Sandi -->
             <div style="margin-top:16px;border-top:1px solid #F1F5F9;padding-top:14px;">
                 <div style="font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:700;color:#1E293B;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                    Ubah Password <span style="font-size:11px;font-weight:400;color:#94A3B8;">(Opsional)</span>
+                    Ubah Kata Sandi <span style="font-size:11px;font-weight:400;color:#94A3B8;">(Opsional)</span>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Password Saat Ini</label>
-                    <input type="password" name="current_password" class="form-control" placeholder="Isi jika ingin mengganti password">
+                    <label class="form-label">Kata Sandi Saat Ini</label>
+                    <input type="password" name="current_password" class="form-control" placeholder="Isi jika ingin mengganti kata sandi">
                 </div>
 
                 <div class="form-grid-2">
                     <div class="form-group" style="margin-bottom:0;">
-                        <label class="form-label">Password Baru</label>
+                        <label class="form-label">Kata Sandi Baru</label>
                         <input type="password" name="new_password" class="form-control" placeholder="Min. 6 karakter">
                     </div>
                     <div class="form-group" style="margin-bottom:0;">
-                        <label class="form-label">Konfirmasi Password</label>
-                        <input type="password" name="new_password_confirmation" class="form-control" placeholder="Ulangi password">
+                        <label class="form-label">Konfirmasi Kata Sandi</label>
+                        <input type="password" name="new_password_confirmation" class="form-control" placeholder="Ulangi kata sandi baru">
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 @extends('layouts.user')
 
-@section('title', 'Request Loan ' . $barang->nama_barang . ' - SINFAS')
+@section('title', 'Pinjam ' . $barang->nama_barang . ' - SINFAS')
 
 @section('styles')
 <style>
@@ -236,7 +236,7 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
-        <span>Back to Home</span>
+        <span>Kembali ke Katalog</span>
     </a>
 
     @php
@@ -250,7 +250,7 @@
             <div class="facility-hero-image-wrap">
                 <span class="badge-status-glow" style="background: {{ $isAvailable ? 'linear-gradient(135deg, #10B981, #059669)' : 'linear-gradient(135deg, #F43F5E, #E11D48)' }};">
                     <span style="width: 6px; height: 6px; border-radius: 50%; background: #fff;"></span>
-                    <span>{{ $isAvailable ? 'Available' : 'Habis' }}</span>
+                    <span>{{ $isAvailable ? 'Tersedia' : 'Habis' }}</span>
                 </span>
 
                 @if($barang->foto)
@@ -275,7 +275,7 @@
                         <div class="spec-val">{{ $barang->kondisi ?? 'Baik' }} ✨</div>
                     </div>
                     <div class="spec-chip-item">
-                        <div class="spec-label">Stok Ready</div>
+                        <div class="spec-label">Stok Tersedia</div>
                         <div class="spec-val">{{ $barang->jumlah_baik }} Unit 📦</div>
                     </div>
                     @if($barang->merk_model)
@@ -298,7 +298,7 @@
         <!-- RIGHT PANEL: LOAN REQUEST FORM -->
         <div class="form-card-vibe">
             <div class="form-title-wrap">
-                <h2 class="form-title-text">Loan Request Form 📝</h2>
+                <h2 class="form-title-text">Formulir Peminjaman 📝</h2>
                 <p class="form-title-sub">Isi keperluan peminjaman fasilitas untuk diverifikasi Admin Sarpras.</p>
             </div>
 
@@ -320,7 +320,7 @@
                     <div class="form-input-group">
                         <label class="form-label-vibe">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                            <span>Borrower Name</span>
+                            <span>Nama Peminjam</span>
                         </label>
                         <input type="text" class="form-control-vibe" value="{{ Auth::user()->nama }}" readonly title="Nama peminjam terverifikasi">
                     </div>
@@ -329,7 +329,7 @@
                     <div class="form-input-group">
                         <label class="form-label-vibe">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="16" rx="2"></rect><line x1="7" y1="8" x2="17" y2="8"></line><line x1="7" y1="12" x2="13" y2="12"></line></svg>
-                            <span>Borrower Identity / NIM / NIS</span>
+                            <span>Nomor Induk Siswa (NIS)</span>
                         </label>
                         <input type="text" class="form-control-vibe" value="{{ Auth::user()->nis ?? '-' }}" readonly title="NIS resmi">
                     </div>
@@ -338,7 +338,7 @@
                     <div class="form-input-group">
                         <label for="keterangan_penggunaan" class="form-label-vibe">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                            <span>Purpose / Reason (Keperluan Pinjam)</span>
+                            <span>Keperluan Pinjam</span>
                         </label>
                         <textarea id="keterangan_penggunaan" name="keterangan_penggunaan" class="form-control-vibe" rows="3"
                                   placeholder="Contoh: Digunakan untuk presentasi kelas atau dokumentasi kegiatan OSIS..." required>{{ old('keterangan_penggunaan') }}</textarea>
@@ -352,7 +352,7 @@
                         <div class="form-input-group">
                             <label for="tanggal_pinjam" class="form-label-vibe">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                <span>Borrow Date</span>
+                                <span>Tanggal Pinjam</span>
                             </label>
                             <input type="date" id="tanggal_pinjam" name="tanggal_pinjam" class="form-control-vibe"
                                    value="{{ old('tanggal_pinjam', date('Y-m-d')) }}" min="{{ date('Y-m-d') }}" required>
@@ -364,7 +364,7 @@
                         <div class="form-input-group">
                             <label for="tanggal_kembali" class="form-label-vibe">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
-                                <span>Return Date</span>
+                                <span>Tanggal Pengembalian</span>
                             </label>
                             <input type="date" id="tanggal_kembali" name="tanggal_kembali" class="form-control-vibe"
                                    value="{{ old('tanggal_kembali', date('Y-m-d', strtotime('+1 day'))) }}" min="{{ date('Y-m-d', strtotime('+1 day')) }}" required>
@@ -375,7 +375,7 @@
                     </div>
 
                     <button type="submit" class="btn-submit-loan-vibe" id="btn-submit-loan">
-                        <span>Submit Loan Request</span>
+                        <span>Ajukan Peminjaman</span>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </button>
 

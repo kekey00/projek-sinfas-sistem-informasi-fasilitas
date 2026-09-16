@@ -614,6 +614,13 @@
                         </svg>
                         Riwayat Peminjaman
                     </a>
+                    <a href="{{ route('admin.profile') }}" class="nav-link-item {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                        Pengaturan Akun
+                    </a>
                 </nav>
             </div>
 
@@ -655,7 +662,7 @@
                         </svg>
                     </button>
 
-                    <div class="topbar-profile-trigger" onclick="openProfileModal()">
+                    <a href="{{ route('admin.profile') }}" class="topbar-profile-trigger" style="text-decoration:none;">
                         <div class="topbar-avatar">
                             {{ strtoupper(substr(Auth::user()->nama ?? 'A', 0, 1)) }}
                         </div>
@@ -664,7 +671,7 @@
                             <span style="font-size:11px;color:#64748B;">Administrator</span>
                         </div>
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                    </div>
+                    </a>
                 </div>
             </header>
 
@@ -713,26 +720,26 @@
                     <input type="text" name="nomor_kontak" class="form-control" value="{{ Auth::user()->nomor_kontak ?? '' }}" placeholder="08xxxxxxxxxx">
                 </div>
 
-                <!-- Ubah Password -->
+                <!-- Ubah Kata Sandi -->
                 <div style="margin-top:16px;border-top:1px solid #F1F5F9;padding-top:14px;">
                     <div style="font-family:'Outfit',sans-serif;font-size:13.5px;font-weight:700;color:#1E293B;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                        Ubah Password <span style="font-size:11px;font-weight:400;color:#94A3B8;">(Opsional)</span>
+                        Ubah Kata Sandi <span style="font-size:11px;font-weight:400;color:#94A3B8;">(Opsional)</span>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Password Saat Ini</label>
-                        <input type="password" name="current_password" class="form-control" placeholder="Isi jika ingin mengganti password">
+                        <label class="form-label">Kata Sandi Saat Ini</label>
+                        <input type="password" name="current_password" class="form-control" placeholder="Isi jika ingin mengganti kata sandi">
                     </div>
 
                     <div class="form-grid-2">
                         <div class="form-group" style="margin-bottom:0;">
-                            <label class="form-label">Password Baru</label>
+                            <label class="form-label">Kata Sandi Baru</label>
                             <input type="password" name="new_password" class="form-control" placeholder="Min. 6 karakter">
                         </div>
                         <div class="form-group" style="margin-bottom:0;">
-                            <label class="form-label">Konfirmasi Password</label>
-                            <input type="password" name="new_password_confirmation" class="form-control" placeholder="Ulangi password">
+                            <label class="form-label">Konfirmasi Kata Sandi</label>
+                            <input type="password" name="new_password_confirmation" class="form-control" placeholder="Ulangi kata sandi baru">
                         </div>
                     </div>
                 </div>

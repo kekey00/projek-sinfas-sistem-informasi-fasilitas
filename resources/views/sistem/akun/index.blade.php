@@ -539,11 +539,11 @@
             <div class="form-grid-2">
                 <div class="form-group">
                     <label class="form-label">Nama Lengkap <span style="color:#EF4444;">*</span></label>
-                    <input type="text" name="nama" class="form-control" placeholder="e.g. Budi Santoso" required>
+                    <input type="text" name="nama" class="form-control" placeholder="Contoh: Budi Santoso" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Username <span style="color:#EF4444;">*</span></label>
-                    <input type="text" name="username" class="form-control" placeholder="e.g. budi.s" required>
+                    <input type="text" name="username" class="form-control" placeholder="Contoh: budi.s" required>
                 </div>
             </div>
 
@@ -560,26 +560,26 @@
             <div class="form-grid-2">
                 <div class="form-group" id="addNisGroup">
                     <label class="form-label">NIS (Nomor Induk Siswa)</label>
-                    <input type="text" name="nis" class="form-control" placeholder="e.g. 10006" id="addNisInput">
+                    <input type="text" name="nis" class="form-control" placeholder="Contoh: 10006" id="addNisInput">
                 </div>
                 <div class="form-group" id="addNipGroup" style="display:none;">
                     <label class="form-label">NIP (Nomor Induk Pegawai)</label>
-                    <input type="text" name="nip" class="form-control" placeholder="e.g. 198801012010011001" id="addNipInput">
+                    <input type="text" name="nip" class="form-control" placeholder="Contoh: 198801012010011001" id="addNipInput">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Nomor HP</label>
-                    <input type="text" name="nomor_kontak" class="form-control" placeholder="e.g. 0812345678">
+                    <input type="text" name="nomor_kontak" class="form-control" placeholder="Contoh: 0812345678">
                 </div>
             </div>
 
             <div class="form-grid-2">
                 <div class="form-group">
-                    <label class="form-label">Password <span style="color:#EF4444;">*</span></label>
+                    <label class="form-label">Kata Sandi <span style="color:#EF4444;">*</span></label>
                     <input type="password" name="password" class="form-control" placeholder="Min. 6 karakter" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Konfirmasi Password <span style="color:#EF4444;">*</span></label>
-                    <input type="password" name="password_confirmation" class="form-control" placeholder="Ulangi password" required>
+                    <label class="form-label">Konfirmasi Kata Sandi <span style="color:#EF4444;">*</span></label>
+                    <input type="password" name="password_confirmation" class="form-control" placeholder="Ulangi kata sandi" required>
                 </div>
             </div>
 
@@ -624,7 +624,7 @@
             <div class="form-grid-2">
                 <div class="form-group" id="editNisGroup">
                     <label class="form-label">NIS</label>
-                    <input type="text" id="edit_nis" name="nis" class="form-control" placeholder="e.g. 10001">
+                    <input type="text" id="edit_nis" name="nis" class="form-control" placeholder="Contoh: 10001">
                 </div>
                 <div class="form-group" id="editNipGroup" style="display:none;">
                     <label class="form-label">NIP</label>
@@ -638,12 +638,12 @@
 
             <div class="form-grid-2">
                 <div class="form-group">
-                    <label class="form-label">Password Baru <small style="color:#94A3B8; font-weight:400;">(kosongkan jika tidak diubah)</small></label>
-                    <input type="password" name="password" class="form-control" placeholder="Password baru...">
+                    <label class="form-label">Kata Sandi Baru <small style="color:#94A3B8; font-weight:400;">(kosongkan jika tidak diubah)</small></label>
+                    <input type="password" name="password" class="form-control" placeholder="Kata sandi baru...">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Konfirmasi Password</label>
-                    <input type="password" name="password_confirmation" class="form-control" placeholder="Ulangi password...">
+                    <label class="form-label">Konfirmasi Kata Sandi</label>
+                    <input type="password" name="password_confirmation" class="form-control" placeholder="Ulangi kata sandi...">
                 </div>
             </div>
 

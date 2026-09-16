@@ -367,7 +367,7 @@
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
                 <input type="text" name="q" value="{{ request('q') }}" class="search-input-clean"
-                       placeholder="Search in this table... (Cari projector, mic, speaker, papan tulis)" id="input-search">
+                       placeholder="Cari fasilitas... (proyektor, mic, speaker, papan tulis)" id="input-search">
                 <button type="submit" class="btn-search-trigger">
                     <span>Cari</span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -407,7 +407,7 @@
                 <div class="card-image-aspect">
                     <span class="status-pill-floating {{ $isAvailable ? 'available' : 'empty' }}">
                         <span class="status-dot-pulse"></span>
-                        <span>{{ $isAvailable ? 'Available' : 'Habis' }}</span>
+                        <span>{{ $isAvailable ? 'Tersedia' : 'Habis' }}</span>
                     </span>
 
                     @if($b->foto)
@@ -430,7 +430,7 @@
 
                     @if($isAvailable)
                         <a href="{{ route('user.barang.show', $b->kode_barang) }}" class="btn-loan-request-modern" id="btn-request-{{ $b->kode_barang }}">
-                            <span>Request Loan</span>
+                            <span>Pinjam Fasilitas</span>
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                         </a>
                     @else

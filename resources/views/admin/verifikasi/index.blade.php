@@ -291,14 +291,14 @@
 <div class="verify-tabs-bar">
     <a href="{{ route('admin.verifikasi.index', ['tab' => 'requests']) }}"
        class="verify-tab-item {{ $tab === 'requests' ? 'active' : '' }}">
-        <span>Pending Requests</span>
+        <span>Pengajuan Pinjaman</span>
         @if($pendingRequests->total() > 0)
             <span class="tab-badge-pill">{{ $pendingRequests->total() }}</span>
         @endif
     </a>
     <a href="{{ route('admin.verifikasi.index', ['tab' => 'returns']) }}"
        class="verify-tab-item {{ $tab === 'returns' ? 'active' : '' }}">
-        <span>Pending Returns</span>
+        <span>Pengembalian Barang</span>
         @if($activeLoans->total() > 0)
             <span class="tab-badge-pill">{{ $activeLoans->total() }}</span>
         @endif

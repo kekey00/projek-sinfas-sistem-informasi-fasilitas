@@ -505,7 +505,7 @@
                 @forelse($barangs as $item)
                 @php
                     $isAvailable = $item->jumlah_baik > 0;
-                    $statusText  = $isAvailable ? 'Available' : 'Unavailable';
+                    $statusText  = $isAvailable ? 'Tersedia' : 'Tidak Tersedia';
                     $statusClass = $isAvailable ? 'available' : 'unavailable';
                 @endphp
                 <tr>
@@ -614,7 +614,7 @@
             <!-- Nama Barang -->
             <div class="item-form-group">
                 <label class="item-form-label">Nama Barang / Alat</label>
-                <input type="text" name="nama_barang" class="item-form-input" placeholder="e.g. Projector Epson X300 / Kamera DSLR" required>
+                <input type="text" name="nama_barang" class="item-form-input" placeholder="Contoh: Proyektor Epson X300 / Kamera DSLR" required>
             </div>
 
             <!-- Kategori -->
@@ -640,18 +640,18 @@
             <!-- Merk/Model -->
             <div class="item-form-group">
                 <label class="item-form-label">Merk / Model</label>
-                <input type="text" name="merk_model" class="item-form-input" placeholder="e.g. Sony, Epson, Logitech">
+                <input type="text" name="merk_model" class="item-form-input" placeholder="Contoh: Sony, Epson, Logitech">
             </div>
 
             <!-- No Seri Pabrik & Ukuran/Dimensi -->
             <div class="item-grid-2 item-form-group">
                 <div>
                     <label class="item-form-label">No Seri Pabrik</label>
-                    <input type="text" name="no_seri_pabrik" class="item-form-input" placeholder="e.g. SN1294819">
+                    <input type="text" name="no_seri_pabrik" class="item-form-input" placeholder="Contoh: SN1294819">
                 </div>
                 <div>
                     <label class="item-form-label">Ukuran / Dimensi</label>
-                    <input type="text" name="ukuran_dimensi" class="item-form-input" placeholder="e.g. 30×20×10 cm">
+                    <input type="text" name="ukuran_dimensi" class="item-form-input" placeholder="Contoh: 30×20×10 cm">
                 </div>
             </div>
 
@@ -659,11 +659,11 @@
             <div class="item-grid-2 item-form-group">
                 <div>
                     <label class="item-form-label">Bahan</label>
-                    <input type="text" name="bahan" class="item-form-input" placeholder="e.g. Plastik / Alumunium">
+                    <input type="text" name="bahan" class="item-form-input" placeholder="Contoh: Plastik / Alumunium">
                 </div>
                 <div>
                     <label class="item-form-label">Tahun Pembelian</label>
-                    <input type="number" name="tahun_pembelian" class="item-form-input" placeholder="e.g. 2024" min="1900" max="{{ date('Y') + 1 }}">
+                    <input type="number" name="tahun_pembelian" class="item-form-input" placeholder="Contoh: 2024" min="1900" max="{{ date('Y') + 1 }}">
                 </div>
             </div>
 
@@ -686,7 +686,7 @@
             <!-- Keterangan -->
             <div class="item-form-group">
                 <label class="item-form-label">Keterangan Tambahan</label>
-                <input type="text" name="keterangan" class="item-form-input" placeholder="e.g. Tersedia di Lemari Lab 2">
+                <input type="text" name="keterangan" class="item-form-input" placeholder="Contoh: Tersedia di Lemari Lab 2">
             </div>
 
             <!-- Footer: Cancel & Save -->

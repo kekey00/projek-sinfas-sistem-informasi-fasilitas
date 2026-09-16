@@ -27,7 +27,7 @@
         
         <!-- Left Column with WELCOME text -->
         <div class="hidden lg:flex flex-col justify-start items-start w-[400px] xl:w-[450px] z-10 self-stretch pt-24">
-            <h1 class="text-7xl font-bold text-black font-['Gorditas'] tracking-widest select-none" style="text-shadow: 6px 6px 16px rgba(0, 0, 0, 0.95);">WELCOME</h1>
+            <h1 class="text-6xl font-bold text-black font-['Plus_Jakarta_Sans'] tracking-widest select-none leading-tight" style="text-shadow: 6px 6px 16px rgba(0, 0, 0, 0.95);">SELAMAT<br>DATANG</h1>
         </div>
 
         <!-- The Register Card (Width 450px, padding 40px) -->
@@ -44,7 +44,7 @@
 
             <!-- Card Content (form) -->
             <div class="relative z-10 p-6 md:p-8 w-full flex flex-col justify-center">
-                <h1 class="playful-title mb-4">REGISTER</h1>
+                <h1 class="playful-title mb-4">DAFTAR</h1>
 
                 {{-- Tampilkan error validasi jika ada --}}
                 @if ($errors->any())
@@ -68,7 +68,7 @@
                     <!-- Username Input -->
                     <div>
                         <label for="username" class="sinfas-label">Username</label>
-                        <input type="text" id="username" name="username" value="{{ old('username') }}" class="sinfas-input" placeholder="Buat username untuk login..." required>
+                        <input type="text" id="username" name="username" value="{{ old('username') }}" class="sinfas-input" placeholder="Buat username untuk masuk..." required>
                     </div>
 
                     <!-- NIS Input -->
@@ -85,14 +85,14 @@
 
                     <!-- Password Input -->
                     <div>
-                        <label for="password" class="sinfas-label">Password</label>
-                        <input type="password" id="password" name="password" class="sinfas-input" placeholder="Buat password (min. 6 karakter)..." required>
+                        <label for="password" class="sinfas-label">Kata Sandi</label>
+                        <input type="password" id="password" name="password" class="sinfas-input" placeholder="Buat kata sandi (min. 6 karakter)..." required>
                     </div>
 
                     <!-- Konfirmasi Password Input -->
                     <div>
-                        <label for="password_confirmation" class="sinfas-label">Konfirmasi Password</label>
-                        <input type="password" id="password_confirmation" name="password_confirmation" class="sinfas-input" placeholder="Ulangi password..." required>
+                        <label for="password_confirmation" class="sinfas-label">Konfirmasi Kata Sandi</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" class="sinfas-input" placeholder="Ulangi kata sandi..." required>
                     </div>
 
                     <!-- Submit Button -->

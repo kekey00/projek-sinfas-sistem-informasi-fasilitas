@@ -346,7 +346,7 @@
                 @csrf
                 <div class="form-group-cat">
                     <label class="form-label-cat">Nama Kategori</label>
-                    <input type="text" name="nama_kategori" class="form-control-cat" placeholder="e.g. Audio Visual, Proyektor, Kamera" required>
+                    <input type="text" name="nama_kategori" class="form-control-cat" placeholder="Contoh: Audio Visual, Proyektor, Kamera" required>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn-cancel" onclick="closeModal('addCategoryModal')">Batal</button>

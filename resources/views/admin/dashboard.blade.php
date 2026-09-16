@@ -471,7 +471,7 @@
     <div class="dash-header-wrap">
         <div>
             <div class="header-badge-row">
-                <span class="genz-pill"><span class="pulse-green"></span> Live Monitor</span>
+                <span class="genz-pill"><span class="pulse-green"></span> Pemantauan Langsung</span>
                 <span class="genz-date">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>

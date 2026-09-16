@@ -609,10 +609,10 @@
             </div>
             <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 8px;">Cara Pinjam Fasilitas ⚡</h3>
             <div style="text-align: left; font-size: 13.5px; color: var(--text-secondary); line-height: 1.7; margin: 20px 0; background: #F8FAFC; padding: 18px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-                <p style="margin-bottom: 8px;">🚀 <strong>1. Eksplor:</strong> Pilih barang di katalog & klik <em>Request Loan</em>.</p>
-                <p style="margin-bottom: 8px;">📝 <strong>2. Formulir:</strong> Isi alasan & tanggal pinjam.</p>
-                <p style="margin-bottom: 8px;">⏳ <strong>3. Verifikasi:</strong> Tunggu approval kilat dari Admin Sarpras.</p>
-                <p>📦 <strong>4. Balikin:</strong> Upload foto kondisi barang saat pengembalian.</p>
+                <p style="margin-bottom: 8px;">🚀 <strong>1. Eksplorasi:</strong> Pilih barang di katalog & klik <em>Pinjam Fasilitas</em>.</p>
+                <p style="margin-bottom: 8px;">📝 <strong>2. Formulir:</strong> Isi keperluan & tanggal pinjam.</p>
+                <p style="margin-bottom: 8px;">⏳ <strong>3. Verifikasi:</strong> Tunggu persetujuan dari Admin Sarpras.</p>
+                <p>📦 <strong>4. Pengembalian:</strong> Unggah foto kondisi barang saat pengembalian.</p>
             </div>
             <button type="button" class="btn-genz-primary" onclick="toggleHelpModal()" style="width: 100%;">Siap, Paham!</button>
         </div>
@@ -658,7 +658,7 @@
 
     <!-- FOOTER -->
     <footer class="glass-footer">
-        <strong>SINFAS</strong> &bull; Sistem Informasi Fasilitas Sekolah Next-Gen &bull; {{ date('Y') }}
+        <strong>SINFAS</strong> &bull; Sistem Informasi Fasilitas Sekolah &bull; {{ date('Y') }}
     </footer>
 
     <script>

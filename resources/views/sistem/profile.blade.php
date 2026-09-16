@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.sistem')
 
 @section('title', 'Pengaturan Akun - SINFAS')
 @section('page_title', 'Pengaturan Akun')
@@ -487,7 +487,7 @@
 
     <!-- BREADCRUMB -->
     <div class="profile-top-breadcrumb">
-        <a href="{{ route('admin.dashboard') }}">Beranda</a>
+        <a href="{{ route('sistem.dashboard') }}">Beranda</a>
         <span>/</span>
         <span>Pengaturan Akun</span>
     </div>
@@ -542,7 +542,7 @@
                 <div class="avatar-action-row">
                     <div class="avatar-circle-wrapper">
                         <div class="avatar-img-view" id="avatarDisplayBox">
-                            {{ strtoupper(substr($user->nama ?? 'A', 0, 2)) }}
+                            {{ strtoupper(substr($user->nama ?? 'S', 0, 2)) }}
                         </div>
                         <div class="camera-badge-circle" onclick="document.getElementById('avatarFileInput').click()" title="Ganti Foto">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -564,7 +564,7 @@
                 </div>
 
                 <!-- FORM EDIT PROFIL -->
-                <form action="{{ route('admin.profile.update') }}" method="POST">
+                <form action="{{ route('sistem.profile.update') }}" method="POST">
                     @csrf
                     @method('PUT')
 
@@ -585,7 +585,7 @@
                     <div class="form-grid-pair">
                         <div class="form-group-custom">
                             <label class="form-label-custom">Email</label>
-                            <input type="email" name="email" class="form-input-custom" value="{{ old('email', $user->email ?? 'sarana@sinfas.sch.id') }}" placeholder="contoh@gmail.com">
+                            <input type="email" name="email" class="form-input-custom" value="{{ old('email', $user->email ?? 'sistem@sinfas.sch.id') }}" placeholder="contoh@gmail.com">
                         </div>
 
                         <div class="form-group-custom">
@@ -626,19 +626,19 @@
                     <div class="form-grid-pair">
                         <div class="form-group-custom">
                             <label class="form-label-custom">Jabatan / Role</label>
-                            <input type="text" class="form-input-custom" value="Admin Sarana & Prasarana" readonly>
+                            <input type="text" class="form-input-custom" value="Admin Sistem / Operator" readonly>
                         </div>
 
                         <div class="form-group-custom">
                             <label class="form-label-custom">Instansi / Unit Kerja</label>
-                            <input type="text" class="form-input-custom" value="SMK SINFAS - Sarana Prasarana" readonly>
+                            <input type="text" class="form-input-custom" value="SMK SINFAS - Teknologi Informasi" readonly>
                         </div>
                     </div>
 
                     <!-- Baris 5: Alamat Ruangan / Kantor (Full Width) -->
                     <div class="form-group-custom" style="margin-bottom: 26px;">
                         <label class="form-label-custom">Alamat Kantor / Penempatan Ruang</label>
-                        <input type="text" name="alamat_kantor" class="form-input-custom" value="Gedung Utama Sarana & Prasarana, Lantai 1" placeholder="Alamat ruangan atau kantor...">
+                        <input type="text" name="alamat_kantor" class="form-input-custom" value="Ruang Server & IT, Gedung Utama, Lantai 2" placeholder="Alamat ruangan atau kantor...">
                     </div>
 
                     <!-- TOMBOL SIMPAN PERUBAHAN -->
@@ -656,7 +656,7 @@
                     <p style="font-size:13.5px; color:#64748B;">Pastikan kata sandi Anda kuat dan minimal terdiri dari 6 karakter.</p>
                 </div>
 
-                <form action="{{ route('admin.profile.update') }}" method="POST">
+                <form action="{{ route('sistem.profile.update') }}" method="POST">
                     @csrf
                     @method('PUT')
                     <input type="hidden" name="nama" value="{{ $user->nama }}">
@@ -688,14 +688,14 @@
             <div id="panel-notifications" class="tab-content-panel">
                 <div style="margin-bottom: 24px;">
                     <h2 style="font-family:'Outfit',sans-serif; font-size:18px; font-weight:700; color:#1E293B; margin-bottom:4px;">Preferensi Notifikasi</h2>
-                    <p style="font-size:13.5px; color:#64748B;">Atur pemberitahuan peminjaman fasilitas yang ingin Anda terima.</p>
+                    <p style="font-size:13.5px; color:#64748B;">Atur pemberitahuan sistem yang ingin Anda terima.</p>
                 </div>
 
                 <div>
                     <div class="notif-toggle-row">
                         <div class="notif-info-wrap">
-                            <span class="notif-title-txt">Pengajuan Peminjaman Baru</span>
-                            <span class="notif-desc-txt">Terima pemberitahuan seketika saat ada siswa yang mengajukan peminjaman.</span>
+                            <span class="notif-title-txt">Registrasi Akun Baru</span>
+                            <span class="notif-desc-txt">Terima pemberitahuan seketika saat ada pengguna baru mendaftar di sistem.</span>
                         </div>
                         <label class="switch-ui">
                             <input type="checkbox" checked>
@@ -705,8 +705,8 @@
 
                     <div class="notif-toggle-row">
                         <div class="notif-info-wrap">
-                            <span class="notif-title-txt">Konfirmasi Pengembalian Barang</span>
-                            <span class="notif-desc-txt">Dapatkan notifikasi saat siswa mengunggah bukti pengembalian fisik barang.</span>
+                            <span class="notif-title-txt">Perubahan Data Akun</span>
+                            <span class="notif-desc-txt">Dapatkan notifikasi saat data akun pengguna diubah atau diperbarui.</span>
                         </div>
                         <label class="switch-ui">
                             <input type="checkbox" checked>
@@ -716,8 +716,8 @@
 
                     <div class="notif-toggle-row">
                         <div class="notif-info-wrap">
-                            <span class="notif-title-txt">Peringatan Stok Fasilitas Menipis</span>
-                            <span class="notif-desc-txt">Peringatan otomatis saat stok barang siap pakai tersisa kurang dari 2 unit.</span>
+                            <span class="notif-title-txt">Peringatan Keamanan Sistem</span>
+                            <span class="notif-desc-txt">Peringatan otomatis saat terdeteksi aktivitas mencurigakan atau login gagal berulang.</span>
                         </div>
                         <label class="switch-ui">
                             <input type="checkbox" checked>
@@ -728,7 +728,7 @@
                     <div class="notif-toggle-row">
                         <div class="notif-info-wrap">
                             <span class="notif-title-txt">Laporan Mingguan Sistem</span>
-                            <span class="notif-desc-txt">Ringkasan aktivitas peminjaman dan barang rusak yang perlu perawatan.</span>
+                            <span class="notif-desc-txt">Ringkasan aktivitas sistem, jumlah pengguna aktif, dan status server.</span>
                         </div>
                         <label class="switch-ui">
                             <input type="checkbox">
@@ -746,13 +746,13 @@
             <div id="panel-verification" class="tab-content-panel">
                 <div style="margin-bottom: 24px;">
                     <h2 style="font-family:'Outfit',sans-serif; font-size:18px; font-weight:700; color:#1E293B; margin-bottom:4px;">Status & Verifikasi Akun</h2>
-                    <p style="font-size:13.5px; color:#64748B;">Informasi integritas dan otorisasi kredensial administrator Anda.</p>
+                    <p style="font-size:13.5px; color:#64748B;">Informasi integritas dan otorisasi kredensial administrator sistem Anda.</p>
                 </div>
 
                 <div class="verif-box-item">
                     <div>
                         <div style="font-weight: 700; color:#1E293B; font-size:14px; margin-bottom:2px;">Status Akun</div>
-                        <div style="font-size:12.5px; color:#64748B;">Akun resmi terdaftar di database sekolah</div>
+                        <div style="font-size:12.5px; color:#64748B;">Akun resmi terdaftar sebagai operator sistem</div>
                     </div>
                     <span class="verif-badge-success">
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -763,10 +763,10 @@
                 <div class="verif-box-item">
                     <div>
                         <div style="font-weight: 700; color:#1E293B; font-size:14px; margin-bottom:2px;">Tingkat Otoritas</div>
-                        <div style="font-size:12.5px; color:#64748B;">Hak akses verifikasi & master data barang</div>
+                        <div style="font-size:12.5px; color:#64748B;">Hak akses penuh: kelola akun, pengaturan, & keamanan sistem</div>
                     </div>
                     <span style="font-size:12.5px; font-weight:700; color:#1E3BB3; background:#EFF6FF; padding:4px 12px; border-radius:99px; border:1px solid #BFDBFE;">
-                        Admin Sarana Prasarana
+                        Admin Sistem / Operator
                     </span>
                 </div>
 
@@ -835,7 +835,7 @@
     // Reset avatar
     function resetAvatar() {
         const box = document.getElementById('avatarDisplayBox');
-        box.innerHTML = '{{ strtoupper(substr($user->nama ?? "A", 0, 2)) }}';
+        box.innerHTML = '{{ strtoupper(substr($user->nama ?? "S", 0, 2)) }}';
         document.getElementById('avatarFileInput').value = '';
         window.showSinfasToast('info', 'Foto Direset', 'Foto profil dikembalikan ke inisial nama.');
     }

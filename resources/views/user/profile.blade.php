@@ -339,6 +339,10 @@
                     <span class="id-info-value">{{ $siswa->email ?? ($user->email ?? 'siswa@sinfas.sch.id') }}</span>
                 </div>
                 <div class="id-info-row">
+                    <span class="id-info-label">Kelas</span>
+                    <span class="id-info-value">{{ $user->nomor_kontak ?? '-' }}</span>
+                </div>
+                <div class="id-info-row">
                     <span class="id-info-label">Jenis Kelamin</span>
                     <span class="id-info-value">Perempuan</span>
                 </div>
@@ -379,8 +383,8 @@
 
                     <div class="form-row-3">
                         <div class="form-field">
-                            <label class="form-label-txt">Kelas / Keperluan</label>
-                            <input type="text" name="nomor_kontak" class="form-input-txt" value="{{ old('nomor_kontak', $user->nomor_kontak ?? '') }}" placeholder="e.g. XII RPL / Panitia">
+                            <label class="form-label-txt">Kelas</label>
+                            <input type="text" name="nomor_kontak" class="form-input-txt" value="{{ old('nomor_kontak', $user->nomor_kontak ?? '') }}" placeholder="Contoh: XII RPL 1">
                         </div>
                         <div class="form-field">
                             <label class="form-label-txt">Jenis Kelamin</label>
@@ -407,14 +411,14 @@
                 </form>
             </div>
 
-            <!-- FORM 2: GANTI PASSWORD -->
+            <!-- FORM 2: GANTI KATA SANDI -->
             <div class="card-settings-box">
                 <div class="card-settings-header">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                         <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                     </svg>
-                    <span>Ganti Password</span>
+                    <span>Ganti Kata Sandi</span>
                 </div>
 
                 <form method="POST" action="{{ route('user.profile.update') }}">
@@ -425,16 +429,16 @@
 
                     <div class="form-row-3">
                         <div class="form-field">
-                            <label class="form-label-txt">Password Lama</label>
-                            <input type="password" name="current_password" class="form-input-txt" placeholder="Password lama" required>
+                            <label class="form-label-txt">Kata Sandi Lama</label>
+                            <input type="password" name="current_password" class="form-input-txt" placeholder="Kata sandi lama" required>
                         </div>
                         <div class="form-field">
-                            <label class="form-label-txt">Password Baru</label>
+                            <label class="form-label-txt">Kata Sandi Baru</label>
                             <input type="password" name="new_password" class="form-input-txt" placeholder="Minimal 6 karakter" required>
                         </div>
                         <div class="form-field">
-                            <label class="form-label-txt">Konfirmasi Password</label>
-                            <input type="password" name="new_password_confirmation" class="form-input-txt" placeholder="Ulangi password baru" required>
+                            <label class="form-label-txt">Konfirmasi Kata Sandi</label>
+                            <input type="password" name="new_password_confirmation" class="form-input-txt" placeholder="Ulangi kata sandi baru" required>
                         </div>
                     </div>
 
@@ -442,7 +446,7 @@
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                         </svg>
-                        <span>Ubah Password</span>
+                        <span>Ubah Kata Sandi</span>
                     </button>
                 </form>
             </div>

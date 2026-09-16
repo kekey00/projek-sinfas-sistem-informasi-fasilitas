@@ -275,7 +275,7 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
-        <span>Back to Status Pengajuan</span>
+        <span>Kembali ke Status Pengajuan</span>
     </a>
 
     @php
@@ -381,11 +381,11 @@
                     @enderror
                 </div>
 
-                <!-- UPLOAD BUKTI FOTO -->
+                <!-- UNGGAH BUKTI FOTO -->
                 <div class="form-group-vibe">
                     <label class="label-vibe-bold">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-                        <span>Upload Foto Kondisi Barang</span>
+                        <span>Unggah Foto Kondisi Barang</span>
                     </label>
 
                     <div class="dropzone-vibe-box" onclick="document.getElementById('bukti_foto').click()">
