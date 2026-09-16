@@ -779,8 +779,8 @@
             <div class="sinfas-toast-card" id="sessionToast">
                 <div class="toast-icon-circle success">✓</div>
                 <div class="toast-text-wrap">
-                    <div class="toast-title">{{ session('toast_title') ?? session('success') }}</div>
-                    <div class="toast-subtitle">{{ session('toast_subtitle') ?? 'Data berhasil disimpan ke sistem.' }}</div>
+                    <div class="toast-title">{{ session('toast_title') ?? 'Berhasil' }}</div>
+                    <div class="toast-subtitle">{{ session('toast_subtitle') ?? session('success') }}</div>
                 </div>
                 <button type="button" class="toast-close-btn" onclick="this.closest('.sinfas-toast-card').remove()">&times;</button>
             </div>
@@ -789,8 +789,8 @@
             <div class="sinfas-toast-card" id="sessionToastErr">
                 <div class="toast-icon-circle error">✗</div>
                 <div class="toast-text-wrap">
-                    <div class="toast-title">{{ session('toast_title') ?? session('error') }}</div>
-                    <div class="toast-subtitle">{{ session('toast_subtitle') ?? 'Terjadi kesalahan, periksa input Anda.' }}</div>
+                    <div class="toast-title">{{ session('toast_title') ?? 'Terjadi Kesalahan' }}</div>
+                    <div class="toast-subtitle">{{ session('toast_subtitle') ?? session('error') }}</div>
                 </div>
                 <button type="button" class="toast-close-btn" onclick="this.closest('.sinfas-toast-card').remove()">&times;</button>
             </div>

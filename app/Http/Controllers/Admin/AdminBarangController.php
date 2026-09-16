@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Kategori;
+use App\Models\Peminjaman;
+use App\Models\Pengembalian;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class AdminBarangController extends Controller
@@ -196,24 +199,49 @@ class AdminBarangController extends Controller
     {
         $barang = Barang::findOrFail($kode);
 
-        // Cek jika barang sedang dipinjam
-        if ($barang->isSedangDipinjam()) {
+        // Cek jika barang sedang aktif dipinjam atau sedang menunggu persetujuan
+        $sedangDipinjam = $barang->peminjamans()
+            ->where(function ($q) {
+                $q->where('status_pengajuan', 'menunggu')
+                  ->orWhere(function ($q2) {
+                      $q2->where('status_pengajuan', 'disetujui')
+                         ->whereDoesntHave('pengembalian');
+                  });
+            })->exists();
+
+        if ($sedangDipinjam) {
             return redirect()->route('admin.barang.index')
-                ->with('error', 'Barang "' . $barang->nama_barang . '" tidak dapat dihapus karena saat ini sedang aktif dipinjam!')
-                ->with('toast_title', 'Penghapusan data gagal');
+                ->with('error', 'Barang "' . $barang->nama_barang . '" tidak dapat dihapus karena saat ini sedang aktif dipinjam atau ada pengajuan yang belum diproses!')
+                ->with('toast_title', 'Penghapusan Gagal');
         }
 
-        // Hapus file foto
-        if ($barang->foto && Storage::disk('public')->exists($barang->foto)) {
-            Storage::disk('public')->delete($barang->foto);
+        try {
+            $nama = $barang->nama_barang;
+
+            DB::transaction(function () use ($barang) {
+                // Hapus data riwayat pengembalian terkait peminjaman barang ini
+                $kodePinjams = Peminjaman::where('kode_barang', $barang->kode_barang)->pluck('kode_pinjam');
+                if ($kodePinjams->isNotEmpty()) {
+                    Pengembalian::whereIn('kode_pinjam', $kodePinjams)->delete();
+                    Peminjaman::where('kode_barang', $barang->kode_barang)->delete();
+                }
+
+                // Hapus file foto dari storage
+                if ($barang->foto && Storage::disk('public')->exists($barang->foto)) {
+                    Storage::disk('public')->delete($barang->foto);
+                }
+
+                $barang->delete();
+            });
+
+            return redirect()->route('admin.barang.index')
+                ->with('success', 'Data alat/barang "' . $nama . '" berhasil dihapus!')
+                ->with('toast_title', 'Berhasil Dihapus');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.barang.index')
+                ->with('error', 'Gagal menghapus barang: ' . $e->getMessage())
+                ->with('toast_title', 'Penghapusan Gagal');
         }
-
-        $nama = $barang->nama_barang;
-        $barang->delete();
-
-        return redirect()->route('admin.barang.index')
-            ->with('success', 'Data alat/barang "' . $nama . '" berhasil dihapus!')
-            ->with('toast_title', 'Penghapusan data telah berhasil');
     }
 
 }

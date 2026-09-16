@@ -191,20 +191,19 @@
 
     .card-facility-vibe {
         background: #FFFFFF;
-        border: 1.5px solid #E2E8F0;
+        border: none;
         border-radius: 22px;
         overflow: hidden;
         display: flex;
         flex-direction: column;
         transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        box-shadow: 0 4px 15px rgba(15, 23, 42, 0.03);
+        box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
         position: relative;
     }
 
     .card-facility-vibe:hover {
         transform: translateY(-8px);
-        border-color: rgba(99, 102, 241, 0.5);
-        box-shadow: 0 20px 35px -8px rgba(99, 102, 241, 0.18), 0 8px 16px -4px rgba(15, 23, 42, 0.04);
+        box-shadow: 0 20px 35px -8px rgba(99, 102, 241, 0.18), 0 8px 16px -4px rgba(15, 23, 42, 0.06);
     }
 
     .card-image-aspect {
@@ -216,7 +215,7 @@
         align-items: center;
         justify-content: center;
         overflow: hidden;
-        border-bottom: 1px solid #F1F5F9;
+        border-bottom: none;
     }
 
     .card-image-aspect img {

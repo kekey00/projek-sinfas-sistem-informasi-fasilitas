@@ -554,7 +554,7 @@
                                 Edit
                             </button>
                             <form action="{{ route('admin.barang.destroy', $item->kode_barang) }}" method="POST"
-                                style="display:inline;" onsubmit="return confirm('Hapus alat {{ $item->nama_barang }} dari sistem?')">
+                                style="display:inline;" onsubmit="return confirm('Hapus alat {{ addslashes($item->nama_barang) }} dari sistem?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-delete-pill">

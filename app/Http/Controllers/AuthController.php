@@ -45,6 +45,7 @@ class AuthController extends Controller
             'username' => 'required|string|max:50|unique:akun,username',
             'nis' => 'required|string|max:20|unique:akun,nis',
             'email' => 'required|email|max:255',
+            'no_telepon' => 'required|string|max:20',
             'password' => 'required|string|min:6|confirmed',
         ], [
             'nama.required' => 'Nama lengkap wajib diisi!',
@@ -54,6 +55,7 @@ class AuthController extends Controller
             'nis.unique' => 'NIS sudah terdaftar akun!',
             'email.required' => 'Email wajib diisi!',
             'email.email' => 'Format email tidak valid!',
+            'no_telepon.required' => 'Nomor telepon wajib diisi!',
             'password.required' => 'Password wajib diisi!',
             'password.min' => 'Password minimal 6 karakter!',
             'password.confirmed' => 'Konfirmasi password tidak cocok!',
@@ -66,6 +68,7 @@ class AuthController extends Controller
                 [
                     'nama' => $request->nama,
                     'email' => $request->email,
+                    'no_hp' => $request->no_telepon,
                     'updated_at' => now(),
                     'created_at' => now(),
                 ]
@@ -75,6 +78,7 @@ class AuthController extends Controller
             Akun::create([
                 'nis' => $request->nis,
                 'nama' => $request->nama,
+                'nomor_kontak' => $request->no_telepon,
                 'role' => 'siswa',
                 'username' => $request->username,
                 'password' => Hash::make($request->password),
