@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\Peminjaman;
 use App\Models\Pengembalian;
+use App\Models\Siswa;
+use App\Models\Akun;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -33,10 +35,13 @@ class PeminjamanController extends Controller
     {
         $request->validate([
             'kode_barang'           => 'required|string|exists:barang,kode_barang',
+            'nomor_telepon'         => 'required|string|max:20',
             'tanggal_pinjam'        => 'required|date|after_or_equal:today',
             'tanggal_kembali'       => 'required|date|after:tanggal_pinjam',
             'keterangan_penggunaan' => 'required|string|max:1000',
         ], [
+            'nomor_telepon.required'         => 'Nomor telepon / WhatsApp peminjam wajib diisi.',
+            'nomor_telepon.max'              => 'Nomor telepon maksimal 20 karakter.',
             'tanggal_pinjam.required'        => 'Tanggal pinjam wajib diisi.',
             'tanggal_pinjam.after_or_equal'  => 'Tanggal pinjam tidak boleh sebelum hari ini.',
             'tanggal_kembali.required'       => 'Rencana tanggal kembali wajib diisi.',
@@ -56,12 +61,22 @@ class PeminjamanController extends Controller
         Peminjaman::create([
             'kode_pinjam'           => $kodePinjam,
             'nis'                   => Auth::user()->nis,
+            'nomor_telepon'         => $request->nomor_telepon,
             'kode_barang'           => $request->kode_barang,
             'tanggal_pinjam'        => $request->tanggal_pinjam,
             'tanggal_kembali'       => $request->tanggal_kembali,
             'keterangan_penggunaan' => $request->keterangan_penggunaan,
             'status_pengajuan'      => 'menunggu',
         ]);
+
+        // Perbarui nomor kontak di akun & data siswa agar profil selalu terupdate
+        $user = Auth::user();
+        if ($user) {
+            Akun::where('id_akun', $user->id_akun)->update(['nomor_kontak' => $request->nomor_telepon]);
+            if ($user->nis) {
+                Siswa::where('nis', $user->nis)->update(['no_hp' => $request->nomor_telepon]);
+            }
+        }
 
         return redirect()->route('user.status')
             ->with('loan_submitted', true)

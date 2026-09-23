@@ -330,6 +330,10 @@
                                 <span>Kategori: <strong>{{ $barang->kategori->nama_kategori ?? '-' }}</strong></span>
                                 <span>&bull;</span>
                                 <span>{{ $pjm->tanggal_pinjam ? $pjm->tanggal_pinjam->format('d M Y') : '-' }} &rarr; {{ $pjm->tanggal_kembali ? $pjm->tanggal_kembali->format('d M Y') : '-' }}</span>
+                                @if($pjm->nomor_telepon)
+                                    <span>&bull;</span>
+                                    <span>No. Telp: <strong>{{ $pjm->nomor_telepon }}</strong></span>
+                                @endif
                             </div>
                             @if($pjm->keterangan_penggunaan)
                                 <div style="font-size: 13px; color: #475569; margin-top: 4px;">

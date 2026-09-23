@@ -40,7 +40,7 @@
                 <h2 class="text-2xl xl:text-3xl font-black font-['Outfit'] text-white tracking-tight mt-4 leading-snug drop-shadow-sm">
                     Fasilitas<br>Sekolah
                 </h2>
-                <p class="text-xs font-medium text-blue-100/90 font-['Outfit'] mt-2 leading-relaxed">
+                <p class="text-xs font-medium text-blue-100/90 font-['Outfit'] mt-2.5 leading-relaxed max-w-[170px]">
                     Sistem peminjaman sarana prasarana sekolah yang cepat, rapi, dan terdata.
                 </p>
             </div>

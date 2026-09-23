@@ -334,6 +334,21 @@
                         <input type="text" class="form-control-vibe" value="{{ Auth::user()->nis ?? '-' }}" readonly title="NIS resmi">
                     </div>
 
+                    <!-- BORROWER PHONE NUMBER -->
+                    <div class="form-input-group">
+                        <label for="nomor_telepon" class="form-label-vibe">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                            <span>Nomor Telepon / WhatsApp</span>
+                        </label>
+                        <input type="tel" id="nomor_telepon" name="nomor_telepon" class="form-control-vibe"
+                               placeholder="Contoh: 081234567890"
+                               value="{{ old('nomor_telepon', Auth::user()->nomor_kontak ?? (Auth::user()->siswa->no_hp ?? '')) }}"
+                               required>
+                        @error('nomor_telepon')
+                            <span style="font-size:12px; color:var(--badge-rose); display:block; margin-top:4px;">{{ $message }}</span>
+                        @enderror
+                    </div>
+
                     <!-- PURPOSE / REASON -->
                     <div class="form-input-group">
                         <label for="keterangan_penggunaan" class="form-label-vibe">

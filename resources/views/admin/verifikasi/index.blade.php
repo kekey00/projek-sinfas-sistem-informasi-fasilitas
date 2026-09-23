@@ -342,6 +342,19 @@
                             <div>
                                 <div style="font-weight: 600; color: #0F172A;">{{ $pjm->siswa->nama ?? 'Siswa' }}</div>
                                 <div style="font-size: 11.5px; color: #64748B;">NIS: {{ $pjm->nis }}</div>
+                                @php
+                                    $phoneReq = $pjm->nomor_telepon ?? ($pjm->siswa->nomor_kontak ?? null);
+                                @endphp
+                                @if($phoneReq)
+                                    <div style="font-size: 11.5px; margin-top: 2px;">
+                                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', (str_starts_with($phoneReq, '0') ? '62'.substr($phoneReq, 1) : $phoneReq)) }}"
+                                           target="_blank"
+                                           style="color: #059669; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 3px;"
+                                           title="Hubungi via WhatsApp">
+                                            <span>📱 {{ $phoneReq }}</span>
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </td>
@@ -439,6 +452,19 @@
                             <div>
                                 <div style="font-weight: 600; color: #0F172A;">{{ $active->siswa->nama ?? 'Siswa' }}</div>
                                 <div style="font-size: 11.5px; color: #64748B;">NIS: {{ $active->nis }}</div>
+                                @php
+                                    $phoneAct = $active->nomor_telepon ?? ($active->siswa->nomor_kontak ?? null);
+                                @endphp
+                                @if($phoneAct)
+                                    <div style="font-size: 11.5px; margin-top: 2px;">
+                                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', (str_starts_with($phoneAct, '0') ? '62'.substr($phoneAct, 1) : $phoneAct)) }}"
+                                           target="_blank"
+                                           style="color: #059669; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 3px;"
+                                           title="Hubungi via WhatsApp">
+                                            <span>📱 {{ $phoneAct }}</span>
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </td>
@@ -542,6 +568,19 @@
                             <div>
                                 <div style="font-weight: 600; color: #0F172A;">{{ $hist->siswa->nama ?? 'Siswa' }}</div>
                                 <div style="font-size: 11.5px; color: #64748B;">NIS: {{ $hist->nis }}</div>
+                                @php
+                                    $phoneHist = $hist->nomor_telepon ?? ($hist->siswa->nomor_kontak ?? null);
+                                @endphp
+                                @if($phoneHist)
+                                    <div style="font-size: 11.5px; margin-top: 2px;">
+                                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', (str_starts_with($phoneHist, '0') ? '62'.substr($phoneHist, 1) : $phoneHist)) }}"
+                                           target="_blank"
+                                           style="color: #059669; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 3px;"
+                                           title="Hubungi via WhatsApp">
+                                            <span>📱 {{ $phoneHist }}</span>
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </td>
