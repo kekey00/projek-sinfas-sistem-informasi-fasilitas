@@ -24,9 +24,9 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        background: #EFF6FF;
-        color: #2D4E9E;
-        border: 1px solid rgba(45, 78, 158, 0.2);
+        background: #EEF2FF;
+        color: #4F46E5;
+        border: 1px solid rgba(79, 70, 229, 0.2);
         border-radius: 9999px;
         padding: 3px 10px;
         font-size: 11.5px;
@@ -92,9 +92,9 @@
         overflow: hidden;
     }
     .stat-card:hover {
-        box-shadow: 0 12px 28px -6px rgba(45, 78, 158, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 12px 28px -6px rgba(79, 70, 229, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
         transform: translateY(-3px);
-        border-color: rgba(45, 78, 158, 0.25);
+        border-color: rgba(79, 70, 229, 0.25);
     }
 
     .stat-icon {
@@ -110,7 +110,7 @@
     .stat-card:hover .stat-icon {
         transform: scale(1.06);
     }
-    .stat-icon.blue   { background: #EFF6FF; color: #2D4E9E; border: 1px solid rgba(45, 78, 158, 0.15); }
+    .stat-icon.blue   { background: #EEF2FF; color: #4F46E5; border: 1px solid rgba(79, 70, 229, 0.15); }
     .stat-icon.green  { background: #ECFDF5; color: #059669; border: 1px solid rgba(5, 150, 105, 0.15); }
     .stat-icon.red    { background: #FFF1F2; color: #E11D48; border: 1px solid rgba(225, 29, 72, 0.15); }
     .stat-icon.amber  { background: #FFFBEB; color: #D97706; border: 1px solid rgba(217, 119, 6, 0.15); }
@@ -206,13 +206,13 @@
         white-space: nowrap;
     }
     .tab-capsule-btn:hover {
-        color: #2D4E9E;
+        color: #4F46E5;
         background: rgba(255, 255, 255, 0.6);
     }
     .tab-capsule-btn.active {
-        background: #2D4E9E;
+        background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
         color: #FFFFFF;
-        box-shadow: 0 3px 10px rgba(45, 78, 158, 0.30);
+        box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
     }
 
     /* ─── TABLE RIWAYAT ─── */
@@ -266,7 +266,7 @@
         flex-shrink: 0;
         box-shadow: 0 0 0 2px #FFFFFF, 0 2px 6px rgba(0,0,0,0.08);
     }
-    .av-blue   { background: #2D4E9E; }
+    .av-blue   { background: linear-gradient(135deg, #4F46E5, #7C3AED); }
     .av-teal   { background: #0D9488; }
     .av-sky    { background: #0284C7; }
     .av-indigo { background: #4F46E5; }
@@ -462,6 +462,46 @@
         transition: background 0.15s ease;
     }
     .btn-submit:hover { background: #243f85; }
+
+    /* ─── RESPONSIVE RULES (MOBILE) ─── */
+    @media (max-width: 768px) {
+        .dash-title {
+            font-size: 20px;
+        }
+        .header-badge-row {
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .section-card-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+            padding: 16px;
+        }
+        .tab-bar-capsule {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 3px;
+        }
+        .pending-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 16px;
+        }
+        .chart-card {
+            padding: 18px 16px;
+        }
+        .chart-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .chart-canvas-wrap {
+            height: 200px;
+        }
+    }
 </style>
 @endsection
 

@@ -345,6 +345,56 @@
         font-weight: 600;
     }
     .page-btn.disabled { opacity: 0.4; cursor: default; pointer-events: none; }
+
+    /* ─── RESPONSIVE RULES (MOBILE) ─── */
+    @media (max-width: 768px) {
+        .table-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 14px;
+            padding: 16px 14px;
+        }
+
+        .table-controls {
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .table-controls form {
+            flex-direction: column;
+            align-items: stretch !important;
+            width: 100%;
+            gap: 10px !important;
+        }
+
+        .search-box, .search-box input {
+            width: 100% !important;
+        }
+
+        .filter-select {
+            width: 100%;
+        }
+
+        .btn-add-akun {
+            justify-content: center;
+            width: 100%;
+        }
+
+        .pagination-wrap {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 14px;
+            gap: 12px;
+        }
+
+        .pagination-links {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    }
 </style>
 @endsection
 

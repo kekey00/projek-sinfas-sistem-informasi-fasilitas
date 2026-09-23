@@ -109,12 +109,14 @@
         justify-content: center;
         overflow: hidden;
         flex-shrink: 0;
+        padding: 6px;
     }
 
     .thumb-aspect-box img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
+        object-position: center;
     }
 
     .item-meta-column {

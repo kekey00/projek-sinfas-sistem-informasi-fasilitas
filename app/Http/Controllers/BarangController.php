@@ -15,14 +15,32 @@ class BarangController extends Controller
     {
         $query = Barang::with('kategori');
 
-        // Search by nama barang
+        // Search by nama barang, merk model, atau nama kategori
         if ($request->filled('q')) {
-            $query->where('nama_barang', 'like', '%' . $request->q . '%');
+            $keyword = $request->q;
+            $query->where(function ($q) use ($keyword) {
+                $q->where('nama_barang', 'like', '%' . $keyword . '%')
+                  ->orWhere('merk_model', 'like', '%' . $keyword . '%')
+                  ->orWhereHas('kategori', function ($kat) use ($keyword) {
+                      $kat->where('nama_kategori', 'like', '%' . $keyword . '%');
+                  });
+
+                // Pencarian berdasarkan status ketersediaan
+                if (stripos('tersedia', $keyword) !== false) {
+                    $q->orWhere('jumlah_baik', '>', 0);
+                } elseif (stripos('habis', $keyword) !== false || stripos('kosong', $keyword) !== false) {
+                    $q->orWhere('jumlah_baik', '<=', 0);
+                }
+            });
         }
 
-        // Filter by kategori
+        // Filter by kategori atau sorting sering_dipinjam
         if ($request->filled('kategori')) {
-            $query->where('id_kategori', $request->kategori);
+            if ($request->kategori === 'sering_dipinjam') {
+                $query->withCount('peminjamans')->orderBy('peminjamans_count', 'desc');
+            } else {
+                $query->where('id_kategori', $request->kategori);
+            }
         }
 
         $barangs   = $query->get();

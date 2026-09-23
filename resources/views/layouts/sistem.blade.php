@@ -16,51 +16,67 @@
 
     <style>
         :root {
-            /* ─── BLUE/INDIGO PALETTE SESUAI SINFAS MODERN ─── */
-            --sidebar-bg:          #2D4E9E;
-            --sidebar-dark:        #243f85;
-            --sidebar-active:      rgba(255,255,255,0.18);
-            --sidebar-hover:       rgba(255,255,255,0.10);
-            --sidebar-text:        rgba(255,255,255,0.75);
-            --sidebar-text-active: #FFFFFF;
-            --sidebar-border:      rgba(255,255,255,0.12);
-            --sidebar-section:     rgba(255,255,255,0.45);
+            /* ─── SINFAS ROYAL BLUE THEME (SELARAS DENGAN LOGIN) ─── */
+            --color-royal-blue-start:  #4A6FA5;
+            --color-royal-blue-mid:    #6B8DD6;
+            --color-royal-blue-end:    #8E9AAF;
+            --color-dark-blue:         #2C4A7C;
+            --color-light-blue:        #7BA7D9;
+            --color-border-blue:       #3B5998;
+            --color-focus-blue:        #5B8DEF;
 
-            /* Main Brand Colors */
-            --brand-blue:      #2D4E9E;
-            --brand-blue-dark: #1e3a7a;
-            --brand-emerald:   #10B981;
-            --brand-amber:     #F59E0B;
-            --brand-rose:      #EF4444;
+            /* Sidebar */
+            --sidebar-bg:              linear-gradient(180deg, #1C335A 0%, #284777 55%, #182B49 100%);
+            --sidebar-dark:            #162844;
+            --sidebar-active:          linear-gradient(135deg, #6B8DD6 0%, #3B5998 100%);
+            --sidebar-hover:           rgba(255, 255, 255, 0.08);
+            --sidebar-text:            rgba(255, 255, 255, 0.78);
+            --sidebar-text-active:     #FFFFFF;
+            --sidebar-border:          rgba(255, 255, 255, 0.12);
+            --sidebar-section:         rgba(255, 255, 255, 0.45);
+
+            /* Main Brand Palette */
+            --brand-blue:              #3B5998;
+            --brand-blue-dark:         #2C4A7C;
+            --brand-blue-light:        #6B8DD6;
+            --brand-emerald:           #10B981;
+            --brand-amber:             #F59E0B;
+            --brand-rose:              #EF4444;
+            --brand-gradient:          linear-gradient(135deg, #6B8DD6 0%, #3B5998 60%, #2C4A7C 100%);
+            --brand-gradient-hover:    linear-gradient(135deg, #7BA7D9 0%, #4A6FA5 60%, #1E3456 100%);
 
             /* Surfaces & Grays */
-            --bg-canvas:       #F0F4FF;
-            --surface-card:    #FFFFFF;
-            --border-color:    #E2E8F0;
-            --border-subtle:   #F1F5F9;
-            --surface-hover:   #F8FAFF;
+            --bg-canvas:               #F1F5FA;
+            --surface-card:            #FFFFFF;
+            --border-color:            #E2E8F0;
+            --border-subtle:           #EDF2F7;
+            --surface-hover:           #F8FAFC;
 
-            --text-dark:       #1E293B;
-            --text-muted:      #64748B;
-            --text-subtle:     #94A3B8;
+            --text-dark:               #0F172A;
+            --text-muted:              #64748B;
+            --text-subtle:             #94A3B8;
 
-            --radius-sm:       6px;
-            --radius-md:       10px;
-            --radius-lg:       14px;
-            --radius-xl:       18px;
-            --radius-pill:     9999px;
+            --radius-sm:               8px;
+            --radius-md:               12px;
+            --radius-lg:               16px;
+            --radius-xl:               20px;
+            --radius-pill:             9999px;
 
-            --shadow-subtle:   0 1px 3px 0 rgba(15,23,42,0.06);
-            --shadow-card:     0 1px 4px 0 rgba(30,41,80,0.06);
-            --shadow-hover:    0 4px 16px rgba(30,41,80,0.10);
-            --shadow-modal:    0 20px 25px -5px rgba(15,23,42,0.12), 0 8px 10px -6px rgba(15,23,42,0.06);
+            --shadow-subtle:           0 1px 3px 0 rgba(15, 23, 42, 0.04);
+            --shadow-card:             0 4px 20px -2px rgba(44, 74, 124, 0.07), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+            --shadow-hover:            0 8px 24px rgba(44, 74, 124, 0.12);
+            --shadow-modal:            0 20px 25px -5px rgba(15, 23, 42, 0.14), 0 8px 10px -6px rgba(15, 23, 42, 0.06);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--bg-canvas);
+            font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-canvas);
+            background-image: radial-gradient(at 0% 0%, rgba(107, 141, 214, 0.12) 0px, transparent 50%),
+                              radial-gradient(at 100% 0%, rgba(74, 111, 165, 0.08) 0px, transparent 50%),
+                              radial-gradient(at 50% 100%, rgba(123, 167, 217, 0.10) 0px, transparent 50%);
+            background-attachment: fixed;
             color: var(--text-dark);
             min-height: 100vh;
             overflow-x: hidden;
@@ -89,26 +105,72 @@
             overflow-y: auto;
         }
 
-        /* Brand / Logo */
+        /* Brand / Logo Header */
+        .sidebar-brand-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--sidebar-border);
+        }
+
         .sidebar-brand-wrap {
             display: flex;
             align-items: center;
             gap: 10px;
             padding: 20px 20px 16px;
-            border-bottom: 1px solid var(--sidebar-border);
             text-decoration: none;
+            flex: 1;
+        }
+
+        .sidebar-close-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: #FFFFFF;
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            margin-right: 14px;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+
+        .sidebar-close-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Mobile Sidebar Backdrop */
+        .sidebar-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .sidebar-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .brand-logo-icon {
             width: 36px;
             height: 36px;
-            border-radius: var(--radius-md);
-            background: rgba(255,255,255,0.20);
+            border-radius: 12px;
+            background: linear-gradient(135deg, #7BA7D9 0%, #3B5998 50%, #2C4A7C 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #FFFFFF;
             flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(44, 74, 124, 0.35);
         }
 
         .brand-title {
@@ -185,6 +247,7 @@
             background: var(--sidebar-active);
             color: #FFFFFF;
             font-weight: 600;
+            box-shadow: 0 4px 14px rgba(44, 74, 124, 0.35);
         }
 
         .nav-link-item.active svg {
@@ -264,23 +327,24 @@
         }
 
         .admin-profile-pill:hover {
-            border-color: #CBD5E1;
-            background: #F8FAFC;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+            border-color: rgba(99, 102, 241, 0.35);
+            background: #EEF2FF;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.12);
         }
 
         .profile-avatar-circle {
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: #EFF6FF;
+            background: var(--brand-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #2563EB;
+            color: #FFFFFF;
             flex-shrink: 0;
             font-weight: 700;
             font-size: 13px;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
         }
 
         .profile-info-block {
@@ -419,7 +483,7 @@
 
         .form-control:focus {
             border-color: var(--brand-blue);
-            box-shadow: 0 0 0 3px rgba(45, 78, 158, 0.12);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
         }
 
         .form-grid-2 {
@@ -447,21 +511,24 @@
         .btn-primary {
             padding: 8px 20px;
             border-radius: var(--radius-md);
-            background: var(--brand-blue);
+            background: var(--brand-gradient);
             color: #FFFFFF;
             border: none;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             font-family: inherit;
-            transition: background 0.15s ease;
+            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            box-shadow: 0 3px 10px rgba(79, 70, 229, 0.25);
         }
 
         .btn-primary:hover {
-            background: var(--sidebar-dark);
+            background: var(--brand-gradient-hover);
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.35);
+            transform: translateY(-1px);
         }
 
         /* ─── TOAST NOTIFICATION ─── */
@@ -531,6 +598,135 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(45, 78, 158, 0.2); border-radius: 4px; }
+        /* Topbar Left & Toggle Button */
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .sidebar-toggle-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-sm);
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            flex-shrink: 0;
+        }
+
+        .sidebar-toggle-btn:hover {
+            background: #F1F5F9;
+            color: var(--brand-blue);
+            border-color: #CBD5E1;
+        }
+
+        /* ─── RESPONSIVE RULES (MOBILE & TABLET) ─── */
+        @media (max-width: 991px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 270px;
+                max-width: 84vw;
+                height: 100vh;
+                z-index: 1000;
+                transform: translateX(-100%);
+                transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+                box-shadow: none;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+                box-shadow: 10px 0 30px rgba(15, 23, 42, 0.35);
+            }
+
+            .sidebar-backdrop {
+                display: block;
+            }
+
+            .sidebar-close-btn {
+                display: flex;
+            }
+
+            .sidebar-toggle-btn {
+                display: flex;
+            }
+
+            .topbar {
+                padding: 10px 16px;
+                gap: 12px;
+            }
+
+            .page-title {
+                font-size: 17px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .page-content {
+                padding: 18px 16px 36px;
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .topbar {
+                padding: 8px 12px;
+            }
+
+            .page-title {
+                font-size: 15px;
+            }
+
+            .admin-profile-pill .profile-info-block {
+                display: none;
+            }
+
+            .admin-profile-pill {
+                padding: 4px;
+                border-radius: 50%;
+            }
+
+            .page-content {
+                padding: 14px 12px 28px;
+                gap: 14px;
+            }
+
+            .modal-card {
+                width: calc(100% - 24px) !important;
+                margin: 12px !important;
+                padding: 18px 16px !important;
+                max-height: 92vh !important;
+            }
+
+            .form-grid-2 {
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
+            }
+
+            .sinfas-toast-container {
+                left: 12px !important;
+                right: 12px !important;
+                bottom: 14px !important;
+                min-width: auto !important;
+                max-width: 100% !important;
+            }
+
+            .sinfas-toast-card {
+                min-width: auto !important;
+                width: 100% !important;
+            }
+        }
     </style>
 
     @yield('styles')
@@ -538,19 +734,30 @@
 <body>
 <div class="admin-layout">
 
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+
     <!-- ─── SIDEBAR BIRU INDIGO SINFAS ─── -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
 
         <!-- Brand / Header -->
-        <a href="{{ route('sistem.dashboard') }}" class="sidebar-brand-wrap">
-            <div class="brand-logo-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="8" r="4"></circle>
-                    <path d="M6 20v-2a6 6 0 0 1 12 0v2"></path>
+        <div class="sidebar-brand-header">
+            <a href="{{ route('sistem.dashboard') }}" class="sidebar-brand-wrap">
+                <div class="brand-logo-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="8" r="4"></circle>
+                        <path d="M6 20v-2a6 6 0 0 1 12 0v2"></path>
+                    </svg>
+                </div>
+                <span class="brand-title">SINFAS Admin</span>
+            </a>
+            <button type="button" class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Tutup Menu">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
-            </div>
-            <span class="brand-title">SINFAS Admin</span>
-        </a>
+            </button>
+        </div>
 
         <!-- Navigation Menu -->
         <div class="sidebar-nav-wrap">
@@ -622,7 +829,17 @@
 
         <!-- Topbar -->
         <header class="topbar">
-            <h1 class="page-title">@yield('page_title', 'Beranda')</h1>
+            <div class="topbar-left">
+                <button type="button" class="sidebar-toggle-btn" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Buka Menu">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+                <h1 class="page-title">@yield('page_title', 'Beranda')</h1>
+            </div>
+
             <div class="topbar-actions">
                 <a href="{{ route('sistem.profile') }}" class="admin-profile-pill" style="text-decoration:none;">
                     <div class="profile-avatar-circle">
@@ -661,7 +878,7 @@
 
             <!-- Hero Profile Info -->
             <div style="display:flex;align-items:center;gap:14px;background:#F8FAFC;padding:16px;border-radius:14px;border:1px solid #E2E8F0;margin-bottom:18px;">
-                <div style="width:54px;height:54px;border-radius:14px;background:#2D4E9E;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#FFFFFF;flex-shrink:0;box-shadow:0 4px 12px rgba(45,78,158,0.25);">
+                <div style="width:54px;height:54px;border-radius:14px;background:var(--brand-gradient);display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:#FFFFFF;flex-shrink:0;box-shadow:0 4px 14px rgba(79,70,229,0.35);">
                     {{ strtoupper(substr(Auth::user()->nama ?? 'S', 0, 1)) }}
                 </div>
                 <div style="flex:1;">
@@ -711,7 +928,7 @@
 
             <div class="modal-footer" style="margin-top:20px;">
                 <button type="button" class="btn-cancel" onclick="closeModal('profileModal')">Tutup</button>
-                <button type="submit" class="btn-primary" style="background:#2D4E9E;">Simpan Perubahan</button>
+                <button type="submit" class="btn-primary" style="background:var(--brand-gradient);border:none;box-shadow:0 4px 12px rgba(79,70,229,0.25);">Simpan Perubahan</button>
             </div>
         </form>
     </div>
@@ -763,6 +980,38 @@
 </div>
 
 <script>
+    /* Mobile Sidebar Controller */
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const backdrop = document.getElementById('sidebarBackdrop');
+        if (!sidebar) return;
+        if (sidebar.classList.contains('open')) {
+            closeSidebar();
+        } else {
+            openSidebar();
+        }
+    }
+
+    function openSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const backdrop = document.getElementById('sidebarBackdrop');
+        if (sidebar) sidebar.classList.add('open');
+        if (backdrop) backdrop.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const backdrop = document.getElementById('sidebarBackdrop');
+        if (sidebar) sidebar.classList.remove('open');
+        if (backdrop) backdrop.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeSidebar();
+    });
+
     function openModal(id) {
         const m = document.getElementById(id);
         if (m) { m.classList.add('active'); m.classList.add('open'); }

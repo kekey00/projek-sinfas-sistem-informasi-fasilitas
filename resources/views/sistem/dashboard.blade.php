@@ -158,73 +158,6 @@
         transform: translateX(3px);
     }
 
-    /* ─── SYSTEM STATUS CARD ─── */
-    .system-card {
-        background: #FFFFFF;
-        border: 1px solid #E8EEF6;
-        border-radius: 14px;
-        overflow: hidden;
-        box-shadow: 0 1px 4px rgba(30,41,80,0.06);
-    }
-    .system-header {
-        padding: 18px 24px;
-        border-bottom: 1px solid #F1F5F9;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .system-title {
-        font-family: 'Outfit', sans-serif;
-        font-size: 16px;
-        font-weight: 700;
-        color: #1E293B;
-        letter-spacing: -0.2px;
-    }
-    .status-badge-ok {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: #ECFDF5;
-        color: #059669;
-        padding: 4px 10px;
-        border-radius: 99px;
-        font-size: 12px;
-        font-weight: 600;
-    }
-    .status-dot-pulse {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: #10B981;
-        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
-    }
-
-    .system-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        padding: 16px 24px;
-        gap: 16px;
-    }
-    @media (max-width: 900px) { .system-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 500px) { .system-grid { grid-template-columns: 1fr; } }
-
-    .sys-item {
-        display: flex;
-        flex-direction: column;
-        gap: 3px;
-    }
-    .sys-item-lbl {
-        font-size: 11.5px;
-        color: #94A3B8;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-    .sys-item-val {
-        font-size: 13.5px;
-        font-weight: 600;
-        color: #1E293B;
-    }
 </style>
 @endsection
 
@@ -330,35 +263,6 @@
                 </svg>
             </div>
         </a>
-    </div>
-
-    <!-- ─── SYSTEM STATUS CARD ─── -->
-    <div class="system-card">
-        <div class="system-header">
-            <span class="system-title">Status Sistem & Server</span>
-            <span class="status-badge-ok">
-                <span class="status-dot-pulse"></span>
-                Sistem Berjalan Normal
-            </span>
-        </div>
-        <div class="system-grid">
-            <div class="sys-item">
-                <span class="sys-item-lbl">Lingkungan Server</span>
-                <span class="sys-item-val">PHP {{ PHP_VERSION }} / Laravel {{ app()->version() }}</span>
-            </div>
-            <div class="sys-item">
-                <span class="sys-item-lbl">Koneksi Database</span>
-                <span class="sys-item-val">MySQL (Aktif)</span>
-            </div>
-            <div class="sys-item">
-                <span class="sys-item-lbl">Status Keamanan</span>
-                <span class="sys-item-val">Bcrypt Enkripsi Aktif</span>
-            </div>
-            <div class="sys-item">
-                <span class="sys-item-lbl">Zona Waktu</span>
-                <span class="sys-item-val">Asia/Jakarta (WIB)</span>
-            </div>
-        </div>
     </div>
 
 @endsection

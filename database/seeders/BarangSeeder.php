@@ -11,9 +11,8 @@ class BarangSeeder extends Seeder
     {
         // ─── 1. Kategori ──────────────────────────────────────────
         $kategoris = [
-            ['nama_kategori' => 'Electronics', 'created_at' => now(), 'updated_at' => now()],
-            ['nama_kategori' => 'Furniture', 'created_at' => now(), 'updated_at' => now()],
-            ['nama_kategori' => 'Equipment', 'created_at' => now(), 'updated_at' => now()],
+            ['nama_kategori' => 'Elektronik', 'created_at' => now(), 'updated_at' => now()],
+            ['nama_kategori' => 'Peralatan', 'created_at' => now(), 'updated_at' => now()],
             ['nama_kategori' => 'Audio Visual', 'created_at' => now(), 'updated_at' => now()],
             ['nama_kategori' => 'Kelistrikan', 'created_at' => now(), 'updated_at' => now()],
             ['nama_kategori' => 'Komunikasi', 'created_at' => now(), 'updated_at' => now()],
@@ -27,9 +26,8 @@ class BarangSeeder extends Seeder
             );
         }
 
-        $idElectronics = DB::table('kategori')->where('nama_kategori', 'Electronics')->value('id_kategori');
-        $idFurniture   = DB::table('kategori')->where('nama_kategori', 'Furniture')->value('id_kategori');
-        $idEquipment   = DB::table('kategori')->where('nama_kategori', 'Equipment')->value('id_kategori');
+        $idElectronics = DB::table('kategori')->where('nama_kategori', 'Elektronik')->value('id_kategori');
+        $idEquipment   = DB::table('kategori')->where('nama_kategori', 'Peralatan')->value('id_kategori');
 
         // ─── 2. Barang Sesuai Screenshot Kelola Alat ───────────────
         $barangs = [
@@ -61,20 +59,7 @@ class BarangSeeder extends Seeder
                 'created_at'         => '2024-01-02 08:00:00',
                 'updated_at'         => now(),
             ],
-            [
-                'kode_barang'        => 'BRG-003',
-                'id_kategori'        => $idFurniture,
-                'nama_barang'        => 'Folding Table 180cm',
-                'merk_model'         => 'Krisbow Heavy Duty 180cm',
-                'kondisi'            => 'Baik',
-                'jumlah_baik'        => 8,
-                'jumlah_kurang_baik' => 1,
-                'jumlah_rusak_berat' => 1,
-                'keterangan'         => 'Meja lipat serbaguna panjang 180cm kokoh dan mudah dipindahkan.',
-                'foto'               => null,
-                'created_at'         => '2024-01-03 08:00:00',
-                'updated_at'         => now(),
-            ],
+
             [
                 'kode_barang'        => 'BRG-004',
                 'id_kategori'        => $idEquipment,

@@ -97,15 +97,16 @@ class AuthController extends Controller
             'username' => 'required|string',
             'password' => 'required|string',
         ], [
-            'username.required' => 'Username atau NIS wajib diisi!',
+            'username.required' => 'Username, NIS, atau NIP wajib diisi!',
             'password.required' => 'Password wajib diisi!',
         ]);
 
         $loginInput = $request->username;
 
-        // Cari akun berdasarkan username atau NIS
+        // Cari akun berdasarkan username, NIS, atau NIP
         $akun = Akun::where('username', $loginInput)
             ->orWhere('nis', $loginInput)
+            ->orWhere('nip', $loginInput)
             ->first();
 
         if ($akun && Hash::check($request->password, $akun->password)) {
@@ -115,7 +116,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'login_error' => 'Username atau password salah. Silakan coba lagi!',
+            'login_error' => 'Username/NIS/NIP atau password salah. Silakan coba lagi!',
         ])->withInput(['username' => $request->username]);
     }
 

@@ -246,6 +246,46 @@
         border-color: #0F172A;
         box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
     }
+
+    /* ─── RESPONSIVE RULES (MOBILE) ─── */
+    @media (max-width: 768px) {
+        .kategori-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 14px;
+            padding: 16px 14px;
+        }
+
+        .kategori-title-wrap {
+            justify-content: space-between;
+        }
+
+        .header-actions {
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .header-actions form {
+            width: 100%;
+        }
+
+        .search-input-wrap {
+            width: 100%;
+        }
+
+        .btn-add-category-glow {
+            justify-content: center;
+            width: 100%;
+        }
+
+        .kategori-pagination {
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 12px 14px;
+        }
+    }
 </style>
 @endsection
 

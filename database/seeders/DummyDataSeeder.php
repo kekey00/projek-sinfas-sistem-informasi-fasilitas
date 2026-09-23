@@ -152,9 +152,8 @@ class DummyDataSeeder extends Seeder
         // 4. BARANG TAMBAHAN (lebih variatif)
         // ──────────────────────────────────────────────────────────
         $idAudioVisual = DB::table('kategori')->where('nama_kategori', 'Audio Visual')->value('id_kategori');
-        $idEquipment   = DB::table('kategori')->where('nama_kategori', 'Equipment')->value('id_kategori');
-        $idFurniture   = DB::table('kategori')->where('nama_kategori', 'Furniture')->value('id_kategori');
-        $idElectronics = DB::table('kategori')->where('nama_kategori', 'Electronics')->value('id_kategori');
+        $idEquipment   = DB::table('kategori')->where('nama_kategori', 'Peralatan')->value('id_kategori');
+        $idElectronics = DB::table('kategori')->where('nama_kategori', 'Elektronik')->value('id_kategori');
         $idOlahraga    = DB::table('kategori')->where('nama_kategori', 'Olahraga')->value('id_kategori');
 
         $barangTambahan = [
@@ -176,15 +175,7 @@ class DummyDataSeeder extends Seeder
                 'jumlah_baik' => 1, 'jumlah_kurang_baik' => 0, 'jumlah_rusak_berat' => 0,
                 'keterangan'  => 'Smart board 75 inci layar sentuh multi-touch untuk presentasi interaktif.',
             ],
-            [
-                'kode_barang' => 'BRG-012',
-                'id_kategori' => $idFurniture,
-                'nama_barang' => 'Kursi Lipat Futura',
-                'merk_model'  => 'Futura FR-01',
-                'kondisi'     => 'Baik',
-                'jumlah_baik' => 20, 'jumlah_kurang_baik' => 5, 'jumlah_rusak_berat' => 2,
-                'keterangan'  => 'Kursi lipat besi anti karat, mudah disimpan dan dipindah.',
-            ],
+
             [
                 'kode_barang' => 'BRG-013',
                 'id_kategori' => $idElectronics,

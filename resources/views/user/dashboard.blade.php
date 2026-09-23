@@ -72,33 +72,40 @@
         line-height: 1.6;
     }
 
-    /* SEARCH & FILTER BAR */
+    /* SEARCH & FILTER ROW (SESUAI MOCKUP) */
     .search-filter-shell {
         display: flex;
         flex-direction: column;
-        gap: 16px;
-        margin-bottom: 32px;
+        margin-bottom: 24px;
     }
 
-    .search-input-pill-wrap {
+    .search-row-flex {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+    }
+
+    .search-input-box {
+        flex: 1;
         display: flex;
         align-items: center;
         background: #FFFFFF;
-        border: 2px solid #E2E8F0;
-        border-radius: var(--radius-pill);
-        padding: 6px 10px 6px 20px;
-        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
-        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        border: 1.5px solid #E2E8F0;
+        border-radius: 12px;
+        padding: 10px 18px;
+        box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+        transition: all 0.2s ease;
     }
 
-    .search-input-pill-wrap:focus-within {
-        border-color: var(--brand-primary);
-        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12), 0 8px 20px rgba(79, 70, 229, 0.08);
+    .search-input-box:focus-within {
+        border-color: #3B82F6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
     }
 
     .search-icon-svg {
-        color: var(--text-muted);
-        margin-right: 12px;
+        color: #94A3B8;
+        margin-right: 10px;
         flex-shrink: 0;
     }
 
@@ -109,77 +116,153 @@
         font-family: inherit;
         font-size: 14.5px;
         font-weight: 500;
-        color: var(--text-main);
+        color: #1E293B;
         background: transparent;
     }
 
     .search-input-clean::placeholder {
-        color: var(--text-muted);
+        color: #94A3B8;
+        font-weight: 400;
     }
 
-    .btn-search-trigger {
-        background: var(--brand-gradient);
-        color: #fff;
-        border: none;
-        border-radius: var(--radius-pill);
-        padding: 10px 22px;
-        font-size: 13.5px;
-        font-weight: 700;
-        cursor: pointer;
-        display: flex;
+    /* FILTER BUTTON & DROPDOWN */
+    .filter-dropdown-container {
+        position: relative;
+    }
+
+    .btn-filter-trigger {
+        background: #FFFFFF;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 12px;
+        padding: 10px 18px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #334155;
+        display: inline-flex;
         align-items: center;
-        gap: 6px;
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+        white-space: nowrap;
+        font-family: inherit;
+    }
+
+    .btn-filter-trigger:hover,
+    .btn-filter-trigger.open {
+        background: #F8FAFC;
+        border-color: #CBD5E1;
+        color: #0F172A;
+    }
+
+    .filter-dropdown-popup {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        width: 250px;
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 14px;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12), 0 4px 10px rgba(15, 23, 42, 0.04);
+        padding: 8px;
+        z-index: 100;
+        max-height: 280px;
+        overflow-y: auto;
+        display: none;
+    }
+
+    .filter-dropdown-popup.open {
+        display: block;
+        animation: dropdownPop 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes dropdownPop {
+        from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .filter-dropdown-popup::-webkit-scrollbar {
+        width: 6px;
+    }
+    .filter-dropdown-popup::-webkit-scrollbar-track {
+        background: #F8FAFC;
+        border-radius: 4px;
+    }
+    .filter-dropdown-popup::-webkit-scrollbar-thumb {
+        background: #94A3B8;
+        border-radius: 4px;
+    }
+
+    .filter-dropdown-item {
+        display: block;
+        padding: 9px 14px;
+        border-radius: 9px;
+        font-size: 13.5px;
+        font-weight: 500;
+        color: #334155;
+        text-decoration: none;
         transition: all 0.15s ease;
+        margin-bottom: 2px;
+        line-height: 1.4;
     }
 
-    .btn-search-trigger:hover {
-        opacity: 0.92;
-        transform: scale(1.02);
+    .filter-dropdown-item:hover {
+        background: #F1F5F9;
+        color: #0F172A;
     }
 
-    /* CATEGORY CHIPS */
+    .filter-dropdown-item.active {
+        background: #EFF6FF;
+        color: #1D4ED8;
+        font-weight: 700;
+    }
+
+    /* KATEGORI CEPAT CHIPS */
+    .quick-category-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: #0F172A;
+        margin: 22px 0 14px 0;
+        letter-spacing: -0.3px;
+    }
+
     .category-chip-scroll {
         display: flex;
         align-items: center;
         gap: 10px;
-        overflow-x: auto;
-        padding-bottom: 4px;
-        scrollbar-width: none;
-    }
-
-    .category-chip-scroll::-webkit-scrollbar {
-        display: none;
+        flex-wrap: wrap;
     }
 
     .category-chip-btn {
         padding: 8px 18px;
         border-radius: var(--radius-pill);
         font-size: 13px;
-        font-weight: 700;
+        font-weight: 600;
         text-decoration: none;
         white-space: nowrap;
         background: #FFFFFF;
         border: 1.5px solid #E2E8F0;
-        color: var(--text-secondary);
-        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        color: #334155;
+        transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        box-shadow: var(--shadow-subtle);
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
     }
 
     .category-chip-btn:hover {
-        border-color: var(--brand-primary);
-        color: var(--brand-primary);
-        transform: translateY(-2px);
+        border-color: #3B82F6;
+        color: #2563EB;
+        transform: translateY(-1px);
     }
 
     .category-chip-btn.active {
-        background: #1E1B4B;
-        border-color: #1E1B4B;
-        color: #FFFFFF;
-        box-shadow: 0 4px 12px rgba(30, 27, 75, 0.25);
+        background: #2563EB !important;
+        border-color: #2563EB !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28) !important;
+        font-weight: 700;
     }
 
     /* GRID FASILITAS */
@@ -209,24 +292,27 @@
     .card-image-aspect {
         position: relative;
         width: 100%;
-        aspect-ratio: 16/11;
+        height: 205px;
         background: linear-gradient(135deg, #F8FAFC, #EEF2FF);
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
         border-bottom: none;
+        padding: 6px 10px;
     }
 
     .card-image-aspect img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
+        object-position: center;
         transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.08));
     }
 
     .card-facility-vibe:hover .card-image-aspect img {
-        transform: scale(1.08);
+        transform: scale(1.06);
     }
 
     /* FLOATING STATUS PILL */
@@ -348,7 +434,7 @@
     <!-- VIBRANT HERO BANNER -->
     <div class="hero-vibe-box">
         <div class="hero-badge-pill">
-            <span>⚡ SINFAS Smart Hub</span>
+            <span>👋 Selamat datang, {{ Auth::user()->nama ?? 'User' }}</span>
         </div>
         <h1 class="hero-title-vibe">Mau pinjam apa hari ini? ✨</h1>
         <p class="hero-sub-vibe">
@@ -356,44 +442,113 @@
         </p>
     </div>
 
-    <!-- SEARCH & CHIPS ROW -->
+    @php
+        if (!function_exists('getKatIcon')) {
+            function getKatIcon($name) {
+                $l = strtolower($name);
+                if (str_contains($l, 'audio') || str_contains($l, 'sound') || str_contains($l, 'suara') || str_contains($l, 'speaker')) return '🎤';
+                if (str_contains($l, 'kabel') || str_contains($l, 'adapter') || str_contains($l, 'colokan')) return '🔌';
+                if (str_contains($l, 'kamera') || str_contains($l, 'foto') || str_contains($l, 'video') || str_contains($l, 'dokumentasi')) return '📷';
+                if (str_contains($l, 'lab') || str_contains($l, 'multimedia') || str_contains($l, 'elektronik') || str_contains($l, 'komputer') || str_contains($l, 'laptop')) return '💻';
+                if (str_contains($l, 'proyektor') || str_contains($l, 'presentasi') || str_contains($l, 'visual')) return '💡';
+                if (str_contains($l, 'furnitur') || str_contains($l, 'furniture') || str_contains($l, 'meja') || str_contains($l, 'kursi')) return '🪑';
+                if (str_contains($l, 'olahraga') || str_contains($l, 'sport') || str_contains($l, 'bola')) return '⚽';
+                if (str_contains($l, 'listrik') || str_contains($l, 'kelistrikan')) return '⚡';
+                return '📦';
+            }
+        }
+
+        $activeKat = request('kategori');
+        $isAll = empty($activeKat);
+        $isPopular = ($activeKat === 'sering_dipinjam');
+    @endphp
+
+    <!-- SEARCH & FILTER ROW -->
     <div class="search-filter-shell">
-        <form method="GET" action="{{ route('user.dashboard') }}" id="search-form">
-            <input type="hidden" name="kategori" value="{{ request('kategori') }}">
-            <div class="search-input-pill-wrap">
-                <svg class="search-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <form method="GET" action="{{ route('user.dashboard') }}" id="search-form" class="search-row-flex">
+            <input type="hidden" name="kategori" value="{{ $activeKat }}">
+            
+            <div class="search-input-box">
+                <svg class="search-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="8"></circle>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
                 <input type="text" name="q" value="{{ request('q') }}" class="search-input-clean"
-                       placeholder="Cari fasilitas... (proyektor, mic, speaker, papan tulis)" id="input-search">
-                <button type="submit" class="btn-search-trigger">
-                    <span>Cari</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                       placeholder="Cari alat, kategori, atau status..." id="input-search">
+            </div>
+
+            <!-- FILTER BUTTON & DROPDOWN -->
+            <div class="filter-dropdown-container">
+                <button type="button" class="btn-filter-trigger {{ $activeKat ? 'open' : '' }}" id="btnFilterTrigger" onclick="toggleFilterDropdown(event)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="6" y1="12" x2="18" y2="12"></line>
+                        <line x1="10" y1="18" x2="14" y2="18"></line>
+                    </svg>
+                    <span>Filter</span>
                 </button>
+
+                <!-- Dropdown Menu -->
+                <div class="filter-dropdown-popup" id="filterDropdownMenu">
+                    <a href="{{ route('user.dashboard', ['q' => request('q')]) }}"
+                       class="filter-dropdown-item {{ $isAll ? 'active' : '' }}">
+                        Semua Kategori (Beranda)
+                    </a>
+                    <a href="{{ route('user.dashboard', ['kategori' => 'sering_dipinjam', 'q' => request('q')]) }}"
+                       class="filter-dropdown-item {{ $isPopular ? 'active' : '' }}">
+                        🔥 Sering Dipinjam
+                    </a>
+                    @foreach($kategoris as $kat)
+                        <a href="{{ route('user.dashboard', ['kategori' => $kat->id_kategori, 'q' => request('q')]) }}"
+                           class="filter-dropdown-item {{ $activeKat == $kat->id_kategori ? 'active' : '' }}">
+                            {{ $kat->nama_kategori }}
+                        </a>
+                    @endforeach
+                </div>
             </div>
         </form>
 
-        <!-- CATEGORY CHIPS SCROLL -->
-        <div class="category-chip-scroll">
-            <a href="{{ route('user.dashboard', ['q' => request('q')]) }}"
-               class="category-chip-btn {{ !request('kategori') ? 'active' : '' }}">
-                <span>🔥 Semua Fasilitas</span>
-            </a>
-            @foreach($kategoris as $kat)
-                <a href="{{ route('user.dashboard', ['kategori' => $kat->id_kategori, 'q' => request('q')]) }}"
-                   class="category-chip-btn {{ request('kategori') == $kat->id_kategori ? 'active' : '' }}">
-                    @if(str_contains(strtolower($kat->nama_kategori), 'elektronik')) 💻
-                    @elseif(str_contains(strtolower($kat->nama_kategori), 'audio') || str_contains(strtolower($kat->nama_kategori), 'suara')) 🎙️
-                    @elseif(str_contains(strtolower($kat->nama_kategori), 'proyektor') || str_contains(strtolower($kat->nama_kategori), 'visual')) 📽️
-                    @elseif(str_contains(strtolower($kat->nama_kategori), 'furnitur') || str_contains(strtolower($kat->nama_kategori), 'meja')) 🪑
-                    @elseif(str_contains(strtolower($kat->nama_kategori), 'lab') || str_contains(strtolower($kat->nama_kategori), 'praktik')) 🔬
-                    @else 📦
-                    @endif
-                    <span>{{ $kat->nama_kategori }}</span>
+        <!-- KATEGORI CEPAT -->
+        <div class="quick-category-section">
+            <h3 class="quick-category-title">Kategori Cepat</h3>
+            <div class="category-chip-scroll">
+                <a href="{{ route('user.dashboard', ['q' => request('q')]) }}"
+                   class="category-chip-btn {{ $isAll ? 'active' : '' }}">
+                    <span>✨ Semua</span>
                 </a>
-            @endforeach
+                <a href="{{ route('user.dashboard', ['kategori' => 'sering_dipinjam', 'q' => request('q')]) }}"
+                   class="category-chip-btn {{ $isPopular ? 'active' : '' }}">
+                    <span>🔥 Sering Dipinjam</span>
+                </a>
+                @foreach($kategoris as $kat)
+                    <a href="{{ route('user.dashboard', ['kategori' => $kat->id_kategori, 'q' => request('q')]) }}"
+                       class="category-chip-btn {{ $activeKat == $kat->id_kategori ? 'active' : '' }}">
+                        <span>{{ getKatIcon($kat->nama_kategori) }} {{ $kat->nama_kategori }}</span>
+                    </a>
+                @endforeach
+            </div>
         </div>
+    </div>
+
+    <!-- SECTION TITLE -->
+    <div style="margin: 24px 0 16px; display: flex; align-items: center; justify-content: space-between;">
+        <h2 style="font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 800; color: #0F172A; margin: 0; display: flex; align-items: center; gap: 8px;">
+            @if($isPopular)
+                🔥 Sering Dipinjam
+            @elseif(!empty($activeKat))
+                @php
+                    $currentKat = $kategoris->firstWhere('id_kategori', $activeKat);
+                @endphp
+                {{ $currentKat ? (getKatIcon($currentKat->nama_kategori) . ' ' . $currentKat->nama_kategori) : 'Fasilitas' }}
+            @elseif(request()->filled('q'))
+                🔍 Hasil Pencarian: "{{ request('q') }}"
+            @else
+                🔥 Sering Dipinjam
+            @endif
+        </h2>
+        <span style="font-size: 13px; color: #94A3B8; font-weight: 600;">
+            {{ $barangs->count() }} fasilitas
+        </span>
     </div>
 
     <!-- CARDS GRID -->
@@ -451,4 +606,35 @@
         @endforelse
     </div>
 
+    <script>
+        function toggleFilterDropdown(event) {
+            event.stopPropagation();
+            const menu = document.getElementById('filterDropdownMenu');
+            const btn = document.getElementById('btnFilterTrigger');
+            if (menu) {
+                menu.classList.toggle('open');
+                if (btn) btn.classList.toggle('open');
+            }
+        }
+
+        document.addEventListener('click', function(e) {
+            const menu = document.getElementById('filterDropdownMenu');
+            const btn = document.getElementById('btnFilterTrigger');
+            if (menu && menu.classList.contains('open')) {
+                if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                    menu.classList.remove('open');
+                    if (btn) btn.classList.remove('open');
+                }
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const menu = document.getElementById('filterDropdownMenu');
+                const btn = document.getElementById('btnFilterTrigger');
+                if (menu) menu.classList.remove('open');
+                if (btn) btn.classList.remove('open');
+            }
+        });
+    </script>
 @endsection

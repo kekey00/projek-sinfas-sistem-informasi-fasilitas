@@ -453,6 +453,57 @@
     .btn-item-save:hover {
         background: #1E293B;
     }
+
+    /* ─── RESPONSIVE RULES (MOBILE) ─── */
+    @media (max-width: 768px) {
+        .kda-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 14px;
+            padding: 16px 14px;
+        }
+
+        .kda-title-wrap {
+            justify-content: space-between;
+        }
+
+        .kda-controls {
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .kda-controls form {
+            width: 100%;
+        }
+
+        .search-wrap {
+            width: 100%;
+        }
+
+        .btn-add-glow {
+            justify-content: center;
+            width: 100%;
+        }
+
+        .kda-pagination {
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 12px 14px;
+        }
+
+        .modal-add-item {
+            width: calc(100% - 24px);
+            margin: 12px;
+            padding: 18px 16px;
+        }
+
+        .item-grid-2 {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+    }
 </style>
 @endsection
 

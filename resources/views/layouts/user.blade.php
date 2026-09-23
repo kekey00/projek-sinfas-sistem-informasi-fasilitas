@@ -326,6 +326,18 @@
             box-shadow: 0 4px 14px rgba(22, 163, 74, 0.1);
         }
 
+        /* Auto-hide animation */
+        @keyframes alertFadeOut {
+            0%   { opacity: 1; transform: translateY(0); max-height: 80px; margin-bottom: 16px; padding: 12px 20px; }
+            70%  { opacity: 0; transform: translateY(-12px); max-height: 80px; margin-bottom: 16px; padding: 12px 20px; }
+            100% { opacity: 0; transform: translateY(-12px); max-height: 0; margin-bottom: 0; padding: 0 20px; border-width: 0; }
+        }
+
+        .modern-alert.auto-dismiss {
+            animation: slideInDown 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                       alertFadeOut 0.5s ease-in-out 4s forwards;
+        }
+
         .modern-alert.alert-error {
             background: #FFF1F2;
             color: #9F1239;
@@ -503,10 +515,7 @@
                             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                         </svg>
                     </div>
-                    <span class="brand-logo-text">
-                        SINFAS
-                        <span class="brand-badge-vibe">✨ Pro</span>
-                    </span>
+                    <span class="brand-logo-text">SINFAS</span>
                 </a>
 
                 <nav class="nav-pill-group">
@@ -530,7 +539,9 @@
                 <!-- NOTIF BTN -->
                 <button type="button" class="icon-action-btn" onclick="toggleNotifModal()" title="Notifikasi" id="btn-notif-top">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                    <span style="position: absolute; top: 9px; right: 9px; width: 8px; height: 8px; border-radius: 50%; background: #EC4899; box-shadow: 0 0 8px #EC4899;"></span>
+                    @if(isset($userNotifications) && $userNotifications->count() > 0)
+                        <span style="position: absolute; top: 5px; right: 5px; min-width: 18px; height: 18px; border-radius: 9px; background: #EC4899; box-shadow: 0 0 8px #EC4899; color: #fff; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; padding: 0 4px;">{{ $userNotifications->count() }}</span>
+                    @endif
                 </button>
 
                 <!-- USER AVATAR DROPDOWN -->
@@ -576,7 +587,7 @@
     <!-- ALERTS -->
     <div class="flash-container">
         @if(session('success'))
-            <div class="modern-alert alert-success">
+            <div class="modern-alert alert-success auto-dismiss" id="alert-success-auto">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <span style="font-size: 16px;">✨</span>
                     <span>{{ session('success') }}</span>
@@ -620,17 +631,85 @@
 
     <!-- NOTIF MODAL -->
     <div class="modal-shade" id="notif-modal">
-        <div class="modal-box-vibe">
-            <div class="modal-pulse-circle" style="background:#FDF2F8; color:#DB2777;">
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <div class="modal-box-vibe" style="max-width: 520px; padding: 0; text-align: left;">
+            <!-- Modal Header -->
+            <div style="padding: 24px 28px 16px; border-bottom: 1px solid #F1F5F9; display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="width: 42px; height: 42px; border-radius: 50%; background: #FDF2F8; color: #DB2777; display: flex; align-items: center; justify-content: center;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 18px; font-weight: 800; color: #0F172A; margin: 0;">Notifikasi</h3>
+                        <p style="font-size: 12px; color: #94A3B8; margin: 2px 0 0; font-weight: 500;">
+                            @if(isset($userNotifications) && $userNotifications->count() > 0)
+                                {{ $userNotifications->count() }} pemberitahuan aktif
+                            @else
+                                Tidak ada pemberitahuan
+                            @endif
+                        </p>
+                    </div>
+                </div>
+                <button type="button" onclick="toggleNotifModal()" style="background: #F1F5F9; border: none; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #64748B; transition: all 0.2s;" onmouseover="this.style.background='#E2E8F0'" onmouseout="this.style.background='#F1F5F9'">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
             </div>
-            <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 8px;">Semua Beres! 🔔</h3>
-            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 24px;">
-                Status persetujuan dan pengembalian barangmu dapat dicek langsung secara realtime di tab <strong>Status Pengajuan</strong>.
-            </p>
-            <div style="display: flex; gap: 10px;">
-                <a href="{{ route('user.status') }}" class="btn-genz-primary" style="flex: 1;">Lihat Status</a>
-                <button type="button" class="btn-genz-secondary" onclick="toggleNotifModal()">Tutup</button>
+
+            <!-- Notification List -->
+            <div style="max-height: 380px; overflow-y: auto; padding: 12px 16px;">
+                @if(isset($userNotifications) && $userNotifications->count() > 0)
+                    @foreach($userNotifications as $notif)
+                        @php
+                            $borderColor = match($notif['type']) {
+                                'overdue' => '#FCA5A5',
+                                'warning' => '#FCD34D',
+                                'pending' => '#93C5FD',
+                                'active'  => '#A7F3D0',
+                                default   => '#E2E8F0',
+                            };
+                            $bgColor = match($notif['type']) {
+                                'overdue' => '#FEF2F2',
+                                'warning' => '#FFFBEB',
+                                'pending' => '#EFF6FF',
+                                'active'  => '#F0FDF4',
+                                default   => '#F8FAFC',
+                            };
+                            $titleColor = match($notif['type']) {
+                                'overdue' => '#DC2626',
+                                'warning' => '#D97706',
+                                'pending' => '#2563EB',
+                                'active'  => '#059669',
+                                default   => '#475569',
+                            };
+                        @endphp
+                        <div style="background: {{ $bgColor }}; border: 1.5px solid {{ $borderColor }}; border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 12px; transition: transform 0.15s ease;" onmouseover="this.style.transform='translateX(4px)'" onmouseout="this.style.transform='none'">
+                            <div style="font-size: 22px; flex-shrink: 0; margin-top: 1px;">{{ $notif['icon'] }}</div>
+                            <div style="flex: 1; min-width: 0;">
+                                <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px;">
+                                    <span style="font-size: 13px; font-weight: 800; color: {{ $titleColor }};">{{ $notif['title'] }}</span>
+                                    <span style="font-size: 10.5px; color: #94A3B8; font-weight: 500; white-space: nowrap;">#{{ Str::limit($notif['kode'], 16) }}</span>
+                                </div>
+                                <p style="font-size: 12.5px; color: #475569; line-height: 1.55; margin: 0;">{{ $notif['message'] }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <!-- Empty state: Semua Beres -->
+                    <div style="text-align: center; padding: 36px 20px;">
+                        <div style="width: 72px; height: 72px; border-radius: 50%; background: #F0FDF4; color: #10B981; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 32px;">
+                            ✅
+                        </div>
+                        <h4 style="font-size: 18px; font-weight: 800; color: #0F172A; margin: 0 0 6px;">Semua Beres! 🎉</h4>
+                        <p style="font-size: 13px; color: #94A3B8; margin: 0; line-height: 1.5;">
+                            Tidak ada barang yang perlu dikembalikan atau menunggu verifikasi saat ini.
+                        </p>
+                    </div>
+                @endif
+            </div>
+
+            <!-- Modal Footer -->
+            <div style="padding: 14px 20px; border-top: 1px solid #F1F5F9; display: flex; gap: 10px;">
+                <a href="{{ route('user.status') }}" class="btn-genz-primary" style="flex: 1; font-size: 13.5px; padding: 10px 16px;">Lihat Status Pengajuan</a>
+                <button type="button" class="btn-genz-secondary" onclick="toggleNotifModal()" style="font-size: 13.5px; padding: 10px 16px;">Tutup</button>
             </div>
         </div>
     </div>
@@ -688,6 +767,16 @@
                 dropdown.classList.remove('open');
             }
         });
+
+        // Otomatis hapus alert sukses setelah animasi selesai
+        (function() {
+            const alertEl = document.getElementById('alert-success-auto');
+            if (alertEl) {
+                setTimeout(function() {
+                    alertEl.remove();
+                }, 4500);
+            }
+        })();
     </script>
     @yield('scripts')
 </body>

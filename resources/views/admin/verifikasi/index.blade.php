@@ -282,6 +282,35 @@
         display: block;
         opacity: 0.6;
     }
+
+    /* ─── RESPONSIVE RULES (MOBILE) ─── */
+    @media (max-width: 768px) {
+        .verify-tabs-bar {
+            width: 100%;
+            display: flex;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 4px;
+            gap: 4px;
+        }
+
+        .verify-tab-item {
+            padding: 7px 14px;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .section-title-verif {
+            font-size: 14.5px;
+            margin-bottom: 10px;
+        }
+
+        .verif-pagination {
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 12px 14px;
+        }
+    }
 </style>
 @endsection
 

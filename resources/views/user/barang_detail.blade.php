@@ -31,12 +31,15 @@
         justify-content: center;
         overflow: hidden;
         border-bottom: 1px solid #F1F5F9;
+        padding: 20px;
     }
 
     .facility-hero-image-wrap img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
+        object-position: center;
+        filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.07));
     }
 
     .badge-status-glow {
