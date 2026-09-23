@@ -282,16 +282,20 @@
             <span style="opacity: 0.7;">({{ $peminjamans->count() }})</span>
         </div>
         <div class="filter-tab-pill" onclick="filterStatus('menunggu', this)">
-            <span>⏳ Menunggu</span>
+            <span>⏳ Menunggu Persetujuan</span>
             <span style="opacity: 0.7;">({{ $peminjamans->where('status_pengajuan', 'menunggu')->count() }})</span>
         </div>
         <div class="filter-tab-pill" onclick="filterStatus('disetujui', this)">
-            <span>✅ Disetujui</span>
+            <span>✅ Sedang Dipinjam</span>
             <span style="opacity: 0.7;">({{ $peminjamans->where('status_pengajuan', 'disetujui')->whereNull('pengembalian')->count() }})</span>
+        </div>
+        <div class="filter-tab-pill" onclick="filterStatus('returning', this)">
+            <span>🔄 Menunggu Verifikasi Kembali</span>
+            <span style="opacity: 0.7;">({{ $peminjamans->filter(fn($p) => $p->pengembalian && $p->pengembalian->status === 'menunggu')->count() }})</span>
         </div>
         <div class="filter-tab-pill" onclick="filterStatus('returned', this)">
             <span>📦 Selesai</span>
-            <span style="opacity: 0.7;">({{ $peminjamans->whereNotNull('pengembalian')->count() }})</span>
+            <span style="opacity: 0.7;">({{ $peminjamans->filter(fn($p) => $p->pengembalian && $p->pengembalian->status === 'selesai')->count() }})</span>
         </div>
         <div class="filter-tab-pill" onclick="filterStatus('ditolak', this)">
             <span>❌ Ditolak</span>
@@ -304,11 +308,19 @@
         @forelse($peminjamans as $pjm)
             @php
                 $barang = $pjm->barang;
-                $isApproved = $pjm->status_pengajuan === 'disetujui';
+                $isReturning = $pjm->pengembalian && $pjm->pengembalian->status === 'menunggu';
+                $isReturned = $pjm->pengembalian && $pjm->pengembalian->status === 'selesai';
+                $isApproved = $pjm->status_pengajuan === 'disetujui' && !$pjm->pengembalian;
                 $isPending = $pjm->status_pengajuan === 'menunggu';
                 $isRejected = $pjm->status_pengajuan === 'ditolak';
-                $isReturned = $pjm->pengembalian !== null;
-                $filterCategory = $isReturned ? 'returned' : $pjm->status_pengajuan;
+
+                if ($isReturned) {
+                    $filterCategory = 'returned';
+                } elseif ($isReturning) {
+                    $filterCategory = 'returning';
+                } else {
+                    $filterCategory = $pjm->status_pengajuan;
+                }
             @endphp
 
             <div class="loan-card-vibe" data-status="{{ $filterCategory }}" id="card-loan-{{ $pjm->kode_pinjam }}">
@@ -347,20 +359,25 @@
 
                     <!-- BADGE -->
                     <div>
-                        @if($isReturned)
+                        @if($isReturning)
+                            <span class="status-badge-genz" style="background: #FEF3C7; color: #92400E; border: 1.5px solid #FCD34D;">
+                                <span class="badge-dot"></span>
+                                <span>Menunggu Verifikasi Pengembalian</span>
+                            </span>
+                        @elseif($isReturned)
                             <span class="status-badge-genz returned">
                                 <span class="badge-dot"></span>
-                                <span>Dikembalikan</span>
+                                <span>Selesai Dikembalikan</span>
                             </span>
                         @elseif($isApproved)
                             <span class="status-badge-genz approved">
                                 <span class="badge-dot"></span>
-                                <span>Disetujui</span>
+                                <span>Disetujui (Sedang Dipinjam)</span>
                             </span>
                         @elseif($isPending)
                             <span class="status-badge-genz pending">
                                 <span class="badge-dot"></span>
-                                <span>Menunggu</span>
+                                <span>Menunggu Persetujuan</span>
                             </span>
                         @elseif($isRejected)
                             <span class="status-badge-genz rejected">
@@ -372,7 +389,7 @@
                 </div>
 
                 <!-- CARD ACTIONS OR NOTES -->
-                @if($isApproved && !$isReturned)
+                @if($isApproved)
                     <div class="card-footer-action-row">
                         <span style="font-size: 13px; color: #047857; font-weight: 600;">
                             ✨ Pengajuan disetujui! Ambil barang dan klik tombol di samping setelah selesai:
@@ -381,6 +398,21 @@
                             <span>Ajukan Pengembalian</span>
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                         </a>
+                    </div>
+                @endif
+
+                @if($isReturning)
+                    <div class="returned-vibe-box" style="background: #FFFBEB; border-color: #FDE68A; color: #92400E; display: flex; flex-direction: column; align-items: flex-start; gap: 6px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; flex-wrap: wrap; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="font-size: 16px;">⏳</span>
+                                <span>Laporan pengembalian telah diajukan pada <strong>{{ $pjm->pengembalian->tanggal_kembali ? $pjm->pengembalian->tanggal_kembali->format('d M Y') : '-' }}</strong></span>
+                            </div>
+                            <span style="font-weight: 700; background: #FEF3C7; padding: 2px 10px; border-radius: 9999px; border: 1px solid #FCD34D;">Kondisi Lapor: {{ $pjm->pengembalian->kondisi_barang ?? 'Baik' }}</span>
+                        </div>
+                        <div style="font-size: 12px; color: #B45309; line-height: 1.5;">
+                            📌 Silakan serahkan barang fisik ke <strong>Admin Sarana Prasarana</strong> untuk dicek kelengkapan & diverifikasi selesai.
+                        </div>
                     </div>
                 @endif
 
@@ -397,7 +429,7 @@
                     <div class="returned-vibe-box">
                         <div style="display: flex; align-items: center; gap: 8px;">
                             <span style="color: #10B981; font-size: 16px;">✓</span>
-                            <span>Barang telah dikembalikan pada <strong>{{ $pjm->pengembalian->tanggal_kembali ? $pjm->pengembalian->tanggal_kembali->format('d M Y') : '-' }}</strong></span>
+                            <span>Barang telah selesai diverifikasi & dikembalikan pada <strong>{{ $pjm->pengembalian->tanggal_kembali ? $pjm->pengembalian->tanggal_kembali->format('d M Y') : '-' }}</strong></span>
                         </div>
                         <span style="font-weight: 700; color: var(--text-main);">Kondisi: {{ $pjm->pengembalian->kondisi_barang ?? 'Baik' }}</span>
                     </div>

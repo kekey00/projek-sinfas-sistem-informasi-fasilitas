@@ -24,9 +24,14 @@ class AdminDashboardController extends Controller
             $totalAlat = 42;
         }
 
-        // Sedang Dipinjam (status disetujui & belum dikembalikan)
+        // Sedang Dipinjam (status disetujui & belum selesai diverifikasi pengembaliannya)
         $sedangDipinjamCount = Peminjaman::where('status_pengajuan', 'disetujui')
-            ->whereDoesntHave('pengembalian')
+            ->where(function ($q) {
+                $q->whereDoesntHave('pengembalian')
+                  ->orWhereHas('pengembalian', function ($p) {
+                      $p->where('status', 'menunggu');
+                  });
+            })
             ->count();
         if ($sedangDipinjamCount === 0) {
             $sedangDipinjamCount = 12;

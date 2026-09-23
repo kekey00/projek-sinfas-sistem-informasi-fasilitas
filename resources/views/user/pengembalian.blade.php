@@ -428,12 +428,12 @@
                 </div>
 
                 <button type="submit" class="btn-submit-return-vibe" id="btn-submit-return">
-                    <span>Ajukan Pengembalian</span>
+                    <span>Kirim Laporan Pengembalian</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </button>
 
-                <p style="font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 14px;">
-                    🛡️ Serahkan fisik barang secara langsung ke ruang Sarana Prasarana sekolah.
+                <p style="font-size: 12.5px; color: #475569; text-align: center; margin-top: 14px; line-height: 1.5;">
+                    🛡️ <strong>Catatan:</strong> Setelah formulir ini dikirim, serahkan fisik barang ke ruang <strong>Admin Sarana Prasarana</strong> untuk diverifikasi & dikonfirmasi selesai.
                 </p>
             </form>
         </div>

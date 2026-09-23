@@ -25,19 +25,27 @@ class AdminVerifikasiController extends Controller
             ->paginate(10, ['*'], 'req_page')
             ->withQueryString();
 
-        // 2. Active Loans waiting for return (Sedang Dipinjam & Belum Dikembalikan)
-        $activeLoans = Peminjaman::with(['barang.kategori', 'siswa'])
+        // 2. Active Loans waiting for return (Sedang Dipinjam & Belum Dikembalikan Selesai)
+        $activeLoans = Peminjaman::with(['barang.kategori', 'siswa', 'pengembalian'])
             ->where('status_pengajuan', 'disetujui')
-            ->whereDoesntHave('pengembalian')
+            ->where(function ($q) {
+                $q->whereDoesntHave('pengembalian')
+                  ->orWhereHas('pengembalian', function ($p) {
+                      $p->where('status', 'menunggu');
+                  });
+            })
+            ->orderByRaw("CASE WHEN EXISTS (SELECT 1 FROM pengembalian WHERE pengembalian.kode_pinjam = peminjaman.kode_pinjam AND pengembalian.status = 'menunggu') THEN 0 ELSE 1 END")
             ->orderBy('tanggal_kembali', 'asc')
             ->paginate(10, ['*'], 'ret_page')
             ->withQueryString();
 
-        // 3. Riwayat Selesai (Dikembalikan atau Ditolak)
+        // 3. Riwayat Selesai (Dikembalikan Selesai atau Ditolak)
         $historyLoans = Peminjaman::with(['barang.kategori', 'siswa', 'pengembalian'])
             ->where(function ($q) {
-                $q->whereHas('pengembalian')
-                  ->orWhere('status_pengajuan', 'ditolak');
+                $q->whereHas('pengembalian', function ($p) {
+                    $p->where('status', 'selesai');
+                })
+                ->orWhere('status_pengajuan', 'ditolak');
             })
             ->latest('updated_at')
             ->paginate(10, ['*'], 'hist_page')
@@ -124,31 +132,45 @@ class AdminVerifikasiController extends Controller
             'bukti_foto.max'           => 'Ukuran foto maksimal 5 MB.',
         ]);
 
-        $peminjaman = Peminjaman::with('barang')->findOrFail($kode_pinjam);
+        $peminjaman = Peminjaman::with(['barang', 'pengembalian'])->findOrFail($kode_pinjam);
 
-        // Pastikan belum pernah dikembalikan
-        if ($peminjaman->pengembalian()->exists()) {
+        $existingPengembalian = $peminjaman->pengembalian;
+        if ($existingPengembalian && $existingPengembalian->status === 'selesai') {
             return back()
-                ->with('error', 'Peminjaman ini sudah tercatat telah dikembalikan sebelumnya.')
+                ->with('error', 'Peminjaman ini sudah tercatat telah selesai dikembalikan sebelumnya.')
                 ->with('toast_title', 'Konfirmasi pengembalian barang gagal');
         }
 
-        DB::transaction(function () use ($request, $peminjaman) {
+        DB::transaction(function () use ($request, $peminjaman, $existingPengembalian) {
             $fotoPath = null;
             if ($request->hasFile('bukti_foto')) {
                 $fotoPath = $request->file('bukti_foto')->store('pengembalian', 'public');
             }
 
-            // 1. Buat catatan pengembalian
-            Pengembalian::create([
-                'kode_kembali'     => Pengembalian::generateKode(),
-                'kode_pinjam'      => $peminjaman->kode_pinjam,
-                'tanggal_kembali'  => $request->tanggal_kembali,
-                'kondisi_barang'   => $request->kondisi_barang,
-                'bukti_foto_video' => $fotoPath ?? $request->catatan,
-            ]);
+            if ($existingPengembalian) {
+                // Update catatan pengembalian dari siswa menjadi 'selesai'
+                $dataToUpdate = [
+                    'tanggal_kembali' => $request->tanggal_kembali,
+                    'kondisi_barang'  => $request->kondisi_barang,
+                    'status'          => 'selesai',
+                ];
+                if ($fotoPath) {
+                    $dataToUpdate['bukti_foto_video'] = $fotoPath;
+                }
+                $existingPengembalian->update($dataToUpdate);
+            } else {
+                // Catat pengembalian manual langsung selesai
+                Pengembalian::create([
+                    'kode_kembali'     => Pengembalian::generateKode(),
+                    'kode_pinjam'      => $peminjaman->kode_pinjam,
+                    'tanggal_kembali'  => $request->tanggal_kembali,
+                    'kondisi_barang'   => $request->kondisi_barang,
+                    'bukti_foto_video' => $fotoPath ?? $request->catatan,
+                    'status'           => 'selesai',
+                ]);
+            }
 
-            // 2. Pulihkan / sesuaikan stok alat sesuai kondisi saat kembali
+            // Pulihkan / sesuaikan stok alat sesuai kondisi saat diverifikasi
             $barang = $peminjaman->barang;
             if ($barang) {
                 if ($request->kondisi_barang === 'Baik') {

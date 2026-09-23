@@ -135,28 +135,19 @@ class PeminjamanController extends Controller
                 $fotoPath = $request->file('bukti_foto')->store('pengembalian', 'public');
             }
 
-            // Simpan pengembalian
+            // Simpan pengembalian dengan status menunggu verifikasi admin
             Pengembalian::create([
                 'kode_kembali'     => Pengembalian::generateKode(),
                 'kode_pinjam'      => $peminjaman->kode_pinjam,
                 'tanggal_kembali'  => $request->tanggal_kembali,
                 'kondisi_barang'   => $request->kondisi_barang,
                 'bukti_foto_video' => $fotoPath ?? $request->catatan,
+                'status'           => 'menunggu',
             ]);
 
-            // Pulihkan stok barang sesuai kondisi
-            $barang = $peminjaman->barang;
-            if ($barang) {
-                if ($request->kondisi_barang === 'Baik') {
-                    $barang->increment('jumlah_baik', 1);
-                } elseif ($request->kondisi_barang === 'Kurang Baik') {
-                    $barang->increment('jumlah_kurang_baik', 1);
-                } elseif ($request->kondisi_barang === 'Rusak Berat') {
-                    $barang->increment('jumlah_rusak_berat', 1);
-                }
-            }
+            // Catatan: Stok barang belum dipulihkan disini, akan dipulihkan saat Admin Sarana memverifikasi pengembalian.
         });
 
-        return redirect()->route('user.status')->with('success', 'Pengembalian barang "' . ($peminjaman->barang->nama_barang ?? 'Barang') . '" berhasil diajukan!');
+        return redirect()->route('user.status')->with('success', 'Laporan pengembalian barang "' . ($peminjaman->barang->nama_barang ?? 'Barang') . '" berhasil diajukan! Menunggu verifikasi fisik dari Admin.');
     }
 }

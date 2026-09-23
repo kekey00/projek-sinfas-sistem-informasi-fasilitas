@@ -34,10 +34,10 @@
         color: #0F172A;
     }
     .verify-tab-item.active {
-        background: #2D4E9E;
+        background: linear-gradient(135deg, #6B8DD6 0%, #3B5998 100%);
         color: #FFFFFF;
         font-weight: 600;
-        box-shadow: 0 1px 3px rgba(45, 78, 158, 0.20);
+        box-shadow: 0 3px 10px rgba(44, 74, 124, 0.25);
     }
     .tab-badge-pill {
         padding: 2px 7px;
@@ -120,7 +120,7 @@
         width: 32px;
         height: 32px;
         border-radius: 50%;
-        background: #2D4E9E;
+        background: linear-gradient(135deg, #6B8DD6, #3B5998);
         color: #FFFFFF;
         display: flex;
         align-items: center;
@@ -147,7 +147,7 @@
         transition: border-color 0.15s ease;
     }
     .condition-select:focus {
-        border-color: #2D4E9E;
+        border-color: #3B5998;
     }
 
     /* Evidence buttons */
@@ -182,7 +182,7 @@
         gap: 6px;
     }
     .btn-approve {
-        background: #2D4E9E;
+        background: linear-gradient(135deg, #6B8DD6 0%, #3B5998 100%);
         color: #FFFFFF;
         border: 1px solid transparent;
         border-radius: 6px;
@@ -190,12 +190,13 @@
         font-size: 12px;
         font-weight: 600;
         cursor: pointer;
-        transition: background 0.15s ease;
+        transition: all 0.15s ease;
         font-family: inherit;
         white-space: nowrap;
+        box-shadow: 0 2px 6px rgba(44, 74, 124, 0.2);
     }
     .btn-approve:hover {
-        background: #243f85;
+        background: linear-gradient(135deg, #5B8DEF 0%, #2F4D8A 100%);
     }
     .btn-reject {
         background: #FFFFFF;
@@ -498,39 +499,80 @@
                         </div>
                     </td>
                     <td style="font-weight: 600; color: #1E293B;">
-                        {{ $active->barang->nama_barang ?? $active->kode_barang }}
+                        <div>{{ $active->barang->nama_barang ?? $active->kode_barang }}</div>
+                        @if($active->pengembalian && $active->pengembalian->status === 'menunggu')
+                            <div style="margin-top: 4px;">
+                                <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; font-size: 11px; padding: 2px 8px; border-radius: 9999px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                                    <span style="width: 6px; height: 6px; border-radius: 50%; background: #D97706;"></span>
+                                    Diajukan Siswa (Butuh Verifikasi)
+                                </span>
+                            </div>
+                        @else
+                            <div style="margin-top: 4px;">
+                                <span style="background: #F1F5F9; color: #64748B; font-size: 11px; padding: 2px 8px; border-radius: 9999px; font-weight: 600;">
+                                    Belum Lapor Kembali
+                                </span>
+                            </div>
+                        @endif
                     </td>
                     <td style="color: #475569; white-space: nowrap; font-size: 12.5px;">
-                        {{ $active->tanggal_kembali ? $active->tanggal_kembali->format('d M Y') : '-' }}
+                        <div>{{ $active->tanggal_kembali ? $active->tanggal_kembali->format('d M Y') : '-' }}</div>
+                        @if($active->pengembalian && $active->pengembalian->tanggal_kembali)
+                            <div style="font-size: 11px; color: #059669; font-weight: 600; margin-top: 2px;">
+                                Lapor: {{ $active->pengembalian->tanggal_kembali->format('d M Y') }}
+                            </div>
+                        @endif
                     </td>
                     <td>
-                        <div class="evidence-icons">
-                            <button type="button" class="evidence-icon-btn" title="Cek Bukti Foto"
-                                    onclick="openEvidenceModal('foto', '{{ addslashes($active->barang->nama_barang ?? '') }}', '{{ addslashes($active->siswa->nama ?? 'Siswa') }}')">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                            </button>
-                            <button type="button" class="evidence-icon-btn" title="Cek Bukti Video"
-                                    onclick="openEvidenceModal('video', '{{ addslashes($active->barang->nama_barang ?? '') }}', '{{ addslashes($active->siswa->nama ?? 'Siswa') }}')">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-                            </button>
-                        </div>
+                        @php
+                            $bukti = $active->pengembalian->bukti_foto_video ?? null;
+                            $isBuktiFile = $bukti && (str_starts_with($bukti, 'pengembalian/') || str_contains($bukti, '.'));
+                        @endphp
+                        @if($isBuktiFile)
+                            <div class="evidence-icons">
+                                <button type="button" class="evidence-icon-btn" title="Lihat Foto Bukti dari Siswa"
+                                        style="border-color: #3B5998; color: #3B5998; background: #EEF2FF;"
+                                        onclick="previewEvidenceFile('{{ asset('storage/' . $bukti) }}', '{{ addslashes($active->barang->nama_barang ?? '') }}', '{{ addslashes($active->siswa->nama ?? 'Siswa') }}')">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                                </button>
+                            </div>
+                        @elseif($bukti)
+                            <span style="font-size: 11px; color: #475569; max-width: 100px; display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ $bukti }}">
+                                📝 {{ $bukti }}
+                            </span>
+                        @else
+                            <span style="font-size: 11.5px; color: #94A3B8;">-</span>
+                        @endif
                     </td>
                     <td>
+                        @php
+                            $repCondition = $active->pengembalian->kondisi_barang ?? 'Baik';
+                        @endphp
                         <select class="condition-select" id="cond_{{ $active->kode_pinjam }}">
-                            <option value="Baik">Baik</option>
-                            <option value="Kurang Baik">Kurang Baik</option>
-                            <option value="Rusak Berat">Rusak Berat</option>
+                            <option value="Baik" {{ $repCondition === 'Baik' ? 'selected' : '' }}>Baik</option>
+                            <option value="Kurang Baik" {{ $repCondition === 'Kurang Baik' ? 'selected' : '' }}>Kurang Baik</option>
+                            <option value="Rusak Berat" {{ $repCondition === 'Rusak Berat' ? 'selected' : '' }}>Rusak Berat</option>
                         </select>
+                        @if($active->pengembalian)
+                            <div style="font-size: 10.5px; color: #64748B; margin-top: 3px;">
+                                Siswa: <strong>{{ $active->pengembalian->kondisi_barang }}</strong>
+                            </div>
+                        @endif
                     </td>
                     <td>
                         <div style="display: flex; justify-content: flex-end; padding-right: 4px;">
                             <button type="button" class="btn-confirm"
+                                @if($active->pengembalian && $active->pengembalian->status === 'menunggu')
+                                    style="background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%); box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);"
+                                @endif
                                 onclick="submitReturn(
                                     '{{ $active->kode_pinjam }}',
                                     '{{ addslashes($active->barang->nama_barang ?? '') }}',
-                                    '{{ addslashes($active->siswa->nama ?? 'Siswa') }}'
+                                    '{{ addslashes($active->siswa->nama ?? 'Siswa') }}',
+                                    '{{ addslashes($active->pengembalian->kondisi_barang ?? '') }}',
+                                    '{{ $isBuktiFile ? asset('storage/' . $bukti) : '' }}'
                                 )">
-                                Konfirmasi Return
+                                {{ $active->pengembalian && $active->pengembalian->status === 'menunggu' ? 'Verifikasi & Terima' : 'Konfirmasi Return' }}
                             </button>
                         </div>
                     </td>
@@ -581,7 +623,8 @@
                 <tr>
                     <th>Peminjam</th>
                     <th>Nama Alat</th>
-                    <th>Tgl. Selesai</th>
+                    <th>Tgl. Peminjaman</th>
+                    <th>Tgl. Pengembalian</th>
                     <th>Status / Kondisi</th>
                     <th>Catatan & Bukti</th>
                 </tr>
@@ -617,7 +660,24 @@
                         {{ $hist->barang->nama_barang ?? $hist->kode_barang }}
                     </td>
                     <td style="color: #475569; white-space: nowrap; font-size: 12.5px;">
-                        {{ $hist->pengembalian ? \Carbon\Carbon::parse($hist->pengembalian->tanggal_kembali)->format('d M Y') : $hist->updated_at->format('d M Y') }}
+                        <span style="font-weight: 600; color: #0F172A;">
+                            {{ $hist->tanggal_pinjam ? \Carbon\Carbon::parse($hist->tanggal_pinjam)->format('d M Y') : '-' }}
+                        </span>
+                    </td>
+                    <td style="color: #475569; white-space: nowrap; font-size: 12.5px;">
+                        @if($hist->pengembalian && $hist->pengembalian->tanggal_kembali)
+                            <span style="font-weight: 600; color: #059669;">
+                                {{ \Carbon\Carbon::parse($hist->pengembalian->tanggal_kembali)->format('d M Y') }}
+                            </span>
+                        @elseif($hist->status_pengajuan === 'ditolak')
+                            <span style="color: #94A3B8;">-</span>
+                        @elseif($hist->tanggal_kembali)
+                            <span style="font-weight: 500; color: #64748B;">
+                                {{ \Carbon\Carbon::parse($hist->tanggal_kembali)->format('d M Y') }}
+                            </span>
+                        @else
+                            <span style="color: #94A3B8;">-</span>
+                        @endif
                     </td>
                     <td>
                         @if($hist->pengembalian)
@@ -658,7 +718,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5">
+                    <td colspan="6">
                         <div class="empty-state">
                             <span class="empty-state-icon">📋</span>
                             Belum ada riwayat verifikasi yang selesai.
@@ -749,7 +809,15 @@
         <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #334155; line-height: 1.8; margin-bottom: 14px;">
             <div>Peminjam: <strong id="retStudentName" style="color: #0F172A;"></strong></div>
             <div>Barang: <strong id="retItemName" style="color: #0F172A;"></strong></div>
-            <div>Kondisi: <strong id="retConditionLabel" style="color: #0F172A;"></strong></div>
+            <div>Kondisi Diverifikasi: <strong id="retConditionLabel" style="color: #0F172A;"></strong></div>
+            <div id="retStudentReportedBox" style="display:none; color: #0284C7; font-size: 12px; margin-top: 4px; padding-top: 4px; border-top: 1px dashed #E2E8F0;">
+                Laporan Siswa: <strong id="retStudentReported"></strong>
+            </div>
+        </div>
+
+        <div id="retBuktiPreviewContainer" style="display:none; margin-bottom: 14px; text-align: center; background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 8px; padding: 10px;">
+            <div style="font-size: 11.5px; font-weight: 700; color: #475569; margin-bottom: 6px;">Foto Bukti dari Siswa:</div>
+            <img id="retBuktiImg" src="" style="max-height: 140px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" alt="Bukti Foto">
         </div>
 
         {{-- Warning Box jika Rusak --}}
@@ -823,9 +891,9 @@
     }
 
     /* ── INLINE RETURN: read select, toggle warning box, open confirm modal ── */
-    function submitReturn(kodePinjam, itemName, studentName) {
+    function submitReturn(kodePinjam, itemName, studentName, studentCondition, buktiUrl) {
         var sel       = document.getElementById('cond_' + kodePinjam);
-        var condition = sel ? sel.value : 'Baik';
+        var condition = sel ? sel.value : (studentCondition || 'Baik');
 
         document.getElementById('retStudentName').innerText    = studentName;
         document.getElementById('retItemName').innerText       = itemName;
@@ -833,6 +901,28 @@
         document.getElementById('retConditionInput').value     = condition;
         document.getElementById('retCatatanInput').value       = '';
         document.getElementById('retCatatanHidden').value      = '';
+
+        var reportedBox = document.getElementById('retStudentReportedBox');
+        if (reportedBox) {
+            if (studentCondition) {
+                document.getElementById('retStudentReported').innerText = studentCondition;
+                reportedBox.style.display = 'block';
+            } else {
+                reportedBox.style.display = 'none';
+            }
+        }
+
+        var buktiBox = document.getElementById('retBuktiPreviewContainer');
+        var buktiImg = document.getElementById('retBuktiImg');
+        if (buktiBox && buktiImg) {
+            if (buktiUrl) {
+                buktiImg.src = buktiUrl;
+                buktiBox.style.display = 'block';
+            } else {
+                buktiBox.style.display = 'none';
+                buktiImg.src = '';
+            }
+        }
 
         var warningBox = document.getElementById('retConditionWarning');
         if (warningBox) {
