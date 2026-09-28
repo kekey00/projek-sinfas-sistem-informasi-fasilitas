@@ -13,16 +13,16 @@
     
     <!-- Floating Background Bubbles (Login: Di kiri bawah dan kanan bawah) -->
     <!-- Bubble Kiri Bawah (Floating) -->
-    <div class="bubble-3d float-slow" style="width: 180px; height: 180px; bottom: -40px; left: 80px; opacity: 0.85;"></div>
-    <div class="bubble-3d float-reverse" style="width: 90px; height: 90px; bottom: 80px; left: -20px; opacity: 0.7;"></div>
+    <div class="bubble-3d login-bubble login-bubble--bottom-left float-slow" style="width: 180px; height: 180px; bottom: -40px; left: 80px; opacity: 0.85;"></div>
+    <div class="bubble-3d login-bubble login-bubble--mid-left float-reverse" style="width: 90px; height: 90px; bottom: 80px; left: -20px; opacity: 0.7;"></div>
     
     <!-- Bubble Kanan Bawah (Floating) -->
-    <div class="bubble-3d float-reverse" style="width: 220px; height: 220px; bottom: -60px; right: 60px; opacity: 0.9;"></div>
-    <div class="bubble-3d float-fast" style="width: 120px; height: 120px; bottom: 150px; right: -30px; opacity: 0.8;"></div>
+    <div class="bubble-3d login-bubble login-bubble--bottom-right float-reverse" style="width: 220px; height: 220px; bottom: -60px; right: 60px; opacity: 0.9;"></div>
+    <div class="bubble-3d login-bubble login-bubble--mid-right float-fast" style="width: 120px; height: 120px; bottom: 150px; right: -30px; opacity: 0.8;"></div>
     
     <!-- Decorative bubbles on top for balance -->
-    <div class="bubble-3d float-slow" style="width: 100px; height: 100px; top: 10%; left: 15%; opacity: 0.4;"></div>
-    <div class="bubble-3d float-reverse" style="width: 70px; height: 70px; top: 8%; right: 20%; opacity: 0.45;"></div>
+    <div class="bubble-3d login-bubble login-bubble--top-left float-slow" style="width: 100px; height: 100px; top: 10%; left: 15%; opacity: 0.4;"></div>
+    <div class="bubble-3d login-bubble login-bubble--top-right float-reverse" style="width: 70px; height: 70px; top: 8%; right: 20%; opacity: 0.45;"></div>
 
     <!-- Main Card Container -->
     <div class="sinfas-card max-w-[95%] md:max-w-[820px] w-full mx-auto my-auto flex-col md:flex-row shadow-2xl">

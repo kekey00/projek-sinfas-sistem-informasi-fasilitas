@@ -227,6 +227,31 @@
         letter-spacing: -0.3px;
     }
 
+    .facility-section-heading {
+        margin: 24px 0 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-width: 0;
+    }
+
+    .facility-section-heading h2 {
+        min-width: 0;
+        overflow-wrap: anywhere;
+        font-family: 'Outfit', sans-serif;
+        font-size: 20px;
+        font-weight: 800;
+        color: #0F172A;
+    }
+
+    .facility-section-count {
+        flex-shrink: 0;
+        font-size: 13px;
+        color: #94A3B8;
+        font-weight: 600;
+    }
+
     .category-chip-scroll {
         display: flex;
         align-items: center;
@@ -425,6 +450,15 @@
 
     @media (max-width: 500px) {
         .modern-cards-grid { grid-template-columns: 1fr; }
+        .search-row-flex { flex-direction: column; align-items: stretch; }
+        .search-input-box { width: 100%; min-width: 0; }
+        .search-input-clean { width: 100%; min-width: 0; }
+        .filter-dropdown-container { width: 100%; }
+        .btn-filter-trigger { width: 100%; justify-content: center; }
+        .filter-dropdown-popup { width: min(250px, calc(100vw - 28px)); right: 0; }
+        .hero-badge-pill { max-width: 100%; white-space: normal; }
+        .facility-section-heading { align-items: flex-start; }
+        .facility-section-heading h2 { font-size: 18px; }
     }
 </style>
 @endsection
@@ -531,8 +565,8 @@
     </div>
 
     <!-- SECTION TITLE -->
-    <div style="margin: 24px 0 16px; display: flex; align-items: center; justify-content: space-between;">
-        <h2 style="font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 800; color: #0F172A; margin: 0; display: flex; align-items: center; gap: 8px;">
+    <div class="facility-section-heading">
+        <h2 style="margin: 0; display: flex; align-items: center; gap: 8px;">
             @if($isPopular)
                 🔥 Sering Dipinjam
             @elseif(!empty($activeKat))
@@ -546,7 +580,7 @@
                 🔥 Sering Dipinjam
             @endif
         </h2>
-        <span style="font-size: 13px; color: #94A3B8; font-weight: 600;">
+        <span class="facility-section-count">
             {{ $barangs->count() }} fasilitas
         </span>
     </div>

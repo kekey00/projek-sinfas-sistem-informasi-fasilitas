@@ -44,6 +44,61 @@ body {
   z-index: 1;
 }
 
+@media (max-width: 640px) {
+  .sinfas-bg {
+    min-height: 100dvh;
+    padding: 20px 14px;
+  }
+
+  .sinfas-bg > .login-bubble--bottom-left {
+    width: 76px !important;
+    height: 76px !important;
+    bottom: 12px !important;
+    left: 12px !important;
+    opacity: 0.55 !important;
+  }
+
+  .sinfas-bg > .login-bubble--mid-left {
+    width: 44px !important;
+    height: 44px !important;
+    bottom: 88px !important;
+    left: 18px !important;
+    opacity: 0.45 !important;
+  }
+
+  .sinfas-bg > .login-bubble--bottom-right {
+    width: 108px !important;
+    height: 108px !important;
+    bottom: 4px !important;
+    right: 10px !important;
+    opacity: 0.5 !important;
+  }
+
+  .sinfas-bg > .login-bubble--mid-right {
+    width: 58px !important;
+    height: 58px !important;
+    bottom: 106px !important;
+    right: 18px !important;
+    opacity: 0.45 !important;
+  }
+
+  .sinfas-bg > .login-bubble--top-left {
+    width: 48px !important;
+    height: 48px !important;
+    top: 10px !important;
+    left: 12px !important;
+    opacity: 0.3 !important;
+  }
+
+  .sinfas-bg > .login-bubble--top-right {
+    width: 42px !important;
+    height: 42px !important;
+    top: 18px !important;
+    right: 12px !important;
+    opacity: 0.35 !important;
+  }
+}
+
 /* Animations for bubbles */
 @keyframes floatUp {
   0% { transform: translateY(0px) rotate(0deg); }
@@ -127,6 +182,12 @@ body {
   border-bottom-right-radius: 85%;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   z-index: 0;
+}
+
+@media (max-width: 767px) {
+  .card-decor-left {
+    display: none !important;
+  }
 }
 
 .sinfas-label {

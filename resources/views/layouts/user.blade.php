@@ -352,6 +352,7 @@
             margin: 0 auto;
             padding: 28px 24px 48px;
             width: 100%;
+            min-width: 0;
         }
 
         /* BACK NAVIGATION PILL */
@@ -498,7 +499,22 @@
         }
 
         @media (max-width: 768px) {
+            .navbar-shell { padding: 12px 18px; gap: 12px; }
+            .navbar-shell > div:first-child { gap: 12px !important; min-width: 0; }
             .nav-pill-group { display: none; }
+            .header-actions { gap: 8px; }
+            .app-body { padding: 22px 18px 36px; }
+        }
+
+        @media (max-width: 500px) {
+            .navbar-shell { padding: 10px 14px; }
+            .brand-link { gap: 8px; }
+            .brand-icon { width: 36px; height: 36px; }
+            .brand-logo-text { font-size: 20px; }
+            .header-actions { gap: 6px; }
+            .icon-action-btn { width: 36px; height: 36px; }
+            .avatar-ring-btn { width: 38px; height: 38px; }
+            .app-body { padding: 18px 14px 32px; }
         }
     </style>
     @yield('styles')
