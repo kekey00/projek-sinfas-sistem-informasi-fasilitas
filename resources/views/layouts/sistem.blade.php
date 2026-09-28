@@ -260,6 +260,10 @@
             color: rgba(255,255,255,0.65);
         }
 
+        .nav-link-item.mobile-logout {
+            display: none;
+        }
+
         .nav-link-item.logout:hover {
             background: rgba(239,68,68,0.20);
             color: #fca5a5;
@@ -666,12 +670,18 @@
             }
 
             .sidebar-footer {
-                position: sticky;
-                bottom: 0;
-                z-index: 2;
-                flex: 0 0 auto;
-                padding-bottom: max(36px, calc(env(safe-area-inset-bottom, 0px) + 24px));
-                background: var(--sidebar-dark);
+                display: none;
+            }
+
+            .nav-link-item.mobile-logout {
+                display: flex;
+                margin-top: 4px;
+                background: rgba(239, 68, 68, 0.12);
+                color: #FCA5A5;
+            }
+
+            .nav-link-item.mobile-logout svg {
+                color: #FCA5A5;
             }
 
             .sidebar.open {
@@ -827,6 +837,15 @@
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                     Pengaturan Akun
+                </a>
+
+                <a href="javascript:void(0)" onclick="openLogoutModal()" class="nav-link-item logout mobile-logout">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    Logout
                 </a>
 
             </nav>
