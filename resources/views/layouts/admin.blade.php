@@ -160,16 +160,12 @@
         }
 
         .brand-logo-icon {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 12px;
-            background: linear-gradient(135deg, #7BA7D9 0%, #3B5998 50%, #2C4A7C 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #FFFFFF;
             flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(44, 74, 124, 0.35);
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
         }
 
         .brand-title {
@@ -762,11 +758,7 @@
             <!-- Brand Logo Header -->
             <div class="sidebar-brand-header">
                 <a href="{{ route('admin.dashboard') }}" class="sidebar-brand-wrap">
-                    <div class="brand-logo-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                        </svg>
-                    </div>
+                    <img class="brand-logo-icon" src="{{ asset('images/sinfas-logo.svg') }}" alt="" aria-hidden="true">
                     <span class="brand-title">SINFAS</span>
                 </a>
                 <button type="button" class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Tutup Menu">
@@ -828,6 +820,14 @@
                             <polyline points="12 6 12 12 16 14"></polyline>
                         </svg>
                         Riwayat Peminjaman
+                    </a>
+                    <a href="{{ route('admin.laporan.index') }}" class="nav-link-item {{ request()->routeIs('admin.laporan.*') ? 'active' : '' }}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            <path d="M8 7h8M8 11h8M8 15h5"></path>
+                        </svg>
+                        Laporan
                     </a>
                     <a href="{{ route('admin.profile') }}" class="nav-link-item {{ request()->routeIs('admin.profile') ? 'active' : '' }}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

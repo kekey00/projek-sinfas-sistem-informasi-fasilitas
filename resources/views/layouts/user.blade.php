@@ -510,11 +510,7 @@
         <div class="navbar-shell">
             <div style="display: flex; align-items: center; gap: 24px;">
                 <a href="{{ route('user.dashboard') }}" class="brand-link">
-                    <div class="brand-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-                        </svg>
-                    </div>
+                    <img class="brand-icon" src="{{ asset('images/sinfas-logo.svg') }}" alt="" aria-hidden="true">
                     <span class="brand-logo-text">SINFAS</span>
                 </a>
 
@@ -620,10 +616,10 @@
             </div>
             <h3 style="font-size: 22px; font-weight: 800; margin-bottom: 8px;">Cara Pinjam Fasilitas ⚡</h3>
             <div style="text-align: left; font-size: 13.5px; color: var(--text-secondary); line-height: 1.7; margin: 20px 0; background: #F8FAFC; padding: 18px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
-                <p style="margin-bottom: 8px;">🚀 <strong>1. Eksplorasi:</strong> Pilih barang di katalog & klik <em>Pinjam Fasilitas</em>.</p>
-                <p style="margin-bottom: 8px;">📝 <strong>2. Formulir:</strong> Isi keperluan & tanggal pinjam.</p>
-                <p style="margin-bottom: 8px;">⏳ <strong>3. Verifikasi:</strong> Tunggu persetujuan dari Admin Sarpras.</p>
-                <p>📦 <strong>4. Pengembalian:</strong> Unggah foto kondisi barang saat pengembalian.</p>
+                <p style="margin-bottom: 8px;">🔎 <strong>1. Cari fasilitas:</strong> Pilih barang yang ingin dipinjam.</p>
+                <p style="margin-bottom: 8px;">📝 <strong>2. Ajukan peminjaman:</strong> Isi keperluan dan tanggal peminjaman.</p>
+                <p style="margin-bottom: 8px;">⏳ <strong>3. Tunggu persetujuan:</strong> Admin akan memeriksa pengajuanmu.</p>
+                <p>📦 <strong>4. Kembalikan barang:</strong> Unggah foto kondisi barang saat dikembalikan.</p>
             </div>
             <button type="button" class="btn-genz-primary" onclick="toggleHelpModal()" style="width: 100%;">Siap, Paham!</button>
         </div>

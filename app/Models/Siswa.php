@@ -16,6 +16,7 @@ class Siswa extends Model
         'nama',
         'email',
         'no_hp',
+        'jenis_kelamin',
     ];
 
     public function akun()

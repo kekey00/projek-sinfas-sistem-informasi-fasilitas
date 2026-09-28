@@ -8,6 +8,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminBarangController;
 use App\Http\Controllers\Admin\AdminKategoriController;
+use App\Http\Controllers\Admin\AdminLaporanController;
 use App\Http\Controllers\Admin\AdminVerifikasiController;
 use App\Http\Controllers\Sistem\SistemDashboardController;
 use App\Http\Controllers\Sistem\SistemAkunController;
@@ -19,10 +20,8 @@ use App\Http\Controllers\Sistem\SistemSettingsController;
 |--------------------------------------------------------------------------
 */
 
-// Redirect root ke halaman login
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+// Halaman publik sebelum login
+Route::view('/', 'welcome')->name('home');
 
 // =================================================
 // RUTE PUBLIK (Bisa diakses tanpa login)
@@ -96,10 +95,22 @@ Route::middleware(['auth'])->group(function () {
             return app(\App\Http\Controllers\Admin\AdminVerifikasiController::class)->index($request);
         })->name('riwayat.index');
 
+        // Laporan peminjaman barang
+        Route::get('/laporan', [AdminLaporanController::class, 'index'])->name('laporan.index');
+        Route::get('/laporan/frekuensi', [AdminLaporanController::class, 'frekuensi'])->name('laporan.frekuensi');
+        Route::get('/laporan/frekuensi/pdf', [AdminLaporanController::class, 'frekuensiPdf'])->name('laporan.frekuensi.pdf');
+        Route::get('/laporan/kondisi', [AdminLaporanController::class, 'kondisi'])->name('laporan.kondisi');
+        Route::get('/laporan/kondisi/pdf', [AdminLaporanController::class, 'kondisiPdf'])->name('laporan.kondisi.pdf');
+        Route::get('/laporan/keterlambatan', [AdminLaporanController::class, 'keterlambatan'])->name('laporan.keterlambatan');
+        Route::get('/laporan/keterlambatan/pdf', [AdminLaporanController::class, 'keterlambatanPdf'])->name('laporan.keterlambatan.pdf');
+        Route::get('/laporan/inventaris', [AdminLaporanController::class, 'inventaris'])->name('laporan.inventaris');
+        Route::get('/laporan/inventaris/pdf', [AdminLaporanController::class, 'inventarisPdf'])->name('laporan.inventaris.pdf');
+
         // Profil Admin Sarana
         Route::get('/profile', function () {
             $user = auth()->user();
-            return view('admin.profile', compact('user'));
+            $pegawai = \App\Models\Pegawai::where('nip', $user->nip)->first();
+            return view('admin.profile', compact('user', 'pegawai'));
         })->name('profile');
         Route::put('/profile', [\App\Http\Controllers\UserProfileController::class, 'update'])->name('profile.update');
     });
@@ -115,7 +126,8 @@ Route::middleware(['auth'])->group(function () {
         // Profil Admin Sistem
         Route::get('/profile', function () {
             $user = auth()->user();
-            return view('sistem.profile', compact('user'));
+            $pegawai = \App\Models\Pegawai::where('nip', $user->nip)->first();
+            return view('sistem.profile', compact('user', 'pegawai'));
         })->name('profile');
         Route::put('/profile', [\App\Http\Controllers\UserProfileController::class, 'update'])->name('profile.update');
 

@@ -480,6 +480,37 @@
         border-radius: 99px;
         border: 1px solid #A7F3D0;
     }
+
+    /* Palet profil admin diselaraskan dengan sidebar navy dan royal blue. */
+    .profile-top-breadcrumb a,
+    .settings-tab-btn:hover svg,
+    .settings-tab-btn.active,
+    .settings-tab-btn.active svg,
+    .avatar-img-view,
+    .gender-radio-card.active {
+        color: #3B5998;
+    }
+    .settings-tab-btn.active { background: #EEF2FF; }
+    .settings-tab-btn.active::after { background: #3B5998; }
+    .avatar-img-view { background: #EEF2FF; }
+    .camera-badge-circle,
+    .btn-upload-avatar,
+    .btn-save-changes,
+    input:checked + .slider-round { background: #3B5998; }
+    .camera-badge-circle { box-shadow: 0 3px 8px rgba(59, 89, 152, 0.35); }
+    .btn-upload-avatar,
+    .btn-save-changes { box-shadow: 0 4px 14px rgba(59, 89, 152, 0.25); }
+    .btn-upload-avatar:hover,
+    .btn-save-changes:hover { background: #2C4A7C; box-shadow: 0 8px 20px rgba(59, 89, 152, 0.35); }
+    .form-input-custom:focus,
+    .input-phone-group:focus-within { border-color: #3B5998; box-shadow: 0 0 0 3px rgba(59, 89, 152, 0.12); }
+    .gender-radio-card:hover,
+    .gender-radio-card.active { border-color: #3B5998; }
+    .gender-radio-card input[type="radio"] { accent-color: #3B5998; }
+    .gender-radio-card.active { background: #EEF2FF; }
+    [style*="#1E3BB3"] { color: #3B5998 !important; }
+    [style*="#EFF6FF"] { background: #EEF2FF !important; }
+    [style*="#BFDBFE"] { border-color: #BFDBFE !important; }
 </style>
 @endsection
 
@@ -605,12 +636,12 @@
                         <div class="form-group-custom">
                             <label class="form-label-custom">Jenis Kelamin</label>
                             <div class="gender-pill-container">
-                                <label class="gender-radio-card active" onclick="selectGender(this)">
-                                    <input type="radio" name="jenis_kelamin" value="Laki-laki" checked>
+                                <label class="gender-radio-card {{ old('jenis_kelamin', $pegawai->jenis_kelamin ?? '') === 'Laki-laki' ? 'active' : '' }}" onclick="selectGender(this)">
+                                    <input type="radio" name="jenis_kelamin" value="Laki-laki" {{ old('jenis_kelamin', $pegawai->jenis_kelamin ?? '') === 'Laki-laki' ? 'checked' : '' }}>
                                     <span>Laki-laki</span>
                                 </label>
-                                <label class="gender-radio-card" onclick="selectGender(this)">
-                                    <input type="radio" name="jenis_kelamin" value="Perempuan">
+                                <label class="gender-radio-card {{ old('jenis_kelamin', $pegawai->jenis_kelamin ?? '') === 'Perempuan' ? 'active' : '' }}" onclick="selectGender(this)">
+                                    <input type="radio" name="jenis_kelamin" value="Perempuan" {{ old('jenis_kelamin', $pegawai->jenis_kelamin ?? '') === 'Perempuan' ? 'checked' : '' }}>
                                     <span>Perempuan</span>
                                 </label>
                             </div>

@@ -20,7 +20,6 @@
         gap: 10px;
         margin-bottom: 6px;
     }
-    .genz-pill {
         display: inline-flex;
         align-items: center;
         gap: 6px;
@@ -408,31 +407,33 @@
     /* ─── CHART TREN PEMINJAMAN ─── */
     .chart-card {
         background: #FFFFFF;
-        border: 1px solid #E8EEF6;
-        border-radius: 18px;
-        padding: 22px 24px;
-        box-shadow: 0 2px 12px -2px rgba(30, 41, 80, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+        border: 1px solid #E4EAF2;
+        border-radius: 24px;
+        padding: 28px 30px 24px;
+        box-shadow: 0 12px 30px -16px rgba(30, 41, 80, 0.22);
     }
     .chart-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 18px;
+        margin-bottom: 24px;
     }
     .chart-title {
         font-family: 'Outfit', sans-serif;
-        font-size: 16px;
+        font-size: 21px;
         font-weight: 700;
-        color: #1E293B;
-        letter-spacing: -0.2px;
+        color: #102A43;
+        letter-spacing: -0.35px;
     }
     .chart-badge {
-        font-size: 11.5px;
-        color: #64748B;
-        background: #F1F5F9;
-        padding: 3px 10px;
+        font-size: 12px;
+        color: #516A88;
+        background: #F2F6FA;
+        border: 1px solid #E8EEF6;
+        padding: 7px 14px;
         border-radius: 9999px;
         font-weight: 600;
+        white-space: nowrap;
     }
     .chart-canvas-wrap {
         height: 230px;
@@ -447,6 +448,27 @@
     }
     .empty-state svg { margin: 0 auto 10px; display: block; opacity: 0.35; }
     .empty-state p { font-size: 13px; font-weight: 500; color: #64748B; }
+
+    /* ─── AKSES CEPAT LAPORAN ─── */
+    .dashboard-reports {
+        margin-top: 20px;
+        background: #FFFFFF;
+        border: 1px solid #E8EEF6;
+        border-radius: 18px;
+        padding: 22px 24px 24px;
+        box-shadow: 0 2px 12px -2px rgba(30, 41, 80, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+    .dashboard-reports-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+    .dashboard-reports-title { font-family: 'Outfit', sans-serif; color: #1E293B; font-size: 17px; font-weight: 700; }
+    .dashboard-reports-subtitle { color: #94A3B8; font-size: 12.5px; margin-top: 3px; }
+    .dashboard-reports-link { color: #2D4E9E; font-size: 12.5px; font-weight: 700; text-decoration: none; white-space: nowrap; }
+    .dashboard-reports-link:hover { text-decoration: underline; }
+    .dashboard-report-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .dashboard-report-item { display: flex; flex-direction: column; min-height: 142px; padding: 16px; border: 1px solid #E2E8F0; border-radius: 12px; background: #F8FAFC; text-decoration: none; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+    .dashboard-report-item:hover { transform: translateY(-3px); border-color: #A7F3D0; box-shadow: 0 8px 18px rgba(15, 23, 42, .08); }
+    .dashboard-report-number { color: #287271; font-size: 10px; font-weight: 800; letter-spacing: .8px; }
+    .dashboard-report-name { color: #1E293B; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; line-height: 1.3; margin-top: 9px; }
+    .dashboard-report-arrow { color: #287271; font-size: 18px; font-weight: 700; margin-top: auto; }
 
     /* Modal Styling */
     .btn-submit {
@@ -491,7 +513,7 @@
             padding: 16px;
         }
         .chart-card {
-            padding: 18px 16px;
+            padding: 20px 16px 18px;
         }
         .chart-header {
             flex-direction: column;
@@ -501,6 +523,12 @@
         .chart-canvas-wrap {
             height: 200px;
         }
+        .dashboard-report-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+        .dashboard-reports { padding: 18px 16px; }
+        .dashboard-reports-header { align-items: flex-start; flex-direction: column; }
+        .dashboard-report-grid { grid-template-columns: 1fr; }
     }
 </style>
 @endsection
@@ -715,6 +743,40 @@
         </div>
     </div>
 
+    <!-- ─── AKSES CEPAT LAPORAN ─── -->
+    <section class="dashboard-reports">
+        <div class="dashboard-reports-header">
+            <div>
+                <div class="dashboard-reports-title">Laporan Utama</div>
+                <div class="dashboard-reports-subtitle">Analisis sarana dan inventaris sekolah secara terstruktur.</div>
+            </div>
+            <a href="{{ route('admin.laporan.index') }}" class="dashboard-reports-link">Lihat semua laporan &rarr;</a>
+        </div>
+
+        <div class="dashboard-report-grid">
+            <a href="{{ route('admin.laporan.frekuensi') }}" class="dashboard-report-item">
+                <span class="dashboard-report-number">LAPORAN 01</span>
+                <span class="dashboard-report-name">Barang yang Sering Dipinjam</span>
+                <span class="dashboard-report-arrow">&rarr;</span>
+            </a>
+            <a href="{{ route('admin.laporan.kondisi') }}" class="dashboard-report-item">
+                <span class="dashboard-report-number">LAPORAN 02</span>
+                <span class="dashboard-report-name">Kondisi Barang</span>
+                <span class="dashboard-report-arrow">&rarr;</span>
+            </a>
+            <a href="{{ route('admin.laporan.keterlambatan') }}" class="dashboard-report-item">
+                <span class="dashboard-report-number">LAPORAN 03</span>
+                <span class="dashboard-report-name">Barang yang Terlambat Dikembalikan</span>
+                <span class="dashboard-report-arrow">&rarr;</span>
+            </a>
+            <a href="{{ route('admin.laporan.inventaris') }}" class="dashboard-report-item">
+                <span class="dashboard-report-number">LAPORAN 04</span>
+                <span class="dashboard-report-name">Daftar Stok Barang</span>
+                <span class="dashboard-report-arrow">&rarr;</span>
+            </a>
+        </div>
+    </section>
+
     <!-- ─── PERMINTAAN MENUNGGU ─── -->
     <div class="pending-card">
         <div class="pending-header">
@@ -899,14 +961,15 @@
         const ctx = document.getElementById('sinfasBarChart').getContext('2d');
         const labels = @json($chartLabels);
         const datasets = @json($chartDatasets);
-
-        const colors = ['#2D4E9E', '#0D9488', '#7C3AED', '#D97706', '#059669', '#475569'];
+        const colors = ['#3457A5', '#0F9B8E', '#7C3AED', '#E07A00', '#149B68', '#526176', '#36559A'];
         if (datasets && datasets.length) {
-            datasets.forEach((ds, idx) => {
-                ds.backgroundColor = colors[idx % colors.length];
-                ds.borderRadius = 8;
-                ds.borderSkipped = false;
-                ds.maxBarThickness = 36;
+            datasets.forEach((dataset, index) => {
+                dataset.backgroundColor = colors[index % colors.length];
+                dataset.borderRadius = 10;
+                dataset.borderSkipped = false;
+                dataset.maxBarThickness = 24;
+                dataset.barPercentage = 0.78;
+                dataset.categoryPercentage = 0.68;
             });
         }
 
@@ -927,16 +990,17 @@
                         displayColors: true
                     }
                 },
+                layout: { padding: { top: 4, right: 4, bottom: 0, left: 4 } },
                 scales: {
                     x: {
-                        ticks: { font: { size: 12, family: 'Plus Jakarta Sans', weight: '500' }, color: '#64748B' },
+                        ticks: { font: { size: 13, family: 'Plus Jakarta Sans', weight: '600' }, color: '#667A96', padding: 8 },
                         grid: { display: false },
                         border: { display: false }
                     },
                     y: {
                         beginAtZero: true,
-                        ticks: { stepSize: 1, font: { size: 11, family: 'Plus Jakarta Sans' }, color: '#94A3B8' },
-                        grid: { color: '#F1F5F9', borderDash: [4,4], drawTicks: false },
+                        ticks: { stepSize: 6, font: { size: 12, family: 'Plus Jakarta Sans', weight: '500' }, color: '#91A3BC', padding: 8 },
+                        grid: { color: '#E8EEF6', borderDash: [3,3], drawTicks: false },
                         border: { display: false }
                     }
                 }

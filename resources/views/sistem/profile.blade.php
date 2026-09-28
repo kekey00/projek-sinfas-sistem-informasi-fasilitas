@@ -605,12 +605,12 @@
                         <div class="form-group-custom">
                             <label class="form-label-custom">Jenis Kelamin</label>
                             <div class="gender-pill-container">
-                                <label class="gender-radio-card active" onclick="selectGender(this)">
-                                    <input type="radio" name="jenis_kelamin" value="Laki-laki" checked>
+                                <label class="gender-radio-card {{ old('jenis_kelamin', $pegawai->jenis_kelamin ?? '') === 'Laki-laki' ? 'active' : '' }}" onclick="selectGender(this)">
+                                    <input type="radio" name="jenis_kelamin" value="Laki-laki" {{ old('jenis_kelamin', $pegawai->jenis_kelamin ?? '') === 'Laki-laki' ? 'checked' : '' }}>
                                     <span>Laki-laki</span>
                                 </label>
-                                <label class="gender-radio-card" onclick="selectGender(this)">
-                                    <input type="radio" name="jenis_kelamin" value="Perempuan">
+                                <label class="gender-radio-card {{ old('jenis_kelamin', $pegawai->jenis_kelamin ?? '') === 'Perempuan' ? 'active' : '' }}" onclick="selectGender(this)">
+                                    <input type="radio" name="jenis_kelamin" value="Perempuan" {{ old('jenis_kelamin', $pegawai->jenis_kelamin ?? '') === 'Perempuan' ? 'checked' : '' }}>
                                     <span>Perempuan</span>
                                 </label>
                             </div>

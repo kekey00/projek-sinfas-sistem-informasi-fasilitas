@@ -161,16 +161,12 @@
         }
 
         .brand-logo-icon {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 12px;
-            background: linear-gradient(135deg, #7BA7D9 0%, #3B5998 50%, #2C4A7C 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #FFFFFF;
             flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(44, 74, 124, 0.35);
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
         }
 
         .brand-title {
@@ -743,13 +739,8 @@
         <!-- Brand / Header -->
         <div class="sidebar-brand-header">
             <a href="{{ route('sistem.dashboard') }}" class="sidebar-brand-wrap">
-                <div class="brand-logo-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="8" r="4"></circle>
-                        <path d="M6 20v-2a6 6 0 0 1 12 0v2"></path>
-                    </svg>
-                </div>
-                <span class="brand-title">SINFAS Admin</span>
+                <img class="brand-logo-icon" src="{{ asset('images/sinfas-logo.svg') }}" alt="" aria-hidden="true">
+                <span class="brand-title">SINFAS</span>
             </a>
             <button type="button" class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Tutup Menu">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">

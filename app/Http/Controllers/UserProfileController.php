@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Akun;
+use App\Models\Pegawai;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,6 +35,7 @@ class UserProfileController extends Controller
             'username'     => 'nullable|string|max:50|unique:akun,username,' . $user->id_akun . ',id_akun',
             'email'        => 'nullable|email|max:255',
             'nomor_kontak' => 'nullable|string|max:50',
+            'jenis_kelamin' => 'nullable|in:Laki-laki,Perempuan',
         ];
 
         $messages = [
@@ -87,6 +89,17 @@ class UserProfileController extends Controller
                         'nama'  => $request->nama,
                         'email' => $request->email,
                         'no_hp' => $request->nomor_kontak,
+                        'jenis_kelamin' => $request->jenis_kelamin,
+                    ]
+                );
+            }
+
+            if ($user->nip) {
+                Pegawai::updateOrCreate(
+                    ['nip' => $user->nip],
+                    [
+                        'nama' => $request->nama,
+                        'jenis_kelamin' => $request->jenis_kelamin,
                     ]
                 );
             }

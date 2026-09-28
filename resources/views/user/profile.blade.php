@@ -344,7 +344,7 @@
                 </div>
                 <div class="id-info-row">
                     <span class="id-info-label">Jenis Kelamin</span>
-                    <span class="id-info-value">Perempuan</span>
+                    <span class="id-info-value">{{ $siswa->jenis_kelamin ?? '-' }}</span>
                 </div>
                 <div class="id-info-row" style="border-bottom: none;">
                     <span class="id-info-label">Bergabung</span>
@@ -389,8 +389,9 @@
                         <div class="form-field">
                             <label class="form-label-txt">Jenis Kelamin</label>
                             <select name="jenis_kelamin" class="form-input-txt">
-                                <option value="Perempuan" selected>Perempuan</option>
-                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="">Pilih jenis kelamin</option>
+                                <option value="Perempuan" {{ old('jenis_kelamin', $siswa->jenis_kelamin ?? '') === 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                                <option value="Laki-laki" {{ old('jenis_kelamin', $siswa->jenis_kelamin ?? '') === 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
                             </select>
                         </div>
                         <div class="form-field">
