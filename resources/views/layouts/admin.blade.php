@@ -636,6 +636,21 @@
 
         /* ─── RESPONSIVE RULES (MOBILE & TABLET) ─── */
         @media (max-width: 991px) {
+            .admin-layout {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .main-wrapper,
+            .page-content {
+                min-width: 0;
+            }
+
+            .page-content > * {
+                min-width: 0;
+                max-width: 100%;
+            }
+
             .sidebar {
                 position: fixed;
                 top: 0;
@@ -644,10 +659,29 @@
                 width: 270px;
                 max-width: 84vw;
                 height: 100vh;
+                height: 100dvh;
+                min-height: 0;
+                max-height: 100dvh;
                 z-index: 1000;
                 transform: translateX(-100%);
                 transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
                 box-shadow: none;
+                overflow: hidden;
+            }
+
+            .sidebar-nav-wrap {
+                min-height: 0;
+                overflow-y: auto;
+                overscroll-behavior: contain;
+            }
+
+            .sidebar-footer {
+                position: sticky;
+                bottom: 0;
+                z-index: 2;
+                flex: 0 0 auto;
+                padding-bottom: max(36px, calc(env(safe-area-inset-bottom, 0px) + 24px));
+                background: var(--sidebar-dark);
             }
 
             .sidebar.open {
