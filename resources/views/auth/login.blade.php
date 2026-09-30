@@ -34,7 +34,7 @@
             
             <!-- Branding Header inside Left Column (Over Blue Curve) -->
             <div class="relative z-10">
-                @include('components.sinfas-logo', ['class' => 'w-16 h-16 mb-5 drop-shadow-lg'])
+                @include('components.sinfas-logo', ['class' => 'mb-5 drop-shadow-lg', 'style' => 'width: 88px; height: 88px; object-fit: contain;'])
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold text-white tracking-wider uppercase shadow-sm font-['Outfit']">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                     SINFAS PORTAL
