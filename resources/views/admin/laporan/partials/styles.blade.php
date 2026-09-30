@@ -1,5 +1,5 @@
 <style>
-    .report-header { display:flex; justify-content:space-between; align-items:flex-end; gap:20px; margin-bottom:24px; padding:26px 28px; border-radius:22px; color:#fff; background:linear-gradient(120deg,#2F578A,#232F72 58%,#121358); box-shadow:0 16px 32px rgba(18,19,88,.16); }
+    .report-header { display:flex; justify-content:space-between; align-items:flex-end; gap:20px; margin-bottom:24px; padding:26px 28px; border-radius:22px; color:#fff; background:linear-gradient(120deg,#121358,#232F72 58%,#2F578A); box-shadow:0 16px 32px rgba(18,19,88,.16); }
     .report-kicker { color:#93C5FD; font-size:11px; font-weight:800; letter-spacing:1.4px; text-transform:uppercase; margin-bottom:8px; }
     .report-title { font-family:'Outfit',sans-serif; font-size:28px; font-weight:700; letter-spacing:-.4px; margin-bottom:5px; }
     .report-subtitle { color:rgba(255,255,255,.78); font-size:13.5px; }
