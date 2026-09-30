@@ -21,7 +21,7 @@
   <rect x="1" y="1" width="118" height="118" rx="28" fill="url(#bg)"/>
   <rect x="1.5" y="1.5" width="117" height="117" rx="27.5" stroke="#FFFFFF" stroke-opacity=".1"/>
   <circle cx="59" cy="59" r="45" fill="url(#glow)"/>
-  <g transform="translate(-3 -3)">
+  <g transform="translate(-8 4)">
     <text x="60" y="82" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="65" font-weight="900" font-style="italic" letter-spacing="-10" fill="#0D192D" stroke="#456287" stroke-width="2.5" paint-order="stroke fill">SF</text>
     <text x="60" y="79" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-size="65" font-weight="900" font-style="italic" letter-spacing="-10" fill="url(#metal)" stroke="#FFFFFF" stroke-opacity=".65" stroke-width=".7" paint-order="stroke fill" filter="url(#mark-shadow)">SF</text>
     <path d="M34 83L91 48" stroke="#172845" stroke-width="5" stroke-linecap="round"/>
