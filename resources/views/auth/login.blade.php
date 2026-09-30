@@ -34,7 +34,6 @@
             
             <!-- Branding Header inside Left Column (Over Blue Curve) -->
             <div class="relative z-10">
-                @include('components.sinfas-logo', ['class' => 'mb-5 drop-shadow-lg', 'style' => 'width: 88px; height: 88px; object-fit: contain;'])
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold text-white tracking-wider uppercase shadow-sm font-['Outfit']">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                     SINFAS PORTAL
@@ -66,7 +65,10 @@
         <!-- Right Form Column -->
         <div class="flex-1 w-full p-8 md:p-10 flex flex-col justify-center bg-white">
             <div class="text-center mb-6">
-                <h1 class="playful-title">MASUK</h1>
+                <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:8px;">
+                    @include('components.sinfas-logo', ['class' => 'drop-shadow-md', 'style' => 'width: 56px; height: 56px; object-fit: contain;'])
+                    <h1 class="playful-title" style="margin:0;">MASUK</h1>
+                </div>
                 <p class="text-xs sm:text-sm font-medium text-slate-500 font-['Outfit'] mt-1">
                     Silakan masukkan akun Anda untuk melanjutkan
                 </p>
