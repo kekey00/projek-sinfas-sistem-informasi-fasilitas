@@ -9,9 +9,14 @@
       <stop offset=".52" stop-color="#76C8E4"/>
       <stop offset="1" stop-color="#B29BE6"/>
     </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="matrix(45 0 0 45 59 59)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#74CFE0" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#74CFE0" stop-opacity="0"/>
+    </radialGradient>
   </defs>
   <rect x="1" y="1" width="118" height="118" rx="28" fill="url(#bg)"/>
   <rect x="1.5" y="1.5" width="117" height="117" rx="27.5" stroke="#FFFFFF" stroke-opacity=".1"/>
-  <path d="M64 35C58 29 49 28 42 32C34 36 34 44 41 49C46 53 54 55 61 59C69 63 73 69 70 76C68 83 60 88 51 88C43 88 36 84 31 78" stroke="url(#mark)" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M80 31V89M80 32H99M80 57H94" stroke="url(#mark)" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="59" cy="59" r="45" fill="url(#glow)"/>
+  <path d="M64 35C58 29 49 28 42 32C34 36 34 44 41 49C46 53 54 55 61 59C69 63 73 69 70 76C68 83 60 88 51 88C43 88 36 84 31 78" stroke="url(#mark)" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M80 31V89M80 32H99M80 57H94" stroke="url(#mark)" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
