@@ -73,10 +73,10 @@
             padding: 0 12px !important;
         }
         .print-kop-instansi {
-            font-size: 9px !important;
+            font-size: 8.5px !important;
             font-weight: 700 !important;
             color: #475569 !important;
-            letter-spacing: 1px !important;
+            letter-spacing: 1.2px !important;
             text-transform: uppercase !important;
         }
         .print-kop-sekolah {
@@ -84,20 +84,15 @@
             font-weight: 800 !important;
             color: #121358 !important;
             letter-spacing: 0.5px !important;
-            margin: 2px 0 !important;
+            margin: 2px 0 3px 0 !important;
             text-transform: uppercase !important;
         }
         .print-kop-unit {
-            font-size: 11px !important;
+            font-size: 10.5px !important;
             font-weight: 700 !important;
             color: #232F72 !important;
-            letter-spacing: 0.3px !important;
-            margin-bottom: 2px !important;
-        }
-        .print-kop-alamat {
-            font-size: 8px !important;
-            color: #64748B !important;
-            line-height: 1.25 !important;
+            letter-spacing: 0.4px !important;
+            text-transform: uppercase !important;
         }
         .print-side-badge {
             display: inline-block !important;
@@ -276,6 +271,8 @@
         .print-sig-date {
             margin-bottom: 2px !important;
             color: #475569 !important;
+            height: 14px !important;
+            line-height: 14px !important;
         }
         .print-sig-role {
             font-weight: 700 !important;

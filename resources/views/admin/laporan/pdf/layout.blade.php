@@ -31,29 +31,25 @@
             padding: 0;
             vertical-align: middle;
         }
-        .kop-logo-box {
-            width: 52px;
-            height: 52px;
-            background: #121358;
-            border-radius: 12px;
-            text-align: center;
+        .kop-logo-cell {
+            width: 54px;
             vertical-align: middle;
-            color: #FFFFFF;
-            font-weight: 900;
-            font-size: 22px;
-            line-height: 52px;
-            letter-spacing: -1px;
-            border: 2px solid #232F72;
+        }
+        .kop-logo-img {
+            width: 50px;
+            height: 50px;
+            display: block;
         }
         .kop-text-center {
             text-align: center;
-            padding: 0 10px;
+            padding: 0 12px;
+            vertical-align: middle;
         }
         .kop-instansi {
-            font-size: 9px;
+            font-size: 8.5px;
             font-weight: 700;
             color: #475569;
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
             text-transform: uppercase;
         }
         .kop-sekolah {
@@ -61,36 +57,32 @@
             font-weight: 800;
             color: #121358;
             letter-spacing: 0.5px;
-            margin: 2px 0;
+            margin: 2px 0 3px 0;
             text-transform: uppercase;
         }
         .kop-unit {
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 700;
             color: #232F72;
-            letter-spacing: 0.3px;
-            margin-bottom: 2px;
-        }
-        .kop-alamat {
-            font-size: 8px;
-            color: #64748B;
-            line-height: 1.25;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
         }
         .kop-side-badge {
-            width: 75px;
+            width: 80px;
             text-align: right;
+            vertical-align: middle;
         }
         .side-pill {
             display: inline-block;
-            padding: 4px 8px;
+            padding: 5px 8px;
             background: #F0F4FA;
             border: 1px solid #CBD5E1;
             border-radius: 6px;
-            font-size: 8px;
+            font-size: 7.5px;
             font-weight: 700;
             color: #232F72;
             text-align: center;
-            line-height: 1.2;
+            line-height: 1.25;
         }
 
         /* ─── GARIS KOP GANDA ─── */
@@ -298,6 +290,8 @@
         .sig-date {
             margin-bottom: 2px;
             color: #475569;
+            height: 14px;
+            line-height: 14px;
         }
         .sig-role {
             font-weight: 700;
@@ -346,19 +340,18 @@
     <!-- KOP SURAT RESMI -->
     <table class="kop-table">
         <tr>
-            <td style="width: 58px; vertical-align: middle;">
-                <img src="data:image/svg+xml;base64,{{ base64_encode(file_get_contents(public_path('images/sinfas-logo.svg'))) }}" width="54" height="54" style="display: block; border-radius: 12px;">
+            <td class="kop-logo-cell">
+                <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/sinfas-logo.png'))) }}" class="kop-logo-img" alt="Logo SINFAS">
             </td>
             <td class="kop-text-center">
                 <div class="kop-instansi">Sistem Informasi Pengelolaan Fasilitas Sekolah</div>
                 <div class="kop-sekolah">SMK SINFAS TERPADU</div>
                 <div class="kop-unit">UNIT KERJA SARANA DAN PRASARANA SEKOLAH</div>
-                <div class="kop-alamat">Jl. Pendidikan Terpadu No. 45 | Telp: (021) 7890123 | Email: sarpras@smksinfas.sch.id | Website: sinfas.smk.id</div>
             </td>
             <td class="kop-side-badge">
                 <div class="side-pill">
                     DOKUMEN RESMI<br>
-                    <strong>SINFAS-SARPRAS</strong>
+                    <strong style="color: #121358;">SINFAS-SARPRAS</strong>
                 </div>
             </td>
         </tr>
