@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="SINFAS membantu siswa menemukan dan meminjam fasilitas sekolah dengan lebih mudah.">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/sinfas-logo.svg') }}">
     <title>SINFAS — Fasilitas sekolah, lebih gampang</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +30,8 @@
             background: var(--paper);
             font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-font-smoothing: antialiased;
-            background-image: radial-gradient(at 0% 0%, rgba(107, 141, 214, .10) 0, transparent 48%), radial-gradient(at 100% 100%, rgba(79, 70, 229, .06) 0, transparent 46%);
+            background-image: linear-gradient(rgba(15, 23, 42, .025) 1px, transparent 1px), linear-gradient(90deg, rgba(15, 23, 42, .025) 1px, transparent 1px), radial-gradient(at 0% 0%, rgba(107, 141, 214, .16) 0, transparent 42%), radial-gradient(at 100% 100%, rgba(79, 70, 229, .09) 0, transparent 46%);
+            background-size: 34px 34px, 34px 34px, auto, auto;
         }
         a { color: inherit; text-decoration: none; }
         .site-header {
@@ -40,28 +42,28 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            height: 78px;
+            height: 82px;
             margin: 0;
             padding: 0 max(32px, calc((100vw - 1280px) / 2));
             border-bottom: 1px solid rgba(226, 232, 240, .85);
-            background: rgba(255, 255, 255, .86);
+            background: rgba(248, 250, 252, .88);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
         }
         .brand { display: inline-flex; align-items: center; gap: 11px; }
         .brand-mark {
             display: grid;
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             place-items: center;
-            border-radius: 12px;
+            border-radius: 14px;
             background: var(--brand-gradient);
             color: #fff;
             box-shadow: 0 4px 14px rgba(79, 70, 229, .25);
             object-fit: cover;
         }
         .brand-name {
-            font: 800 22px/1 'Outfit', sans-serif;
+            font: 800 23px/1 'Outfit', sans-serif;
             letter-spacing: 0;
             color: var(--primary-dark);
         }
@@ -79,30 +81,32 @@
             gap: 10px;
             padding: 0 20px;
             border: 0;
-            border-radius: 10px;
-            background: var(--brand-gradient);
+            border-radius: 12px;
+            background: linear-gradient(135deg, #5b63e9 0%, #4f46e5 48%, #1d4ed8 100%);
             color: #fff;
             font-size: 13px;
             font-weight: 700;
-            box-shadow: 0 5px 15px rgba(44, 74, 124, .2);
+            box-shadow: 0 8px 20px rgba(44, 74, 124, .24);
             transition: transform .18s ease, box-shadow .18s ease;
         }
-        .button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(79, 70, 229, .28); }
+        .button:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(79, 70, 229, .32); }
         .button svg { width: 17px; height: 17px; }
         .hero {
             position: relative;
             display: flex;
             width: min(calc(100% - 48px), 1240px);
-            min-height: min(680px, calc(100svh - 110px));
+            min-height: min(700px, calc(100svh - 108px));
             align-items: center;
             overflow: hidden;
             margin: 24px auto 0;
             border: 1px solid rgba(255, 255, 255, .2);
-            border-radius: 28px;
+            border-radius: 32px;
             background: var(--primary-dark);
             color: #fff;
-            box-shadow: 0 15px 35px -8px rgba(44, 74, 124, .28);
+            box-shadow: 0 24px 48px -12px rgba(44, 74, 124, .42);
         }
+        .hero::before { position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, transparent 0 56%, rgba(103, 232, 249, .08) 56.1%, transparent 56.3%), linear-gradient(180deg, rgba(255,255,255,.1), transparent 18%); content: ''; pointer-events: none; }
+        .hero::after { position: absolute; top: 22px; right: 28px; width: 110px; height: 110px; border: 1px solid rgba(255,255,255,.18); border-radius: 50%; box-shadow: 0 0 0 18px rgba(255,255,255,.025), 0 0 0 36px rgba(255,255,255,.02); content: ''; pointer-events: none; }
         .hero-image {
             position: absolute;
             inset: 0;
@@ -110,21 +114,23 @@
             height: 100%;
             object-fit: cover;
             object-position: center 44%;
+            animation: image-breathe 12s ease-in-out infinite alternate;
         }
         .hero-shade {
             position: absolute;
             inset: 0;
-            background: linear-gradient(110deg, rgba(28, 51, 90, .92) 0%, rgba(44, 74, 124, .78) 52%, rgba(79, 70, 229, .38) 100%);
+            background: linear-gradient(110deg, rgba(14, 31, 64, .96) 0%, rgba(28, 51, 90, .86) 43%, rgba(79, 70, 229, .46) 100%);
         }
         .hero-inner {
             position: relative;
+            z-index: 2;
             display: grid;
-            grid-template-columns: minmax(0, 1.05fr) minmax(330px, .75fr);
+            grid-template-columns: minmax(0, 1.1fr) minmax(330px, .8fr);
             align-items: center;
             gap: 54px;
             width: min(calc(100% - 80px), 1120px);
             margin: 0 auto;
-            padding: 74px 0 92px;
+            padding: 78px 0 100px;
         }
         .hero-copy-block { animation: copy-arrive .55s both cubic-bezier(.2,.8,.2,1); }
         .eyebrow {
@@ -146,12 +152,13 @@
         h1 {
             max-width: 650px;
             margin-bottom: 20px;
-            font: 800 66px/1.02 'Outfit', sans-serif;
+            font: 800 clamp(54px, 6vw, 78px)/.98 'Outfit', sans-serif;
             letter-spacing: 0;
+            text-shadow: 0 6px 22px rgba(15, 23, 42, .2);
         }
         h1 span { color: #67e8f9; }
-        .hero-copy { max-width: 490px; margin-bottom: 30px; color: rgba(255,255,255,.83); font-size: 16px; line-height: 1.7; }
-        .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; }
+        .hero-copy { max-width: 520px; margin-bottom: 32px; color: rgba(255,255,255,.84); font-size: 16px; line-height: 1.75; }
+        .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
         .hero-secondary { display: inline-flex; align-items: center; gap: 9px; padding: 12px 16px; border: 1px solid rgba(255,255,255,.38); border-radius: 10px; background: rgba(255,255,255,.1); color: #fff; font-size: 13px; font-weight: 700; transition: background .18s ease; }
         .hero-secondary svg { width: 16px; height: 16px; }
         .hero-secondary:hover { background: rgba(255,255,255,.2); }
@@ -159,13 +166,16 @@
             position: relative;
             padding: 26px;
             border: 1px solid rgba(255,255,255,.68);
-            border-radius: 22px;
-            background: rgba(255,255,255,.95);
+            border-radius: 26px;
+            background: rgba(255,255,255,.94);
             color: var(--ink);
             box-shadow: 0 24px 60px rgba(15, 23, 42, .24);
             backdrop-filter: blur(16px);
             animation: card-arrive .75s .16s both cubic-bezier(.2,.8,.2,1);
+            transition: transform .28s ease, box-shadow .28s ease;
         }
+        .hero-product-card:hover { transform: translateY(-8px) rotate(-.5deg); box-shadow: 0 30px 70px rgba(15, 23, 42, .3); }
+        .hero-product-card::before { position: absolute; top: -1px; left: 28px; right: 28px; height: 3px; border-radius: 0 0 999px 999px; background: linear-gradient(90deg, #22d3ee, #818cf8, #f472b6); content: ''; }
         .product-card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 23px; }
         .product-card-mark { display: grid; width: 42px; height: 42px; flex: 0 0 auto; place-items: center; border-radius: 13px; background: var(--primary-soft); color: var(--primary); }
         .product-card-mark svg { width: 22px; height: 22px; }
@@ -186,6 +196,9 @@
         .product-card-foot svg { width: 15px; height: 15px; color: var(--primary); }
         @keyframes copy-arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes card-arrive { from { opacity: 0; transform: translateY(18px) rotate(1deg); } to { opacity: 1; transform: translateY(0) rotate(0); } }
+        @keyframes image-breathe { from { transform: scale(1); } to { transform: scale(1.045); } }
+        .hero-live { position: absolute; top: 30px; right: max(42px, calc((100% - 1120px) / 2)); z-index: 3; display: inline-flex; align-items: center; gap: 8px; padding: 8px 11px; border: 1px solid rgba(255,255,255,.23); border-radius: 999px; background: rgba(15,23,42,.24); color: rgba(255,255,255,.9); font-size: 10px; font-weight: 800; letter-spacing: .5px; backdrop-filter: blur(12px); }
+        .hero-live::before { width: 7px; height: 7px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 4px rgba(52,211,153,.16); content: ''; }
         .hero-note {
             position: absolute;
             right: auto;
@@ -203,6 +216,14 @@
             font-weight: 600;
         }
         .note-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); }
+        .hero-proof { display: flex; align-items: center; gap: 12px; margin-top: 30px; color: rgba(255,255,255,.72); font-size: 11px; font-weight: 600; }
+        .proof-avatars { display: flex; padding-left: 7px; }
+        .proof-avatar { display: grid; width: 28px; height: 28px; margin-left: -7px; place-items: center; border: 2px solid rgba(255,255,255,.75); border-radius: 50%; background: #a5b4fc; color: #1e1b4b; font: 800 10px 'Outfit', sans-serif; }
+        .proof-avatar:nth-child(2) { background: #67e8f9; }
+        .proof-avatar:nth-child(3) { background: #fcd34d; }
+        .proof-avatar:nth-child(4) { background: #f9a8d4; }
+        .hero-stat { position: absolute; right: 36px; bottom: 31px; display: flex; align-items: center; gap: 9px; color: rgba(255,255,255,.86); font-size: 11px; font-weight: 700; }
+        .hero-stat strong { color: #67e8f9; font: 800 18px 'Outfit', sans-serif; }
         .intro-strip {
             display: flex;
             align-items: center;
@@ -210,25 +231,31 @@
             gap: 32px;
             width: min(100% - 64px, 1280px);
             margin: 0 auto;
-            padding: 28px 0;
+            padding: 34px 0;
             border-bottom: 1px solid var(--border);
         }
+        .intro-copy { display: grid; gap: 7px; }
         .intro-strip p { max-width: 560px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
         .intro-tag { flex: 0 0 auto; color: var(--primary); font: 700 13px 'Outfit', sans-serif; }
-        .steps-section { padding: 96px 32px 104px; }
+        .trust-stats { display: flex; align-items: center; gap: 24px; }
+        .trust-stat { display: grid; gap: 2px; }
+        .trust-stat strong { font: 800 22px/1 'Outfit', sans-serif; color: var(--ink); }
+        .trust-stat span { color: var(--muted); font-size: 10px; font-weight: 700; }
+        .steps-section { padding: 104px 32px 112px; }
         .steps-wrap { width: min(100%, 1280px); margin: 0 auto; }
         .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 36px; margin-bottom: 46px; }
         .section-kicker { margin-bottom: 12px; color: var(--primary); font-size: 11px; font-weight: 800; }
         h2 { max-width: 570px; margin-bottom: 0; font: 700 42px/1.08 'Outfit', sans-serif; letter-spacing: 0; }
         .section-heading > p { max-width: 340px; margin: 0 0 4px; color: var(--muted); font-size: 14px; line-height: 1.7; }
         .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        .step { min-height: 222px; padding: 22px 24px 24px; border: 1px solid #e8eef6; border-radius: 16px; background: #fff; box-shadow: 0 2px 12px -2px rgba(30, 41, 80, .05), 0 1px 3px rgba(0, 0, 0, .03); }
+        .step { min-height: 222px; padding: 24px 26px 26px; border: 1px solid #e8eef6; border-radius: 20px; background: rgba(255,255,255,.88); box-shadow: 0 8px 24px -12px rgba(30, 41, 80, .22), 0 1px 3px rgba(0, 0, 0, .03); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+        .step:hover { transform: translateY(-6px); border-color: #c7d2fe; box-shadow: 0 18px 34px -16px rgba(79, 70, 229, .34); }
         .step + .step { padding-left: 24px; border-left: 1px solid #e8eef6; }
         .step-number { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; color: var(--primary); font: 700 13px 'Outfit', sans-serif; }
         .step-number svg { width: 22px; height: 22px; }
         h3 { margin-bottom: 9px; font: 700 20px 'Outfit', sans-serif; }
         .step p { max-width: 310px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
-        .closing-band { display: flex; align-items: center; justify-content: space-between; gap: 28px; margin: 0 max(24px, calc((100vw - 1280px) / 2)); padding: 30px 40px; border-radius: 20px; background: var(--brand-gradient); color: #fff; box-shadow: 0 12px 30px -8px rgba(44, 74, 124, .28); }
+        .closing-band { display: flex; align-items: center; justify-content: space-between; gap: 28px; margin: 0 max(24px, calc((100vw - 1280px) / 2)); padding: 34px 42px; border-radius: 24px; background: linear-gradient(110deg, #1e3a8a 0%, #4338ca 52%, #6d28d9 100%); color: #fff; box-shadow: 0 18px 36px -12px rgba(44, 74, 124, .42); }
         .closing-band p { margin: 0; font: 600 21px 'Outfit', sans-serif; }
         .closing-band .button { flex: 0 0 auto; }
         footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: min(100% - 64px, 1280px); min-height: 82px; margin: 0 auto; color: var(--muted); font-size: 11px; }
@@ -243,6 +270,7 @@
             .header-actions .button { min-height: 40px; padding: 0 14px; font-size: 12px; }
             .hero { width: calc(100% - 28px); min-height: 0; align-items: flex-start; margin-top: 14px; border-radius: 22px; }
             .hero-image { object-position: 58% center; }
+            .hero::after { top: 76px; right: -34px; width: 90px; height: 90px; }
             .hero-shade { background: linear-gradient(110deg, rgba(28, 51, 90, .92), rgba(44, 74, 124, .78) 62%, rgba(79, 70, 229, .48)); }
             .hero-inner { display: block; width: calc(100% - 40px); padding: 58px 0 76px; }
             h1 { max-width: 560px; font-size: 54px; }
@@ -252,7 +280,11 @@
             .product-card-title { margin-bottom: 14px; font-size: 20px; }
             .product-row { padding: 9px 0; }
             .hero-note { display: none; }
+            .hero-live { top: 20px; right: 20px; }
+            .hero-stat { right: 20px; bottom: 22px; }
             .intro-strip { width: calc(100% - 40px); align-items: flex-start; flex-direction: column; gap: 10px; padding: 22px 0; }
+            .trust-stats { width: 100%; justify-content: space-between; gap: 12px; }
+            .trust-stat strong { font-size: 20px; }
             .steps-section { padding: 70px 20px 76px; }
             .section-heading { align-items: flex-start; flex-direction: column; gap: 16px; margin-bottom: 30px; }
             h2 { font-size: 34px; }
@@ -267,6 +299,8 @@
             h1 { font-size: 43px; }
             .hero-inner { padding: 48px 0 64px; }
             .hero-secondary { display: none; }
+            .hero-live { top: 16px; right: 16px; font-size: 9px; }
+            .hero-stat { display: none; }
             .hero-product-card { margin-top: 20px; padding: 16px; }
             .product-card-top { margin-bottom: 10px; }
             .product-card-title { margin-bottom: 10px; font-size: 18px; }
@@ -300,6 +334,7 @@
     <main>
         <section class="hero" id="tentang">
             <img class="hero-image" src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=2200&q=88" alt="Ruang kelas sekolah dengan fasilitas belajar" fetchpriority="high">
+            <div class="hero-live">SISTEM AKTIF</div>
             <div class="hero-shade" aria-hidden="true"></div>
             <div class="hero-inner">
                 <div class="hero-copy-block">
@@ -309,6 +344,10 @@
                     <div class="hero-actions">
                         <a class="button" href="{{ route('login') }}">Cari fasilitas <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                         <a class="hero-secondary" href="#cara-kerja">Lihat cara kerjanya <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14m7-7-7 7-7-7"/></svg></a>
+                    </div>
+                    <div class="hero-proof">
+                        <span class="proof-avatars" aria-hidden="true"><span class="proof-avatar">A</span><span class="proof-avatar">N</span><span class="proof-avatar">R</span><span class="proof-avatar">+</span></span>
+                        <span>Dipakai untuk kegiatan sekolah yang lebih tertata</span>
                     </div>
                 </div>
             <aside class="hero-product-card" aria-label="Alur peminjaman di SINFAS">
@@ -338,11 +377,19 @@
             </aside>
             </div>
             <div class="hero-note"><span class="note-dot" aria-hidden="true"></span>Semua kebutuhan kegiatan, lebih terorganisir</div>
+            <div class="hero-stat"><strong>24/7</strong><span>Akses katalog<br>kapan saja</span></div>
         </section>
 
         <div class="intro-strip">
-            <p>Dari tugas kelompok sampai acara sekolah, temukan fasilitas yang bisa bantu ide kamu jalan.</p>
-            <span class="intro-tag">SATU PLATFORM. BANYAK KEMUNGKINAN.</span>
+            <div class="intro-copy">
+                <span class="intro-tag">SATU PLATFORM. BANYAK KEMUNGKINAN.</span>
+                <p>Dari tugas kelompok sampai acara sekolah, temukan fasilitas yang bisa bantu ide kamu jalan.</p>
+            </div>
+            <div class="trust-stats" aria-label="Keunggulan SINFAS">
+                <span class="trust-stat"><strong>3</strong><span>Langkah mudah</span></span>
+                <span class="trust-stat"><strong>1</strong><span>Portal terpadu</span></span>
+                <span class="trust-stat"><strong>100%</strong><span>Lebih terpantau</span></span>
+            </div>
         </div>
 
         <section class="steps-section" id="cara-kerja">

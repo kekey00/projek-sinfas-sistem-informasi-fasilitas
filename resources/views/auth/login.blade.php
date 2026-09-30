@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/sinfas-logo.svg') }}">
     <title>Masuk - SINFAS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,6 +34,7 @@
             
             <!-- Branding Header inside Left Column (Over Blue Curve) -->
             <div class="relative z-10">
+                <img src="{{ asset('images/sinfas-logo.svg') }}" alt="Logo SINFAS" class="w-16 h-16 mb-5 drop-shadow-lg">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold text-white tracking-wider uppercase shadow-sm font-['Outfit']">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                     SINFAS PORTAL

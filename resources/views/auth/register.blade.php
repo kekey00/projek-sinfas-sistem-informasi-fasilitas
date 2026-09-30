@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/sinfas-logo.svg') }}">
     <title>Daftar - SINFAS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,6 +50,7 @@
             <!-- Card Content (form) -->
             <div class="relative z-10 p-6 sm:p-8 w-full flex flex-col justify-center">
                 <div class="text-center mb-5">
+                    <img src="{{ asset('images/sinfas-logo.svg') }}" alt="Logo SINFAS" class="w-16 h-16 mx-auto mb-3 drop-shadow-md">
                     <h1 class="playful-title">DAFTAR</h1>
                     <p class="text-xs sm:text-sm font-medium text-slate-500 font-['Outfit'] mt-1">
                         Lengkapi formulir di bawah ini untuk membuat akun baru
