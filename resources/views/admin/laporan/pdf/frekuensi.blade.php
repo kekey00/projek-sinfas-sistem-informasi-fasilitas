@@ -1,4 +1,59 @@
-<!doctype html>
-<html><head><meta charset="utf-8"><style>
-body{font-family:DejaVu Sans,sans-serif;color:#1e293b;font-size:11px} .identity{text-align:center;font-weight:bold;line-height:1.5} h1{text-align:center;text-transform:uppercase;font-size:18px;color:#102a43;margin:14px 0 5px} .subtitle{text-align:center;color:#475569;margin:0 0 18px}.meta{border-top:2px solid #102a43;border-bottom:1px solid #cbd5e1;padding:9px 0;margin-bottom:16px}.meta strong{color:#102a43}table{width:100%;border-collapse:collapse}th{background:#102a43;color:#fff;text-align:left;padding:8px}td{border:1px solid #dbe4ea;padding:8px}tr:nth-child(even){background:#f8fafc}.summary{display:inline-block;background:#ecfdf5;border:1px solid #a7f3d0;padding:8px 14px;margin:0 8px 16px 0}
-</style></head><body><div class="identity">SMK SINFAS<br>SISTEM INFORMASI FASILITAS</div><h1>Laporan Frekuensi dan Tren Peminjaman Barang</h1><p class="subtitle">Dokumen resmi Staf Sarana dan Prasarana</p><div class="meta">Periode laporan: <strong>{{ $tanggalMulai }}</strong> s.d. <strong>{{ $tanggalAkhir }}</strong><br>Tanggal cetak: <strong>{{ now()->format('d/m/Y H:i') }}</strong></div><span class="summary">Total transaksi: <strong>{{ $totalPeminjaman }}</strong></span><span class="summary">Jenis barang: <strong>{{ $totalBarangDipinjam }}</strong></span><table><thead><tr><th>No</th><th>Nama Barang</th><th>Kategori</th><th>Frekuensi Peminjaman</th></tr></thead><tbody>@foreach($frekuensiBarang as $index => $item)<tr><td>{{ $index + 1 }}</td><td>{{ $item['nama_barang'] }}</td><td>{{ $item['kategori'] }}</td><td>{{ $item['frekuensi'] }} kali</td></tr>@endforeach</tbody></table></body></html>
+@extends('admin.laporan.pdf.layout')
+
+@section('title', 'Laporan Frekuensi Peminjaman Barang')
+@section('doc_title', 'LAPORAN FREKUENSI DAN TREN PEMINJAMAN BARANG')
+@section('doc_subtitle', 'Dokumen Resmi Analisis Tingkat Pemanfaatan Fasilitas dan Sarana Sekolah')
+
+@section('content')
+    <!-- EXECUTIVE SUMMARY CARDS -->
+    <table class="summary-table">
+        <tr>
+            <td class="summary-card primary" style="width: 50%;">
+                <div class="sc-label">TOTAL TRANSAKSI PEMINJAMAN</div>
+                <div class="sc-value" style="color: #121358;">{{ $totalPeminjaman }} <span class="sc-unit">Kali Transaksi</span></div>
+            </td>
+            <td class="summary-card info" style="width: 50%;">
+                <div class="sc-label">VARIASI JENIS BARANG DIPINJAM</div>
+                <div class="sc-value" style="color: #2F578A;">{{ $totalBarangDipinjam }} <span class="sc-unit">Jenis Barang</span></div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- DATA TABLE -->
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th style="width: 35px;" class="center">No</th>
+                <th>Nama Barang / Sarana</th>
+                <th style="width: 180px;">Kategori Fasilitas</th>
+                <th style="width: 140px;" class="center">Frekuensi Dipinjam</th>
+                <th style="width: 130px;" class="center">Persentase</th>
+            </tr>
+        </thead>
+        <tbody>
+            @php $totalSemua = $frekuensiBarang->sum('frekuensi') ?: 1; @endphp
+            @forelse($frekuensiBarang as $index => $item)
+                @php $persen = round(($item['frekuensi'] / $totalSemua) * 100, 1); @endphp
+                <tr>
+                    <td class="center">{{ $index + 1 }}</td>
+                    <td>
+                        <strong>{{ $item['nama_barang'] }}</strong>
+                    </td>
+                    <td>
+                        <span class="badge badge-neutral">{{ $item['kategori'] }}</span>
+                    </td>
+                    <td class="center">
+                        <span class="badge badge-info">{{ $item['frekuensi'] }} kali</span>
+                    </td>
+                    <td class="center">
+                        <strong>{{ $persen }}%</strong>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5" class="empty-cell">Belum ada riwayat transaksi peminjaman pada periode ini.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+@endsection

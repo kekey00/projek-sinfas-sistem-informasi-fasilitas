@@ -1,4 +1,72 @@
-<!doctype html>
-<html><head><meta charset="utf-8"><style>
-body{font-family:DejaVu Sans,sans-serif;color:#1e293b;font-size:11px}.identity{text-align:center;font-weight:bold;line-height:1.5}h1{text-align:center;text-transform:uppercase;font-size:18px;color:#102a43;margin:14px 0 5px}.subtitle{text-align:center;color:#475569;margin:0 0 18px}.meta{border-top:2px solid #102a43;border-bottom:1px solid #cbd5e1;padding:9px 0;margin-bottom:16px}.meta strong{color:#102a43}.summary{display:inline-block;background:#fff1f2;border:1px solid #fecdd3;padding:8px 14px;margin:0 8px 16px 0}table{width:100%;border-collapse:collapse}th{background:#102a43;color:#fff;text-align:left;padding:8px}td{border:1px solid #dbe4ea;padding:8px}tr:nth-child(even){background:#f8fafc}
-</style></head><body><div class="identity">SMK SINFAS<br>SISTEM INFORMASI FASILITAS</div><h1>Keterlambatan Pengembalian Barang</h1><p class="subtitle">Dokumen resmi Staf Sarana dan Prasarana</p><div class="meta">Periode laporan: <strong>{{ $tanggalMulai }}</strong> s.d. <strong>{{ $tanggalAkhir }}</strong><br>Tanggal cetak: <strong>{{ now()->format('d/m/Y H:i') }}</strong></div><span class="summary">Total keterlambatan: <strong>{{ $keterlambatan->count() }}</strong></span><table><thead><tr><th>Peminjam</th><th>Nama Barang</th><th>Rencana Pengembalian</th><th>Realisasi / Status</th></tr></thead><tbody>@foreach($keterlambatan as $item)@php $sudahKembali=(bool)$item->pengembalian; @endphp<tr><td>{{ $item->siswa->nama ?? $item->nis }}</td><td>{{ $item->barang->nama_barang ?? '-' }}</td><td>{{ $item->tanggal_kembali?->format('d/m/Y') }}</td><td>{{ $sudahKembali ? 'Dikembalikan ' . $item->pengembalian->tanggal_kembali->format('d/m/Y') : 'Belum dikembalikan' }}</td></tr>@endforeach</tbody></table></body></html>
+@extends('admin.laporan.pdf.layout')
+
+@section('title', 'Laporan Keterlambatan Pengembalian Barang')
+@section('doc_title', 'LAPORAN KETERLAMBATAN PENGEMBALIAN BARANG')
+@section('doc_subtitle', 'Dokumen Resmi Rekapitulasi dan Pengawasan Peminjaman Melebihi Batas Waktu')
+
+@section('content')
+    <!-- EXECUTIVE SUMMARY CARDS -->
+    <table class="summary-table">
+        <tr>
+            <td class="summary-card primary" style="width: 33.3%;">
+                <div class="sc-label">TOTAL KASUS KETERLAMBATAN</div>
+                <div class="sc-value" style="color: #121358;">{{ $keterlambatan->count() }} <span class="sc-unit">Transaksi</span></div>
+            </td>
+            <td class="summary-card danger" style="width: 33.3%;">
+                <div class="sc-label">BARANG BELUM DIKEMBALIKAN</div>
+                <div class="sc-value" style="color: #DC2626;">{{ $keterlambatanRingkasan['Belum dikembalikan'] }} <span class="sc-unit">Peminjaman</span></div>
+            </td>
+            <td class="summary-card success" style="width: 33.3%;">
+                <div class="sc-label">SUDAH DIKEMBALIKAN (TERLAMBAT)</div>
+                <div class="sc-value" style="color: #166534;">{{ $keterlambatanRingkasan['Sudah dikembalikan'] }} <span class="sc-unit">Peminjaman</span></div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- DATA TABLE -->
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th style="width: 30px;" class="center">No</th>
+                <th style="width: 160px;">Nama Peminjam</th>
+                <th>Nama Barang</th>
+                <th style="width: 120px;" class="center">Batas Kembali</th>
+                <th style="width: 170px;" class="center">Status Realisasi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($keterlambatan as $index => $item)
+                @php $sudahKembali = (bool) $item->pengembalian; @endphp
+                <tr>
+                    <td class="center">{{ $index + 1 }}</td>
+                    <td>
+                        <strong>{{ $item->siswa->nama ?? $item->nis }}</strong>
+                        @if($item->siswa && $item->siswa->nis)
+                            <div style="font-size: 7.5px; color: #64748B;">NIS: {{ $item->siswa->nis }}</div>
+                        @endif
+                    </td>
+                    <td>
+                        <strong>{{ $item->barang->nama_barang ?? '-' }}</strong>
+                        @if($item->barang && $item->barang->kategori)
+                            <div style="font-size: 7.5px; color: #64748B;">Kategori: {{ $item->barang->kategori->nama_kategori }}</div>
+                        @endif
+                    </td>
+                    <td class="center">
+                        {{ $item->tanggal_kembali?->format('d/m/Y') }}
+                    </td>
+                    <td class="center">
+                        @if($sudahKembali)
+                            <span class="badge badge-success">Dikembalikan {{ $item->pengembalian->tanggal_kembali?->format('d/m/Y') }}</span>
+                        @else
+                            <span class="badge badge-danger">Belum Dikembalikan</span>
+                        @endif
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5" class="empty-cell">Tidak ada data peminjaman yang terlambat pada periode ini.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+@endsection

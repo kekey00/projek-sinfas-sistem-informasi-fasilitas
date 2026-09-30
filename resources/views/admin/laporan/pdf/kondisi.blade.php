@@ -1,4 +1,71 @@
-<!doctype html>
-<html><head><meta charset="utf-8"><style>
-body{font-family:DejaVu Sans,sans-serif;color:#1e293b;font-size:11px}.identity{text-align:center;font-weight:bold;line-height:1.5}h1{text-align:center;text-transform:uppercase;font-size:18px;color:#102a43;margin:14px 0 5px}.subtitle{text-align:center;color:#475569;margin:0 0 18px}.meta{border-top:2px solid #102a43;border-bottom:1px solid #cbd5e1;padding:9px 0;margin-bottom:16px}.meta strong{color:#102a43}table{width:100%;border-collapse:collapse}th{background:#102a43;color:#fff;text-align:left;padding:8px}td{border:1px solid #dbe4ea;padding:8px}tr:nth-child(even){background:#f8fafc}.summary{display:inline-block;background:#fff7ed;border:1px solid #fed7aa;padding:8px 14px;margin:0 8px 16px 0}
-</style></head><body><div class="identity">SMK SINFAS<br>SISTEM INFORMASI FASILITAS</div><h1>Kerusakan dan Riwayat Kondisi Barang</h1><p class="subtitle">Dokumen resmi Staf Sarana dan Prasarana</p><div class="meta">Periode laporan: <strong>{{ $tanggalMulai }}</strong> s.d. <strong>{{ $tanggalAkhir }}</strong><br>Tanggal cetak: <strong>{{ now()->format('d/m/Y H:i') }}</strong></div><span class="summary">Kondisi baik: <strong>{{ $kondisiRingkasan['Baik'] ?? 0 }}</strong></span><span class="summary">Kurang baik: <strong>{{ $kondisiRingkasan['Kurang Baik'] ?? 0 }}</strong></span><span class="summary">Rusak berat: <strong>{{ $kondisiRingkasan['Rusak Berat'] ?? 0 }}</strong></span><table><thead><tr><th>Tanggal Peminjaman</th><th>Nama Barang</th><th>Tanggal Pengembalian</th><th>Kondisi Barang</th></tr></thead><tbody>@foreach($riwayatKondisi as $item)<tr><td>{{ $item->tanggal_pinjam?->format('d/m/Y') }}</td><td>{{ $item->barang->nama_barang ?? '-' }}</td><td>{{ $item->pengembalian->tanggal_kembali?->format('d/m/Y') }}</td><td>{{ $item->pengembalian->kondisi_barang ?? 'Belum dicatat' }}</td></tr>@endforeach</tbody></table></body></html>
+@extends('admin.laporan.pdf.layout')
+
+@section('title', 'Laporan Kerusakan dan Kondisi Barang')
+@section('doc_title', 'LAPORAN KERUSAKAN DAN RIWAYAT KONDISI BARANG')
+@section('doc_subtitle', 'Dokumen Resmi Pemeriksaan Fisik Fasilitas Pasca Pengembalian')
+
+@section('content')
+    <!-- EXECUTIVE SUMMARY CARDS -->
+    <table class="summary-table">
+        <tr>
+            <td class="summary-card success" style="width: 33.3%;">
+                <div class="sc-label">KONDISI BAIK / NORMAL</div>
+                <div class="sc-value" style="color: #166534;">{{ $kondisiRingkasan['Baik'] ?? 0 }} <span class="sc-unit">Unit</span></div>
+            </td>
+            <td class="summary-card warning" style="width: 33.3%;">
+                <div class="sc-label">KONDISI KURANG BAIK</div>
+                <div class="sc-value" style="color: #D97706;">{{ $kondisiRingkasan['Kurang Baik'] ?? 0 }} <span class="sc-unit">Unit</span></div>
+            </td>
+            <td class="summary-card danger" style="width: 33.3%;">
+                <div class="sc-label">RUSAK BERAT / BUTUH SERVIS</div>
+                <div class="sc-value" style="color: #DC2626;">{{ $kondisiRingkasan['Rusak Berat'] ?? 0 }} <span class="sc-unit">Unit</span></div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- DATA TABLE -->
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th style="width: 30px;" class="center">No</th>
+                <th style="width: 105px;" class="center">Tgl Pinjam</th>
+                <th>Nama Barang / Sarana</th>
+                <th style="width: 150px;">Peminjam</th>
+                <th style="width: 105px;" class="center">Tgl Kembali</th>
+                <th style="width: 120px;" class="center">Kondisi Barang</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($riwayatKondisi as $index => $item)
+                @php 
+                    $kondisi = $item->pengembalian->kondisi_barang ?? 'Belum dicatat';
+                    $badgeClass = match(strtolower($kondisi)) {
+                        'baik' => 'badge-success',
+                        'kurang baik' => 'badge-warning',
+                        'rusak berat' => 'badge-danger',
+                        default => 'badge-neutral',
+                    };
+                @endphp
+                <tr>
+                    <td class="center">{{ $index + 1 }}</td>
+                    <td class="center">{{ $item->tanggal_pinjam?->format('d/m/Y') }}</td>
+                    <td>
+                        <strong>{{ $item->barang->nama_barang ?? '-' }}</strong>
+                        @if($item->barang && $item->barang->kategori)
+                            <div style="font-size: 7.5px; color: #64748B;">Kategori: {{ $item->barang->kategori->nama_kategori }}</div>
+                        @endif
+                    </td>
+                    <td>{{ $item->siswa->nama ?? $item->nis }}</td>
+                    <td class="center">{{ $item->pengembalian->tanggal_kembali?->format('d/m/Y') ?? '-' }}</td>
+                    <td class="center">
+                        <span class="badge {{ $badgeClass }}">{{ $kondisi }}</span>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="6" class="empty-cell">Belum ada riwayat kondisi barang yang dikembalikan pada periode ini.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+@endsection
