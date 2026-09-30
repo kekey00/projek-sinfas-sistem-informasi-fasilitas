@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="{{ asset('images/sinfas-logo.svg') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/sinfas-logo.svg') }}?v=2">
     <title>@yield('title', 'SINFAS - Peminjaman Fasilitas Modern')</title>
     <meta name="description" content="Platform modern peminjaman sarana dan fasilitas sekolah/kampus secara instan & transparan.">
 
@@ -527,7 +527,7 @@
         <div class="navbar-shell">
             <div style="display: flex; align-items: center; gap: 24px;">
                 <a href="{{ route('user.dashboard') }}" class="brand-link">
-                    <img class="brand-icon" src="{{ asset('images/sinfas-logo.svg') }}" alt="" aria-hidden="true">
+                    <img class="brand-icon" src="{{ asset('images/sinfas-logo.svg') }}?v=2" alt="" aria-hidden="true">
                     <span class="brand-logo-text">SINFAS</span>
                 </a>
 

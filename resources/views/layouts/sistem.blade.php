@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/svg+xml" href="{{ asset('images/sinfas-logo.svg') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/sinfas-logo.svg') }}?v=2">
     <title>@yield('title', 'Admin Sistem') - SINFAS</title>
 
     <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
@@ -784,7 +784,7 @@
         <!-- Brand / Header -->
         <div class="sidebar-brand-header">
             <a href="{{ route('sistem.dashboard') }}" class="sidebar-brand-wrap">
-                <img class="brand-logo-icon" src="{{ asset('images/sinfas-logo.svg') }}" alt="" aria-hidden="true">
+                    <img class="brand-logo-icon" src="{{ asset('images/sinfas-logo.svg') }}?v=2" alt="" aria-hidden="true">
                 <span class="brand-title">SINFAS</span>
             </a>
             <button type="button" class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Tutup Menu">
