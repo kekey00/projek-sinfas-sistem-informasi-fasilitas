@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="SINFAS membantu siswa menemukan dan meminjam fasilitas sekolah dengan lebih mudah.">
-    <link rel="icon" type="image/svg+xml" href="{{ asset('images/sinfas-logo.svg') }}">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,{{ base64_encode(file_get_contents(public_path('images/sinfas-logo.svg'))) }}">
     <title>SINFAS — Fasilitas sekolah, lebih gampang</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -318,7 +318,7 @@
 <body>
     <header class="site-header">
         <a class="brand" href="{{ url('/') }}" aria-label="SINFAS, beranda">
-            <img class="brand-mark" src="{{ asset('images/sinfas-logo.svg') }}" alt="" aria-hidden="true">
+            @include('components.sinfas-logo', ['class' => 'brand-mark'])
             <span><span class="brand-name">SINFAS</span><span class="brand-caption">Sistem Informasi Fasilitas</span></span>
         </a>
         <nav class="main-nav" aria-label="Navigasi utama">
@@ -425,7 +425,7 @@
     </main>
 
     <footer>
-        <span class="footer-brand"><img src="{{ asset('images/sinfas-logo.svg') }}" alt="" aria-hidden="true">SINFAS</span>
+        <span class="footer-brand">@include('components.sinfas-logo', ['class' => 'footer-logo'])SINFAS</span>
         <span>Kelola fasilitas sekolah, bareng-bareng.</span>
     </footer>
 </body>

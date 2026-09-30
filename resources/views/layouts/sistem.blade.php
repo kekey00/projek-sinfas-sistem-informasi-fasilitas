@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/svg+xml" href="{{ asset('images/sinfas-logo.svg') }}?v=2">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,{{ base64_encode(file_get_contents(public_path('images/sinfas-logo.svg'))) }}">
     <title>@yield('title', 'Admin Sistem') - SINFAS</title>
 
     <!-- Google Fonts: Plus Jakarta Sans & Outfit -->

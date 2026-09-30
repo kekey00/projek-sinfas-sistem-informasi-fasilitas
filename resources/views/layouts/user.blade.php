@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="{{ asset('images/sinfas-logo.svg') }}?v=2">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,{{ base64_encode(file_get_contents(public_path('images/sinfas-logo.svg'))) }}">
     <title>@yield('title', 'SINFAS - Peminjaman Fasilitas Modern')</title>
     <meta name="description" content="Platform modern peminjaman sarana dan fasilitas sekolah/kampus secara instan & transparan.">
 
