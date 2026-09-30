@@ -6,14 +6,14 @@
 <style>
     /* HERO VIBE BANNER */
     .hero-vibe-box {
-        background: linear-gradient(135deg, #312E81 0%, #4338CA 40%, #6366F1 80%, #3B82F6 100%);
+        background: linear-gradient(135deg, #2C4A7C 0%, #3B5998 48%, #5B8DEF 100%);
         border-radius: 28px;
         padding: 36px 40px;
         color: #fff;
         margin-bottom: 28px;
         position: relative;
         overflow: hidden;
-        box-shadow: 0 15px 35px -5px rgba(67, 56, 202, 0.35);
+        box-shadow: 0 15px 35px -5px rgba(59, 89, 152, 0.35);
     }
 
     .hero-vibe-box::before {
@@ -24,7 +24,7 @@
         width: 220px;
         height: 220px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(236, 72, 153, 0.35) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(123, 167, 217, 0.35) 0%, transparent 70%);
         filter: blur(25px);
         pointer-events: none;
     }
@@ -37,7 +37,7 @@
         width: 180px;
         height: 180px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(6, 182, 212, 0.3) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(91, 141, 239, 0.28) 0%, transparent 70%);
         filter: blur(20px);
         pointer-events: none;
     }
@@ -99,8 +99,8 @@
     }
 
     .search-input-box:focus-within {
-        border-color: #3B82F6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+        border-color: #5B8DEF;
+        box-shadow: 0 0 0 3px rgba(91, 141, 239, 0.16);
     }
 
     .search-icon-svg {
@@ -212,8 +212,8 @@
     }
 
     .filter-dropdown-item.active {
-        background: #EFF6FF;
-        color: #1D4ED8;
+        background: #EEF4FF;
+        color: #3B5998;
         font-weight: 700;
     }
 
@@ -277,16 +277,16 @@
     }
 
     .category-chip-btn:hover {
-        border-color: #3B82F6;
-        color: #2563EB;
+        border-color: #5B8DEF;
+        color: #3B5998;
         transform: translateY(-1px);
     }
 
     .category-chip-btn.active {
-        background: #2563EB !important;
-        border-color: #2563EB !important;
+        background: #3B5998 !important;
+        border-color: #3B5998 !important;
         color: #FFFFFF !important;
-        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28) !important;
+        box-shadow: 0 4px 14px rgba(59, 89, 152, 0.28) !important;
         font-weight: 700;
     }
 
@@ -311,14 +311,14 @@
 
     .card-facility-vibe:hover {
         transform: translateY(-8px);
-        box-shadow: 0 20px 35px -8px rgba(99, 102, 241, 0.18), 0 8px 16px -4px rgba(15, 23, 42, 0.06);
+        box-shadow: 0 20px 35px -8px rgba(59, 89, 152, 0.18), 0 8px 16px -4px rgba(15, 23, 42, 0.06);
     }
 
     .card-image-aspect {
         position: relative;
         width: 100%;
         height: 205px;
-        background: linear-gradient(135deg, #F8FAFC, #EEF2FF);
+        background: linear-gradient(135deg, #F8FAFC, #EEF4FF);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -399,7 +399,7 @@
     .card-item-tag {
         font-size: 12.5px;
         font-weight: 600;
-        color: #6366F1;
+        color: #3B5998;
         margin-bottom: 18px;
         display: flex;
         align-items: center;
@@ -420,14 +420,14 @@
         align-items: center;
         justify-content: center;
         gap: 6px;
-        box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
+        box-shadow: 0 4px 14px rgba(59, 89, 152, 0.25);
         transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         border: none;
     }
 
     .btn-loan-request-modern:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 22px rgba(79, 70, 229, 0.4);
+        box-shadow: 0 8px 22px rgba(59, 89, 152, 0.4);
     }
 
     .btn-loan-request-modern.disabled {
@@ -601,7 +601,7 @@
                     @if($b->foto)
                         <img src="{{ asset('storage/' . $b->foto) }}" alt="{{ $b->nama_barang }}" loading="lazy">
                     @else
-                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#818CF8" stroke-width="1.6">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#5B8DEF" stroke-width="1.6">
                             <rect x="2" y="7" width="20" height="14" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M12 3v4"/><path d="M8 3h8"/>
                         </svg>
                     @endif
