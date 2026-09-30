@@ -101,6 +101,11 @@ class AdminLaporanController extends Controller
             return $tanggalAktual->greaterThan($item->tanggal_kembali);
         })->sortByDesc(fn ($item) => $item->pengembalian?->tanggal_kembali ?? now())->values();
 
+        $keterlambatanRingkasan = [
+            'Belum dikembalikan' => $keterlambatan->filter(fn ($item) => !$item->pengembalian)->count(),
+            'Sudah dikembalikan' => $keterlambatan->filter(fn ($item) => $item->pengembalian)->count(),
+        ];
+
         $stokInventaris = Barang::with(['kategori', 'peminjamans.pengembalian'])
             ->when($validated['kategori'] ?? null, fn ($query, $kategori) => $query->where('id_kategori', $kategori))
             ->orderBy('nama_barang')->get()->map(function ($barang) {
@@ -116,6 +121,13 @@ class AdminLaporanController extends Controller
                 ];
             });
 
+        $stokRingkasan = [
+            'Kondisi baik' => $stokInventaris->sum('baik'),
+            'Kurang baik' => $stokInventaris->sum('kurang_baik'),
+            'Rusak berat' => $stokInventaris->sum('rusak_berat'),
+            'Sedang dipinjam' => $stokInventaris->sum('dipinjam'),
+        ];
+
         return [
             'kategoriList' => Kategori::orderBy('nama_kategori')->get(),
             'frekuensiBarang' => $frekuensiBarang,
@@ -128,7 +140,9 @@ class AdminLaporanController extends Controller
             'riwayatKondisi' => $riwayatKondisi,
             'kondisiRingkasan' => $kondisiRingkasan,
             'keterlambatan' => $keterlambatan,
+            'keterlambatanRingkasan' => $keterlambatanRingkasan,
             'stokInventaris' => $stokInventaris,
+            'stokRingkasan' => $stokRingkasan,
         ];
     }
 }
