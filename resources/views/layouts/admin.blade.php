@@ -803,7 +803,7 @@
             <!-- Brand Logo Header -->
             <div class="sidebar-brand-header">
                 <a href="{{ route('admin.dashboard') }}" class="sidebar-brand-wrap">
-                    <img class="brand-logo-icon" src="{{ asset('images/sinfas-logo.svg') }}?v=2" alt="" aria-hidden="true">
+                    @include('components.sinfas-logo', ['class' => 'brand-logo-icon', 'variant' => 'admin'])
                     <span class="brand-title">SINFAS</span>
                 </a>
                 <button type="button" class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Tutup Menu">

@@ -527,7 +527,7 @@
         <div class="navbar-shell">
             <div style="display: flex; align-items: center; gap: 24px;">
                 <a href="{{ route('user.dashboard') }}" class="brand-link">
-                    <img class="brand-icon" src="{{ asset('images/sinfas-logo.svg') }}?v=2" alt="" aria-hidden="true">
+                    @include('components.sinfas-logo', ['class' => 'brand-icon', 'variant' => 'user'])
                     <span class="brand-logo-text">SINFAS</span>
                 </a>
 
