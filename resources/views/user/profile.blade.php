@@ -14,7 +14,7 @@
         margin-bottom: 20px;
     }
     .profile-top-breadcrumb a {
-        color: #2D4E9E;
+        color: #3B5998;
         text-decoration: none;
         font-weight: 600;
     }
@@ -68,9 +68,9 @@
         width: 110px;
         height: 110px;
         border-radius: 50%;
-        background: #EFF6FF;
+        background: #EEF4FF;
         border: 4px solid #FFFFFF;
-        box-shadow: 0 0 0 2px #E2E8F0, 0 8px 20px rgba(45, 78, 158, 0.15);
+        box-shadow: 0 0 0 2px #E2E8F0, 0 8px 20px rgba(59, 89, 152, 0.15);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -78,7 +78,7 @@
         font-family: 'Outfit', sans-serif;
         font-size: 38px;
         font-weight: 700;
-        color: #2D4E9E;
+        color: #3B5998;
     }
 
     .id-card-name {
@@ -96,16 +96,16 @@
         margin-bottom: 10px;
     }
 
-    .role-badge-amber {
+    .role-badge-primary {
         display: inline-block;
-        background: #F59E0B;
+        background: #3B5998;
         color: #FFFFFF;
         font-size: 11.5px;
         font-weight: 700;
         padding: 3px 16px;
         border-radius: 9999px;
         letter-spacing: 0.3px;
-        box-shadow: 0 2px 6px rgba(245, 158, 11, 0.25);
+        box-shadow: 0 2px 6px rgba(59, 89, 152, 0.25);
     }
 
     .sub-role-desc {
@@ -163,7 +163,7 @@
         letter-spacing: -0.2px;
     }
     .card-settings-header svg {
-        color: #2D4E9E;
+        color: #3B5998;
     }
 
     /* Form Grid */
@@ -207,8 +207,8 @@
         font-family: inherit;
     }
     .form-input-txt:focus {
-        border-color: #2D4E9E;
-        box-shadow: 0 0 0 3px rgba(45, 78, 158, 0.10);
+        border-color: #5B8DEF;
+        box-shadow: 0 0 0 3px rgba(91, 141, 239, 0.18);
     }
     .form-input-txt[readonly] {
         background: #F8FAFC;
@@ -252,7 +252,7 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: #2D4E9E;
+        background: #3B5998;
         color: #FFFFFF;
         border: none;
         border-radius: 9px;
@@ -261,12 +261,12 @@
         font-weight: 600;
         cursor: pointer;
         transition: all 0.15s ease;
-        box-shadow: 0 3px 10px rgba(45, 78, 158, 0.20);
+        box-shadow: 0 3px 10px rgba(59, 89, 152, 0.20);
     }
     .btn-save-submit:hover {
-        background: #243f85;
+        background: #2C4A7C;
         transform: translateY(-1px);
-        box-shadow: 0 6px 16px rgba(45, 78, 158, 0.30);
+        box-shadow: 0 6px 16px rgba(59, 89, 152, 0.30);
     }
 
     .btn-password-submit {
@@ -274,8 +274,8 @@
         align-items: center;
         gap: 8px;
         background: #FFFFFF;
-        color: #2D4E9E;
-        border: 1.5px solid #2D4E9E;
+        color: #3B5998;
+        border: 1.5px solid #3B5998;
         border-radius: 9px;
         padding: 9px 20px;
         font-size: 13.5px;
@@ -284,7 +284,7 @@
         transition: all 0.15s ease;
     }
     .btn-password-submit:hover {
-        background: #EFF6FF;
+        background: #EEF4FF;
         transform: translateY(-1px);
     }
 </style>
@@ -319,7 +319,7 @@
             <div class="id-card-nis">{{ $user->nis ?? ($user->username ?? '2024003') }}</div>
 
             <div>
-                <span class="role-badge-amber">
+                <span class="role-badge-primary">
                     {{ ucfirst(str_replace('_', ' ', $user->role ?? 'Siswa')) }}
                 </span>
             </div>

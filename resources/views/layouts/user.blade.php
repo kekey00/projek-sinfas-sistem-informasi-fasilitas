@@ -13,23 +13,23 @@
 
     <style>
         :root {
-            /* VIBRANT 2026 GEN-Z PALETTE */
-            --brand-primary: #4F46E5;
-            --brand-violet: #7C3AED;
+            /* SINFAS royal-blue palette, shared with the login screen */
+            --brand-primary: #3B5998;
+            --brand-violet: #5B8DEF;
             --brand-cyan: #06B6D4;
-            --brand-pink: #EC4899;
-            --brand-gradient: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #2563EB 100%);
-            --brand-gradient-hover: linear-gradient(135deg, #4338CA 0%, #6D28D9 50%, #1D4ED8 100%);
-            --brand-mesh: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
-                          radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.05) 0px, transparent 50%),
-                          radial-gradient(at 50% 100%, rgba(6, 182, 212, 0.06) 0px, transparent 50%);
+            --brand-pink: #7BA7D9;
+            --brand-gradient: linear-gradient(135deg, #7BA7D9 0%, #3B5998 50%, #2C4A7C 100%);
+            --brand-gradient-hover: linear-gradient(135deg, #5B8DEF 0%, #2C4A7C 100%);
+            --brand-mesh: radial-gradient(at 0% 0%, rgba(91, 141, 239, 0.08) 0px, transparent 50%),
+                          radial-gradient(at 100% 0%, rgba(123, 167, 217, 0.06) 0px, transparent 50%),
+                          radial-gradient(at 50% 100%, rgba(6, 182, 212, 0.04) 0px, transparent 50%);
             
             --surface: rgba(255, 255, 255, 0.92);
             --surface-card: #FFFFFF;
             --surface-hover: #F8FAFC;
             --bg-base: #F8FAFC;
             --border-subtle: #E2E8F0;
-            --border-glow: rgba(99, 102, 241, 0.35);
+            --border-glow: rgba(91, 141, 239, 0.35);
 
             --text-main: #0F172A;
             --text-secondary: #475569;
@@ -51,8 +51,8 @@
 
             --shadow-subtle: 0 2px 8px rgba(15, 23, 42, 0.04);
             --shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.05), 0 4px 10px -2px rgba(15, 23, 42, 0.02);
-            --shadow-card-hover: 0 20px 35px -8px rgba(99, 102, 241, 0.16), 0 8px 16px -4px rgba(15, 23, 42, 0.04);
-            --shadow-glow: 0 8px 24px -4px rgba(79, 70, 229, 0.35);
+            --shadow-card-hover: 0 20px 35px -8px rgba(59, 89, 152, 0.16), 0 8px 16px -4px rgba(15, 23, 42, 0.04);
+            --shadow-glow: 0 8px 24px -4px rgba(59, 89, 152, 0.35);
         }
 
         * {
@@ -117,7 +117,7 @@
             align-items: center;
             justify-content: center;
             color: #fff;
-            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+            box-shadow: 0 4px 14px rgba(59, 89, 152, 0.35);
             transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
@@ -129,7 +129,7 @@
             font-size: 22px;
             font-weight: 900;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #1E1B4B 0%, #4338CA 100%);
+            background: linear-gradient(135deg, #2C4A7C 0%, #3B5998 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: flex;
@@ -145,9 +145,9 @@
             text-transform: uppercase;
             padding: 2px 8px;
             border-radius: var(--radius-pill);
-            background: #EEF2FF;
+            background: #EEF4FF;
             color: var(--brand-primary);
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(91, 141, 239, 0.2);
             -webkit-text-fill-color: initial;
         }
 
@@ -209,9 +209,9 @@
         }
 
         .icon-action-btn:hover {
-            background: #EEF2FF;
+            background: #EEF4FF;
             color: var(--brand-primary);
-            border-color: rgba(99, 102, 241, 0.4);
+            border-color: rgba(91, 141, 239, 0.4);
             transform: translateY(-2px);
         }
 
@@ -221,12 +221,12 @@
             height: 44px;
             border-radius: var(--radius-pill);
             padding: 2.5px;
-            background: linear-gradient(135deg, #EC4899, #8B5CF6, #3B82F6);
+            background: linear-gradient(135deg, #7BA7D9, #3B5998, #2C4A7C);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+            box-shadow: 0 4px 12px rgba(59, 89, 152, 0.25);
             transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
@@ -289,7 +289,7 @@
         }
 
         .dropdown-menu-item:hover {
-            background: #EEF2FF;
+            background: #EEF4FF;
             color: var(--brand-primary);
             transform: translateX(4px);
         }
@@ -376,9 +376,9 @@
 
         .back-pill-link:hover {
             color: var(--brand-primary);
-            border-color: rgba(99, 102, 241, 0.4);
+            border-color: rgba(91, 141, 239, 0.4);
             transform: translateX(-4px);
-            background: #EEF2FF;
+            background: #EEF4FF;
         }
 
         /* MODAL POPUP */
@@ -419,7 +419,7 @@
             width: 80px;
             height: 80px;
             border-radius: var(--radius-pill);
-            background: #EEF2FF;
+            background: #EEF4FF;
             color: var(--brand-primary);
             display: flex;
             align-items: center;
@@ -433,7 +433,7 @@
             position: absolute;
             inset: -8px;
             border-radius: var(--radius-pill);
-            border: 2px solid rgba(99, 102, 241, 0.3);
+            border: 2px solid rgba(91, 141, 239, 0.3);
             animation: ringPulse 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
         }
 
@@ -553,7 +553,7 @@
                 <button type="button" class="icon-action-btn" onclick="toggleNotifModal()" title="Notifikasi" id="btn-notif-top">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                     @if(isset($userNotifications) && $userNotifications->count() > 0)
-                        <span style="position: absolute; top: 5px; right: 5px; min-width: 18px; height: 18px; border-radius: 9px; background: #EC4899; box-shadow: 0 0 8px #EC4899; color: #fff; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; padding: 0 4px;">{{ $userNotifications->count() }}</span>
+                        <span style="position: absolute; top: 5px; right: 5px; min-width: 18px; height: 18px; border-radius: 9px; background: #5B8DEF; box-shadow: 0 0 8px #5B8DEF; color: #fff; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; padding: 0 4px;">{{ $userNotifications->count() }}</span>
                     @endif
                 </button>
 
