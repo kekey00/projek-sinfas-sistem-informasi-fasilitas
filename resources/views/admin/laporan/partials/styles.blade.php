@@ -28,6 +28,274 @@
     .count-pill { display:inline-flex; min-width:30px; justify-content:center; padding:4px 9px; border-radius:999px; color:#1D4ED8; background:#DBEAFE; font-weight:700; } .empty-report { color:#64748B; font-size:13px; padding:28px 14px; text-align:center; }
     .trend-chart { height:230px; position:relative; margin:0 26px 24px; } .trend-title { color:#334155; font-size:14px; font-weight:700; margin:0 26px 10px; }
     .catalog-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; } .catalog-card { display:flex; flex-direction:column; min-height:220px; padding:24px; border:1px solid #E5E7EB; border-radius:18px; background:#fff; box-shadow:0 8px 22px rgba(15,23,42,.055); position:relative; overflow:hidden; } .catalog-card::after { content:''; position:absolute; right:-35px; top:-35px; width:120px; height:120px; border:20px solid rgba(47,87,138,.08); border-radius:50%; } .catalog-number { color:#232F72; font-size:12px; font-weight:800; letter-spacing:1px; } .catalog-title { color:#121358; font-family:'Outfit',sans-serif; font-size:19px; font-weight:700; line-height:1.25; margin:12px 0 8px; max-width:260px; } .catalog-description { color:#64748B; font-size:13px; line-height:1.55; flex:1; max-width:390px; } .catalog-link { display:inline-flex; align-items:center; gap:7px; color:#2F578A; font-size:13px; font-weight:700; text-decoration:none; margin-top:18px; } .catalog-link:hover { color:#121358; }
+    .print-only { display: none; }
     @media(max-width:800px){ .report-header{align-items:flex-start;padding:22px 20px}.report-title{font-size:23px}.report-mark{display:none}.report-filter{grid-template-columns:1fr}.report-summary{grid-template-columns:1fr 1fr;padding-left:20px;padding-right:20px}.report-card-header{padding:18px 20px}.report-table-wrap{padding:16px 20px 20px}.trend-chart{margin-left:20px;margin-right:20px}.trend-title{margin-left:20px}.catalog-grid{grid-template-columns:1fr} }
-    @media print { .sidebar,.topbar,.report-filter,.report-actions,.report-mark { display:none !important; } .main-wrapper { margin:0 !important; } .page-content { padding:0 !important; } .report-header { color:#121358; background:#fff; box-shadow:none; border-bottom:2px solid #121358; border-radius:0; padding:0 0 14px; } .report-title { color:#121358; } .report-subtitle { color:#475569; } .report-card { box-shadow:none; break-inside:avoid; } }
+    @media print {
+        @page {
+            size: auto;
+            margin: 12mm 15mm 12mm 15mm;
+        }
+        html, body {
+            background: #FFFFFF !important;
+            color: #1E293B !important;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+            font-size: 9.5px !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+        .admin-layout, .main-wrapper, .page-content {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #FFFFFF !important;
+            display: block !important;
+            width: 100% !important;
+        }
+        .sidebar, .topbar, .report-header, .report-filter, .report-actions, .report-mark, .trend-chart, .trend-title {
+            display: none !important;
+        }
+        .print-only {
+            display: block !important;
+        }
+
+        /* Kop Surat Resmi di Print Web */
+        .print-kop-table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            margin-bottom: 0 !important;
+            border: none !important;
+        }
+        .print-kop-table td {
+            border: none !important;
+            padding: 0 !important;
+        }
+        .print-kop-center {
+            text-align: center !important;
+            padding: 0 12px !important;
+        }
+        .print-kop-instansi {
+            font-size: 9px !important;
+            font-weight: 700 !important;
+            color: #475569 !important;
+            letter-spacing: 1px !important;
+            text-transform: uppercase !important;
+        }
+        .print-kop-sekolah {
+            font-size: 17px !important;
+            font-weight: 800 !important;
+            color: #121358 !important;
+            letter-spacing: 0.5px !important;
+            margin: 2px 0 !important;
+            text-transform: uppercase !important;
+        }
+        .print-kop-unit {
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            color: #232F72 !important;
+            letter-spacing: 0.3px !important;
+            margin-bottom: 2px !important;
+        }
+        .print-kop-alamat {
+            font-size: 8px !important;
+            color: #64748B !important;
+            line-height: 1.25 !important;
+        }
+        .print-side-badge {
+            display: inline-block !important;
+            padding: 4px 8px !important;
+            background: #F0F4FA !important;
+            border: 1px solid #CBD5E1 !important;
+            border-radius: 6px !important;
+            font-size: 8px !important;
+            font-weight: 700 !important;
+            color: #232F72 !important;
+            text-align: center !important;
+            line-height: 1.2 !important;
+        }
+        .print-kop-divider-thick {
+            height: 2.5px !important;
+            background: #121358 !important;
+            margin-top: 8px !important;
+        }
+        .print-kop-divider-thin {
+            height: 0.8px !important;
+            background: #2F578A !important;
+            margin-top: 1.5px !important;
+            margin-bottom: 12px !important;
+        }
+
+        /* Judul Dokumen Cetak */
+        .print-doc-title-wrap {
+            text-align: center !important;
+            margin-bottom: 12px !important;
+        }
+        .print-doc-title {
+            font-size: 14px !important;
+            font-weight: 800 !important;
+            color: #121358 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.6px !important;
+        }
+        .print-doc-subtitle {
+            font-size: 9px !important;
+            color: #64748B !important;
+            margin-top: 3px !important;
+            font-style: italic !important;
+        }
+
+        /* Metadata Cetak */
+        .print-meta-table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            background: #F8FAFC !important;
+            border: 1px solid #E2E8F0 !important;
+            border-radius: 6px !important;
+            margin-bottom: 14px !important;
+        }
+        .print-meta-table td {
+            padding: 6px 12px !important;
+            font-size: 8.5px !important;
+            color: #334155 !important;
+            border: none !important;
+        }
+        .print-meta-label {
+            color: #64748B !important;
+        }
+        .print-meta-value {
+            font-weight: 700 !important;
+            color: #0F172A !important;
+        }
+
+        /* Kartu & Ringkasan */
+        .report-card {
+            border: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .report-card::before, .report-card-header, .report-index {
+            display: none !important;
+        }
+        .report-summary {
+            display: flex !important;
+            gap: 10px !important;
+            padding: 0 !important;
+            margin-bottom: 14px !important;
+        }
+        .summary-box {
+            flex: 1 !important;
+            background: #FFFFFF !important;
+            border: 1px solid #E2E8F0 !important;
+            border-top: 3px solid #232F72 !important;
+            border-radius: 6px !important;
+            padding: 6px 10px !important;
+        }
+        .summary-label {
+            font-size: 7.5px !important;
+            font-weight: 700 !important;
+            color: #64748B !important;
+            text-transform: uppercase !important;
+        }
+        .summary-value {
+            font-size: 15px !important;
+            font-weight: 800 !important;
+            color: #121358 !important;
+            margin-top: 2px !important;
+        }
+
+        /* Tabel Data */
+        .report-table-wrap {
+            padding: 0 !important;
+            margin-bottom: 14px !important;
+            overflow: visible !important;
+        }
+        .report-table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            font-size: 9px !important;
+        }
+        .report-table th {
+            background: #121358 !important;
+            color: #FFFFFF !important;
+            font-size: 8px !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+            padding: 7px 8px !important;
+            border: 1px solid #121358 !important;
+        }
+        .report-table td {
+            padding: 6px 8px !important;
+            border: 1px solid #E2E8F0 !important;
+            color: #334155 !important;
+            font-size: 9px !important;
+        }
+        .report-table tbody tr:nth-child(even) td {
+            background-color: #F8FAFC !important;
+        }
+        .count-pill {
+            display: inline-block !important;
+            padding: 2.5px 7px !important;
+            border-radius: 4px !important;
+            font-size: 8px !important;
+            font-weight: 700 !important;
+            background: #DBEAFE !important;
+            color: #1E40AF !important;
+            border: 1px solid #93C5FD !important;
+        }
+
+        /* Pengesahan Tanda Tangan */
+        .print-signatures-wrap {
+            margin-top: 15px !important;
+            page-break-inside: avoid !important;
+        }
+        .print-signature-table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            border: none !important;
+        }
+        .print-signature-table td {
+            border: none !important;
+            padding: 0 !important;
+            vertical-align: top !important;
+            font-size: 9px !important;
+        }
+        .print-sig-col-left {
+            width: 50% !important;
+            text-align: left !important;
+        }
+        .print-sig-col-right {
+            width: 50% !important;
+            text-align: right !important;
+        }
+        .print-sig-box {
+            display: inline-block !important;
+            text-align: left !important;
+            min-width: 200px !important;
+        }
+        .print-sig-date {
+            margin-bottom: 2px !important;
+            color: #475569 !important;
+        }
+        .print-sig-role {
+            font-weight: 700 !important;
+            color: #0F172A !important;
+            margin-bottom: 45px !important;
+        }
+        .print-sig-name {
+            font-weight: 700 !important;
+            text-decoration: underline !important;
+            color: #0F172A !important;
+        }
+        .print-sig-nip {
+            font-size: 8px !important;
+            color: #64748B !important;
+            margin-top: 2px !important;
+        }
+        .print-doc-footer {
+            margin-top: 14px !important;
+            padding-top: 6px !important;
+            border-top: 0.8px dashed #CBD5E1 !important;
+        }
+    }
 </style>

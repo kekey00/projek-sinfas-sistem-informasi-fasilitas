@@ -346,8 +346,8 @@
     <!-- KOP SURAT RESMI -->
     <table class="kop-table">
         <tr>
-            <td style="width: 55px;">
-                <div class="kop-logo-box">SF</div>
+            <td style="width: 58px; vertical-align: middle;">
+                <img src="data:image/svg+xml;base64,{{ base64_encode(file_get_contents(public_path('images/sinfas-logo.svg'))) }}" width="54" height="54" style="display: block; border-radius: 12px;">
             </td>
             <td class="kop-text-center">
                 <div class="kop-instansi">Sistem Informasi Pengelolaan Fasilitas Sekolah</div>
