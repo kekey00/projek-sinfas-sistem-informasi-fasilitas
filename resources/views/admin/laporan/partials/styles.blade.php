@@ -28,6 +28,39 @@
     .count-pill { display:inline-flex; min-width:30px; justify-content:center; padding:4px 9px; border-radius:999px; color:#1D4ED8; background:#DBEAFE; font-weight:700; } .empty-report { color:#64748B; font-size:13px; padding:28px 14px; text-align:center; }
     .trend-chart { height:230px; position:relative; margin:0 26px 24px; } .trend-title { color:#334155; font-size:14px; font-weight:700; margin:0 26px 10px; }
     .catalog-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; } .catalog-card { display:flex; flex-direction:column; min-height:220px; padding:24px; border:1px solid #E5E7EB; border-radius:18px; background:#fff; box-shadow:0 8px 22px rgba(15,23,42,.055); position:relative; overflow:hidden; } .catalog-card::after { content:''; position:absolute; right:-35px; top:-35px; width:120px; height:120px; border:20px solid rgba(40,114,113,.08); border-radius:50%; } .catalog-number { color:#287271; font-size:12px; font-weight:800; letter-spacing:1px; } .catalog-title { color:#102A43; font-family:'Outfit',sans-serif; font-size:19px; font-weight:700; line-height:1.25; margin:12px 0 8px; max-width:260px; } .catalog-description { color:#64748B; font-size:13px; line-height:1.55; flex:1; max-width:390px; } .catalog-link { display:inline-flex; align-items:center; gap:7px; color:#287271; font-size:13px; font-weight:700; text-decoration:none; margin-top:18px; } .catalog-link:hover { color:#115E59; }
+    .report-document-heading { background:#fff; border:1px solid #CBD5E1; border-top:4px solid #243B5A; padding:22px 26px 18px; margin-bottom:18px; color:#1E293B; }
+    .document-school-brand { display:flex; align-items:center; justify-content:center; gap:13px; padding-bottom:15px; border-bottom:1px solid #CBD5E1; }
+    .document-school-logo { flex:none; }
+    .document-school-name { display:flex; flex-direction:column; color:#334155; font-size:12px; line-height:1.45; }
+    .document-school-name strong { color:#102A43; font-family:'Outfit',sans-serif; font-size:17px; }
+    .document-heading-content { text-align:center; padding:16px 0 12px; }
+    .document-number { color:#475569; font-size:11px; font-weight:700; letter-spacing:.8px; }
+    .report-document-heading .report-title { color:#102A43; font-size:21px; margin:5px 0; letter-spacing:0; }
+    .report-document-heading .report-subtitle { color:#475569; font-size:12.5px; }
+    .document-metadata { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid #CBD5E1; border-bottom:1px solid #CBD5E1; }
+    .document-metadata div { padding:9px 12px; border-right:1px solid #E2E8F0; }
+    .document-metadata div:last-child { border-right:0; }
+    .document-metadata dt { color:#64748B; font-size:10px; font-weight:700; text-transform:uppercase; }
+    .document-metadata dd { color:#1E293B; font-size:12px; font-weight:600; margin:3px 0 0; }
+    .report-card.formal-report { border:1px solid #CBD5E1; border-radius:4px; box-shadow:none; }
+    .report-card.formal-report::before { display:none; }
+    .formal-report .report-card-header { background:#F8FAFC; padding:16px 20px; }
+    .formal-report .report-index { width:27px; height:27px; border-radius:3px; background:#243B5A; }
+    .formal-report .report-card-title { color:#1E293B; font-family:inherit; font-size:15px; }
+    .formal-report .report-card-description { color:#475569; }
+    .formal-report .report-filter { background:#F8FAFC; border-color:#CBD5E1; }
+    .formal-report .summary-box { background:#F8FAFC; border:1px solid #CBD5E1; border-radius:3px; }
+    .formal-report .summary-value { color:#243B5A; font-family:inherit; font-size:22px; }
+    .formal-report .report-table th { background:#243B5A; color:#fff; letter-spacing:.3px; }
+    .formal-report .report-table td { border:1px solid #D7DEE8; }
+    .formal-report .report-table tbody tr:hover { background:transparent; }
+    @media print {
+        .report-document-heading { border:0; border-top:0; padding:0 0 12px; margin-bottom:14px; }
+        .document-school-brand { justify-content:center; }
+        .report-card.formal-report { border:1px solid #9CA3AF; }
+        .formal-report .report-card-header { background:#F1F5F9 !important; }
+        .formal-report .report-table th { background:#E5E7EB !important; color:#111827 !important; }
+    }
     @media(max-width:800px){ .report-header{align-items:flex-start;padding:22px 20px}.report-title{font-size:23px}.report-mark{display:none}.report-filter{grid-template-columns:1fr}.report-summary{grid-template-columns:1fr 1fr;padding-left:20px;padding-right:20px}.report-card-header{padding:18px 20px}.report-table-wrap{padding:16px 20px 20px}.trend-chart{margin-left:20px;margin-right:20px}.trend-title{margin-left:20px}.catalog-grid{grid-template-columns:1fr} }
     @media print { .sidebar,.topbar,.report-filter,.report-actions,.report-mark { display:none !important; } .main-wrapper { margin:0 !important; } .page-content { padding:0 !important; } .report-header { color:#102A43; background:#fff; box-shadow:none; border-bottom:2px solid #102A43; border-radius:0; padding:0 0 14px; } .report-title { color:#102A43; } .report-subtitle { color:#475569; } .report-card { box-shadow:none; break-inside:avoid; } }
 </style>
