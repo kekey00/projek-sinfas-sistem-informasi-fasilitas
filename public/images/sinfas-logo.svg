@@ -1,22 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
   <defs>
-    <linearGradient id="bg" x1="12" y1="8" x2="108" y2="112" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#20375C"/>
-      <stop offset="1" stop-color="#13233F"/>
+    <linearGradient id="bg" x1="15" y1="8" x2="106" y2="112" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#263F67"/>
+      <stop offset="1" stop-color="#172845"/>
     </linearGradient>
-    <linearGradient id="mark" x1="31" y1="28" x2="91" y2="96" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#9CE5CE"/>
-      <stop offset=".5" stop-color="#78C9E1"/>
-      <stop offset="1" stop-color="#B39BE7"/>
-    </linearGradient>
-    <linearGradient id="edge" x1="22" y1="18" x2="97" y2="101" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFFFFF" stop-opacity=".22"/>
-      <stop offset="1" stop-color="#FFFFFF" stop-opacity=".04"/>
+    <linearGradient id="mark" x1="30" y1="34" x2="99" y2="86" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#92E0C8"/>
+      <stop offset=".52" stop-color="#76C8E4"/>
+      <stop offset="1" stop-color="#B29BE6"/>
     </linearGradient>
   </defs>
-  <rect x="1" y="1" width="118" height="118" rx="29" fill="url(#bg)"/>
-  <rect x="1.5" y="1.5" width="117" height="117" rx="28.5" stroke="url(#edge)"/>
-  <path d="M68 35C63 29 55 26 47 29C39 31 35 38 37 45C39 52 47 56 59 61C72 67 80 73 80 83C80 94 70 101 58 101C48 101 39 96 34 88" stroke="url(#mark)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M76 31V84C76 92 72 98 66 102M76 32H96M76 57H91" stroke="url(#mark)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M43 33C49 30 56 31 61 35M81 36H91" stroke="#FFFFFF" stroke-opacity=".3" stroke-width="1.5" stroke-linecap="round"/>
+  <rect x="1" y="1" width="118" height="118" rx="28" fill="url(#bg)"/>
+  <rect x="1.5" y="1.5" width="117" height="117" rx="27.5" stroke="#FFFFFF" stroke-opacity=".1"/>
+  <path d="M64 35C58 29 49 28 42 32C34 36 34 44 41 49C46 53 54 55 61 59C69 63 73 69 70 76C68 83 60 88 51 88C43 88 36 84 31 78" stroke="url(#mark)" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M80 31V89M80 32H99M80 57H94" stroke="url(#mark)" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
