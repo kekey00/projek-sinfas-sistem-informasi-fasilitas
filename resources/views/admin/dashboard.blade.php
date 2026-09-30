@@ -465,10 +465,10 @@
     .dashboard-reports-link:hover { text-decoration: underline; }
     .dashboard-report-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
     .dashboard-report-item { display: flex; flex-direction: column; min-height: 142px; padding: 16px; border: 1px solid #E2E8F0; border-radius: 12px; background: #F8FAFC; text-decoration: none; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
-    .dashboard-report-item:hover { transform: translateY(-3px); border-color: #A7F3D0; box-shadow: 0 8px 18px rgba(15, 23, 42, .08); }
-    .dashboard-report-number { color: #287271; font-size: 10px; font-weight: 800; letter-spacing: .8px; }
+    .dashboard-report-item:hover { transform: translateY(-3px); border-color: #2F578A; box-shadow: 0 8px 18px rgba(18, 19, 88, .08); }
+    .dashboard-report-number { color: #232F72; font-size: 10px; font-weight: 800; letter-spacing: .8px; }
     .dashboard-report-name { color: #1E293B; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; line-height: 1.3; margin-top: 9px; }
-    .dashboard-report-arrow { color: #287271; font-size: 18px; font-weight: 700; margin-top: auto; }
+    .dashboard-report-arrow { color: #2F578A; font-size: 18px; font-weight: 700; margin-top: auto; }
 
     /* Modal Styling */
     .btn-submit {
