@@ -338,188 +338,6 @@
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-delay: 0ms !important; }
         }
-
-        :root {
-            --ink: #0f172a;
-            --paper: #f1f5fa;
-            --primary: #3b5998;
-            --primary-dark: #2c4a7c;
-            --primary-soft: #eef4ff;
-            --cyan: #06b6d4;
-            --muted: #64748b;
-            --border: #e2e8f0;
-            --brand-gradient: linear-gradient(135deg, #6b8dd6 0%, #3b5998 60%, #2c4a7c 100%);
-        }
-        body {
-            color: var(--ink);
-            background-color: var(--paper);
-            background-image: radial-gradient(at 0% 0%, rgba(107, 141, 214, .12), transparent 48%), radial-gradient(at 100% 100%, rgba(6, 182, 212, .05), transparent 44%);
-        }
-        .site-header {
-            width: min(calc(100% - 48px), 1280px);
-            height: 72px;
-            margin: 14px auto 0;
-            padding: 0 22px;
-            border: 1px solid rgba(226, 232, 240, .9);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, .9);
-            box-shadow: 0 8px 24px rgba(44, 74, 124, .08);
-        }
-        .brand-name { color: var(--primary-dark); }
-        .brand-caption { color: var(--muted); }
-        .main-nav { border-color: var(--border); background: #f1f5f9; color: #475569; }
-        .main-nav a:hover { color: var(--primary); background: #fff; }
-        .login-link:hover { color: #5b8def; }
-        .button { border-radius: 9999px; background: var(--brand-gradient); box-shadow: 0 8px 24px rgba(59, 89, 152, .25); }
-        .button:hover { box-shadow: 0 12px 28px rgba(59, 89, 152, .32); }
-        .hero {
-            width: min(calc(100% - 48px), 1280px);
-            min-height: 660px;
-            margin-top: 12px;
-            border: 1px solid rgba(255, 255, 255, .24);
-            border-radius: 14px;
-            background: var(--primary-dark);
-            box-shadow: 0 24px 48px -12px rgba(44, 74, 124, .42);
-        }
-        .hero::before { background: linear-gradient(180deg, rgba(28, 51, 90, .04), rgba(28, 51, 90, .12) 48%, rgba(28, 51, 90, .4) 100%); }
-        .hero::after { display: none; }
-        .hero-image { opacity: .38; object-position: center 42%; animation: none; }
-        .hero-shade { background: linear-gradient(110deg, rgba(28, 51, 90, .94) 0%, rgba(44, 74, 124, .84) 55%, rgba(59, 89, 152, .64) 100%); }
-        .hero-inner { display: block; width: min(calc(100% - 64px), 960px); padding: 128px 0 206px; text-align: center; }
-        .hero-copy-block { animation: copy-arrive .55s both cubic-bezier(.2,.8,.2,1); }
-        .eyebrow { margin-bottom: 22px; border-color: rgba(255, 255, 255, .28); background: rgba(255, 255, 255, .13); color: #fff; }
-        h1 { max-width: 850px; margin-right: auto; margin-left: auto; font-size: clamp(46px, 5.4vw, 68px); }
-        h1 span { color: #67e8f9; }
-        .hero-copy { margin-right: auto; margin-left: auto; color: rgba(255, 255, 255, .84); }
-        .hero-actions { justify-content: center; }
-        .hero-secondary { border-color: rgba(255, 255, 255, .38); background: rgba(255, 255, 255, .1); }
-        .hero-proof { justify-content: center; color: rgba(255, 255, 255, .78); }
-        .hero-product-card {
-            position: absolute;
-            right: auto;
-            bottom: 28px;
-            left: 50%;
-            width: min(calc(100% - 72px), 960px);
-            padding: 0;
-            border: 0;
-            border-radius: 0;
-            background: transparent;
-            color: var(--ink);
-            box-shadow: none;
-            backdrop-filter: none;
-            animation: none;
-            transform: translateX(-50%);
-        }
-        .hero-product-card:hover { transform: translateX(-50%); box-shadow: none; }
-        .hero-product-card::before, .product-card-top, .product-card-title, .product-card-foot { display: none; }
-        .product-list { display: grid; grid-template-columns: repeat(3, 1fr); border: 0; }
-        .product-row { min-width: 0; padding: 12px 20px; border: 0; border-right: 1px solid rgba(255, 255, 255, .2); }
-        .product-row:last-child { border-right: 0; }
-        .product-row-icon { background: rgba(255, 255, 255, .16); color: #fff; }
-        .product-row:nth-child(2) .product-row-icon { background: rgba(6, 182, 212, .2); color: #a5f3fc; }
-        .product-row:nth-child(3) .product-row-icon { background: rgba(16, 185, 129, .2); color: #a7f3d0; }
-        .product-row-copy strong { color: #fff; }
-        .product-row-copy span { color: rgba(255, 255, 255, .76); }
-        .product-row-check { display: none; }
-        .hero-note, .hero-stat { display: none; }
-        .intro-strip { width: min(calc(100% - 64px), 1160px); border-color: var(--border); }
-        .intro-strip p { color: var(--muted); }
-        .intro-tag { color: var(--primary); }
-        .trust-stat strong { color: var(--ink); }
-        .trust-stat span { color: var(--muted); }
-        .features-section { padding: 78px 32px 84px; background: rgba(255, 255, 255, .72); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-        .features-wrap { width: min(100%, 1160px); margin: 0 auto; }
-        .features-heading { max-width: 700px; margin: 0 auto 34px; text-align: center; }
-        .features-heading .section-kicker { color: var(--primary); }
-        .features-heading h2 { max-width: 660px; margin: 0 auto 12px; color: var(--ink); }
-        .features-heading > p:last-child { max-width: 570px; margin: 0 auto; color: var(--muted); font-size: 13px; line-height: 1.7; }
-        .features-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
-        .feature-card { grid-column: span 2; min-height: 174px; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background: #fff; box-shadow: 0 4px 20px -2px rgba(44, 74, 124, .07); transition: transform .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease; }
-        .feature-card:nth-child(4) { grid-column: 2 / span 2; }
-        .feature-card:nth-child(5) { grid-column: 4 / span 2; }
-        .feature-card:hover { transform: translateY(-4px); border-color: rgba(91, 141, 239, .4); background: #fff; box-shadow: 0 14px 28px -10px rgba(59, 89, 152, .2); }
-        .feature-icon { display: grid; width: 34px; height: 34px; margin-bottom: 20px; place-items: center; border-radius: 8px; background: #eef4ff; color: var(--primary); }
-        .feature-icon svg { width: 20px; height: 20px; }
-        .feature-card:nth-child(2) .feature-icon { background: #ecfeff; color: #0891b2; }
-        .feature-card:nth-child(3) .feature-icon { background: #ecfdf5; color: #059669; }
-        .feature-card h3 { margin-bottom: 7px; color: var(--ink); font-size: 15px; }
-        .feature-card p { max-width: 300px; margin: 0; color: var(--muted); font-size: 11px; line-height: 1.7; }
-        .steps-section { padding-top: 82px; padding-bottom: 88px; }
-        .section-kicker { color: var(--primary); }
-        h2 { color: var(--ink); }
-        .section-heading > p { color: var(--muted); }
-        .step, .step + .step { border-color: #e2e8f0; background: #fff; box-shadow: 0 4px 20px -2px rgba(44, 74, 124, .07); }
-        .step:hover { border-color: rgba(91, 141, 239, .4); box-shadow: 0 16px 34px -16px rgba(59, 89, 152, .28); }
-        .step-number { color: var(--primary); }
-        .step p { color: var(--muted); }
-        .activity-section { padding: 88px 32px 94px; border-top: 1px solid rgba(255, 255, 255, .1); border-bottom: 1px solid rgba(255, 255, 255, .1); background: linear-gradient(112deg, #1c335a 0%, #284777 58%, #2c4a7c 100%); }
-        .activity-wrap { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); align-items: center; gap: 76px; width: min(100%, 1160px); margin: 0 auto; }
-        .activity-intro .section-kicker { margin-bottom: 14px; color: #67e8f9; }
-        .activity-intro h2 { max-width: 520px; margin: 0; font-size: 48px; line-height: 1.04; }
-        .activity-intro h2 span { color: #a5f3fc; }
-        .activity-intro > p:not(.section-kicker) { max-width: 430px; margin: 18px 0 24px; color: rgba(255, 255, 255, .8); font-size: 14px; line-height: 1.75; }
-        .activity-link { display: inline-flex; min-height: 44px; align-items: center; gap: 10px; padding: 0 18px; border-radius: 9999px; background: #fff; color: var(--primary); font-size: 12px; font-weight: 800; box-shadow: 0 6px 18px rgba(15, 23, 42, .12); transition: transform .18s ease, background .18s ease; }
-        .activity-link:hover { transform: translateY(-2px); background: #eef4ff; }
-        .activity-link svg { width: 16px; height: 16px; }
-        .activity-note { display: flex; align-items: center; gap: 9px; margin-top: 22px; color: rgba(255, 255, 255, .72); font-size: 11px; font-weight: 600; }
-        .activity-note span { width: 7px; height: 7px; border-radius: 50%; background: #6ee7b7; box-shadow: 0 0 0 4px rgba(110, 231, 183, .12); }
-        .activity-list { border-top: 1px solid rgba(255, 255, 255, .22); }
-        .activity-row { display: flex; align-items: center; gap: 16px; padding: 19px 2px; border-bottom: 1px solid rgba(255, 255, 255, .22); color: inherit; transition: padding .18s ease, background .18s ease; }
-        .activity-row:hover { padding-right: 8px; padding-left: 8px; background: rgba(255, 255, 255, .025); }
-        .activity-number { display: grid; width: 38px; height: 38px; flex: 0 0 auto; place-items: center; border-radius: 50%; background: rgba(255, 255, 255, .18); color: #fff; font: 700 13px 'Outfit', sans-serif; }
-        .activity-row:nth-child(2) .activity-number { background: rgba(6, 182, 212, .24); color: #a5f3fc; }
-        .activity-row:nth-child(3) .activity-number { background: rgba(16, 185, 129, .22); color: #a7f3d0; }
-        .activity-row-copy { display: grid; gap: 3px; min-width: 0; }
-        .activity-category { color: rgba(255, 255, 255, .68); font-size: 9px; font-weight: 800; letter-spacing: .8px; }
-        .activity-row-copy strong { color: #fff; font: 600 16px 'Outfit', sans-serif; }
-        .activity-description { color: rgba(255, 255, 255, .78); font-size: 11px; line-height: 1.5; }
-        .activity-arrow { display: grid; width: 32px; height: 32px; flex: 0 0 auto; margin-left: auto; place-items: center; border: 1px solid rgba(255, 255, 255, .3); border-radius: 50%; color: #fff; transition: transform .18s ease, border-color .18s ease; }
-        .activity-arrow svg { width: 15px; height: 15px; }
-        .activity-row:hover .activity-arrow { transform: translateX(3px); border-color: rgba(255, 255, 255, .7); }
-        .faq-section { background: rgba(255, 255, 255, .76); border-color: var(--border); }
-        .faq-intro > p:not(.section-kicker) { color: var(--muted); }
-        .faq-login-link { color: var(--primary); }
-        .faq-list, .faq-item { border-color: var(--border); }
-        .faq-item summary { color: var(--ink); }
-        .faq-item summary:hover { color: var(--primary); }
-        .faq-item summary::after { color: var(--primary); }
-        .faq-answer { color: var(--muted); }
-        .closing-band { margin-top: 28px; margin-bottom: 0; border: 1px solid rgba(255, 255, 255, .18); border-radius: 12px; background: var(--brand-gradient); box-shadow: 0 18px 36px -12px rgba(44, 74, 124, .4); }
-        .closing-band p { color: #fff; }
-        footer { color: var(--muted); }
-        .footer-brand { color: var(--primary-dark); }
-
-        @media (max-width: 760px) {
-            .site-header { width: calc(100% - 28px); height: 64px; margin-top: 10px; padding: 0 14px; }
-            .hero { width: calc(100% - 28px); min-height: 0; margin-top: 10px; }
-            .hero-inner { width: calc(100% - 36px); padding: 82px 0 238px; }
-            h1 { font-size: 48px; }
-            .hero-product-card { bottom: 18px; width: calc(100% - 28px); }
-            .product-list { grid-template-columns: 1fr; }
-            .product-row { padding: 8px 4px; border-right: 0; border-bottom: 1px solid rgba(148, 163, 184, .12); text-align: left; }
-            .product-row:last-child { border-bottom: 0; }
-            .intro-strip { width: calc(100% - 40px); }
-            .features-section { padding: 66px 20px 72px; }
-            .features-heading { margin-bottom: 26px; }
-            .features-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            .feature-card, .feature-card:nth-child(4), .feature-card:nth-child(5) { grid-column: auto; }
-            .feature-card { min-height: 160px; padding: 17px; }
-            .activity-section { padding: 70px 20px 76px; }
-            .activity-wrap { grid-template-columns: 1fr; gap: 34px; }
-            .activity-intro h2 { font-size: 40px; }
-        }
-        @media (max-width: 420px) {
-            h1 { font-size: 40px; }
-            .hero-inner { padding: 70px 0 232px; }
-            .features-grid { grid-template-columns: 1fr; }
-            .feature-card { min-height: 0; }
-            .activity-intro h2 { font-size: 36px; }
-            .activity-row { gap: 11px; padding: 16px 0; }
-            .activity-number { width: 34px; height: 34px; }
-            .activity-row-copy strong { font-size: 14px; }
-            .activity-description { font-size: 10px; }
-            .activity-arrow { width: 28px; height: 28px; }
-        }
     </style>
 </head>
 <body>
@@ -529,8 +347,8 @@
             <span class="brand-text"><span class="brand-name">SINFAS</span><span class="brand-caption">Sistem Informasi Fasilitas</span></span>
         </a>
         <nav class="main-nav" aria-label="Navigasi utama">
-            <a href="#fitur">Fitur</a>
             <a href="#cara-kerja">Cara kerja</a>
+            <a href="#tentang">Tentang SINFAS</a>
             <a href="#pertanyaan">FAQ</a>
         </nav>
         <div class="header-actions">
@@ -608,38 +426,6 @@
             </div>
         </div>
 
-        <section class="features-section" id="fitur" aria-labelledby="features-title">
-            <div class="features-wrap">
-                <div class="features-heading">
-                    <p class="section-kicker">FITUR SINFAS</p>
-                    <h2 id="features-title">Semua kebutuhan fasilitas, dalam satu platform.</h2>
-                    <p>Mulai dari mencari barang sampai memantau pengembalian, semua proses tercatat rapi dan mudah diakses.</p>
-                </div>
-                <div class="features-grid">
-                    <article class="feature-card">
-                        <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h6M7 16h3"/></svg></span>
-                        <h3>Katalog terpusat</h3><p>Temukan detail, kategori, dan ketersediaan fasilitas sekolah dalam satu daftar.</p>
-                    </article>
-                    <article class="feature-card">
-                        <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></span>
-                        <h3>Pengajuan online</h3><p>Ajukan barang dan jadwal pemakaian tanpa formulir kertas yang tercecer.</p>
-                    </article>
-                    <article class="feature-card">
-                        <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-                        <h3>Status mudah dipantau</h3><p>Lihat perkembangan permintaan dan tenggat pengembalian dari akunmu.</p>
-                    </article>
-                    <article class="feature-card">
-                        <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16"/><path d="m8 15 3-4 3 2 5-7"/></svg></span>
-                        <h3>Riwayat tercatat</h3><p>Riwayat transaksi membantu siswa dan admin mengecek pemakaian sebelumnya.</p>
-                    </article>
-                    <article class="feature-card">
-                        <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/><path d="M8 2v4M16 2v4"/></svg></span>
-                        <h3>Administrasi lebih rapi</h3><p>Data inventaris, peminjaman, dan pengembalian tersusun dalam satu sistem.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
         <section class="steps-section" id="cara-kerja">
             <div class="steps-wrap">
                 <div class="section-heading">
@@ -662,35 +448,6 @@
                         <h3>Pantau statusnya</h3>
                         <p>Lihat perkembangan pengajuan dan kelola pengembalian di satu tempat.</p>
                     </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="activity-section" aria-labelledby="activity-title">
-            <div class="activity-wrap">
-                <div class="activity-intro">
-                    <p class="section-kicker">RUANG BUAT IDE KAMU</p>
-                    <h2 id="activity-title">Mau bikin sesuatu? <span>Gas aja.</span></h2>
-                    <p>Dari presentasi sampai acara sekolah, urus kebutuhan fasilitas tanpa bikin persiapan makin ribet.</p>
-                    <a class="activity-link" href="{{ route('login') }}">Jelajahi fasilitas <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-                    <div class="activity-note"><span aria-hidden="true"></span>Pengajuan terpantau sampai selesai</div>
-                </div>
-                <div class="activity-list" aria-label="Contoh aktivitas sekolah">
-                    <a class="activity-row" href="{{ route('login') }}">
-                        <span class="activity-number">01</span>
-                        <span class="activity-row-copy"><span class="activity-category">DI KELAS</span><strong>Presentasi & kerja kelompok</strong><span class="activity-description">Siapkan perlengkapan untuk belajar dan kolaborasi.</span></span>
-                        <span class="activity-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-                    </a>
-                    <a class="activity-row" href="{{ route('login') }}">
-                        <span class="activity-number">02</span>
-                        <span class="activity-row-copy"><span class="activity-category">EKSKUL & OLAHRAGA</span><strong>Gerak bareng teman</strong><span class="activity-description">Atur kebutuhan latihan dan aktivitas sekolah.</span></span>
-                        <span class="activity-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-                    </a>
-                    <a class="activity-row" href="{{ route('login') }}">
-                        <span class="activity-number">03</span>
-                        <span class="activity-row-copy"><span class="activity-category">ACARA SEKOLAH</span><strong>Pentas, lomba, dan lainnya</strong><span class="activity-description">Bikin persiapan acara lebih rapi dari awal.</span></span>
-                        <span class="activity-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
-                    </a>
                 </div>
             </div>
         </section>
