@@ -396,6 +396,7 @@
                                 <span>Jam Mulai Pinjam</span>
                             </label>
                             <input type="time" id="jam_pinjam" name="jam_pinjam" class="form-control-vibe"
+                                   data-has-old="{{ old('jam_pinjam') ? '1' : '0' }}"
                                    value="{{ old('jam_pinjam', date('H:i')) }}" required>
                             @error('jam_pinjam')
                                 <span style="font-size:12px; color:var(--badge-rose); display:block; margin-top:4px;">{{ $message }}</span>
@@ -423,6 +424,7 @@
                                 <span>Jam Pengembalian</span>
                             </label>
                             <input type="time" id="jam_kembali" name="jam_kembali" class="form-control-vibe"
+                                   data-has-old="{{ old('jam_kembali') ? '1' : '0' }}"
                                    value="{{ old('jam_kembali', '15:00') }}" required>
                             @error('jam_kembali')
                                 <span style="font-size:12px; color:var(--badge-rose); display:block; margin-top:4px;">{{ $message }}</span>
@@ -453,12 +455,46 @@
     const jamPinjam = document.getElementById('jam_pinjam');
     const jamKembali = document.getElementById('jam_kembali');
 
+    // 1. Otomatis set jam pinjam sesuai jam lokal perangkat saat aplikasi dibuka
+    if (jamPinjam && jamPinjam.dataset.hasOld !== '1') {
+        const now = new Date();
+        const curHours = String(now.getHours()).padStart(2, '0');
+        const curMinutes = String(now.getMinutes()).padStart(2, '0');
+        jamPinjam.value = `${curHours}:${curMinutes}`;
+    }
+
+    // 2. Otomatis set default jam kembali (default 15:00 jika sebelum jam 14:00, atau +1 jam setelahnya)
+    if (jamKembali && jamKembali.dataset.hasOld !== '1') {
+        const now = new Date();
+        if (now.getHours() < 14) {
+            jamKembali.value = "15:00";
+        } else {
+            const later = new Date(now.getTime() + 60 * 60 * 1000);
+            const laterHours = String(later.getHours()).padStart(2, '0');
+            const laterMinutes = String(later.getMinutes()).padStart(2, '0');
+            jamKembali.value = `${laterHours}:${laterMinutes}`;
+        }
+    }
+
     if (tglPinjam && tglKembali) {
         tglPinjam.addEventListener('change', function () {
             if (this.value) {
                 tglKembali.min = this.value;
                 if (tglKembali.value && tglKembali.value < this.value) {
                     tglKembali.value = this.value;
+                }
+            }
+        });
+    }
+
+    // 3. Otomatis sesuaikan jam kembali jika jam pinjam diubah melewati jam kembali pada hari yang sama
+    if (jamPinjam && jamKembali) {
+        jamPinjam.addEventListener('change', function () {
+            if (tglPinjam && tglKembali && tglPinjam.value === tglKembali.value) {
+                if (jamKembali.value && jamKembali.value <= this.value) {
+                    const [h, m] = this.value.split(':').map(Number);
+                    const nextH = Math.min(23, h + 1);
+                    jamKembali.value = `${String(nextH).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
                 }
             }
         });
