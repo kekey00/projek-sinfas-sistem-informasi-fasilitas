@@ -317,60 +317,90 @@
         font-weight: 600;
     }
 
-    /* ─── MODAL DIALOGS ─── */
+    /* ─── MODAL DIALOGS (AESTHETIC & MODERN) ─── */
     .modal-add-item {
         background: #FFFFFF;
-        border-radius: 14px;
-        padding: 24px;
-        width: 92%;
-        max-width: 560px;
+        border-radius: 18px;
+        padding: 26px 28px;
+        width: 94%;
+        max-width: 580px;
         max-height: 90vh;
         overflow-y: auto;
-        box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.1);
-        border: 1px solid #E2E8F0;
+        box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(226, 232, 240, 0.85);
+        border: none;
         position: relative;
+        transform: translateY(14px) scale(0.98);
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-overlay.active .modal-add-item,
+    .modal-overlay.open .modal-add-item {
+        transform: translateY(0) scale(1);
+    }
+
+    /* Custom smooth scrollbar for modal */
+    .modal-add-item::-webkit-scrollbar {
+        width: 6px;
+    }
+    .modal-add-item::-webkit-scrollbar-track {
+        background: #F8FAFC;
+        border-radius: 8px;
+    }
+    .modal-add-item::-webkit-scrollbar-thumb {
+        background: #CBD5E1;
+        border-radius: 8px;
+    }
+    .modal-add-item::-webkit-scrollbar-thumb:hover {
+        background: #94A3B8;
     }
 
     .modal-item-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 18px;
-        padding-bottom: 12px;
-        border-bottom: 1px solid #E2E8F0;
+        margin-bottom: 20px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid #EEF2F6;
+    }
+
+    .modal-item-title-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
     .modal-item-title {
         font-family: 'Outfit', sans-serif;
-        font-size: 17px;
+        font-size: 18px;
         font-weight: 700;
         color: #0F172A;
         letter-spacing: -0.2px;
     }
 
     .modal-item-close {
-        background: transparent;
+        background: #F1F5F9;
         border: none;
-        width: 28px;
-        height: 28px;
-        border-radius: 6px;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 18px;
-        color: #94A3B8;
+        color: #64748B;
         cursor: pointer;
         line-height: 1;
         transition: all 0.15s ease;
     }
 
     .modal-item-close:hover {
-        background: #F1F5F9;
+        background: #E2E8F0;
         color: #0F172A;
+        transform: scale(1.05);
     }
 
     .item-form-group {
-        margin-bottom: 14px;
+        margin-bottom: 15px;
     }
 
     .item-form-label {
@@ -378,28 +408,43 @@
         font-size: 12.5px;
         font-weight: 600;
         color: #334155;
-        margin-bottom: 5px;
+        margin-bottom: 6px;
     }
 
     .item-form-input,
-    .item-form-select {
+    .item-form-select,
+    .item-form-textarea {
         width: 100%;
         box-sizing: border-box;
-        border: 1px solid #CBD5E1;
-        border-radius: 8px;
-        padding: 8px 12px;
-        font-size: 13px;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 10px;
+        padding: 9.5px 13px;
+        font-size: 13.5px;
         color: #0F172A;
         outline: none;
-        background: #FFFFFF;
+        background: #FAFAFC;
         font-family: inherit;
-        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        transition: all 0.15s ease;
     }
 
     .item-form-input:focus,
-    .item-form-select:focus {
-        border-color: #0F172A;
-        box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
+    .item-form-select:focus,
+    .item-form-textarea:focus {
+        border-color: #2563EB;
+        background: #FFFFFF;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .item-form-input::placeholder,
+    .item-form-textarea::placeholder {
+        color: #94A3B8;
+        font-size: 13px;
+    }
+
+    .item-form-textarea {
+        min-height: 82px;
+        resize: vertical;
+        line-height: 1.5;
     }
 
     .item-grid-2 {
@@ -408,23 +453,149 @@
         gap: 12px;
     }
 
+    .item-grid-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 12px;
+    }
+
+    /* Kondisi Stok Cards */
+    .stok-kondisi-card {
+        background: #FAFAFC;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 10px;
+        padding: 8px 10px;
+        transition: all 0.15s ease;
+    }
+    .stok-kondisi-card.baik {
+        border-color: #BBF7D0;
+        background: #F0FDF4;
+    }
+    .stok-kondisi-card.kurang-baik {
+        border-color: #FDE68A;
+        background: #FFFBEB;
+    }
+    .stok-kondisi-card.rusak-berat {
+        border-color: #FECDD3;
+        background: #FFF1F2;
+    }
+    .stok-kondisi-card label {
+        display: block;
+        font-size: 11.5px;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+    .stok-kondisi-card.baik label { color: #15803D; }
+    .stok-kondisi-card.kurang-baik label { color: #B45309; }
+    .stok-kondisi-card.rusak-berat label { color: #BE123C; }
+    .stok-kondisi-card input {
+        border: 1px solid #CBD5E1;
+        border-radius: 6px;
+        padding: 6px 8px;
+        font-size: 14px;
+        font-weight: 700;
+        width: 100%;
+        box-sizing: border-box;
+        outline: none;
+        background: #FFFFFF;
+        text-align: center;
+        color: #0F172A;
+    }
+
+    /* Photo Upload Box */
+    .photo-upload-container {
+        border: 1.5px dashed #CBD5E1;
+        border-radius: 12px;
+        padding: 14px;
+        background: #F8FAFC;
+        text-align: center;
+        transition: all 0.15s ease;
+    }
+    .photo-upload-container:hover {
+        border-color: #2563EB;
+        background: #F0F7FF;
+    }
+    .photo-preview-wrap {
+        min-height: 140px;
+        max-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+        background: #FFFFFF;
+        border-radius: 10px;
+        border: 1px solid #E2E8F0;
+        overflow: hidden;
+        position: relative;
+    }
+    .photo-preview-wrap img {
+        max-height: 180px;
+        max-width: 100%;
+        object-fit: contain;
+        display: block;
+    }
+    .photo-empty-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        color: #94A3B8;
+    }
+    .photo-empty-placeholder svg {
+        margin-bottom: 8px;
+        stroke: #CBD5E1;
+    }
+    .photo-empty-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #64748B;
+        margin-bottom: 2px;
+    }
+    .photo-empty-sub {
+        font-size: 11px;
+        color: #94A3B8;
+    }
+    .btn-choose-photo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 9.5px 14px;
+        background: #FFFFFF;
+        border: 1.5px solid #CBD5E1;
+        border-radius: 9px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #1E293B;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+    }
+    .btn-choose-photo:hover {
+        background: #EFF6FF;
+        border-color: #2563EB;
+        color: #2563EB;
+    }
+
     .item-modal-footer {
         display: flex;
         align-items: center;
         justify-content: flex-end;
         gap: 10px;
-        margin-top: 20px;
-        padding-top: 14px;
-        border-top: 1px solid #E2E8F0;
+        margin-top: 22px;
+        padding-top: 16px;
+        border-top: 1px solid #EEF2F6;
     }
 
     .btn-item-cancel {
         background: #FFFFFF;
-        border: 1px solid #E2E8F0;
+        border: 1.5px solid #CBD5E1;
         color: #475569;
-        border-radius: 6px;
-        padding: 8px 16px;
-        font-size: 13px;
+        border-radius: 9px;
+        padding: 9px 20px;
+        font-size: 13.5px;
         font-weight: 600;
         cursor: pointer;
         font-family: inherit;
@@ -433,25 +604,28 @@
 
     .btn-item-cancel:hover {
         background: #F8FAFC;
-        border-color: #CBD5E1;
+        border-color: #94A3B8;
         color: #0F172A;
     }
 
     .btn-item-save {
-        background: #0F172A;
-        border: 1px solid transparent;
+        background: #2563EB;
+        border: 1.5px solid transparent;
         color: #FFFFFF;
-        border-radius: 6px;
-        padding: 8px 18px;
-        font-size: 13px;
+        border-radius: 9px;
+        padding: 9px 24px;
+        font-size: 13.5px;
         font-weight: 600;
         cursor: pointer;
         font-family: inherit;
-        transition: background 0.15s ease;
+        box-shadow: 0 2px 6px rgba(37,99,235,0.25);
+        transition: all 0.15s ease;
     }
 
     .btn-item-save:hover {
-        background: #1E293B;
+        background: #1D4ED8;
+        box-shadow: 0 4px 12px rgba(37,99,235,0.35);
+        transform: translateY(-1px);
     }
 
     /* ─── RESPONSIVE RULES (MOBILE) ─── */
@@ -499,7 +673,8 @@
             padding: 18px 16px;
         }
 
-        .item-grid-2 {
+        .item-grid-2,
+        .item-grid-3 {
             grid-template-columns: 1fr;
             gap: 10px;
         }
@@ -529,7 +704,7 @@
                 </div>
             </form>
 
-            <button type="button" class="btn-add-glow" onclick="openModal('addItemModal')">
+            <button type="button" class="btn-add-glow" onclick="openAddModal()">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                 <span>Tambah Alat</span>
             </button>
@@ -656,7 +831,9 @@
 <div id="addItemModal" class="modal-overlay">
     <div class="modal-add-item">
         <div class="modal-item-header">
-            <div class="modal-item-title">Tambah Sarana / Alat Baru</div>
+            <div class="modal-item-title-wrap">
+                <div class="modal-item-title">Tambah Data Barang</div>
+            </div>
             <button type="button" class="modal-item-close" onclick="closeModal('addItemModal')">&times;</button>
         </div>
 
@@ -665,8 +842,8 @@
 
             <!-- Nama Barang -->
             <div class="item-form-group">
-                <label class="item-form-label">Nama Barang / Alat</label>
-                <input type="text" name="nama_barang" class="item-form-input" placeholder="Contoh: Proyektor Epson X300 / Kamera DSLR" required>
+                <label class="item-form-label">Nama Barang</label>
+                <input type="text" name="nama_barang" class="item-form-input" placeholder="Masukkan nama barang / alat" required>
             </div>
 
             <!-- Kategori -->
@@ -680,30 +857,21 @@
                 </select>
             </div>
 
-            <!-- Foto Barang -->
-            <div class="item-form-group">
-                <label class="item-form-label">Foto Alat / Sarana (Opsional)</label>
-                <input type="file" name="foto" class="item-form-input" accept="image/*" onchange="previewItemPhoto(this, 'addPhotoPreview', 'addPhotoImg')">
-                <div id="addPhotoPreview" style="display:none; margin-top:10px;">
-                    <img id="addPhotoImg" src="" alt="Preview Foto" style="max-height: 100px; border-radius: 8px; border: 1px solid #E2E8F0;">
-                </div>
-            </div>
-
-            <!-- Merk/Model -->
+            <!-- Merk / Model -->
             <div class="item-form-group">
                 <label class="item-form-label">Merk / Model</label>
-                <input type="text" name="merk_model" class="item-form-input" placeholder="Contoh: Sony, Epson, Logitech">
+                <input type="text" name="merk_model" class="item-form-input" placeholder="Contoh: Boya BY-WM4 Pro / Sony">
             </div>
 
-            <!-- No Seri Pabrik & Ukuran/Dimensi -->
+            <!-- No Seri Pabrik & Ukuran / Dimensi -->
             <div class="item-grid-2 item-form-group">
                 <div>
                     <label class="item-form-label">No Seri Pabrik</label>
-                    <input type="text" name="no_seri_pabrik" class="item-form-input" placeholder="Contoh: SN1294819">
+                    <input type="text" name="no_seri_pabrik" class="item-form-input" placeholder="Contoh: BY-WM4-0192">
                 </div>
                 <div>
                     <label class="item-form-label">Ukuran / Dimensi</label>
-                    <input type="text" name="ukuran_dimensi" class="item-form-input" placeholder="Contoh: 30×20×10 cm">
+                    <input type="text" name="ukuran_dimensi" class="item-form-input" placeholder="Contoh: 8 × 3 × 2 cm">
                 </div>
             </div>
 
@@ -711,40 +879,70 @@
             <div class="item-grid-2 item-form-group">
                 <div>
                     <label class="item-form-label">Bahan</label>
-                    <input type="text" name="bahan" class="item-form-input" placeholder="Contoh: Plastik / Alumunium">
+                    <input type="text" name="bahan" class="item-form-input" placeholder="Contoh: Plastik ABS">
                 </div>
                 <div>
                     <label class="item-form-label">Tahun Pembelian</label>
-                    <input type="number" name="tahun_pembelian" class="item-form-input" placeholder="Contoh: 2024" min="1900" max="{{ date('Y') + 1 }}">
+                    <input type="number" name="tahun_pembelian" class="item-form-input" placeholder="Contoh: 2023" min="1900" max="{{ date('Y') + 1 }}">
                 </div>
             </div>
 
-            <!-- Kondisi Fisik Stok -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;" class="item-form-group">
-                <div>
-                    <label class="item-form-label" style="color: #166534;">Jumlah Baik</label>
-                    <input type="number" name="jumlah_baik" class="item-form-input" value="0" min="0" required>
-                </div>
-                <div>
-                    <label class="item-form-label" style="color: #B45309;">Kurang Baik</label>
-                    <input type="number" name="jumlah_kurang_baik" class="item-form-input" value="0" min="0">
-                </div>
-                <div>
-                    <label class="item-form-label" style="color: #991B1B;">Rusak Berat</label>
-                    <input type="number" name="jumlah_rusak_berat" class="item-form-input" value="0" min="0">
+            <!-- Jumlah Stok & Kondisi -->
+            <div class="item-form-group">
+                <div class="item-grid-3">
+                    <div class="stok-kondisi-card baik">
+                        <label>Jumlah Baik</label>
+                        <input type="number" name="jumlah_baik" value="0" min="0" required>
+                    </div>
+                    <div class="stok-kondisi-card kurang-baik">
+                        <label>Jumlah K. Baik</label>
+                        <input type="number" name="jumlah_kurang_baik" value="0" min="0">
+                    </div>
+                    <div class="stok-kondisi-card rusak-berat">
+                        <label>Jumlah R. Berat</label>
+                        <input type="number" name="jumlah_rusak_berat" value="0" min="0">
+                    </div>
                 </div>
             </div>
 
             <!-- Keterangan -->
             <div class="item-form-group">
-                <label class="item-form-label">Keterangan Tambahan</label>
-                <input type="text" name="keterangan" class="item-form-input" placeholder="Contoh: Tersedia di Lemari Lab 2">
+                <label class="item-form-label">Keterangan</label>
+                <textarea name="keterangan" class="item-form-textarea" placeholder="Contoh: Termasuk 1 transmitter, 1 receiver, dan hardcase bawaan"></textarea>
+            </div>
+
+            <!-- Foto Barang -->
+            <div class="item-form-group">
+                <label class="item-form-label">Foto Barang</label>
+                <div class="photo-upload-container">
+                    <div class="photo-preview-wrap">
+                        <div id="addPhotoPlaceholder" class="photo-empty-placeholder">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="3" ry="3"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                            <span class="photo-empty-title">Pratinjau Foto Barang</span>
+                            <span class="photo-empty-sub">Belum ada foto yang dipilih</span>
+                        </div>
+                        <img id="addPhotoImg" src="" alt="Pratinjau Foto" style="display:none;" onerror="this.style.display='none'; document.getElementById('addPhotoPlaceholder').style.display='flex';">
+                    </div>
+                    <input type="file" id="add_foto_input" name="foto" accept="image/*" style="display:none;" onchange="previewItemPhoto(this, 'addPhotoImg', 'addPhotoPlaceholder')">
+                    <button type="button" class="btn-choose-photo" onclick="document.getElementById('add_foto_input').click()">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                        </svg>
+                        Pilih file foto
+                    </button>
+                </div>
             </div>
 
             <!-- Footer: Cancel & Save -->
             <div class="item-modal-footer">
                 <button type="button" class="btn-item-cancel" onclick="closeModal('addItemModal')">Batal</button>
-                <button type="submit" class="btn-item-save">Simpan Alat</button>
+                <button type="submit" class="btn-item-save">Simpan</button>
             </div>
         </form>
     </div>
@@ -754,7 +952,9 @@
 <div id="editItemModal" class="modal-overlay">
     <div class="modal-add-item">
         <div class="modal-item-header">
-            <div class="modal-item-title">Edit Data Alat</div>
+            <div class="modal-item-title-wrap">
+                <div class="modal-item-title">Ubah Data Barang</div>
+            </div>
             <button type="button" class="modal-item-close" onclick="closeModal('editItemModal')">&times;</button>
         </div>
 
@@ -764,8 +964,8 @@
 
             <!-- Nama Barang -->
             <div class="item-form-group">
-                <label class="item-form-label">Nama Barang / Alat</label>
-                <input type="text" id="edit_nama_barang" name="nama_barang" class="item-form-input" required>
+                <label class="item-form-label">Nama Barang</label>
+                <input type="text" id="edit_nama_barang" name="nama_barang" class="item-form-input" placeholder="Masukkan nama barang" required>
             </div>
 
             <!-- Kategori -->
@@ -779,35 +979,21 @@
                 </select>
             </div>
 
-            <!-- Foto Barang -->
-            <div class="item-form-group">
-                <label class="item-form-label">Foto Alat / Sarana</label>
-                <div id="editCurrentPhotoBox" style="display:none; margin-bottom:10px;">
-                    <span style="font-size:11.5px; color:#64748B; display:block; margin-bottom:4px;">Foto Saat Ini:</span>
-                    <img id="editCurrentPhotoImg" src="" alt="Foto Saat Ini" style="max-height: 90px; border-radius: 8px; border: 1px solid #E2E8F0;">
-                </div>
-                <input type="file" name="foto" class="item-form-input" accept="image/*" onchange="previewItemPhoto(this, 'editNewPhotoPreview', 'editNewPhotoImg')">
-                <div id="editNewPhotoPreview" style="display:none; margin-top:10px;">
-                    <span style="font-size:11.5px; color:#166534; font-weight:600; display:block; margin-bottom:4px;">Foto Baru Terpilih:</span>
-                    <img id="editNewPhotoImg" src="" alt="Foto Baru" style="max-height: 90px; border-radius: 8px; border: 1px solid #BBF7D0;">
-                </div>
-            </div>
-
-            <!-- Merk/Model -->
+            <!-- Merk / Model -->
             <div class="item-form-group">
                 <label class="item-form-label">Merk / Model</label>
-                <input type="text" id="edit_merk_model" name="merk_model" class="item-form-input">
+                <input type="text" id="edit_merk_model" name="merk_model" class="item-form-input" placeholder="Contoh: Boya BY-WM4 Pro">
             </div>
 
-            <!-- No Seri Pabrik & Ukuran/Dimensi -->
+            <!-- No Seri Pabrik & Ukuran / Dimensi -->
             <div class="item-grid-2 item-form-group">
                 <div>
                     <label class="item-form-label">No Seri Pabrik</label>
-                    <input type="text" id="edit_no_seri_pabrik" name="no_seri_pabrik" class="item-form-input">
+                    <input type="text" id="edit_no_seri_pabrik" name="no_seri_pabrik" class="item-form-input" placeholder="Contoh: BY-WM4-0192">
                 </div>
                 <div>
                     <label class="item-form-label">Ukuran / Dimensi</label>
-                    <input type="text" id="edit_ukuran_dimensi" name="ukuran_dimensi" class="item-form-input">
+                    <input type="text" id="edit_ukuran_dimensi" name="ukuran_dimensi" class="item-form-input" placeholder="Contoh: 8 × 3 × 2 cm">
                 </div>
             </div>
 
@@ -815,40 +1001,70 @@
             <div class="item-grid-2 item-form-group">
                 <div>
                     <label class="item-form-label">Bahan</label>
-                    <input type="text" id="edit_bahan" name="bahan" class="item-form-input">
+                    <input type="text" id="edit_bahan" name="bahan" class="item-form-input" placeholder="Contoh: Plastik ABS">
                 </div>
                 <div>
                     <label class="item-form-label">Tahun Pembelian</label>
-                    <input type="number" id="edit_tahun_pembelian" name="tahun_pembelian" class="item-form-input" min="1900" max="{{ date('Y') + 1 }}">
+                    <input type="number" id="edit_tahun_pembelian" name="tahun_pembelian" class="item-form-input" placeholder="Contoh: 2023" min="1900" max="{{ date('Y') + 1 }}">
                 </div>
             </div>
 
-            <!-- Kondisi Fisik Stok -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;" class="item-form-group">
-                <div>
-                    <label class="item-form-label" style="color: #166534;">Jumlah Baik</label>
-                    <input type="number" id="edit_jumlah_baik" name="jumlah_baik" class="item-form-input" min="0" required>
-                </div>
-                <div>
-                    <label class="item-form-label" style="color: #B45309;">Kurang Baik</label>
-                    <input type="number" id="edit_jumlah_kurang_baik" name="jumlah_kurang_baik" class="item-form-input" min="0">
-                </div>
-                <div>
-                    <label class="item-form-label" style="color: #991B1B;">Rusak Berat</label>
-                    <input type="number" id="edit_jumlah_rusak_berat" name="jumlah_rusak_berat" class="item-form-input" min="0">
+            <!-- Jumlah Stok & Kondisi -->
+            <div class="item-form-group">
+                <div class="item-grid-3">
+                    <div class="stok-kondisi-card baik">
+                        <label>Jumlah Baik</label>
+                        <input type="number" id="edit_jumlah_baik" name="jumlah_baik" min="0" required>
+                    </div>
+                    <div class="stok-kondisi-card kurang-baik">
+                        <label>Jumlah K. Baik</label>
+                        <input type="number" id="edit_jumlah_kurang_baik" name="jumlah_kurang_baik" min="0">
+                    </div>
+                    <div class="stok-kondisi-card rusak-berat">
+                        <label>Jumlah R. Berat</label>
+                        <input type="number" id="edit_jumlah_rusak_berat" name="jumlah_rusak_berat" min="0">
+                    </div>
                 </div>
             </div>
 
             <!-- Keterangan -->
             <div class="item-form-group">
                 <label class="item-form-label">Keterangan</label>
-                <input type="text" id="edit_keterangan" name="keterangan" class="item-form-input">
+                <textarea id="edit_keterangan" name="keterangan" class="item-form-textarea" placeholder="Contoh: Termasuk 1 transmitter, 1 receiver, dan hardcase bawaan"></textarea>
+            </div>
+
+            <!-- Foto Barang -->
+            <div class="item-form-group">
+                <label class="item-form-label">Foto Barang</label>
+                <div class="photo-upload-container">
+                    <div class="photo-preview-wrap">
+                        <div id="editPhotoPlaceholder" class="photo-empty-placeholder">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="3" ry="3"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                            <span class="photo-empty-title">Pratinjau Foto Barang</span>
+                            <span class="photo-empty-sub">Belum ada foto yang dipilih</span>
+                        </div>
+                        <img id="editCurrentPhotoImg" src="" alt="Pratinjau Foto" style="display:none;" onerror="this.style.display='none'; document.getElementById('editPhotoPlaceholder').style.display='flex';">
+                    </div>
+                    <input type="file" id="edit_foto_input" name="foto" accept="image/*" style="display:none;" onchange="previewItemPhoto(this, 'editCurrentPhotoImg', 'editPhotoPlaceholder')">
+                    <button type="button" class="btn-choose-photo" onclick="document.getElementById('edit_foto_input').click()">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                        </svg>
+                        Pilih file foto
+                    </button>
+                </div>
             </div>
 
             <!-- Footer: Cancel & Save -->
             <div class="item-modal-footer">
                 <button type="button" class="btn-item-cancel" onclick="closeModal('editItemModal')">Batal</button>
-                <button type="submit" class="btn-item-save">Simpan Perubahan</button>
+                <button type="submit" class="btn-item-save">Simpan</button>
             </div>
         </form>
     </div>
@@ -858,15 +1074,30 @@
 
 @section('scripts')
 <script>
-    function previewItemPhoto(input, previewId, imgId) {
+    function previewItemPhoto(input, imgId, placeholderId) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
-                document.getElementById(imgId).src = e.target.result;
-                document.getElementById(previewId).style.display = 'block';
+                var img = document.getElementById(imgId);
+                var placeholder = document.getElementById(placeholderId);
+                img.src = e.target.result;
+                img.style.display = 'block';
+                if (placeholder) placeholder.style.display = 'none';
             }
             reader.readAsDataURL(input.files[0]);
         }
+    }
+
+    function openAddModal() {
+        var form = document.querySelector('#addItemModal form');
+        if (form) form.reset();
+        var fileInput = document.getElementById('add_foto_input');
+        if (fileInput) fileInput.value = '';
+        var img = document.getElementById('addPhotoImg');
+        var placeholder = document.getElementById('addPhotoPlaceholder');
+        if (img) { img.src = ''; img.style.display = 'none'; }
+        if (placeholder) { placeholder.style.display = 'flex'; }
+        openModal('addItemModal');
     }
 
     function openEditModal(item) {
@@ -883,13 +1114,21 @@
         document.getElementById('edit_keterangan').value         = item.keterangan || '';
         document.getElementById('editItemForm').action           = "{{ url('/admin/barang') }}/" + item.kode_barang;
 
+        var fileInput = document.getElementById('edit_foto_input');
+        if (fileInput) fileInput.value = '';
+
+        var img = document.getElementById('editCurrentPhotoImg');
+        var placeholder = document.getElementById('editPhotoPlaceholder');
+
         if (item.foto) {
-            document.getElementById('editCurrentPhotoImg').src = "{{ asset('storage') }}/" + item.foto;
-            document.getElementById('editCurrentPhotoBox').style.display = 'block';
+            img.src = "{{ asset('storage') }}/" + item.foto;
+            img.style.display = 'block';
+            if (placeholder) placeholder.style.display = 'none';
         } else {
-            document.getElementById('editCurrentPhotoBox').style.display = 'none';
+            img.src = '';
+            img.style.display = 'none';
+            if (placeholder) placeholder.style.display = 'flex';
         }
-        document.getElementById('editNewPhotoPreview').style.display = 'none';
 
         openModal('editItemModal');
     }
