@@ -331,7 +331,6 @@
         </nav>
         <div class="header-actions">
             <a class="login-link" href="{{ route('login') }}">Masuk</a>
-            <a class="button" href="{{ route('register') }}">Buat akun <span aria-hidden="true">↗</span></a>
         </div>
     </header>
 

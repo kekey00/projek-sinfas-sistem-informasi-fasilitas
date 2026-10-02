@@ -121,10 +121,13 @@
                 </div>
             </form>
 
-            <!-- Link Text -->
-            <div class="sinfas-link text-center mt-5">
-                Belum punya akun ? <a href="{{ url('/register') }}">Daftar</a>
-            </div>
+            <a href="{{ route('home') }}" class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-[#3B5998] shadow-sm transition hover:border-[#3B5998] hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#5B8DEF] focus:ring-offset-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M19 12H5"></path>
+                    <path d="m12 19-7-7 7-7"></path>
+                </svg>
+                Kembali ke Beranda
+            </a>
         </div>
         
     </div>
