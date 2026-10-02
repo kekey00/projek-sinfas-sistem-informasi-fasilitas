@@ -259,6 +259,28 @@
         .step-number svg { width: 22px; height: 22px; }
         h3 { margin-bottom: 9px; font: 700 20px 'Outfit', sans-serif; }
         .step p { max-width: 310px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+        .roles-section { padding: 88px 32px 94px; border-top: 1px solid rgba(226, 232, 240, .8); border-bottom: 1px solid rgba(226, 232, 240, .8); background: rgba(255, 255, 255, .72); }
+        .roles-wrap { width: min(100%, 1160px); margin: 0 auto; }
+        .roles-heading { max-width: 720px; margin: 0 auto 38px; text-align: center; }
+        .roles-heading h2 { max-width: 680px; margin: 0 auto 12px; }
+        .roles-heading > p:last-child { max-width: 570px; margin: 0 auto; color: var(--muted); font-size: 14px; line-height: 1.7; }
+        .roles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; }
+        .role-card { min-height: 290px; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff; box-shadow: 0 8px 24px -16px rgba(44, 74, 124, .24); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+        .role-card:hover { transform: translateY(-4px); border-color: rgba(91, 141, 239, .42); box-shadow: 0 16px 30px -16px rgba(59, 89, 152, .26); }
+        .role-card-head { display: flex; align-items: center; gap: 13px; margin-bottom: 24px; }
+        .role-icon { display: grid; width: 46px; height: 46px; flex: 0 0 auto; place-items: center; border-radius: 13px; background: #eef4ff; color: #3b5998; }
+        .role-card:nth-child(2) .role-icon { background: #ecfeff; color: #0891b2; }
+        .role-card:nth-child(3) .role-icon { background: #ecfdf5; color: #059669; }
+        .role-icon svg { width: 23px; height: 23px; }
+        .role-kicker { display: block; margin-bottom: 3px; color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; }
+        .role-card h3 { margin: 0; color: #1e293b; font-size: 19px; }
+        .role-card > p { min-height: 44px; margin-bottom: 18px; color: #64748b; font-size: 12px; line-height: 1.65; }
+        .role-list { display: grid; gap: 11px; margin: 0; padding: 16px 0 0; border-top: 1px solid #edf2f7; list-style: none; }
+        .role-list li { display: flex; align-items: flex-start; gap: 9px; color: #475569; font-size: 11px; line-height: 1.5; }
+        .role-list li::before { width: 6px; height: 6px; flex: 0 0 auto; margin-top: 5px; border-radius: 50%; background: #5b8def; content: ''; }
+        .role-card:nth-child(2) .role-list li::before { background: #06b6d4; }
+        .role-card:nth-child(3) .role-list li::before { background: #10b981; }
+        .roles-action { display: flex; justify-content: center; margin-top: 30px; }
         .faq-section { padding: 100px 32px 108px; border-top: 1px solid rgba(226, 232, 240, .8); border-bottom: 1px solid rgba(226, 232, 240, .8); background: rgba(255, 255, 255, .72); scroll-margin-top: 82px; }
         .faq-wrap { display: grid; grid-template-columns: minmax(260px, .82fr) minmax(0, 1.18fr); align-items: start; gap: 76px; width: min(100%, 1160px); margin: 0 auto; }
         .faq-intro h2 { margin-bottom: 16px; font-size: 40px; }
@@ -311,6 +333,9 @@
             .steps-grid { grid-template-columns: 1fr; }
             .step, .step + .step { min-height: 0; padding: 20px; border: 1px solid #e8eef6; }
             .step-number { margin-bottom: 18px; }
+            .roles-section { padding: 70px 20px 76px; }
+            .roles-heading { margin-bottom: 28px; }
+            .role-card { min-height: 0; padding: 21px; }
             .faq-section { padding: 70px 20px 76px; }
             .faq-wrap { grid-template-columns: 1fr; gap: 30px; }
             .faq-intro h2 { font-size: 34px; }
@@ -349,6 +374,7 @@
         <nav class="main-nav" aria-label="Navigasi utama">
             <a href="#cara-kerja">Cara kerja</a>
             <a href="#tentang">Tentang SINFAS</a>
+            <a href="#peran">Untuk siapa</a>
             <a href="#pertanyaan">FAQ</a>
         </nav>
         <div class="header-actions">
@@ -449,6 +475,55 @@
                         <p>Lihat perkembangan pengajuan dan kelola pengembalian di satu tempat.</p>
                     </article>
                 </div>
+            </div>
+        </section>
+
+        <section class="roles-section" id="peran" aria-labelledby="roles-title">
+            <div class="roles-wrap">
+                <div class="roles-heading">
+                    <p class="section-kicker">SATU SISTEM, SEMUA TERHUBUNG</p>
+                    <h2 id="roles-title">Dibuat untuk semua yang terlibat.</h2>
+                    <p>Setiap pengguna punya alur yang jelas, dari mencari fasilitas sampai mengelola data dan pengajuan.</p>
+                </div>
+                <div class="roles-grid">
+                    <article class="role-card">
+                        <div class="role-card-head">
+                            <span class="role-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg></span>
+                            <div><span class="role-kicker">UNTUK SISWA</span><h3>Lebih mudah meminjam</h3></div>
+                        </div>
+                        <p>Temukan fasilitas yang dibutuhkan dan ketahui perkembangan pengajuanmu.</p>
+                        <ul class="role-list">
+                            <li>Cek detail dan ketersediaan barang</li>
+                            <li>Ajukan jadwal peminjaman</li>
+                            <li>Pantau status sampai pengembalian</li>
+                        </ul>
+                    </article>
+                    <article class="role-card">
+                        <div class="role-card-head">
+                            <span class="role-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m21 8-9-5-9 5 9 5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg></span>
+                            <div><span class="role-kicker">UNTUK ADMIN SARANA</span><h3>Inventaris lebih tertata</h3></div>
+                        </div>
+                        <p>Kelola fasilitas sekolah dan proses peminjaman dari satu tempat.</p>
+                        <ul class="role-list">
+                            <li>Atur data barang dan kategori</li>
+                            <li>Verifikasi peminjaman dan pengembalian</li>
+                            <li>Pantau riwayat dan laporan fasilitas</li>
+                        </ul>
+                    </article>
+                    <article class="role-card">
+                        <div class="role-card-head">
+                            <span class="role-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a6 6 0 0 1 12 0v2M16 3.2a4 4 0 0 1 0 7.6M21 21v-2a6 6 0 0 0-4-5.7"/></svg></span>
+                            <div><span class="role-kicker">UNTUK ADMIN SISTEM</span><h3>Akses terkelola rapi</h3></div>
+                        </div>
+                        <p>Pastikan akun dan pengaturan sistem tetap tertata sesuai kebutuhan sekolah.</p>
+                        <ul class="role-list">
+                            <li>Kelola akun pengguna dan admin</li>
+                            <li>Atur akses sesuai peran</li>
+                            <li>Kelola pengaturan sistem</li>
+                        </ul>
+                    </article>
+                </div>
+                <div class="roles-action"><a class="button" href="{{ route('login') }}">Masuk ke SINFAS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
             </div>
         </section>
 
