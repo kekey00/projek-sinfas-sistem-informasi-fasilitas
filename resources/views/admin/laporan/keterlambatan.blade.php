@@ -18,7 +18,11 @@
 
 @section('scripts')
 <script>
-	new Chart(document.getElementById('chartKeterlambatan'), {
+document.addEventListener('DOMContentLoaded', function() {
+	if (typeof Chart === 'undefined') { console.error('Chart.js not loaded'); return; }
+	var ctx = document.getElementById('chartKeterlambatan');
+	if (!ctx) return;
+	new Chart(ctx, {
 		type: 'doughnut',
 		data: {
 			labels: ['Belum dikembalikan', 'Sudah dikembalikan'],
@@ -32,5 +36,6 @@
 		},
 		options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
 	});
+});
 </script>
 @endsection

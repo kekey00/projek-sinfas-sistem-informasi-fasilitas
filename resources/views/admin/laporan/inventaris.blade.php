@@ -18,7 +18,11 @@
 
 @section('scripts')
 <script>
-	new Chart(document.getElementById('chartStokInventaris'), {
+document.addEventListener('DOMContentLoaded', function() {
+	if (typeof Chart === 'undefined') { console.error('Chart.js not loaded'); return; }
+	var ctx = document.getElementById('chartStokInventaris');
+	if (!ctx) return;
+	new Chart(ctx, {
 		type: 'bar',
 		data: {
 			labels: ['Baik', 'Kurang Baik', 'Rusak Berat', 'Sedang Dipinjam'],
@@ -38,5 +42,6 @@
 			scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
 		}
 	});
+});
 </script>
 @endsection

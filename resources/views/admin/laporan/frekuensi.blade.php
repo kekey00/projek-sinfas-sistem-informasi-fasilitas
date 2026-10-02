@@ -11,4 +11,33 @@
 <div class="report-card"><div class="report-card-header"><div class="report-index">01</div><div><div class="report-card-title">Analisis Peminjaman</div><p class="report-card-description">Gunakan filter untuk melihat barang yang paling sering digunakan.</p></div></div>@include('admin.laporan.partials.filter', ['reportRoute' => 'admin.laporan.frekuensi'])<div class="report-summary"><div class="summary-box"><div class="summary-label">Total transaksi</div><div class="summary-value">{{ $totalPeminjaman }}</div></div><div class="summary-box"><div class="summary-label">Jenis barang</div><div class="summary-value">{{ $totalBarangDipinjam }}</div></div></div><div class="report-table-wrap"><table class="report-table"><thead><tr><th>No</th><th>Nama Barang</th><th>Kategori</th><th>Frekuensi</th></tr></thead><tbody>@forelse($frekuensiBarang as $index => $item)<tr><td>{{ $index + 1 }}</td><td><strong>{{ $item['nama_barang'] }}</strong></td><td>{{ $item['kategori'] }}</td><td><span class="count-pill">{{ $item['frekuensi'] }}x</span></td></tr>@empty<tr><td colspan="4" class="empty-report">Belum ada data pada filter yang dipilih.</td></tr>@endforelse</tbody></table></div><div class="trend-title">Tren Peminjaman Harian</div><div class="trend-chart"><canvas id="trendPeminjamanChart"></canvas></div></div>
 @include('admin.laporan.partials.print-signatures')
 @endsection
-@section('scripts')<script>new Chart(document.getElementById('trendPeminjamanChart'),{type:'line',data:{labels:@json($trenHarian->keys()->values()),datasets:[{label:'Peminjaman',data:@json($trenHarian->values()->values()),borderColor:'#232F72',backgroundColor:'rgba(35,47,114,.12)',fill:true,tension:.3,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{precision:0}}}}});</script>@endsection
+@section('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof Chart === 'undefined') { console.error('Chart.js not loaded'); return; }
+    var ctx = document.getElementById('trendPeminjamanChart');
+    if (!ctx) return;
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: @json($trenHarian->keys()->values()),
+            datasets: [{
+                label: 'Peminjaman',
+                data: @json($trenHarian->values()->values()),
+                borderColor: '#232F72',
+                backgroundColor: 'rgba(35,47,114,.12)',
+                fill: true,
+                tension: .3,
+                pointRadius: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+        }
+    });
+});
+</script>
+@endsection

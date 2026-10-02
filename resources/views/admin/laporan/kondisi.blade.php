@@ -18,7 +18,11 @@
 
 @section('scripts')
 <script>
-	new Chart(document.getElementById('chartKondisiBarang'), {
+document.addEventListener('DOMContentLoaded', function() {
+	if (typeof Chart === 'undefined') { console.error('Chart.js not loaded'); return; }
+	var ctx = document.getElementById('chartKondisiBarang');
+	if (!ctx) return;
+	new Chart(ctx, {
 		type: 'doughnut',
 		data: {
 			labels: ['Baik', 'Kurang Baik', 'Rusak Berat'],
@@ -32,5 +36,6 @@
 		},
 		options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
 	});
+});
 </script>
 @endsection
