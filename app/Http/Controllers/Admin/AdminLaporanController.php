@@ -72,7 +72,8 @@ class AdminLaporanController extends Controller
             'kategori' => 'nullable|exists:kategori,id_kategori',
         ]);
 
-        $tanggalMulai = Carbon::parse($validated['tanggal_mulai'] ?? now()->startOfMonth()->toDateString());
+        // Default: 3 bulan terakhir agar grafik tidak kosong
+        $tanggalMulai = Carbon::parse($validated['tanggal_mulai'] ?? now()->subMonths(3)->startOfMonth()->toDateString());
         $tanggalAkhir = Carbon::parse($validated['tanggal_akhir'] ?? now()->toDateString());
         $peminjaman = Peminjaman::with(['barang.kategori', 'pengembalian', 'siswa'])
             ->whereIn('status_pengajuan', ['disetujui', 'dikembalikan'])
@@ -128,10 +129,31 @@ class AdminLaporanController extends Controller
             'Sedang dipinjam' => $stokInventaris->sum('dipinjam'),
         ];
 
+        // Bangun tren harian: isi semua hari dalam range, termasuk yang 0 transaksi
+        $trenHarianData = $peminjaman->groupBy(fn ($item) => $item->tanggal_pinjam->format('Y-m-d'))->map->count();
+        $allDays = collect();
+        $current = $tanggalMulai->copy();
+        while ($current->lte($tanggalAkhir)) {
+            $dateKey = $current->format('Y-m-d');
+            $allDays[$dateKey] = $trenHarianData[$dateKey] ?? 0;
+            $current->addDay();
+        }
+        // Jika range terlalu panjang (>60 hari), ringkas per minggu agar grafik tetap terbaca
+        if ($allDays->count() > 60) {
+            $weeklyTren = collect();
+            foreach ($allDays->chunk(7) as $chunk) {
+                $label = $chunk->keys()->first();
+                $weeklyTren[$label] = $chunk->sum();
+            }
+            $trenHarian = $weeklyTren;
+        } else {
+            $trenHarian = $allDays;
+        }
+
         return [
             'kategoriList' => Kategori::orderBy('nama_kategori')->get(),
             'frekuensiBarang' => $frekuensiBarang,
-            'trenHarian' => $peminjaman->groupBy(fn ($item) => $item->tanggal_pinjam->format('Y-m-d'))->map->count(),
+            'trenHarian' => $trenHarian,
             'totalPeminjaman' => $peminjaman->count(),
             'totalBarangDipinjam' => $frekuensiBarang->count(),
             'tanggalMulai' => $tanggalMulai->toDateString(),
