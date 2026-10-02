@@ -259,6 +259,22 @@
         .step-number svg { width: 22px; height: 22px; }
         h3 { margin-bottom: 9px; font: 700 20px 'Outfit', sans-serif; }
         .step p { max-width: 310px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+        .faq-section { padding: 100px 32px 108px; border-top: 1px solid rgba(226, 232, 240, .8); border-bottom: 1px solid rgba(226, 232, 240, .8); background: rgba(255, 255, 255, .72); scroll-margin-top: 82px; }
+        .faq-wrap { display: grid; grid-template-columns: minmax(260px, .82fr) minmax(0, 1.18fr); align-items: start; gap: 76px; width: min(100%, 1160px); margin: 0 auto; }
+        .faq-intro h2 { margin-bottom: 16px; font-size: 40px; }
+        .faq-intro > p:not(.section-kicker) { max-width: 380px; margin-bottom: 24px; color: var(--muted); font-size: 14px; line-height: 1.75; }
+        .faq-login-link { display: inline-flex; align-items: center; gap: 8px; color: var(--primary); font-size: 13px; font-weight: 800; }
+        .faq-login-link svg { width: 16px; height: 16px; transition: transform .18s ease; }
+        .faq-login-link:hover svg { transform: translateX(4px); }
+        .faq-list { border-top: 1px solid var(--border); }
+        .faq-item { border-bottom: 1px solid var(--border); }
+        .faq-item summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 21px 0; color: var(--ink); cursor: pointer; font-size: 14px; font-weight: 800; list-style: none; }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after { content: '+'; flex: 0 0 auto; color: var(--primary); font: 500 24px/1 'Outfit', sans-serif; }
+        .faq-item[open] summary::after { content: '-'; }
+        .faq-item summary:hover { color: var(--primary); }
+        .faq-item summary:focus-visible { border-radius: 4px; outline: 2px solid var(--primary); outline-offset: 4px; }
+        .faq-answer { max-width: 600px; padding: 0 42px 21px 0; color: var(--muted); font-size: 13px; line-height: 1.75; }
         .closing-band { display: flex; align-items: center; justify-content: space-between; gap: 28px; margin: 0 max(24px, calc((100vw - 1280px) / 2)); padding: 34px 42px; border-radius: 24px; background: linear-gradient(110deg, #1e3a8a 0%, #4338ca 52%, #6d28d9 100%); color: #fff; box-shadow: 0 18px 36px -12px rgba(44, 74, 124, .42); }
         .closing-band p { margin: 0; font: 600 21px 'Outfit', sans-serif; }
         .closing-band .button { flex: 0 0 auto; }
@@ -295,6 +311,11 @@
             .steps-grid { grid-template-columns: 1fr; }
             .step, .step + .step { min-height: 0; padding: 20px; border: 1px solid #e8eef6; }
             .step-number { margin-bottom: 18px; }
+            .faq-section { padding: 70px 20px 76px; }
+            .faq-wrap { grid-template-columns: 1fr; gap: 30px; }
+            .faq-intro h2 { font-size: 34px; }
+            .faq-item summary { padding: 18px 0; font-size: 13px; }
+            .faq-answer { padding-right: 28px; }
             .closing-band { align-items: flex-start; flex-direction: column; padding: 30px 20px; }
             .closing-band p { font-size: 19px; }
             footer { width: calc(100% - 40px); min-height: 76px; }
@@ -328,6 +349,7 @@
         <nav class="main-nav" aria-label="Navigasi utama">
             <a href="#cara-kerja">Cara kerja</a>
             <a href="#tentang">Tentang SINFAS</a>
+            <a href="#pertanyaan">FAQ</a>
         </nav>
         <div class="header-actions">
             <a class="button" href="{{ route('login') }}">
@@ -426,6 +448,38 @@
                         <h3>Pantau statusnya</h3>
                         <p>Lihat perkembangan pengajuan dan kelola pengembalian di satu tempat.</p>
                     </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section" id="pertanyaan" aria-labelledby="faq-title">
+            <div class="faq-wrap">
+                <div class="faq-intro">
+                    <p class="section-kicker">INFO PEMINJAMAN</p>
+                    <h2 id="faq-title">Masih ada yang ingin ditanyakan?</h2>
+                    <p>Kenali alur akses, pengajuan, dan pengembalian fasilitas sekolah melalui SINFAS.</p>
+                    <a class="faq-login-link" href="{{ route('login') }}">
+                        Masuk ke akun SINFAS
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                    </a>
+                </div>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>Bagaimana cara mulai mengajukan peminjaman?</summary>
+                        <div class="faq-answer">Masuk dengan akun sekolah, pilih fasilitas yang dibutuhkan, lalu isi tanggal dan keperluan peminjaman. Pengajuan akan menunggu pemeriksaan admin.</div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Bagaimana jika saya belum memiliki akun?</summary>
+                        <div class="faq-answer">Akun pengguna dikelola oleh pihak sekolah. Hubungi admin sekolah untuk mendapatkan informasi akses akun SINFAS.</div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Di mana saya bisa melihat status pengajuan?</summary>
+                        <div class="faq-answer">Setelah masuk, buka halaman status pengajuan untuk melihat perkembangan permintaan peminjamanmu.</div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Apa yang dilakukan saat mengembalikan fasilitas?</summary>
+                        <div class="faq-answer">Laporkan tanggal pengembalian dan kondisi barang melalui akunmu. Admin akan memeriksa laporan sebelum menyelesaikan proses pengembalian.</div>
+                    </details>
                 </div>
             </div>
         </section>
