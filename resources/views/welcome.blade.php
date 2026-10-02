@@ -338,6 +338,189 @@
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-delay: 0ms !important; }
         }
+
+        :root {
+            --ink: #f4f7ff;
+            --paper: #07132b;
+            --primary: #8294ff;
+            --primary-dark: #dce5ff;
+            --primary-soft: #111c3c;
+            --cyan: #67e8f9;
+            --muted: #9ba9c7;
+            --border: rgba(148, 163, 184, .16);
+            --brand-gradient: linear-gradient(135deg, #6679ff, #4f46e5 58%, #1d4ed8);
+        }
+        body {
+            color: var(--ink);
+            background-color: #07132b;
+            background-image: radial-gradient(ellipse at 50% 0%, rgba(45, 72, 155, .24), transparent 48%), linear-gradient(rgba(148, 163, 184, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, .035) 1px, transparent 1px);
+            background-size: auto, 32px 32px, 32px 32px;
+        }
+        .site-header {
+            width: min(calc(100% - 48px), 1280px);
+            height: 72px;
+            margin: 14px auto 0;
+            padding: 0 22px;
+            border: 1px solid rgba(148, 163, 184, .15);
+            border-radius: 12px;
+            background: rgba(3, 9, 26, .92);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+        }
+        .brand-name { color: #f4f7ff; }
+        .brand-caption { color: #98a7c5; }
+        .main-nav { border-color: rgba(148, 163, 184, .15); background: #0b1530; color: #b5c0d8; }
+        .main-nav a:hover { color: #fff; background: #182448; }
+        .login-link:hover { color: #a5b4fc; }
+        .button { border-radius: 9999px; background: linear-gradient(135deg, #647bff, #4257e8); box-shadow: 0 8px 24px rgba(59, 80, 213, .25); }
+        .button:hover { box-shadow: 0 12px 28px rgba(79, 99, 231, .38); }
+        .hero {
+            width: min(calc(100% - 48px), 1280px);
+            min-height: 660px;
+            margin-top: 12px;
+            border: 1px solid rgba(148, 163, 184, .14);
+            border-radius: 14px;
+            background: #030817;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, .34);
+        }
+        .hero::before { background: linear-gradient(180deg, rgba(3, 8, 23, .2), rgba(3, 8, 23, .22) 48%, #030817 100%); }
+        .hero::after { display: none; }
+        .hero-image { opacity: .32; object-position: center 42%; animation: none; }
+        .hero-shade { background: radial-gradient(ellipse at 50% 37%, rgba(31, 56, 135, .25), transparent 55%), linear-gradient(180deg, rgba(3, 8, 23, .56), rgba(3, 8, 23, .38) 48%, #030817 100%); }
+        .hero-inner { display: block; width: min(calc(100% - 64px), 960px); padding: 128px 0 206px; text-align: center; }
+        .hero-copy-block { animation: copy-arrive .55s both cubic-bezier(.2,.8,.2,1); }
+        .eyebrow { margin-bottom: 22px; border-color: rgba(148, 163, 184, .24); background: rgba(13, 24, 55, .72); color: #c6d2f2; }
+        h1 { max-width: 850px; margin-right: auto; margin-left: auto; font-size: clamp(46px, 5.4vw, 68px); }
+        h1 span { color: #96a8ff; }
+        .hero-copy { margin-right: auto; margin-left: auto; color: #b4bfd7; }
+        .hero-actions { justify-content: center; }
+        .hero-secondary { border-color: rgba(148, 163, 184, .28); background: rgba(12, 22, 48, .55); }
+        .hero-proof { justify-content: center; color: #9ba9c7; }
+        .hero-product-card {
+            position: absolute;
+            right: auto;
+            bottom: 28px;
+            left: 50%;
+            width: min(calc(100% - 72px), 960px);
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            color: var(--ink);
+            box-shadow: none;
+            backdrop-filter: none;
+            animation: none;
+            transform: translateX(-50%);
+        }
+        .hero-product-card:hover { transform: translateX(-50%); box-shadow: none; }
+        .hero-product-card::before, .product-card-top, .product-card-title, .product-card-foot { display: none; }
+        .product-list { display: grid; grid-template-columns: repeat(3, 1fr); border: 0; }
+        .product-row { min-width: 0; padding: 12px 20px; border: 0; border-right: 1px solid rgba(148, 163, 184, .2); }
+        .product-row:last-child { border-right: 0; }
+        .product-row-icon { background: rgba(92, 112, 255, .14); color: #9eaeff; }
+        .product-row:nth-child(2) .product-row-icon { background: rgba(34, 211, 238, .12); color: #67e8f9; }
+        .product-row:nth-child(3) .product-row-icon { background: rgba(52, 211, 153, .12); color: #6ee7b7; }
+        .product-row-copy strong { color: #e8edff; }
+        .product-row-copy span { color: #95a3c1; }
+        .product-row-check { display: none; }
+        .hero-note, .hero-stat { display: none; }
+        .intro-strip { width: min(calc(100% - 64px), 1160px); border-color: var(--border); }
+        .intro-strip p { color: #9ba9c7; }
+        .intro-tag { color: #a9b7ff; }
+        .trust-stat strong { color: #f3f6ff; }
+        .trust-stat span { color: #8f9db9; }
+        .features-section { padding: 78px 32px 84px; background: rgba(3, 8, 23, .74); border-top: 1px solid rgba(148, 163, 184, .1); border-bottom: 1px solid rgba(148, 163, 184, .1); }
+        .features-wrap { width: min(100%, 1160px); margin: 0 auto; }
+        .features-heading { max-width: 700px; margin: 0 auto 34px; text-align: center; }
+        .features-heading .section-kicker { color: #9eaeff; }
+        .features-heading h2 { max-width: 660px; margin: 0 auto 12px; color: #f3f6ff; }
+        .features-heading > p:last-child { max-width: 570px; margin: 0 auto; color: #9ba9c7; font-size: 13px; line-height: 1.7; }
+        .features-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
+        .feature-card { grid-column: span 2; min-height: 174px; padding: 20px; border: 1px solid rgba(148, 163, 184, .13); border-radius: 8px; background: linear-gradient(145deg, rgba(13, 23, 51, .96), rgba(7, 14, 34, .96)); transition: transform .2s ease, border-color .2s ease, background .2s ease; }
+        .feature-card:nth-child(4) { grid-column: 2 / span 2; }
+        .feature-card:nth-child(5) { grid-column: 4 / span 2; }
+        .feature-card:hover { transform: translateY(-4px); border-color: rgba(129, 149, 255, .44); background: #101c3d; }
+        .feature-icon { display: grid; width: 34px; height: 34px; margin-bottom: 20px; place-items: center; border-radius: 8px; background: rgba(103, 125, 255, .12); color: #9eaeff; }
+        .feature-icon svg { width: 20px; height: 20px; }
+        .feature-card:nth-child(2) .feature-icon { background: rgba(34, 211, 238, .1); color: #67e8f9; }
+        .feature-card:nth-child(3) .feature-icon { background: rgba(52, 211, 153, .1); color: #6ee7b7; }
+        .feature-card h3 { margin-bottom: 7px; color: #eef2ff; font-size: 15px; }
+        .feature-card p { max-width: 300px; margin: 0; color: #98a7c4; font-size: 11px; line-height: 1.7; }
+        .steps-section { padding-top: 82px; padding-bottom: 88px; }
+        .section-kicker { color: #9eaeff; }
+        h2 { color: #f3f6ff; }
+        .section-heading > p { color: #9ba9c7; }
+        .step, .step + .step { border-color: rgba(148, 163, 184, .14); background: #0b1530; box-shadow: none; }
+        .step:hover { border-color: rgba(129, 149, 255, .4); box-shadow: 0 16px 34px -16px rgba(64, 83, 200, .4); }
+        .step-number { color: #a9b7ff; }
+        .step p { color: #9ba9c7; }
+        .activity-section { padding: 88px 32px 94px; border-top: 1px solid rgba(148, 163, 184, .12); border-bottom: 1px solid rgba(148, 163, 184, .12); background: linear-gradient(112deg, #0a1730 0%, #0d1d31 58%, #102b35 100%); }
+        .activity-wrap { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); align-items: center; gap: 76px; width: min(100%, 1160px); margin: 0 auto; }
+        .activity-intro .section-kicker { margin-bottom: 14px; color: #bef264; }
+        .activity-intro h2 { max-width: 520px; margin: 0; font-size: 48px; line-height: 1.04; }
+        .activity-intro h2 span { color: #bef264; }
+        .activity-intro > p:not(.section-kicker) { max-width: 430px; margin: 18px 0 24px; color: #a9b7cb; font-size: 14px; line-height: 1.75; }
+        .activity-link { display: inline-flex; min-height: 44px; align-items: center; gap: 10px; padding: 0 18px; border-radius: 9999px; background: #bef264; color: #17251b; font-size: 12px; font-weight: 800; transition: transform .18s ease, background .18s ease; }
+        .activity-link:hover { transform: translateY(-2px); background: #d9f99d; }
+        .activity-link svg { width: 16px; height: 16px; }
+        .activity-note { display: flex; align-items: center; gap: 9px; margin-top: 22px; color: #91a1ba; font-size: 11px; font-weight: 600; }
+        .activity-note span { width: 7px; height: 7px; border-radius: 50%; background: #67e8f9; box-shadow: 0 0 0 4px rgba(103, 232, 249, .1); }
+        .activity-list { border-top: 1px solid rgba(148, 163, 184, .2); }
+        .activity-row { display: flex; align-items: center; gap: 16px; padding: 19px 2px; border-bottom: 1px solid rgba(148, 163, 184, .2); color: inherit; transition: padding .18s ease, background .18s ease; }
+        .activity-row:hover { padding-right: 8px; padding-left: 8px; background: rgba(255, 255, 255, .025); }
+        .activity-number { display: grid; width: 38px; height: 38px; flex: 0 0 auto; place-items: center; border-radius: 50%; background: rgba(190, 242, 100, .13); color: #bef264; font: 700 13px 'Outfit', sans-serif; }
+        .activity-row:nth-child(2) .activity-number { background: rgba(103, 232, 249, .12); color: #67e8f9; }
+        .activity-row:nth-child(3) .activity-number { background: rgba(251, 146, 160, .12); color: #fda4af; }
+        .activity-row-copy { display: grid; gap: 3px; min-width: 0; }
+        .activity-category { color: #93a3c0; font-size: 9px; font-weight: 800; letter-spacing: .8px; }
+        .activity-row-copy strong { color: #eff4ff; font: 600 16px 'Outfit', sans-serif; }
+        .activity-description { color: #9ba9c7; font-size: 11px; line-height: 1.5; }
+        .activity-arrow { display: grid; width: 32px; height: 32px; flex: 0 0 auto; margin-left: auto; place-items: center; border: 1px solid rgba(148, 163, 184, .2); border-radius: 50%; color: #a9b7ff; transition: transform .18s ease, border-color .18s ease; }
+        .activity-arrow svg { width: 15px; height: 15px; }
+        .activity-row:hover .activity-arrow { transform: translateX(3px); border-color: rgba(169, 183, 255, .6); }
+        .faq-section { background: #030817; border-color: rgba(148, 163, 184, .12); }
+        .faq-intro > p:not(.section-kicker) { color: #9ba9c7; }
+        .faq-login-link { color: #a9b7ff; }
+        .faq-list, .faq-item { border-color: rgba(148, 163, 184, .16); }
+        .faq-item summary { color: #e8edff; }
+        .faq-item summary:hover { color: #a9b7ff; }
+        .faq-item summary::after { color: #a9b7ff; }
+        .faq-answer { color: #9ba9c7; }
+        .closing-band { margin-top: 28px; margin-bottom: 0; border: 1px solid rgba(165, 180, 252, .16); border-radius: 12px; background: linear-gradient(110deg, #111d43, #172a67 58%, #173b70); box-shadow: 0 18px 36px -18px rgba(0, 0, 0, .5); }
+        .closing-band p { color: #f3f6ff; }
+        footer { color: #92a0bd; }
+        .footer-brand { color: #e1e8ff; }
+
+        @media (max-width: 760px) {
+            .site-header { width: calc(100% - 28px); height: 64px; margin-top: 10px; padding: 0 14px; }
+            .hero { width: calc(100% - 28px); min-height: 0; margin-top: 10px; }
+            .hero-inner { width: calc(100% - 36px); padding: 82px 0 238px; }
+            h1 { font-size: 48px; }
+            .hero-product-card { bottom: 18px; width: calc(100% - 28px); }
+            .product-list { grid-template-columns: 1fr; }
+            .product-row { padding: 8px 4px; border-right: 0; border-bottom: 1px solid rgba(148, 163, 184, .12); text-align: left; }
+            .product-row:last-child { border-bottom: 0; }
+            .intro-strip { width: calc(100% - 40px); }
+            .features-section { padding: 66px 20px 72px; }
+            .features-heading { margin-bottom: 26px; }
+            .features-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .feature-card, .feature-card:nth-child(4), .feature-card:nth-child(5) { grid-column: auto; }
+            .feature-card { min-height: 160px; padding: 17px; }
+            .activity-section { padding: 70px 20px 76px; }
+            .activity-wrap { grid-template-columns: 1fr; gap: 34px; }
+            .activity-intro h2 { font-size: 40px; }
+        }
+        @media (max-width: 420px) {
+            h1 { font-size: 40px; }
+            .hero-inner { padding: 70px 0 232px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .feature-card { min-height: 0; }
+            .activity-intro h2 { font-size: 36px; }
+            .activity-row { gap: 11px; padding: 16px 0; }
+            .activity-number { width: 34px; height: 34px; }
+            .activity-row-copy strong { font-size: 14px; }
+            .activity-description { font-size: 10px; }
+            .activity-arrow { width: 28px; height: 28px; }
+        }
     </style>
 </head>
 <body>
@@ -347,8 +530,8 @@
             <span class="brand-text"><span class="brand-name">SINFAS</span><span class="brand-caption">Sistem Informasi Fasilitas</span></span>
         </a>
         <nav class="main-nav" aria-label="Navigasi utama">
+            <a href="#fitur">Fitur</a>
             <a href="#cara-kerja">Cara kerja</a>
-            <a href="#tentang">Tentang SINFAS</a>
             <a href="#pertanyaan">FAQ</a>
         </nav>
         <div class="header-actions">
@@ -426,6 +609,38 @@
             </div>
         </div>
 
+        <section class="features-section" id="fitur" aria-labelledby="features-title">
+            <div class="features-wrap">
+                <div class="features-heading">
+                    <p class="section-kicker">FITUR SINFAS</p>
+                    <h2 id="features-title">Semua kebutuhan fasilitas, dalam satu platform.</h2>
+                    <p>Mulai dari mencari barang sampai memantau pengembalian, semua proses tercatat rapi dan mudah diakses.</p>
+                </div>
+                <div class="features-grid">
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h6M7 16h3"/></svg></span>
+                        <h3>Katalog terpusat</h3><p>Temukan detail, kategori, dan ketersediaan fasilitas sekolah dalam satu daftar.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></span>
+                        <h3>Pengajuan online</h3><p>Ajukan barang dan jadwal pemakaian tanpa formulir kertas yang tercecer.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+                        <h3>Status mudah dipantau</h3><p>Lihat perkembangan permintaan dan tenggat pengembalian dari akunmu.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16"/><path d="m8 15 3-4 3 2 5-7"/></svg></span>
+                        <h3>Riwayat tercatat</h3><p>Riwayat transaksi membantu siswa dan admin mengecek pemakaian sebelumnya.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4zM8 8h8M8 12h8M8 16h5"/><path d="M8 2v4M16 2v4"/></svg></span>
+                        <h3>Administrasi lebih rapi</h3><p>Data inventaris, peminjaman, dan pengembalian tersusun dalam satu sistem.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
         <section class="steps-section" id="cara-kerja">
             <div class="steps-wrap">
                 <div class="section-heading">
@@ -448,6 +663,35 @@
                         <h3>Pantau statusnya</h3>
                         <p>Lihat perkembangan pengajuan dan kelola pengembalian di satu tempat.</p>
                     </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="activity-section" aria-labelledby="activity-title">
+            <div class="activity-wrap">
+                <div class="activity-intro">
+                    <p class="section-kicker">RUANG BUAT IDE KAMU</p>
+                    <h2 id="activity-title">Mau bikin sesuatu? <span>Gas aja.</span></h2>
+                    <p>Dari presentasi sampai acara sekolah, urus kebutuhan fasilitas tanpa bikin persiapan makin ribet.</p>
+                    <a class="activity-link" href="{{ route('login') }}">Jelajahi fasilitas <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    <div class="activity-note"><span aria-hidden="true"></span>Pengajuan terpantau sampai selesai</div>
+                </div>
+                <div class="activity-list" aria-label="Contoh aktivitas sekolah">
+                    <a class="activity-row" href="{{ route('login') }}">
+                        <span class="activity-number">01</span>
+                        <span class="activity-row-copy"><span class="activity-category">DI KELAS</span><strong>Presentasi & kerja kelompok</strong><span class="activity-description">Siapkan perlengkapan untuk belajar dan kolaborasi.</span></span>
+                        <span class="activity-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                    </a>
+                    <a class="activity-row" href="{{ route('login') }}">
+                        <span class="activity-number">02</span>
+                        <span class="activity-row-copy"><span class="activity-category">EKSKUL & OLAHRAGA</span><strong>Gerak bareng teman</strong><span class="activity-description">Atur kebutuhan latihan dan aktivitas sekolah.</span></span>
+                        <span class="activity-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                    </a>
+                    <a class="activity-row" href="{{ route('login') }}">
+                        <span class="activity-number">03</span>
+                        <span class="activity-row-copy"><span class="activity-category">ACARA SEKOLAH</span><strong>Pentas, lomba, dan lainnya</strong><span class="activity-description">Bikin persiapan acara lebih rapi dari awal.</span></span>
+                        <span class="activity-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+                    </a>
                 </div>
             </div>
         </section>
