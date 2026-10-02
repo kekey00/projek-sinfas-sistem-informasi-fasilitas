@@ -958,7 +958,13 @@
 
     // ─── CHART ───
     document.addEventListener('DOMContentLoaded', function () {
-        const ctx = document.getElementById('sinfasBarChart').getContext('2d');
+        const canvas = document.getElementById('sinfasBarChart');
+        if (!canvas) return;
+        if (typeof Chart === 'undefined') {
+            console.error('Chart.js not loaded');
+            return;
+        }
+        const ctx = canvas.getContext('2d');
         const labels = @json($chartLabels);
         const datasets = @json($chartDatasets);
         const colors = ['#3457A5', '#0F9B8E', '#7C3AED', '#E07A00', '#149B68', '#526176', '#36559A'];

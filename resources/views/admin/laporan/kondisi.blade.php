@@ -9,13 +9,24 @@
 ])
 <div class="report-header"><div><div class="report-kicker">Laporan 02 / Kondisi Barang</div><h2 class="report-title">Kondisi Barang</h2><p class="report-subtitle">Melihat kondisi barang setelah dikembalikan, termasuk barang yang rusak.</p>@include('admin.laporan.partials.actions', ['pdfRoute' => 'admin.laporan.kondisi.pdf'])</div><div class="report-mark">02</div></div>
 <div class="report-card orange"><div class="report-card-header"><div class="report-index">02</div><div><div class="report-card-title">Riwayat Kondisi Barang</div><p class="report-card-description">Filter berdasarkan periode dan kategori untuk melihat perubahan kondisi aset.</p></div></div>@include('admin.laporan.partials.filter', ['reportRoute' => 'admin.laporan.kondisi'])<div class="report-summary"><div class="summary-box"><div class="summary-label">Kondisi baik</div><div class="summary-value">{{ $kondisiRingkasan['Baik'] ?? 0 }}</div></div><div class="summary-box"><div class="summary-label">Kurang baik</div><div class="summary-value">{{ $kondisiRingkasan['Kurang Baik'] ?? 0 }}</div></div><div class="summary-box"><div class="summary-label">Rusak berat</div><div class="summary-value">{{ $kondisiRingkasan['Rusak Berat'] ?? 0 }}</div></div></div><div class="report-table-wrap"><table class="report-table"><thead><tr><th>Tanggal Pinjam</th><th>Barang</th><th>Tanggal Kembali</th><th>Kondisi</th></tr></thead><tbody>@forelse($riwayatKondisi as $item)<tr><td>{{ $item->tanggal_pinjam?->format('d/m/Y') }}</td><td><strong>{{ $item->barang->nama_barang ?? '-' }}</strong></td><td>{{ $item->pengembalian->tanggal_kembali?->format('d/m/Y') }}</td><td>{{ $item->pengembalian->kondisi_barang ?? 'Belum dicatat' }}</td></tr>@empty<tr><td colspan="4" class="empty-report">Belum ada riwayat kondisi pada filter yang dipilih.</td></tr>@endforelse</tbody></table></div></div>
+@php
+	$totalKondisi = ($kondisiRingkasan['Baik'] ?? 0) + ($kondisiRingkasan['Kurang Baik'] ?? 0) + ($kondisiRingkasan['Rusak Berat'] ?? 0);
+@endphp
 <div class="report-card">
 	<div class="report-card-header"><div><div class="report-card-title">Grafik Kondisi Barang</div><p class="report-card-description">Perbandingan kondisi barang yang dikembalikan pada periode laporan.</p></div></div>
-	<div class="trend-chart"><canvas id="chartKondisiBarang"></canvas></div>
+	@if($totalKondisi > 0)
+		<div class="trend-chart"><canvas id="chartKondisiBarang"></canvas></div>
+	@else
+		<div style="text-align:center; padding: 48px 20px; color:#94a3b8; font-size:13.5px;">
+			<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.6" style="margin:0 auto 10px; display:block;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+			Belum ada data riwayat kondisi barang pada periode ini.
+		</div>
+	@endif
 </div>
 @include('admin.laporan.partials.print-signatures')
 @endsection
 
+@if($totalKondisi > 0)
 @section('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -39,3 +50,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endsection
+@endif

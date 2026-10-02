@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			labels: ['Baik', 'Kurang Baik', 'Rusak Berat', 'Sedang Dipinjam'],
 			datasets: [{
 				label: 'Jumlah barang',
-				data: [{{ $stokRingkasan['Kondisi baik'] }}, {{ $stokRingkasan['Kurang baik'] }}, {{ $stokRingkasan['Rusak berat'] }}, {{ $stokRingkasan['Sedang dipinjam'] }}],
+				data: [{{ $stokRingkasan['Kondisi baik'] ?? 0 }}, {{ $stokRingkasan['Kurang baik'] ?? 0 }}, {{ $stokRingkasan['Rusak berat'] ?? 0 }}, {{ $stokRingkasan['Sedang dipinjam'] ?? 0 }}],
 				backgroundColor: ['#0F9B8E', '#E7A23B', '#D95757', '#5476AA'],
 				borderRadius: 7,
 				borderSkipped: false,
