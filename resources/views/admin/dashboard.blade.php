@@ -834,9 +834,6 @@
                         </td>
                         <td>
                             <span class="date-text">{{ $req->tanggal_kembali ? $req->tanggal_kembali->format('d M Y') : '-' }}</span>
-                            @if($req->jam_kembali)
-                                <div style="font-size: 11px; color: #4F46E5; font-weight: 600;">⏰ {{ $req->jam_kembali }}</div>
-                            @endif
                         </td>
                         <td>
                             <div style="display:flex;gap:8px;justify-content:flex-end;padding-right:8px;">

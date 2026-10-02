@@ -404,7 +404,7 @@
                         <div>{{ $pjm->tanggal_pinjam ? $pjm->tanggal_pinjam->format('d M Y') : '-' }}</div>
                         @if($pjm->jam_pinjam)
                             <div style="font-size: 11px; color: #4F46E5; font-weight: 600; margin-top: 2px;">
-                                ⏰ {{ $pjm->jam_pinjam }} @if($pjm->jam_kembali)- {{ $pjm->jam_kembali }}@endif
+                                ⏰ {{ $pjm->jam_pinjam }} WIB
                             </div>
                         @endif
                     </td>
@@ -525,6 +525,7 @@
                         @if($active->pengembalian && $active->pengembalian->tanggal_kembali)
                             <div style="font-size: 11px; color: #059669; font-weight: 600; margin-top: 2px;">
                                 Lapor: {{ $active->pengembalian->tanggal_kembali->format('d M Y') }}
+                                pukul {{ $active->pengembalian->created_at?->format('H:i') ?? '-' }} WIB
                             </div>
                         @endif
                     </td>
@@ -670,7 +671,7 @@
                         </span>
                         @if($hist->jam_pinjam)
                             <div style="font-size: 11px; color: #4F46E5; font-weight: 600; margin-top: 2px;">
-                                ⏰ {{ $hist->jam_pinjam }} @if($hist->jam_kembali)- {{ $hist->jam_kembali }}@endif
+                                ⏰ {{ $hist->jam_pinjam }} WIB
                             </div>
                         @endif
                     </td>
@@ -679,6 +680,9 @@
                             <span style="font-weight: 600; color: #059669;">
                                 {{ \Carbon\Carbon::parse($hist->pengembalian->tanggal_kembali)->format('d M Y') }}
                             </span>
+                            <div style="font-size: 11px; color: #059669; font-weight: 600; margin-top: 2px;">
+                                ⏰ {{ $hist->pengembalian->created_at?->format('H:i') ?? '-' }} WIB
+                            </div>
                         @elseif($hist->status_pengajuan === 'ditolak')
                             <span style="color: #94A3B8;">-</span>
                         @elseif($hist->tanggal_kembali)

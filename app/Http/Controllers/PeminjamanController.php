@@ -37,27 +37,17 @@ class PeminjamanController extends Controller
             'kode_barang'           => 'required|string|exists:barang,kode_barang',
             'nomor_telepon'         => 'required|string|max:20',
             'tanggal_pinjam'        => 'required|date|after_or_equal:today',
-            'jam_pinjam'            => 'required|string|max:10',
             'tanggal_kembali'       => 'required|date|after_or_equal:tanggal_pinjam',
-            'jam_kembali'           => 'nullable|string|max:10',
             'keterangan_penggunaan' => 'required|string|max:1000',
         ], [
             'nomor_telepon.required'         => 'Nomor telepon / WhatsApp peminjam wajib diisi.',
             'nomor_telepon.max'              => 'Nomor telepon maksimal 20 karakter.',
             'tanggal_pinjam.required'        => 'Tanggal pinjam wajib diisi.',
             'tanggal_pinjam.after_or_equal'  => 'Tanggal pinjam tidak boleh sebelum hari ini.',
-            'jam_pinjam.required'            => 'Jam peminjaman wajib diisi.',
             'tanggal_kembali.required'       => 'Rencana tanggal kembali wajib diisi.',
             'tanggal_kembali.after_or_equal' => 'Tanggal kembali tidak boleh sebelum tanggal pinjam.',
             'keterangan_penggunaan.required' => 'Tujuan / alasan peminjaman wajib diisi.',
         ]);
-
-        // Cek jika pinjam & kembali di hari yang sama, jam kembali harus setelah jam pinjam
-        if ($request->tanggal_pinjam === $request->tanggal_kembali && $request->filled('jam_kembali')) {
-            if ($request->jam_kembali <= $request->jam_pinjam) {
-                return back()->withErrors(['jam_kembali' => 'Jam pengembalian harus setelah jam pinjam jika di hari yang sama.'])->withInput();
-            }
-        }
 
         $barang = Barang::findOrFail($request->kode_barang);
 
@@ -74,9 +64,9 @@ class PeminjamanController extends Controller
             'nomor_telepon'         => $request->nomor_telepon,
             'kode_barang'           => $request->kode_barang,
             'tanggal_pinjam'        => $request->tanggal_pinjam,
-            'jam_pinjam'            => $request->jam_pinjam,
+            'jam_pinjam'            => now()->format('H:i'),
             'tanggal_kembali'       => $request->tanggal_kembali,
-            'jam_kembali'           => $request->jam_kembali,
+            'jam_kembali'           => null,
             'keterangan_penggunaan' => $request->keterangan_penggunaan,
             'status_pengajuan'      => 'menunggu',
         ]);
@@ -141,7 +131,9 @@ class PeminjamanController extends Controller
             return redirect()->route('user.status')->with('error', 'Barang ini sudah dikembalikan sebelumnya.');
         }
 
-        DB::transaction(function () use ($request, $peminjaman) {
+        $waktuKembali = now()->format('H:i');
+
+        DB::transaction(function () use ($request, $peminjaman, $waktuKembali) {
             $fotoPath = null;
             if ($request->hasFile('bukti_foto')) {
                 $fotoPath = $request->file('bukti_foto')->store('pengembalian', 'public');
@@ -156,6 +148,8 @@ class PeminjamanController extends Controller
                 'bukti_foto_video' => $fotoPath ?? $request->catatan,
                 'status'           => 'menunggu',
             ]);
+
+            $peminjaman->update(['jam_kembali' => $waktuKembali]);
 
             // Catatan: Stok barang belum dipulihkan disini, akan dipulihkan saat Admin Sarana memverifikasi pengembalian.
         });

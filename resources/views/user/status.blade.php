@@ -346,7 +346,11 @@
                                 <span>
                                     {{ $pjm->tanggal_pinjam ? $pjm->tanggal_pinjam->format('d M Y') : '-' }}@if($pjm->jam_pinjam) ({{ $pjm->jam_pinjam }})@endif
                                     &rarr;
-                                    {{ $pjm->tanggal_kembali ? $pjm->tanggal_kembali->format('d M Y') : '-' }}@if($pjm->jam_kembali) ({{ $pjm->jam_kembali }})@endif
+                                    @if($pjm->pengembalian)
+                                        {{ $pjm->pengembalian->tanggal_kembali?->format('d M Y') ?? '-' }} ({{ $pjm->pengembalian->created_at?->format('H:i') ?? '-' }})
+                                    @else
+                                        {{ $pjm->tanggal_kembali ? $pjm->tanggal_kembali->format('d M Y') : '-' }}
+                                    @endif
                                 </span>
                                 @if($pjm->nomor_telepon)
                                     <span>&bull;</span>
