@@ -198,6 +198,14 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 16px;
+        margin-bottom: 16px;
+    }
+
+    @media (max-width: 580px) {
+        .date-inputs-split {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
     }
 
     .btn-submit-loan-vibe {
@@ -368,7 +376,7 @@
                         @enderror
                     </div>
 
-                    <!-- DATES ROW -->
+                    <!-- LOAN DATE & TIME -->
                     <div class="date-inputs-split">
                         <div class="form-input-group">
                             <label for="tanggal_pinjam" class="form-label-vibe">
@@ -383,13 +391,40 @@
                         </div>
 
                         <div class="form-input-group">
+                            <label for="jam_pinjam" class="form-label-vibe">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                <span>Jam Mulai Pinjam</span>
+                            </label>
+                            <input type="time" id="jam_pinjam" name="jam_pinjam" class="form-control-vibe"
+                                   value="{{ old('jam_pinjam', date('H:i')) }}" required>
+                            @error('jam_pinjam')
+                                <span style="font-size:12px; color:var(--badge-rose); display:block; margin-top:4px;">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- RETURN DATE & TIME -->
+                    <div class="date-inputs-split">
+                        <div class="form-input-group">
                             <label for="tanggal_kembali" class="form-label-vibe">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
                                 <span>Tanggal Pengembalian</span>
                             </label>
                             <input type="date" id="tanggal_kembali" name="tanggal_kembali" class="form-control-vibe"
-                                   value="{{ old('tanggal_kembali', date('Y-m-d', strtotime('+1 day'))) }}" min="{{ date('Y-m-d', strtotime('+1 day')) }}" required>
+                                   value="{{ old('tanggal_kembali', date('Y-m-d')) }}" min="{{ date('Y-m-d') }}" required>
                             @error('tanggal_kembali')
+                                <span style="font-size:12px; color:var(--badge-rose); display:block; margin-top:4px;">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-input-group">
+                            <label for="jam_kembali" class="form-label-vibe">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                <span>Jam Pengembalian</span>
+                            </label>
+                            <input type="time" id="jam_kembali" name="jam_kembali" class="form-control-vibe"
+                                   value="{{ old('jam_kembali', '15:00') }}" required>
+                            @error('jam_kembali')
                                 <span style="font-size:12px; color:var(--badge-rose); display:block; margin-top:4px;">{{ $message }}</span>
                             @enderror
                         </div>
@@ -415,15 +450,28 @@
 <script>
     const tglPinjam = document.getElementById('tanggal_pinjam');
     const tglKembali = document.getElementById('tanggal_kembali');
+    const jamPinjam = document.getElementById('jam_pinjam');
+    const jamKembali = document.getElementById('jam_kembali');
+
     if (tglPinjam && tglKembali) {
         tglPinjam.addEventListener('change', function () {
             if (this.value) {
-                const nextDay = new Date(this.value);
-                nextDay.setDate(nextDay.getDate() + 1);
-                const minKembali = nextDay.toISOString().split('T')[0];
-                tglKembali.min = minKembali;
-                if (tglKembali.value && tglKembali.value <= this.value) {
-                    tglKembali.value = minKembali;
+                tglKembali.min = this.value;
+                if (tglKembali.value && tglKembali.value < this.value) {
+                    tglKembali.value = this.value;
+                }
+            }
+        });
+    }
+
+    const loanForm = document.getElementById('form-loan-apply');
+    if (loanForm) {
+        loanForm.addEventListener('submit', function (e) {
+            if (tglPinjam && tglKembali && tglPinjam.value === tglKembali.value) {
+                if (jamPinjam && jamKembali && jamKembali.value && jamPinjam.value && jamKembali.value <= jamPinjam.value) {
+                    e.preventDefault();
+                    alert('Untuk peminjaman di hari yang sama, jam pengembalian harus lebih lambat dari jam mulai pinjam.');
+                    jamKembali.focus();
                 }
             }
         });

@@ -343,7 +343,11 @@
                                 <span>&bull;</span>
                                 <span>Kategori: <strong>{{ $barang->kategori->nama_kategori ?? '-' }}</strong></span>
                                 <span>&bull;</span>
-                                <span>{{ $pjm->tanggal_pinjam ? $pjm->tanggal_pinjam->format('d M Y') : '-' }} &rarr; {{ $pjm->tanggal_kembali ? $pjm->tanggal_kembali->format('d M Y') : '-' }}</span>
+                                <span>
+                                    {{ $pjm->tanggal_pinjam ? $pjm->tanggal_pinjam->format('d M Y') : '-' }}@if($pjm->jam_pinjam) ({{ $pjm->jam_pinjam }})@endif
+                                    &rarr;
+                                    {{ $pjm->tanggal_kembali ? $pjm->tanggal_kembali->format('d M Y') : '-' }}@if($pjm->jam_kembali) ({{ $pjm->jam_kembali }})@endif
+                                </span>
                                 @if($pjm->nomor_telepon)
                                     <span>&bull;</span>
                                     <span>No. Telp: <strong>{{ $pjm->nomor_telepon }}</strong></span>

@@ -401,7 +401,12 @@
                         {{ Str::limit($pjm->keterangan_penggunaan, 32) }}
                     </td>
                     <td style="color: #475569; white-space: nowrap; font-size: 12.5px;">
-                        {{ $pjm->tanggal_pinjam ? $pjm->tanggal_pinjam->format('d M Y') : '-' }}
+                        <div>{{ $pjm->tanggal_pinjam ? $pjm->tanggal_pinjam->format('d M Y') : '-' }}</div>
+                        @if($pjm->jam_pinjam)
+                            <div style="font-size: 11px; color: #4F46E5; font-weight: 600; margin-top: 2px;">
+                                ⏰ {{ $pjm->jam_pinjam }} @if($pjm->jam_kembali)- {{ $pjm->jam_kembali }}@endif
+                            </div>
+                        @endif
                     </td>
                     <td>
                         <div class="action-btns-wrap" style="justify-content: flex-end; padding-right: 4px;">
@@ -663,6 +668,11 @@
                         <span style="font-weight: 600; color: #0F172A;">
                             {{ $hist->tanggal_pinjam ? \Carbon\Carbon::parse($hist->tanggal_pinjam)->format('d M Y') : '-' }}
                         </span>
+                        @if($hist->jam_pinjam)
+                            <div style="font-size: 11px; color: #4F46E5; font-weight: 600; margin-top: 2px;">
+                                ⏰ {{ $hist->jam_pinjam }} @if($hist->jam_kembali)- {{ $hist->jam_kembali }}@endif
+                            </div>
+                        @endif
                     </td>
                     <td style="color: #475569; white-space: nowrap; font-size: 12.5px;">
                         @if($hist->pengembalian && $hist->pengembalian->tanggal_kembali)
