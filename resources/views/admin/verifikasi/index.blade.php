@@ -391,6 +391,50 @@
     .reject-modal-card .btn-submit:hover { background: #B91C1C; box-shadow: 0 5px 15px rgba(220, 38, 38, .28); }
     .reject-modal-card .btn-submit svg { width: 15px; height: 15px; }
 
+    .return-modal-card { max-width: 540px; max-height: calc(100vh - 32px); padding: 0; overflow-x: hidden; overflow-y: auto; border-radius: 16px; }
+    .return-modal-card .modal-header { align-items: flex-start; margin: 0; padding: 24px 26px 18px; border-bottom: 0; }
+    .return-modal-heading { display: flex; align-items: center; gap: 14px; }
+    .return-modal-icon { display: grid; width: 48px; height: 48px; flex: 0 0 auto; place-items: center; border: 1px solid #A7F3D0; border-radius: 14px; background: #ECFDF5; color: #059669; }
+    .return-modal-icon svg { width: 23px; height: 23px; }
+    .return-modal-kicker { display: block; margin-bottom: 4px; color: #059669; font-size: 10px; font-weight: 800; letter-spacing: .8px; }
+    .return-modal-card .modal-title { font-size: 20px; line-height: 1.2; }
+    .return-modal-card .modal-close-btn { flex: 0 0 auto; }
+    .return-modal-copy { margin: 0 26px 16px; color: #64748B; font-size: 13px; line-height: 1.65; }
+    .return-modal-summary { margin: 0 26px 16px; padding: 4px 15px; border: 1px solid #E2E8F0; border-radius: 12px; background: #F8FAFC; }
+    .return-modal-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; }
+    .return-modal-row + .return-modal-row { border-top: 1px solid #E2E8F0; }
+    .return-modal-row-icon { display: grid; width: 34px; height: 34px; flex: 0 0 auto; place-items: center; border-radius: 10px; background: #ECFDF5; color: #059669; }
+    .return-modal-row-icon svg { width: 18px; height: 18px; }
+    .return-modal-row-copy { display: grid; min-width: 0; gap: 3px; }
+    .return-modal-row-copy > span:first-child { color: #64748B; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
+    .return-modal-row-copy strong { color: #0F172A; font-size: 13px; font-weight: 700; overflow-wrap: anywhere; }
+    .return-student-report { display: flex; align-items: center; gap: 6px; margin-top: 5px; padding-top: 7px; border-top: 1px dashed #D1D5DB; color: #0284C7; font-size: 11px; }
+    .return-student-report strong { color: #0369A1; }
+    .return-condition-warning { margin: 0 26px 14px; padding: 12px 14px; border: 1px solid #FDE68A; border-radius: 11px; background: #FFFBEB; color: #92400E; }
+    .return-condition-warning-heading { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 12px; font-weight: 800; }
+    .return-condition-warning-heading svg { width: 17px; height: 17px; flex: 0 0 auto; }
+    .return-condition-warning p { margin: 0; font-size: 11.5px; line-height: 1.6; }
+    .return-condition-warning label { display: block; margin: 10px 0 5px; color: #78350F; font-size: 11px; font-weight: 700; }
+    .return-condition-warning input { width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #FDE68A; border-radius: 8px; background: #FFFFFF; color: #0F172A; font: inherit; font-size: 12px; outline: none; }
+    .return-condition-warning input:focus { border-color: #F59E0B; box-shadow: 0 0 0 3px rgba(245, 158, 11, .12); }
+    .return-proof-preview { margin: 0 26px 14px; padding: 12px; border: 1px solid #D1FAE5; border-radius: 11px; background: #F0FDFA; text-align: center; }
+    .return-proof-preview-title { margin-bottom: 8px; color: #047857; font-size: 11px; font-weight: 800; text-align: left; }
+    .return-proof-preview img { max-width: 100%; max-height: 180px; border-radius: 8px; object-fit: contain; }
+    .return-proof-field { margin: 0 26px; }
+    .return-proof-field label { display: block; margin-bottom: 7px; color: #334155; font-size: 12px; font-weight: 700; }
+    .return-proof-field input[type="file"] { display: block; width: 100%; color: #64748B; font-size: 12px; }
+    .return-proof-field input[type="file"]::file-selector-button { margin-right: 10px; padding: 7px 11px; border: 1px solid #D1D5DB; border-radius: 7px; background: #FFFFFF; color: #334155; font: inherit; font-weight: 700; cursor: pointer; }
+    .return-proof-field input[type="file"]::file-selector-button:hover { background: #F8FAFC; }
+    .return-modal-impact { display: flex; align-items: flex-start; gap: 9px; margin: 14px 26px 0; padding: 10px 12px; border: 1px solid #D1FAE5; border-radius: 10px; background: #F0FDFA; color: #065F46; font-size: 11.5px; line-height: 1.6; }
+    .return-modal-impact svg { width: 16px; height: 16px; flex: 0 0 auto; margin-top: 1px; }
+    .return-modal-impact p { margin: 0; }
+    .return-modal-card .modal-footer { margin: 18px 26px 24px; padding-top: 16px; }
+    .return-modal-card .btn-cancel,
+    .return-modal-card .btn-submit { min-height: 40px; padding: 9px 16px; border-radius: 8px; }
+    .return-modal-card .btn-submit { display: inline-flex; align-items: center; gap: 8px; border-color: transparent; background: #059669; box-shadow: 0 3px 10px rgba(5, 150, 105, .22); }
+    .return-modal-card .btn-submit:hover { background: #047857; box-shadow: 0 5px 15px rgba(5, 150, 105, .3); }
+    .return-modal-card .btn-submit svg { width: 15px; height: 15px; }
+
     /* ─── RESPONSIVE RULES (MOBILE) ─── */
     @media (max-width: 768px) {
         .verify-tabs-bar {
@@ -424,6 +468,15 @@
         .reject-modal-summary,
         .reject-modal-impact { margin-right: 20px; margin-left: 20px; }
         .reject-modal-card .modal-footer { margin: 16px 20px 20px; }
+        .return-modal-card { max-height: calc(100vh - 24px); }
+        .return-modal-card .modal-header { padding: 20px 20px 16px; }
+        .return-modal-copy,
+        .return-proof-field { margin-right: 20px; margin-left: 20px; }
+        .return-modal-summary,
+        .return-condition-warning,
+        .return-proof-preview,
+        .return-modal-impact { margin-right: 20px; margin-left: 20px; }
+        .return-modal-card .modal-footer { margin: 16px 20px 20px; }
 
         .verif-pagination {
             justify-content: center;
@@ -985,36 +1038,61 @@
 
 {{-- MODAL 3: KONFIRMASI RETURN --}}
 <div id="returnConfirmModal" class="modal-overlay">
-    <div class="modal-card">
+    <div class="modal-card return-modal-card" role="dialog" aria-modal="true" aria-labelledby="returnModalTitle">
         <div class="modal-header">
-            <div class="modal-title">Konfirmasi Pengembalian</div>
-            <button class="modal-close-btn" onclick="closeModal('returnConfirmModal')">&times;</button>
+            <div class="return-modal-heading">
+                <span class="return-modal-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"/><path d="m4.5 7.8 7.5 4.3 7.5-4.3M12 12v9"/><path d="m9 12 2 2 4-4"/></svg>
+                </span>
+                <div>
+                    <span class="return-modal-kicker">PEMERIKSAAN FASILITAS</span>
+                    <div class="modal-title" id="returnModalTitle">Konfirmasi pengembalian</div>
+                </div>
+            </div>
+            <button type="button" class="modal-close-btn" onclick="closeModal('returnConfirmModal')" aria-label="Tutup dialog">&times;</button>
         </div>
+        <p class="return-modal-copy">Periksa kondisi fisik dan bukti sebelum menyelesaikan pengembalian barang.</p>
 
-        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #334155; line-height: 1.8; margin-bottom: 14px;">
-            <div>Peminjam: <strong id="retStudentName" style="color: #0F172A;"></strong></div>
-            <div>Barang: <strong id="retItemName" style="color: #0F172A;"></strong></div>
-            <div>Kondisi Diverifikasi: <strong id="retConditionLabel" style="color: #0F172A;"></strong></div>
-            <div id="retStudentReportedBox" style="display:none; color: #0284C7; font-size: 12px; margin-top: 4px; padding-top: 4px; border-top: 1px dashed #E2E8F0;">
-                Laporan Siswa: <strong id="retStudentReported"></strong>
+        <div class="return-modal-summary">
+            <div class="return-modal-row">
+                <span class="return-modal-row-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg>
+                </span>
+                <span class="return-modal-row-copy"><span>Nama peminjam</span><strong id="retStudentName"></strong></span>
+            </div>
+            <div class="return-modal-row">
+                <span class="return-modal-row-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"/><path d="m4.5 7.8 7.5 4.3 7.5-4.3M12 12v9"/></svg>
+                </span>
+                <span class="return-modal-row-copy"><span>Fasilitas dikembalikan</span><strong id="retItemName"></strong></span>
+            </div>
+            <div class="return-modal-row">
+                <span class="return-modal-row-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                </span>
+                <span class="return-modal-row-copy">
+                    <span>Kondisi verifikasi</span>
+                    <strong id="retConditionLabel"></strong>
+                    <span id="retStudentReportedBox" class="return-student-report" style="display:none;">
+                        Kondisi laporan siswa: <strong id="retStudentReported"></strong>
+                    </span>
+                </span>
             </div>
         </div>
 
-        <div id="retBuktiPreviewContainer" style="display:none; margin-bottom: 14px; text-align: center; background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 8px; padding: 10px;">
-            <div style="font-size: 11.5px; font-weight: 700; color: #475569; margin-bottom: 6px;">Foto Bukti dari Siswa:</div>
-            <img id="retBuktiImg" src="" style="max-height: 140px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" alt="Bukti Foto">
+        <div id="retBuktiPreviewContainer" class="return-proof-preview" style="display:none;">
+            <div class="return-proof-preview-title">Foto bukti dari siswa</div>
+            <img id="retBuktiImg" src="" alt="Bukti foto kondisi barang">
         </div>
 
-        {{-- Warning Box jika Rusak --}}
-        <div id="retConditionWarning" style="display:none; background:#FFFBEB; border:1px solid #FEF3C7; border-radius:8px; padding:12px 14px; margin: 12px 0; font-size:12.5px; color:#B45309; text-align:left;">
-            <div style="font-weight:600; margin-bottom:4px;">
-                Peringatan Kerusakan
+        <div id="retConditionWarning" class="return-condition-warning" style="display:none;">
+            <div class="return-condition-warning-heading">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+                Kondisi perlu perhatian
             </div>
-            <div>Kondisi barang dilaporkan rusak/kurang baik. Laporan kerusakan otomatis dicatat dan stok fisik barang akan disesuaikan di sistem.</div>
-            <div style="margin-top:8px;">
-                <label style="font-size:11.5px; font-weight:600; color:#92400E; display:block; margin-bottom:4px;">Catatan Kerusakan (Opsional):</label>
-                <input type="text" id="retCatatanInput" placeholder="Misal: Tombol macet / kabel lecet" style="width:100%; box-sizing:border-box; padding:6px 10px; font-size:12.5px; border:1px solid #FDE68A; border-radius:6px; outline:none; background:#FFFFFF;">
-            </div>
+            <p>Kondisi kurang baik atau rusak akan dicatat dan stok disesuaikan saat pengembalian diverifikasi.</p>
+            <label for="retCatatanInput">Catatan kondisi (opsional)</label>
+            <input type="text" id="retCatatanInput" placeholder="Contoh: Kabel terkelupas di bagian ujung">
         </div>
 
         <form id="returnForm" method="POST" enctype="multipart/form-data">
@@ -1022,13 +1100,20 @@
             <input type="hidden" name="kondisi_barang" id="retConditionInput">
             <input type="hidden" name="tanggal_kembali" value="{{ date('Y-m-d') }}">
             <input type="hidden" name="catatan" id="retCatatanHidden">
-            <div style="margin: 12px 0 16px;">
-                <label style="display: block; font-size: 12.5px; font-weight: 600; color: #475569; margin-bottom: 6px;">Foto Bukti Fisik Saat Kembali (Opsional)</label>
-                <input type="file" name="bukti_foto" accept="image/*" style="font-size: 12.5px; color: #64748B;">
+            <div class="return-proof-field">
+                <label for="returnEvidenceInput">Foto bukti fisik (opsional)</label>
+                <input type="file" id="returnEvidenceInput" name="bukti_foto" accept="image/*">
+            </div>
+            <div class="return-modal-impact">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 11v5M12 8h.01"/></svg>
+                <p>Stok fasilitas akan disesuaikan berdasarkan kondisi yang dikonfirmasi.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-cancel" onclick="closeModal('returnConfirmModal')">Batal</button>
-                <button type="submit" class="btn-submit" onclick="document.getElementById('retCatatanHidden').value = document.getElementById('retCatatanInput').value">Konfirmasi Pengembalian</button>
+                <button type="submit" class="btn-submit" onclick="document.getElementById('retCatatanHidden').value = document.getElementById('retCatatanInput').value">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+                    Konfirmasi Pengembalian
+                </button>
             </div>
         </form>
     </div>
