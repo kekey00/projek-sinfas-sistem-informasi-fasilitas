@@ -330,7 +330,13 @@
             <a href="#tentang">Tentang SINFAS</a>
         </nav>
         <div class="header-actions">
-            <a class="login-link" href="{{ route('login') }}">Masuk</a>
+            <a class="button" href="{{ route('login') }}">
+                Masuk
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path>
+                </svg>
+            </a>
         </div>
     </header>
 
