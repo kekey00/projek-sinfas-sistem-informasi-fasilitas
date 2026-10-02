@@ -343,6 +343,10 @@
                     <span class="id-info-value">{{ $user->nomor_kontak ?? '-' }}</span>
                 </div>
                 <div class="id-info-row">
+                    <span class="id-info-label">No. Telepon</span>
+                    <span class="id-info-value">{{ $siswa->no_hp ?? '-' }}</span>
+                </div>
+                <div class="id-info-row">
                     <span class="id-info-label">Jenis Kelamin</span>
                     <span class="id-info-value">{{ $siswa->jenis_kelamin ?? '-' }}</span>
                 </div>
@@ -381,11 +385,18 @@
                         </div>
                     </div>
 
-                    <div class="form-row-3">
+                    <div class="form-row-2">
                         <div class="form-field">
                             <label class="form-label-txt">Kelas</label>
                             <input type="text" name="nomor_kontak" class="form-input-txt" value="{{ old('nomor_kontak', $user->nomor_kontak ?? '') }}" placeholder="Contoh: XII RPL 1">
                         </div>
+                        <div class="form-field">
+                            <label class="form-label-txt">Nomor Telepon / WhatsApp</label>
+                            <input type="tel" name="no_telepon" class="form-input-txt" value="{{ old('no_telepon', $siswa->no_hp ?? '') }}" placeholder="Contoh: 081234567890">
+                        </div>
+                    </div>
+
+                    <div class="form-row-3">
                         <div class="form-field">
                             <label class="form-label-txt">Jenis Kelamin</label>
                             <select name="jenis_kelamin" class="form-input-txt">

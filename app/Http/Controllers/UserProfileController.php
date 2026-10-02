@@ -35,6 +35,7 @@ class UserProfileController extends Controller
             'username'     => 'nullable|string|max:50|unique:akun,username,' . $user->id_akun . ',id_akun',
             'email'        => 'nullable|email|max:255',
             'nomor_kontak' => 'nullable|string|max:50',
+            'no_telepon'   => 'nullable|string|max:20',
             'jenis_kelamin' => 'nullable|in:Laki-laki,Perempuan',
         ];
 
@@ -88,7 +89,7 @@ class UserProfileController extends Controller
                     [
                         'nama'  => $request->nama,
                         'email' => $request->email,
-                        'no_hp' => $request->nomor_kontak,
+                        'no_hp' => $request->no_telepon,
                         'jenis_kelamin' => $request->jenis_kelamin,
                     ]
                 );
