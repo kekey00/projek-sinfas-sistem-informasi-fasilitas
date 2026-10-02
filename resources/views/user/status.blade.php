@@ -344,7 +344,7 @@
                                 <span>Kategori: <strong>{{ $barang->kategori->nama_kategori ?? '-' }}</strong></span>
                                 <span>&bull;</span>
                                 <span>
-                                    {{ $pjm->tanggal_pinjam ? $pjm->tanggal_pinjam->format('d M Y') : '-' }}@if($pjm->jam_pinjam) ({{ $pjm->jam_pinjam }})@endif
+                                    {{ $pjm->tanggal_pinjam ? $pjm->tanggal_pinjam->format('d M Y') : '-' }} ({{ $pjm->created_at?->format('H:i') ?? '-' }})
                                     &rarr;
                                     @if($pjm->pengembalian)
                                         {{ $pjm->pengembalian->tanggal_kembali?->format('d M Y') ?? '-' }} ({{ $pjm->pengembalian->created_at?->format('H:i') ?? '-' }})

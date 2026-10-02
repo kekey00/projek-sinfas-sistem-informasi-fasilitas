@@ -317,11 +317,11 @@
                     </div>
                     <div class="meta-line">
                         <span>Tanggal Pinjam</span>
-                        <strong>{{ $peminjaman->tanggal_pinjam ? $peminjaman->tanggal_pinjam->format('d M Y') : '-' }}@if($peminjaman->jam_pinjam) ({{ $peminjaman->jam_pinjam }} WIB)@endif</strong>
+                        <strong>{{ $peminjaman->tanggal_pinjam ? $peminjaman->tanggal_pinjam->format('d M Y') : '-' }} ({{ $peminjaman->created_at?->format('H:i') ?? '-' }} WIB)</strong>
                     </div>
                     <div class="meta-line">
                         <span>Rencana Kembali</span>
-                        <strong>{{ $peminjaman->tanggal_kembali ? $peminjaman->tanggal_kembali->format('d M Y') : '-' }}@if($peminjaman->jam_kembali) ({{ $peminjaman->jam_kembali }} WIB)@endif</strong>
+                        <strong>{{ $peminjaman->tanggal_kembali ? $peminjaman->tanggal_kembali->format('d M Y') : '-' }}</strong>
                     </div>
                 </div>
             </div>

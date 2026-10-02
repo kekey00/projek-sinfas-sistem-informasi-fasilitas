@@ -64,9 +64,7 @@ class PeminjamanController extends Controller
             'nomor_telepon'         => $request->nomor_telepon,
             'kode_barang'           => $request->kode_barang,
             'tanggal_pinjam'        => $request->tanggal_pinjam,
-            'jam_pinjam'            => now()->format('H:i'),
             'tanggal_kembali'       => $request->tanggal_kembali,
-            'jam_kembali'           => null,
             'keterangan_penggunaan' => $request->keterangan_penggunaan,
             'status_pengajuan'      => 'menunggu',
         ]);
@@ -131,9 +129,7 @@ class PeminjamanController extends Controller
             return redirect()->route('user.status')->with('error', 'Barang ini sudah dikembalikan sebelumnya.');
         }
 
-        $waktuKembali = now()->format('H:i');
-
-        DB::transaction(function () use ($request, $peminjaman, $waktuKembali) {
+        DB::transaction(function () use ($request, $peminjaman) {
             $fotoPath = null;
             if ($request->hasFile('bukti_foto')) {
                 $fotoPath = $request->file('bukti_foto')->store('pengembalian', 'public');
@@ -148,8 +144,6 @@ class PeminjamanController extends Controller
                 'bukti_foto_video' => $fotoPath ?? $request->catatan,
                 'status'           => 'menunggu',
             ]);
-
-            $peminjaman->update(['jam_kembali' => $waktuKembali]);
 
             // Catatan: Stok barang belum dipulihkan disini, akan dipulihkan saat Admin Sarana memverifikasi pengembalian.
         });

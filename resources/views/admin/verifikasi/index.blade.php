@@ -402,9 +402,9 @@
                     </td>
                     <td style="color: #475569; white-space: nowrap; font-size: 12.5px;">
                         <div>{{ $pjm->tanggal_pinjam ? $pjm->tanggal_pinjam->format('d M Y') : '-' }}</div>
-                        @if($pjm->jam_pinjam)
+                        @if($pjm->created_at)
                             <div style="font-size: 11px; color: #4F46E5; font-weight: 600; margin-top: 2px;">
-                                ⏰ {{ $pjm->jam_pinjam }} WIB
+                                ⏰ {{ $pjm->created_at->format('H:i') }} WIB
                             </div>
                         @endif
                     </td>
@@ -669,9 +669,9 @@
                         <span style="font-weight: 600; color: #0F172A;">
                             {{ $hist->tanggal_pinjam ? \Carbon\Carbon::parse($hist->tanggal_pinjam)->format('d M Y') : '-' }}
                         </span>
-                        @if($hist->jam_pinjam)
+                        @if($hist->created_at)
                             <div style="font-size: 11px; color: #4F46E5; font-weight: 600; margin-top: 2px;">
-                                ⏰ {{ $hist->jam_pinjam }} WIB
+                                ⏰ {{ $hist->created_at->format('H:i') }} WIB
                             </div>
                         @endif
                     </td>
