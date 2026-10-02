@@ -2,7 +2,11 @@
     <table class="print-kop-table">
         <tr>
             <td style="width: 54px; vertical-align: middle;">
-                <img src="{{ asset('images/sinfas-logo.png') }}" width="50" height="50" alt="Logo SINFAS" style="display: block;">
+                @if(file_exists(public_path('images/sinfas-logo.png')))
+                    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/sinfas-logo.png'))) }}" width="50" height="50" alt="Logo SINFAS" style="display: block; object-fit: contain;">
+                @else
+                    <img src="{{ asset('images/sinfas-logo.png') }}" width="50" height="50" alt="Logo SINFAS" style="display: block; object-fit: contain;">
+                @endif
             </td>
             <td class="print-kop-center">
                 <div class="print-kop-instansi">Sistem Informasi Pengelolaan Fasilitas Sekolah</div>

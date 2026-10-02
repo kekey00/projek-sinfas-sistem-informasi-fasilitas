@@ -4,17 +4,23 @@
             <td class="print-sig-col-left">
                 <div class="print-sig-box">
                     <div class="print-sig-date">&nbsp;</div>
-                    <div class="print-sig-role">Mengetahui,<br>Kepala Sekolah SMK SINFAS</div>
-                    <div class="print-sig-name">Drs. H. Mulyadi, M.Pd.</div>
-                    <div class="print-sig-nip">NIP. 19780512 200501 1 004</div>
+                    <div class="print-sig-role">
+                        Mengetahui,<br>
+                        <strong>Wakasek Bidang Sarpras /<br>Kepala Sarana</strong>
+                    </div>
+                    <div class="print-sig-name">(.......................................)</div>
+                    <div class="print-sig-nip">NIP.</div>
                 </div>
             </td>
             <td class="print-sig-col-right">
                 <div class="print-sig-box">
-                    <div class="print-sig-date">Bandung, {{ now()->format('d/m/Y') }}</div>
-                    <div class="print-sig-role">Penanggung Jawab Sarpras,<br>Staf Pengelola Fasilitas</div>
-                    <div class="print-sig-name">{{ auth()->user()->nama ?? 'Administrator Sarpras' }}</div>
-                    <div class="print-sig-nip">NIP/ID: {{ auth()->user()->nip ?? auth()->user()->username ?? 'STF-SARPRAS-01' }}</div>
+                    <div class="print-sig-date">Bandung, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('d F Y') }}</div>
+                    <div class="print-sig-role">
+                        &nbsp;<br>
+                        <strong>Admin / Pengelola Data</strong>
+                    </div>
+                    <div class="print-sig-name">(.......................................)</div>
+                    <div class="print-sig-nip">NIP.</div>
                 </div>
             </td>
         </tr>

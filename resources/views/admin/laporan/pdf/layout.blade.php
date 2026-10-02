@@ -284,29 +284,34 @@
         }
         .sig-box {
             display: inline-block;
-            text-align: left;
-            min-width: 200px;
+            text-align: center;
+            min-width: 220px;
         }
         .sig-date {
             margin-bottom: 2px;
-            color: #475569;
+            color: #1E293B;
+            font-size: 9.5px;
             height: 14px;
             line-height: 14px;
         }
         .sig-role {
-            font-weight: 700;
+            font-size: 9.5px;
             color: #0F172A;
-            margin-bottom: 45px;
+            line-height: 1.4;
+            min-height: 44px;
+            margin-bottom: 55px;
         }
         .sig-name {
-            font-weight: 700;
-            text-decoration: underline;
+            font-weight: 600;
             color: #0F172A;
+            font-size: 9.5px;
+            letter-spacing: 0.5px;
+            text-decoration: none;
         }
         .sig-nip {
-            font-size: 8px;
-            color: #64748B;
-            margin-top: 2px;
+            font-size: 9px;
+            color: #1E293B;
+            margin-top: 3px;
         }
 
         /* ─── FOOTER ─── */
@@ -397,17 +402,23 @@
             <td class="sig-col-left">
                 <div class="sig-box">
                     <div class="sig-date">&nbsp;</div>
-                    <div class="sig-role">Mengetahui,<br>Kepala Sekolah SMK SINFAS</div>
-                    <div class="sig-name">Drs. H. Mulyadi, M.Pd.</div>
-                    <div class="sig-nip">NIP. 19780512 200501 1 004</div>
+                    <div class="sig-role">
+                        Mengetahui,<br>
+                        <strong>Wakasek Bidang Sarpras /<br>Kepala Sarana</strong>
+                    </div>
+                    <div class="sig-name">(.......................................)</div>
+                    <div class="sig-nip">NIP.</div>
                 </div>
             </td>
             <td class="sig-col-right">
                 <div class="sig-box">
-                    <div class="sig-date">Bandung, {{ now()->format('d/m/Y') }}</div>
-                    <div class="sig-role">Penanggung Jawab Sarpras,<br>Staf Pengelola Fasilitas</div>
-                    <div class="sig-name">{{ auth()->user()->nama ?? 'Administrator Sarpras' }}</div>
-                    <div class="sig-nip">NIP/ID: {{ auth()->user()->nip ?? auth()->user()->username ?? 'STF-SARPRAS-01' }}</div>
+                    <div class="sig-date">Bandung, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('d F Y') }}</div>
+                    <div class="sig-role">
+                        &nbsp;<br>
+                        <strong>Admin / Pengelola Data</strong>
+                    </div>
+                    <div class="sig-name">(.......................................)</div>
+                    <div class="sig-nip">NIP.</div>
                 </div>
             </td>
         </tr>

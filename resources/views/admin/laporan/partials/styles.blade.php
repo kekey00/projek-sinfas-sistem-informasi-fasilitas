@@ -265,29 +265,34 @@
         }
         .print-sig-box {
             display: inline-block !important;
-            text-align: left !important;
-            min-width: 200px !important;
+            text-align: center !important;
+            min-width: 220px !important;
         }
         .print-sig-date {
             margin-bottom: 2px !important;
-            color: #475569 !important;
+            color: #1E293B !important;
+            font-size: 9.5px !important;
             height: 14px !important;
             line-height: 14px !important;
         }
         .print-sig-role {
-            font-weight: 700 !important;
+            font-size: 9.5px !important;
             color: #0F172A !important;
-            margin-bottom: 45px !important;
+            line-height: 1.4 !important;
+            min-height: 44px !important;
+            margin-bottom: 55px !important;
         }
         .print-sig-name {
-            font-weight: 700 !important;
-            text-decoration: underline !important;
+            font-weight: 600 !important;
             color: #0F172A !important;
+            font-size: 9.5px !important;
+            letter-spacing: 0.5px !important;
+            text-decoration: none !important;
         }
         .print-sig-nip {
-            font-size: 8px !important;
-            color: #64748B !important;
-            margin-top: 2px !important;
+            font-size: 9px !important;
+            color: #1E293B !important;
+            margin-top: 3px !important;
         }
         .print-doc-footer {
             margin-top: 14px !important;
