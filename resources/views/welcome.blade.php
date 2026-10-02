@@ -37,7 +37,7 @@
         .site-header {
             position: sticky;
             top: 0;
-            z-index: 2;
+            z-index: 100;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -46,9 +46,10 @@
             margin: 0;
             padding: 0 max(32px, calc((100vw - 1280px) / 2));
             border-bottom: 1px solid rgba(226, 232, 240, .85);
-            background: rgba(248, 250, 252, .88);
+            background: rgba(248, 250, 252, .92);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 4px 20px rgba(15, 23, 42, .04);
         }
         .brand { display: inline-flex; align-items: center; gap: 11px; }
         .brand-mark {
@@ -62,12 +63,13 @@
             box-shadow: 0 4px 14px rgba(79, 70, 229, .25);
             object-fit: cover;
         }
+        .brand-text { display: inline-flex; flex-direction: column; }
         .brand-name {
             font: 800 23px/1 'Outfit', sans-serif;
             letter-spacing: 0;
             color: var(--primary-dark);
         }
-        .brand-caption { margin-top: 4px; color: var(--muted); font-size: 10px; font-weight: 600; }
+        .brand-caption { margin-top: 4px; color: var(--muted); font-size: 10px; font-weight: 600; line-height: 1; }
         .main-nav { display: flex; align-items: center; gap: 4px; padding: 4px; border: 1px solid var(--border); border-radius: 9999px; background: rgba(241, 245, 249, .8); color: #475569; font-size: 13px; font-weight: 700; }
         .main-nav a { padding: 9px 16px; border-radius: 9999px; transition: color .18s ease, background .18s ease; }
         .main-nav a:hover { color: var(--primary); background: #fff; }
@@ -93,9 +95,10 @@
         .button svg { width: 17px; height: 17px; }
         .hero {
             position: relative;
+            isolation: isolate;
             display: flex;
             width: min(calc(100% - 48px), 1240px);
-            min-height: min(700px, calc(100svh - 108px));
+            min-height: clamp(540px, calc(100svh - 108px), 680px);
             align-items: center;
             overflow: hidden;
             margin: 24px auto 0;
@@ -125,12 +128,12 @@
             position: relative;
             z-index: 2;
             display: grid;
-            grid-template-columns: minmax(0, 1.1fr) minmax(330px, .8fr);
+            grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
             align-items: center;
-            gap: 54px;
+            gap: 48px;
             width: min(calc(100% - 80px), 1120px);
             margin: 0 auto;
-            padding: 78px 0 100px;
+            padding: 56px 0 76px;
         }
         .hero-copy-block { animation: copy-arrive .55s both cubic-bezier(.2,.8,.2,1); }
         .eyebrow {
@@ -176,11 +179,12 @@
         }
         .hero-product-card:hover { transform: translateY(-8px) rotate(-.5deg); box-shadow: 0 30px 70px rgba(15, 23, 42, .3); }
         .hero-product-card::before { position: absolute; top: -1px; left: 28px; right: 28px; height: 3px; border-radius: 0 0 999px 999px; background: linear-gradient(90deg, #22d3ee, #818cf8, #f472b6); content: ''; }
-        .product-card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 23px; }
+        .product-card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
         .product-card-mark { display: grid; width: 42px; height: 42px; flex: 0 0 auto; place-items: center; border-radius: 13px; background: var(--primary-soft); color: var(--primary); }
         .product-card-mark svg { width: 22px; height: 22px; }
-        .product-card-kicker { margin-bottom: 3px; color: var(--primary); font-size: 10px; font-weight: 800; letter-spacing: .7px; }
-        .product-card-heading { margin: 0; font: 700 14px 'Outfit', sans-serif; }
+        .product-card-header-text { display: flex; flex-direction: column; gap: 2px; }
+        .product-card-kicker { display: block; color: var(--primary); font-size: 10px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; }
+        .product-card-heading { display: block; margin: 0; font: 700 14px/1.3 'Outfit', sans-serif; color: var(--ink); }
         .product-card-title { max-width: 290px; margin-bottom: 20px; font: 700 24px/1.15 'Outfit', sans-serif; }
         .product-list { border-top: 1px solid var(--border); }
         .product-row { display: flex; align-items: center; gap: 13px; padding: 14px 0; border-bottom: 1px solid var(--border); }
@@ -319,7 +323,7 @@
     <header class="site-header">
         <a class="brand" href="{{ url('/') }}" aria-label="SINFAS, beranda">
             @include('components.sinfas-logo', ['class' => 'brand-mark'])
-            <span><span class="brand-name">SINFAS</span><span class="brand-caption">Sistem Informasi Fasilitas</span></span>
+            <span class="brand-text"><span class="brand-name">SINFAS</span><span class="brand-caption">Sistem Informasi Fasilitas</span></span>
         </a>
         <nav class="main-nav" aria-label="Navigasi utama">
             <a href="#cara-kerja">Cara kerja</a>
@@ -353,7 +357,10 @@
             <aside class="hero-product-card" aria-label="Alur peminjaman di SINFAS">
                 <div class="product-card-top">
                     <span class="product-card-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5h16v14zM8 9h8M8 13h5"/><path d="m15 16 1.5 1.5L20 14"/></svg></span>
-                    <span><span class="product-card-kicker">PORTAL PEMINJAMAN FASILITAS</span><span class="product-card-heading">Ajukan fasilitas sekolah</span></span>
+                    <div class="product-card-header-text">
+                        <span class="product-card-kicker">PORTAL PEMINJAMAN FASILITAS</span>
+                        <span class="product-card-heading">Ajukan fasilitas sekolah</span>
+                    </div>
                 </div>
                 <p class="product-card-title">Cari, pinjam, dan pantau fasilitas.</p>
                 <div class="product-list">
