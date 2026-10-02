@@ -357,6 +357,40 @@
     .approve-modal-card .btn-submit { display: inline-flex; align-items: center; gap: 8px; }
     .approve-modal-card .btn-submit svg { width: 15px; height: 15px; }
 
+    .reject-modal-card { max-width: 520px; padding: 0; overflow: hidden; border-radius: 16px; }
+    .reject-modal-card .modal-header { align-items: flex-start; margin: 0; padding: 24px 26px 18px; border-bottom: 0; }
+    .reject-modal-heading { display: flex; align-items: center; gap: 14px; }
+    .reject-modal-icon { display: grid; width: 48px; height: 48px; flex: 0 0 auto; place-items: center; border: 1px solid #FECACA; border-radius: 14px; background: #FEF2F2; color: #DC2626; }
+    .reject-modal-icon svg { width: 23px; height: 23px; }
+    .reject-modal-kicker { display: block; margin-bottom: 4px; color: #DC2626; font-size: 10px; font-weight: 800; letter-spacing: .8px; }
+    .reject-modal-card .modal-title { font-size: 20px; line-height: 1.2; }
+    .reject-modal-card .modal-close-btn { flex: 0 0 auto; }
+    .reject-modal-copy { margin: 0 26px 16px; color: #64748B; font-size: 13px; line-height: 1.65; }
+    .reject-modal-summary { margin: 0 26px 18px; padding: 4px 15px; border: 1px solid #E2E8F0; border-radius: 12px; background: #F8FAFC; }
+    .reject-modal-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; }
+    .reject-modal-row + .reject-modal-row { border-top: 1px solid #E2E8F0; }
+    .reject-modal-row-icon { display: grid; width: 36px; height: 36px; flex: 0 0 auto; place-items: center; border-radius: 10px; background: #FEF2F2; color: #DC2626; }
+    .reject-modal-row-icon svg { width: 18px; height: 18px; }
+    .reject-modal-row-copy { display: grid; min-width: 0; gap: 3px; }
+    .reject-modal-row-copy span { color: #64748B; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
+    .reject-modal-row-copy strong { color: #0F172A; font-size: 13px; font-weight: 700; overflow-wrap: anywhere; }
+    .reject-modal-reason { margin: 0 26px; }
+    .reject-modal-reason label { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; color: #334155; font-size: 12px; font-weight: 700; }
+    .reject-modal-reason label span { padding: 3px 7px; border-radius: 999px; background: #F1F5F9; color: #64748B; font-size: 10px; font-weight: 600; }
+    .reject-modal-reason textarea { display: block; width: 100%; min-height: 104px; resize: vertical; padding: 11px 13px; border: 1px solid #CBD5E1; border-radius: 10px; background: #FFFFFF; color: #0F172A; font: 13px/1.55 inherit; outline: none; transition: border-color .15s ease, box-shadow .15s ease; }
+    .reject-modal-reason textarea:focus { border-color: #EF4444; box-shadow: 0 0 0 3px rgba(239, 68, 68, .12); }
+    .reject-modal-reason textarea::placeholder { color: #94A3B8; }
+    .reject-modal-hint { margin: 7px 0 0; color: #64748B; font-size: 11px; line-height: 1.5; }
+    .reject-modal-impact { display: flex; align-items: flex-start; gap: 9px; margin: 14px 26px 0; padding: 11px 12px; border: 1px solid #FECACA; border-radius: 10px; background: #FEF2F2; color: #991B1B; font-size: 11.5px; line-height: 1.6; }
+    .reject-modal-impact svg { width: 16px; height: 16px; flex: 0 0 auto; margin-top: 1px; }
+    .reject-modal-impact p { margin: 0; }
+    .reject-modal-card .modal-footer { margin: 18px 26px 24px; padding-top: 16px; }
+    .reject-modal-card .btn-cancel,
+    .reject-modal-card .btn-submit { min-height: 40px; padding: 9px 16px; border-radius: 8px; }
+    .reject-modal-card .btn-submit { display: inline-flex; align-items: center; gap: 8px; border-color: transparent; background: #DC2626; box-shadow: 0 3px 10px rgba(220, 38, 38, .2); }
+    .reject-modal-card .btn-submit:hover { background: #B91C1C; box-shadow: 0 5px 15px rgba(220, 38, 38, .28); }
+    .reject-modal-card .btn-submit svg { width: 15px; height: 15px; }
+
     /* ─── RESPONSIVE RULES (MOBILE) ─── */
     @media (max-width: 768px) {
         .verify-tabs-bar {
@@ -384,6 +418,12 @@
         .approve-modal-summary { margin-right: 20px; margin-left: 20px; }
         .approve-modal-impact { margin-right: 20px; margin-left: 20px; }
         .approve-modal-card .modal-footer { margin: 16px 20px 20px; }
+        .reject-modal-card .modal-header { padding: 20px 20px 16px; }
+        .reject-modal-copy,
+        .reject-modal-reason { margin-right: 20px; margin-left: 20px; }
+        .reject-modal-summary,
+        .reject-modal-impact { margin-right: 20px; margin-left: 20px; }
+        .reject-modal-card .modal-footer { margin: 16px 20px 20px; }
 
         .verif-pagination {
             justify-content: center;
@@ -494,7 +534,9 @@
                                 Setujui
                             </button>
                             <button type="button" class="btn-reject"
-                                onclick="openRejectModal('{{ $pjm->kode_pinjam }}')">
+                                data-student-name="{{ $pjm->siswa->nama ?? 'Siswa' }}"
+                                data-item-name="{{ $pjm->barang->nama_barang ?? $pjm->kode_barang }}"
+                                onclick="openRejectModal('{{ $pjm->kode_pinjam }}', this.dataset.studentName, this.dataset.itemName)">
                                 Tolak
                             </button>
                         </div>
@@ -844,22 +886,51 @@
 
 {{-- MODAL 1: REJECT REQUEST --}}
 <div id="rejectModal" class="modal-overlay">
-    <div class="modal-card">
+    <div class="modal-card reject-modal-card" role="dialog" aria-modal="true" aria-labelledby="rejectModalTitle">
         <div class="modal-header">
-            <div class="modal-title">Tolak Pengajuan Peminjaman</div>
-            <button class="modal-close-btn" onclick="closeModal('rejectModal')">&times;</button>
+            <div class="reject-modal-heading">
+                <span class="reject-modal-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+                </span>
+                <div>
+                    <span class="reject-modal-kicker">TINDAKAN ADMIN</span>
+                    <div class="modal-title" id="rejectModalTitle">Tolak pengajuan ini?</div>
+                </div>
+            </div>
+            <button type="button" class="modal-close-btn" onclick="closeModal('rejectModal')" aria-label="Tutup dialog">&times;</button>
+        </div>
+        <p class="reject-modal-copy">Periksa kembali peminjam dan fasilitas sebelum mengonfirmasi penolakan.</p>
+        <div class="reject-modal-summary">
+            <div class="reject-modal-row">
+                <span class="reject-modal-row-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg>
+                </span>
+                <span class="reject-modal-row-copy"><span>Nama peminjam</span><strong id="rejectStudentName"></strong></span>
+            </div>
+            <div class="reject-modal-row">
+                <span class="reject-modal-row-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"/><path d="m4.5 7.8 7.5 4.3 7.5-4.3M12 12v9"/></svg>
+                </span>
+                <span class="reject-modal-row-copy"><span>Fasilitas diajukan</span><strong id="rejectItemName"></strong></span>
+            </div>
         </div>
         <form id="rejectForm" method="POST">
             @csrf
-            <div style="margin-bottom: 14px;">
-                <label style="display:block; font-size:12.5px; font-weight:600; color:#334155; margin-bottom:5px;">Alasan Penolakan (Opsional)</label>
-                <textarea name="alasan" class="form-textarea" rows="3"
-                          placeholder="Tuliskan alasan penolakan jika diperlukan..."
-                          style="width: 100%; box-sizing:border-box; border:1px solid #CBD5E1; border-radius:8px; padding:8px 12px; font-family:inherit; font-size:13px; outline:none;"></textarea>
+            <div class="reject-modal-reason">
+                <label for="rejectReason">Alasan penolakan <span>Opsional</span></label>
+                <textarea id="rejectReason" name="alasan" rows="4" placeholder="Tuliskan alasan agar siswa memahami keputusan ini..."></textarea>
+                <p class="reject-modal-hint">Alasan ini akan dicatat bersama pengajuan peminjaman.</p>
+            </div>
+            <div class="reject-modal-impact">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 11v5M12 8h.01"/></svg>
+                <p>Pengajuan yang ditolak tidak akan mengurangi stok fasilitas.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-cancel" onclick="closeModal('rejectModal')">Batal</button>
-                <button type="submit" class="btn-submit" style="background: #DC2626;">Konfirmasi Tolak</button>
+                <button type="submit" class="btn-submit">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                    Tolak Pengajuan
+                </button>
             </div>
         </form>
     </div>
@@ -998,7 +1069,10 @@
     }
 
     /* ── REJECT ── */
-    function openRejectModal(kodePinjam) {
+    function openRejectModal(kodePinjam, studentName, itemName) {
+        document.getElementById('rejectStudentName').innerText = studentName;
+        document.getElementById('rejectItemName').innerText = itemName;
+        document.getElementById('rejectReason').value = '';
         document.getElementById('rejectForm').action =
             "{{ url('/admin/verifikasi/reject') }}/" + kodePinjam;
         openModal('rejectModal');
