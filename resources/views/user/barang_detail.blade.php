@@ -257,7 +257,10 @@
                 </span>
 
                 @if($barang->foto)
-                    <img src="{{ asset('storage/' . $barang->foto) }}" alt="{{ $barang->nama_barang }}">
+                    <img src="{{ asset('storage/' . $barang->foto) }}" alt="{{ $barang->nama_barang }}" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='block';">
+                    <svg style="display:none;" width="84" height="84" viewBox="0 0 24 24" fill="none" stroke="#818CF8" stroke-width="1.5">
+                        <rect x="2" y="7" width="20" height="14" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M12 3v4"/><path d="M8 3h8"/>
+                    </svg>
                 @else
                     <svg width="84" height="84" viewBox="0 0 24 24" fill="none" stroke="#818CF8" stroke-width="1.5">
                         <rect x="2" y="7" width="20" height="14" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M12 3v4"/><path d="M8 3h8"/>

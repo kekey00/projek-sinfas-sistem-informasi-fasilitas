@@ -146,3 +146,29 @@ Route::middleware(['auth'])->group(function () {
     });
 
 });
+
+// =================================================
+// STORAGE SYMLINK & FALLBACK FILE SERVING
+// =================================================
+// Route untuk membuat storage symlink via browser (akses: https://sinfass.my.id/storage-link)
+Route::get('/storage-link', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('storage:link');
+        $output = \Illuminate\Support\Facades\Artisan::output();
+        return response("<h2>Storage Link Berhasil Dibuat</h2><pre>{$output}</pre><a href='/'>Kembali ke Beranda</a>");
+    } catch (\Throwable $e) {
+        return response("<h2>Gagal Menjalankan Storage Link</h2><pre>{$e->getMessage()}</pre><a href='/'>Kembali ke Beranda</a>");
+    }
+});
+
+// Fallback jika web server di hosting belum memiliki symlink public/storage aktif
+Route::get('/storage/{path}', function ($path) {
+    $fullPath = storage_path('app/public/' . $path);
+
+    if (file_exists($fullPath) && is_file($fullPath)) {
+        return response()->file($fullPath);
+    }
+
+    abort(404);
+})->where('path', '.*');
+
