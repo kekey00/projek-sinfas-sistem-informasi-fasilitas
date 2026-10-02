@@ -284,6 +284,79 @@
         opacity: 0.6;
     }
 
+    .approve-modal-card {
+        max-width: 520px;
+        padding: 0;
+        overflow: hidden;
+        border-radius: 16px;
+    }
+    .approve-modal-card .modal-header {
+        align-items: flex-start;
+        margin: 0;
+        padding: 24px 26px 18px;
+        border-bottom: 0;
+    }
+    .approve-modal-heading { display: flex; align-items: center; gap: 14px; }
+    .approve-modal-icon {
+        display: grid;
+        width: 48px;
+        height: 48px;
+        flex: 0 0 auto;
+        place-items: center;
+        border: 1px solid #BFDBFE;
+        border-radius: 14px;
+        background: #EFF6FF;
+        color: #2563EB;
+    }
+    .approve-modal-icon svg { width: 23px; height: 23px; }
+    .approve-modal-kicker { display: block; margin-bottom: 4px; color: #2563EB; font-size: 10px; font-weight: 800; letter-spacing: .8px; }
+    .approve-modal-card .modal-title { font-size: 20px; line-height: 1.2; }
+    .approve-modal-card .modal-close-btn { flex: 0 0 auto; }
+    .approve-modal-copy { margin: 0 26px 16px; color: #64748B; font-size: 13px; line-height: 1.65; }
+    .approve-modal-summary {
+        margin: 0 26px;
+        padding: 4px 15px;
+        border: 1px solid #E2E8F0;
+        border-radius: 12px;
+        background: #F8FAFC;
+    }
+    .approve-modal-detail { display: flex; align-items: center; gap: 12px; padding: 12px 0; }
+    .approve-modal-detail + .approve-modal-detail { border-top: 1px solid #E2E8F0; }
+    .approve-modal-detail-icon {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        flex: 0 0 auto;
+        place-items: center;
+        border-radius: 10px;
+        background: #EAF0FB;
+        color: #3B5998;
+    }
+    .approve-modal-detail-icon svg { width: 18px; height: 18px; }
+    .approve-modal-detail-copy { display: grid; min-width: 0; gap: 3px; }
+    .approve-modal-detail-copy span { color: #64748B; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
+    .approve-modal-detail-copy strong { color: #0F172A; font-size: 13px; font-weight: 700; overflow-wrap: anywhere; }
+    .approve-modal-impact {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+        margin: 14px 26px 0;
+        padding: 11px 12px;
+        border: 1px solid #DBEAFE;
+        border-radius: 10px;
+        background: #EFF6FF;
+        color: #1E40AF;
+        font-size: 11.5px;
+        line-height: 1.6;
+    }
+    .approve-modal-impact svg { width: 16px; height: 16px; flex: 0 0 auto; margin-top: 1px; }
+    .approve-modal-impact p { margin: 0; }
+    .approve-modal-card .modal-footer { margin: 18px 26px 24px; padding-top: 16px; }
+    .approve-modal-card .btn-cancel,
+    .approve-modal-card .btn-submit { min-height: 40px; padding: 9px 16px; border-radius: 8px; }
+    .approve-modal-card .btn-submit { display: inline-flex; align-items: center; gap: 8px; }
+    .approve-modal-card .btn-submit svg { width: 15px; height: 15px; }
+
     /* ─── RESPONSIVE RULES (MOBILE) ─── */
     @media (max-width: 768px) {
         .verify-tabs-bar {
@@ -305,6 +378,12 @@
             font-size: 14.5px;
             margin-bottom: 10px;
         }
+
+        .approve-modal-card .modal-header { padding: 20px 20px 16px; }
+        .approve-modal-copy { margin-right: 20px; margin-left: 20px; }
+        .approve-modal-summary { margin-right: 20px; margin-left: 20px; }
+        .approve-modal-impact { margin-right: 20px; margin-left: 20px; }
+        .approve-modal-card .modal-footer { margin: 16px 20px 20px; }
 
         .verif-pagination {
             justify-content: center;
@@ -788,25 +867,46 @@
 
 {{-- MODAL 2: APPROVE REQUEST --}}
 <div id="approveModal" class="modal-overlay">
-    <div class="modal-card">
+    <div class="modal-card approve-modal-card" role="dialog" aria-modal="true" aria-labelledby="approveModalTitle">
         <div class="modal-header">
-            <div class="modal-title">Konfirmasi Persetujuan</div>
-            <button class="modal-close-btn" onclick="closeModal('approveModal')">&times;</button>
-        </div>
-        <div style="margin-bottom: 16px;">
-            <p style="font-size: 13.5px; color: #475569; margin-bottom: 12px;">
-                Setujui pengajuan peminjaman fasilitas ini?
-            </p>
-            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 14px; font-size: 13px; color: #334155; line-height: 1.8;">
-                <div>Peminjam: <strong id="approveStudentName" style="color: #0F172A;"></strong></div>
-                <div>Alat: <strong id="approveItemName" style="color: #0F172A;"></strong></div>
+            <div class="approve-modal-heading">
+                <span class="approve-modal-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h-2a2 2 0 0 0-2 2v14h16V6a2 2 0 0 0-2-2h-2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="m9 14 2 2 4-4"/></svg>
+                </span>
+                <div>
+                    <span class="approve-modal-kicker">TINDAKAN ADMIN</span>
+                    <div class="modal-title" id="approveModalTitle">Setujui peminjaman?</div>
+                </div>
             </div>
+            <button type="button" class="modal-close-btn" onclick="closeModal('approveModal')" aria-label="Tutup dialog">&times;</button>
+        </div>
+        <p class="approve-modal-copy">Pastikan data peminjam dan fasilitas sudah benar sebelum melanjutkan.</p>
+        <div class="approve-modal-summary">
+            <div class="approve-modal-detail">
+                <span class="approve-modal-detail-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg>
+                </span>
+                <span class="approve-modal-detail-copy"><span>Nama peminjam</span><strong id="approveStudentName"></strong></span>
+            </div>
+            <div class="approve-modal-detail">
+                <span class="approve-modal-detail-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"/><path d="m4.5 7.8 7.5 4.3 7.5-4.3M12 12v9"/></svg>
+                </span>
+                <span class="approve-modal-detail-copy"><span>Fasilitas dipinjam</span><strong id="approveItemName"></strong></span>
+            </div>
+        </div>
+        <div class="approve-modal-impact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 11v5M12 8h.01"/></svg>
+            <p>Setelah disetujui, status pengajuan berubah dan stok tersedia berkurang satu.</p>
         </div>
         <form id="approveForm" method="POST">
             @csrf
             <div class="modal-footer">
                 <button type="button" class="btn-cancel" onclick="closeModal('approveModal')">Batal</button>
-                <button type="submit" class="btn-submit">Ya, Setujui</button>
+                <button type="submit" class="btn-submit">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+                    Setujui Peminjaman
+                </button>
             </div>
         </form>
     </div>
