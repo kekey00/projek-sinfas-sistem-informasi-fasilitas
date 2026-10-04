@@ -130,6 +130,17 @@
         font-size: 12px;
         flex-shrink: 0;
     }
+    .borrower-role-badge {
+        display: inline-block;
+        margin-top: 4px;
+        padding: 2px 7px;
+        border: 1px solid #DBEAFE;
+        border-radius: 999px;
+        background: #EFF6FF;
+        color: #1D4ED8;
+        font-size: 10.5px;
+        font-weight: 600;
+    }
 
     /* Inline condition select */
     .condition-select {
@@ -537,6 +548,9 @@
                 @forelse($pendingRequests as $pjm)
                 <tr>
                     <td>
+                        @php
+                            $borrowerType = strtolower($pjm->siswa->role ?? '') === 'guru' ? 'Guru' : 'Siswa';
+                        @endphp
                         <div class="verif-student-cell">
                             <div class="student-circle-avatar">
                                 {{ strtoupper(substr($pjm->siswa->nama ?? 'S', 0, 1)) }}
@@ -544,6 +558,7 @@
                             <div>
                                 <div style="font-weight: 600; color: #0F172A;">{{ $pjm->siswa->nama ?? 'Siswa' }}</div>
                                 <div style="font-size: 11.5px; color: #64748B;">NIS: {{ $pjm->nis }}</div>
+                                <span class="borrower-role-badge">{{ $borrowerType }}</span>
                                 @php
                                     $phoneReq = $pjm->nomor_telepon ?? ($pjm->siswa->nomor_kontak ?? null);
                                 @endphp
@@ -654,6 +669,9 @@
                 @forelse($activeLoans as $active)
                 <tr>
                     <td>
+                        @php
+                            $borrowerType = strtolower($active->siswa->role ?? '') === 'guru' ? 'Guru' : 'Siswa';
+                        @endphp
                         <div class="verif-student-cell">
                             <div class="student-circle-avatar" style="background: #166534;">
                                 {{ strtoupper(substr($active->siswa->nama ?? 'S', 0, 1)) }}
@@ -661,6 +679,7 @@
                             <div>
                                 <div style="font-weight: 600; color: #0F172A;">{{ $active->siswa->nama ?? 'Siswa' }}</div>
                                 <div style="font-size: 11.5px; color: #64748B;">NIS: {{ $active->nis }}</div>
+                                <span class="borrower-role-badge">{{ $borrowerType }}</span>
                                 @php
                                     $phoneAct = $active->nomor_telepon ?? ($active->siswa->nomor_kontak ?? null);
                                 @endphp
@@ -683,7 +702,7 @@
                             <div style="margin-top: 4px;">
                                 <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; font-size: 11px; padding: 2px 8px; border-radius: 9999px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
                                     <span style="width: 6px; height: 6px; border-radius: 50%; background: #D97706;"></span>
-                                    Diajukan Siswa (Butuh Verifikasi)
+                                    Diajukan {{ $borrowerType }} (Butuh Verifikasi)
                                 </span>
                             </div>
                         @else
@@ -735,7 +754,7 @@
                         </select>
                         @if($active->pengembalian)
                             <div style="font-size: 10.5px; color: #64748B; margin-top: 3px;">
-                                Siswa: <strong>{{ $active->pengembalian->kondisi_barang }}</strong>
+                                {{ $borrowerType }}: <strong>{{ $active->pengembalian->kondisi_barang }}</strong>
                             </div>
                         @endif
                     </td>
@@ -813,6 +832,9 @@
                 @forelse($historyLoans as $hist)
                 <tr>
                     <td>
+                        @php
+                            $borrowerType = strtolower($hist->siswa->role ?? '') === 'guru' ? 'Guru' : 'Siswa';
+                        @endphp
                         <div class="verif-student-cell">
                             <div class="student-circle-avatar" style="background: #334155;">
                                 {{ strtoupper(substr($hist->siswa->nama ?? 'S', 0, 1)) }}
@@ -820,6 +842,7 @@
                             <div>
                                 <div style="font-weight: 600; color: #0F172A;">{{ $hist->siswa->nama ?? 'Siswa' }}</div>
                                 <div style="font-size: 11.5px; color: #64748B;">NIS: {{ $hist->nis }}</div>
+                                <span class="borrower-role-badge">{{ $borrowerType }}</span>
                                 @php
                                     $phoneHist = $hist->nomor_telepon ?? ($hist->siswa->nomor_kontak ?? null);
                                 @endphp
