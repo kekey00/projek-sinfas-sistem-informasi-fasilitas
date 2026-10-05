@@ -307,9 +307,26 @@
         .closing-band { display: flex; align-items: center; justify-content: space-between; gap: 28px; margin: 0 max(24px, calc((100vw - 1280px) / 2)); padding: 34px 42px; border-radius: 24px; background: linear-gradient(110deg, #1e3a8a 0%, #4338ca 52%, #6d28d9 100%); color: #fff; box-shadow: 0 18px 36px -12px rgba(44, 74, 124, .42); }
         .closing-band p { margin: 0; font: 600 21px 'Outfit', sans-serif; }
         .closing-band .button { flex: 0 0 auto; }
-        footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: min(100% - 64px, 1280px); min-height: 82px; margin: 0 auto; color: var(--muted); font-size: 11px; }
-        .footer-brand { display: inline-flex; align-items: center; gap: 8px; color: var(--primary-dark); font: 700 14px 'Outfit', sans-serif; }
-        .footer-brand img { width: 28px; height: 28px; border-radius: 8px; }
+        .site-footer { margin-top: 72px; padding: 56px max(24px, calc((100vw - 1280px) / 2)) 28px; border-top: 1px solid rgba(107, 141, 214, .22); background: linear-gradient(120deg, #eef2ff 0%, #f8fafc 48%, #e0e7ff 100%); color: var(--muted); }
+        .footer-grid { display: grid; grid-template-columns: minmax(240px, 1.8fr) repeat(3, minmax(140px, 1fr)); gap: clamp(28px, 5vw, 76px); padding-bottom: 42px; }
+        .footer-brand { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 20px; color: var(--primary-dark); }
+        .footer-brand-mark { display: block; width: 48px; height: 48px; flex: 0 0 auto; border-radius: 14px; box-shadow: 0 5px 16px rgba(44, 74, 124, .18); }
+        .footer-brand-copy { display: grid; gap: 5px; }
+        .footer-brand-name { font: 800 23px/1 'Outfit', sans-serif; letter-spacing: .2px; }
+        .footer-brand-caption { color: var(--muted); font-size: 10px; font-weight: 600; line-height: 1.3; }
+        .footer-about p { max-width: 390px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.8; }
+        .footer-column h2 { margin: 5px 0 20px; color: var(--ink); font: 700 15px 'Outfit', sans-serif; }
+        .footer-links { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+        .footer-links li, .footer-links a { color: var(--muted); font-size: 13px; line-height: 1.7; }
+        .footer-links a { transition: color .18s ease; }
+        .footer-links a:hover { color: var(--primary); }
+        .footer-links a:focus-visible { border-radius: 3px; outline: 2px solid var(--primary); outline-offset: 4px; }
+        .footer-bottom { display: flex; justify-content: center; padding-top: 24px; border-top: 1px solid rgba(44, 74, 124, .12); color: var(--muted); font-size: 12px; text-align: center; }
+
+        @media (max-width: 1024px) {
+            .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 40px; }
+            .footer-about { grid-column: 1 / -1; }
+        }
 
         @media (max-width: 760px) {
             .site-header { height: 72px; padding: 0 18px; }
@@ -352,7 +369,9 @@
             .faq-answer { padding-right: 28px; }
             .closing-band { align-items: flex-start; flex-direction: column; padding: 30px 20px; }
             .closing-band p { font-size: 19px; }
-            footer { width: calc(100% - 40px); min-height: 76px; }
+            .site-footer { margin-top: 56px; padding: 42px 20px 22px; }
+            .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 24px; padding-bottom: 32px; }
+            .footer-about { grid-column: 1 / -1; }
         }
         @media (max-width: 420px) {
             .brand-caption { display: none; }
@@ -369,7 +388,12 @@
             .product-row-icon { width: 32px; height: 32px; }
             .product-row-copy span, .product-card-foot { display: none; }
             .button { min-height: 44px; }
-            footer { align-items: flex-start; flex-direction: column; justify-content: center; gap: 6px; padding: 16px 0; }
+            .footer-grid { grid-template-columns: 1fr; gap: 26px; }
+            .footer-about { grid-column: auto; }
+            .footer-brand { margin-bottom: 14px; }
+            .footer-column h2 { margin: 0 0 12px; }
+            .footer-links { gap: 9px; }
+            .footer-bottom { justify-content: flex-start; text-align: left; }
         }
         @media (max-width: 360px) {
             .mobile-nav summary { width: 40px; justify-content: center; padding: 0; font-size: 0; }
@@ -467,7 +491,7 @@
             <div class="hero-stat"><strong>24/7</strong><span>Akses katalog<br>kapan saja</span></div>
         </section>
 
-        <div class="intro-strip">
+        <div class="intro-strip" id="keunggulan">
             <div class="intro-copy">
                 <span class="intro-tag">SATU PLATFORM. BANYAK KEMUNGKINAN.</span>
                 <p>Dari tugas kelompok sampai acara sekolah, temukan fasilitas yang bisa bantu ide kamu jalan.</p>
@@ -592,9 +616,50 @@
         </section>
     </main>
 
-    <footer>
-        <span class="footer-brand">@include('components.sinfas-logo', ['class' => 'footer-logo'])SINFAS</span>
-        <span>Kelola fasilitas sekolah, bareng-bareng.</span>
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <section class="footer-about" aria-label="Tentang SINFAS">
+                <a class="footer-brand" href="{{ url('/') }}" aria-label="SINFAS, kembali ke beranda">
+                    @include('components.sinfas-logo', ['class' => 'footer-brand-mark'])
+                    <span class="footer-brand-copy">
+                        <span class="footer-brand-name">SINFAS</span>
+                        <span class="footer-brand-caption">Sistem Informasi Fasilitas</span>
+                    </span>
+                </a>
+                <p>Sistem Informasi Fasilitas &amp; Sarana Prasarana Sekolah. Solusi digital terpadu untuk pengelolaan fasilitas sekolah yang efisien, transparan, dan terpercaya.</p>
+            </section>
+
+            <nav class="footer-column" aria-label="Navigasi footer">
+                <h2>Navigasi</h2>
+                <ul class="footer-links">
+                    <li><a href="#tentang">Beranda</a></li>
+                    <li><a href="#keunggulan">Keunggulan</a></li>
+                    <li><a href="#cara-kerja">Alur Kerja</a></li>
+                    <li><a href="{{ route('login') }}">Katalog Fasilitas</a></li>
+                </ul>
+            </nav>
+
+            <nav class="footer-column" aria-label="Akses akun">
+                <h2>Akses Akun</h2>
+                <ul class="footer-links">
+                    <li><a href="{{ route('login') }}">Login Siswa / Guru</a></li>
+                    <li><a href="{{ route('login') }}">Login Admin Sarana</a></li>
+                    <li>Pendaftaran akun baru melalui Admin Sarana</li>
+                </ul>
+            </nav>
+
+            <section class="footer-column" aria-label="Bantuan dan kontak">
+                <h2>Bantuan &amp; Kontak</h2>
+                <ul class="footer-links">
+                    <li><a href="#pertanyaan">FAQ</a></li>
+                    <li>Ruang Prasarana Sekolah</li>
+                    <li>Jam Operasional: 07:00–16:00</li>
+                </ul>
+            </section>
+        </div>
+        <div class="footer-bottom">
+            &copy; {{ date('Y') }} SINFAS - Sistem Informasi Fasilitas. All rights reserved.
+        </div>
     </footer>
 </body>
 </html>
