@@ -25,15 +25,23 @@ class AdminVerifikasiController extends Controller
             ->paginate(10, ['*'], 'req_page')
             ->withQueryString();
 
-        // 2. Active Loans waiting for return (Sedang Dipinjam & Belum Dikembalikan Selesai)
-        $activeLoans = Peminjaman::with(['barang.kategori', 'siswa', 'pengembalian'])
+        // Loans remain active until the admin verifies the return.
+        $borrowedLoansQuery = Peminjaman::with(['barang.kategori', 'siswa', 'pengembalian'])
             ->where('status_pengajuan', 'disetujui')
             ->where(function ($q) {
                 $q->whereDoesntHave('pengembalian')
                   ->orWhereHas('pengembalian', function ($p) {
                       $p->where('status', 'menunggu');
                   });
-            })
+            });
+
+        $borrowedLoans = (clone $borrowedLoansQuery)
+            ->orderBy('tanggal_kembali', 'asc')
+            ->paginate(10, ['*'], 'loan_page')
+            ->withQueryString();
+
+        // Active loans waiting for return verification are ordered first.
+        $activeLoans = (clone $borrowedLoansQuery)
             ->orderByRaw("CASE WHEN EXISTS (SELECT 1 FROM pengembalian WHERE pengembalian.kode_pinjam = peminjaman.kode_pinjam AND pengembalian.status = 'menunggu') THEN 0 ELSE 1 END")
             ->orderBy('tanggal_kembali', 'asc')
             ->paginate(10, ['*'], 'ret_page')
@@ -54,6 +62,7 @@ class AdminVerifikasiController extends Controller
         return view('admin.verifikasi.index', compact(
             'tab',
             'pendingRequests',
+            'borrowedLoans',
             'activeLoans',
             'historyLoans'
         ));

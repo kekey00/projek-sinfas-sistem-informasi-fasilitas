@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', (($tab ?? '') === 'history' ? 'Riwayat Peminjaman' : 'Verifikasi Peminjaman & Pengembalian') . ' - SINFAS')
-@section('page_title', ($tab ?? '') === 'history' ? 'Riwayat Peminjaman' : 'Verifikasi Pengajuan')
+@section('title', (($tab ?? '') === 'history' ? 'Riwayat Peminjaman' : (($tab ?? '') === 'loans' ? 'Barang Sedang Dipinjam' : 'Verifikasi Peminjaman & Pengembalian')) . ' - SINFAS')
+@section('page_title', ($tab ?? '') === 'history' ? 'Riwayat Peminjaman' : (($tab ?? '') === 'loans' ? 'Barang Sedang Dipinjam' : 'Verifikasi Pengajuan'))
 
 @section('styles')
 <style>
@@ -509,9 +509,16 @@
             <span class="tab-badge-pill">{{ $pendingRequests->total() }}</span>
         @endif
     </a>
+    <a href="{{ route('admin.verifikasi.index', ['tab' => 'loans']) }}"
+       class="verify-tab-item {{ $tab === 'loans' ? 'active' : '' }}">
+        <span>Sedang Dipinjam</span>
+        @if($borrowedLoans->total() > 0)
+            <span class="tab-badge-pill">{{ $borrowedLoans->total() }}</span>
+        @endif
+    </a>
     <a href="{{ route('admin.verifikasi.index', ['tab' => 'returns']) }}"
        class="verify-tab-item {{ $tab === 'returns' ? 'active' : '' }}">
-        <span>Pengembalian Barang</span>
+        <span>Verifikasi Pengembalian</span>
         @if($activeLoans->total() > 0)
             <span class="tab-badge-pill">{{ $activeLoans->total() }}</span>
         @endif
@@ -524,6 +531,96 @@
         @endif
     </a>
 </div>
+
+{{-- ─── TAB: CURRENTLY BORROWED ITEMS ─── --}}
+@if($tab === 'loans')
+<div class="section-title-verif">
+    <span>Daftar Barang yang Sedang Dipinjam</span>
+</div>
+
+<div class="verif-card-wrap">
+    <div class="verif-table-responsive">
+        <table class="verif-table">
+            <thead>
+                <tr>
+                    <th>Peminjam</th>
+                    <th>Barang / Fasilitas</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Rencana Kembali</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($borrowedLoans as $loan)
+                @php
+                    $borrowerType = strtolower($loan->siswa->role ?? '') === 'guru' ? 'Guru' : 'Siswa';
+                    $returnRequested = $loan->pengembalian && $loan->pengembalian->status === 'menunggu';
+                    $isOverdue = !$returnRequested && $loan->tanggal_kembali && $loan->tanggal_kembali->lt(today());
+                @endphp
+                <tr>
+                    <td>
+                        <div style="font-weight: 600; color: #0F172A;">{{ $loan->siswa->nama ?? 'Peminjam' }}</div>
+                        <div style="font-size: 11.5px; color: #64748B;">{{ $borrowerType }} &middot; NIS: {{ $loan->nis }}</div>
+                    </td>
+                    <td>
+                        <div style="font-weight: 600; color: #1E293B;">{{ $loan->barang->nama_barang ?? $loan->kode_barang }}</div>
+                        <div style="font-size: 11.5px; color: #64748B;">{{ $loan->barang->kategori->nama_kategori ?? 'Tanpa kategori' }}</div>
+                        <div style="font-size: 10.5px; color: #94A3B8;">Kode pinjam: {{ $loan->kode_pinjam }}</div>
+                    </td>
+                    <td style="color: #475569; white-space: nowrap;">
+                        {{ $loan->tanggal_pinjam ? $loan->tanggal_pinjam->format('d M Y') : '-' }}
+                    </td>
+                    <td style="color: #475569; white-space: nowrap;">
+                        {{ $loan->tanggal_kembali ? $loan->tanggal_kembali->format('d M Y') : '-' }}
+                    </td>
+                    <td>
+                        @if($returnRequested)
+                            <span style="display:inline-block; padding:3px 9px; border:1px solid #FCD34D; border-radius:999px; background:#FEF3C7; color:#92400E; font-size:11.5px; font-weight:600;">
+                                Menunggu verifikasi pengembalian
+                            </span>
+                        @elseif($isOverdue)
+                            <span style="display:inline-block; padding:3px 9px; border:1px solid #FECACA; border-radius:999px; background:#FEF2F2; color:#B91C1C; font-size:11.5px; font-weight:600;">
+                                Terlambat dikembalikan
+                            </span>
+                        @else
+                            <span style="display:inline-block; padding:3px 9px; border:1px solid #BBF7D0; border-radius:999px; background:#F0FDF4; color:#166534; font-size:11.5px; font-weight:600;">
+                                Sedang dipinjam
+                            </span>
+                        @endif
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="5">
+                        <div class="empty-state">
+                            <span class="empty-state-icon">📦</span>
+                            Tidak ada barang yang sedang dipinjam saat ini.
+                        </div>
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    <div class="verif-pagination">
+        @if($borrowedLoans->onFirstPage())
+            <span class="page-nav-btn" style="opacity:.4;cursor:default;">Prev</span>
+        @else
+            <a class="page-nav-btn" href="{{ $borrowedLoans->previousPageUrl() }}">Prev</a>
+        @endif
+        @for($p = 1; $p <= $borrowedLoans->lastPage(); $p++)
+            <a class="page-nav-btn {{ $p == $borrowedLoans->currentPage() ? 'active' : '' }}"
+               href="{{ $borrowedLoans->url($p) }}">{{ $p }}</a>
+        @endfor
+        @if($borrowedLoans->hasMorePages())
+            <a class="page-nav-btn" href="{{ $borrowedLoans->nextPageUrl() }}">Next</a>
+        @else
+            <span class="page-nav-btn" style="opacity:.4;cursor:default;">Next</span>
+        @endif
+    </div>
+</div>
+@endif
 
 {{-- ─── TAB 1: PENDING REQUESTS ─── --}}
 @if($tab === 'requests')
