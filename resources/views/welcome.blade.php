@@ -73,6 +73,13 @@
         .main-nav { display: flex; align-items: center; gap: 4px; padding: 4px; border: 1px solid var(--border); border-radius: 9999px; background: rgba(241, 245, 249, .8); color: #475569; font-size: 13px; font-weight: 700; }
         .main-nav a { padding: 9px 16px; border-radius: 9999px; transition: color .18s ease, background .18s ease; }
         .main-nav a:hover { color: var(--primary); background: #fff; }
+        .mobile-nav { display: none; position: relative; }
+        .mobile-nav summary { display: flex; min-height: 40px; align-items: center; gap: 8px; padding: 0 12px; border: 1px solid var(--border); border-radius: 10px; background: #fff; color: var(--ink); cursor: pointer; font-size: 12px; font-weight: 700; list-style: none; }
+        .mobile-nav summary::-webkit-details-marker { display: none; }
+        .mobile-nav summary svg { width: 16px; height: 16px; }
+        .mobile-nav-links { position: absolute; top: calc(100% + 10px); right: 0; z-index: 110; display: grid; width: min(250px, calc(100vw - 36px)); padding: 6px; border: 1px solid var(--border); border-radius: 12px; background: #fff; box-shadow: 0 12px 28px rgba(15, 23, 42, .16); }
+        .mobile-nav-links a { padding: 12px; border-radius: 8px; color: #475569; font-size: 13px; font-weight: 700; }
+        .mobile-nav-links a:hover { background: var(--primary-soft); color: var(--primary); }
         .login-link:hover { color: var(--primary); }
         .header-actions { display: flex; align-items: center; gap: 18px; font-size: 13px; font-weight: 700; }
         .button {
@@ -308,6 +315,7 @@
             .site-header { height: 72px; padding: 0 18px; }
             .brand-name { font-size: 20px; }
             .main-nav, .login-link { display: none; }
+            .mobile-nav { display: block; }
             .header-actions { gap: 0; }
             .header-actions .button { min-height: 40px; padding: 0 14px; font-size: 12px; }
             .hero { width: calc(100% - 28px); min-height: 0; align-items: flex-start; margin-top: 14px; border-radius: 22px; }
@@ -315,7 +323,8 @@
             .hero::after { top: 76px; right: -34px; width: 90px; height: 90px; }
             .hero-shade { background: linear-gradient(110deg, rgba(28, 51, 90, .92), rgba(44, 74, 124, .78) 62%, rgba(79, 70, 229, .48)); }
             .hero-inner { display: block; width: calc(100% - 40px); padding: 58px 0 76px; }
-            h1 { max-width: 560px; font-size: 54px; }
+            h1 { max-width: 560px; font-size: 44px; }
+            .eyebrow { margin-bottom: 18px; }
             .hero-copy { max-width: 420px; font-size: 14px; }
             .hero-product-card { margin-top: 24px; padding: 18px; border-radius: 18px; animation-delay: .08s; }
             .product-card-top { margin-bottom: 13px; }
@@ -346,8 +355,10 @@
             footer { width: calc(100% - 40px); min-height: 76px; }
         }
         @media (max-width: 420px) {
-            h1 { font-size: 43px; }
-            .hero-inner { padding: 48px 0 64px; }
+            .brand-caption { display: none; }
+            h1 { font-size: 35px; }
+            .hero-inner { padding: 44px 0 56px; }
+            .hero-copy { margin-bottom: 24px; }
             .hero-secondary { display: none; }
             .hero-live { top: 16px; right: 16px; font-size: 9px; }
             .hero-stat { display: none; }
@@ -359,6 +370,10 @@
             .product-row-copy span, .product-card-foot { display: none; }
             .button { min-height: 44px; }
             footer { align-items: flex-start; flex-direction: column; justify-content: center; gap: 6px; padding: 16px 0; }
+        }
+        @media (max-width: 360px) {
+            .mobile-nav summary { width: 40px; justify-content: center; padding: 0; font-size: 0; }
+            h1 { font-size: 34px; }
         }
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-delay: 0ms !important; }
@@ -377,6 +392,18 @@
             <a href="#peran">Untuk siapa</a>
             <a href="#pertanyaan">FAQ</a>
         </nav>
+        <details class="mobile-nav">
+            <summary aria-label="Buka navigasi">
+                Menu
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+            </summary>
+            <nav class="mobile-nav-links" aria-label="Navigasi mobile">
+                <a href="#cara-kerja">Cara kerja</a>
+                <a href="#tentang">Tentang SINFAS</a>
+                <a href="#peran">Untuk siapa</a>
+                <a href="#pertanyaan">FAQ</a>
+            </nav>
+        </details>
         <div class="header-actions">
             <a class="button" href="{{ route('login') }}">
                 Masuk
