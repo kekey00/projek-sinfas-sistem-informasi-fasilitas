@@ -307,7 +307,7 @@
         .closing-band { display: flex; align-items: center; justify-content: space-between; gap: 28px; margin: 0 max(24px, calc((100vw - 1280px) / 2)); padding: 34px 42px; border-radius: 24px; background: linear-gradient(110deg, #1e3a8a 0%, #4338ca 52%, #6d28d9 100%); color: #fff; box-shadow: 0 18px 36px -12px rgba(44, 74, 124, .42); }
         .closing-band p { margin: 0; font: 600 21px 'Outfit', sans-serif; }
         .closing-band .button { flex: 0 0 auto; }
-        .site-footer { margin-top: 72px; padding: 56px max(24px, calc((100vw - 1280px) / 2)) 28px; border-top: 1px solid rgba(255, 255, 255, .24); background: linear-gradient(135deg, #4A6FA5 0%, #6B8DD6 50%, #8E9AAF 100%); color: #EAF1FB; }
+        .site-footer { margin-top: 72px; padding: 56px max(24px, calc((100vw - 1280px) / 2)) 28px; border-top: 1px solid rgba(255, 255, 255, .24); background: linear-gradient(115deg, #172554 0%, #1e3a8a 52%, #312e81 100%); color: #EAF1FB; }
         .footer-grid { display: grid; grid-template-columns: minmax(240px, 1.8fr) repeat(3, minmax(140px, 1fr)); gap: clamp(28px, 5vw, 76px); padding-bottom: 42px; }
         .footer-brand { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 20px; color: #fff; }
         .footer-brand-mark { display: block; width: 48px; height: 48px; flex: 0 0 auto; border-radius: 14px; box-shadow: 0 5px 16px rgba(23, 40, 69, .28); }
