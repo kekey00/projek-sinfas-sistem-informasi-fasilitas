@@ -5,7 +5,7 @@
 
 @section('styles')
 <style>
-    /* ─── WELCOME HEADER (ALA GEN Z MODERN) ─── */
+    /* ─── WELCOME HEADER ─── */
     .dash-header-wrap {
         display: flex;
         align-items: flex-start;

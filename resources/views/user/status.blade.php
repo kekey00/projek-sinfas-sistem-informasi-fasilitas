@@ -24,38 +24,56 @@
     .filter-tabs-row {
         display: flex;
         align-items: center;
-        gap: 8px;
-        overflow-x: auto;
-        padding-bottom: 4px;
+        gap: 10px;
+        flex-wrap: wrap;
         margin-bottom: 24px;
     }
 
     .filter-tab-pill {
-        padding: 7px 18px;
+        padding: 8px 18px;
         border-radius: var(--radius-pill);
         font-size: 13px;
-        font-weight: 700;
+        font-weight: 600;
         cursor: pointer;
+        text-decoration: none;
+        white-space: nowrap;
         background: #FFFFFF;
         border: 1.5px solid #E2E8F0;
-        color: var(--text-secondary);
-        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        color: #334155;
+        transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
         display: inline-flex;
         align-items: center;
         gap: 6px;
         user-select: none;
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+        font-family: inherit;
+        line-height: 1.4;
     }
 
     .filter-tab-pill:hover {
-        border-color: var(--brand-primary);
-        color: var(--brand-primary);
+        border-color: #5B8DEF;
+        color: #3B5998;
+        transform: translateY(-1px);
     }
 
     .filter-tab-pill.active {
-        background: #1E1B4B;
-        border-color: #1E1B4B;
+        background: #3B5998 !important;
+        border-color: #3B5998 !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 4px 14px rgba(59, 89, 152, 0.28) !important;
+        font-weight: 700;
+    }
+
+    .filter-tab-pill .filter-tab-count {
+        font-size: 12.5px;
+        font-weight: 600;
+        opacity: 0.75;
+        margin-left: 2px;
+    }
+
+    .filter-tab-pill.active .filter-tab-count {
+        opacity: 0.9;
         color: #FFFFFF;
-        box-shadow: 0 4px 12px rgba(30, 27, 75, 0.2);
     }
 
     /* STATUS CARD LIST */
@@ -278,28 +296,28 @@
     <!-- FILTER TABS -->
     <div class="filter-tabs-row">
         <div class="filter-tab-pill active" onclick="filterStatus('all', this)">
-            <span>Semua</span>
-            <span style="opacity: 0.7;">({{ $peminjamans->count() }})</span>
+            <span>✨ Semua</span>
+            <span class="filter-tab-count">({{ $peminjamans->count() }})</span>
         </div>
         <div class="filter-tab-pill" onclick="filterStatus('menunggu', this)">
             <span>⏳ Menunggu Persetujuan</span>
-            <span style="opacity: 0.7;">({{ $peminjamans->where('status_pengajuan', 'menunggu')->count() }})</span>
+            <span class="filter-tab-count">({{ $peminjamans->where('status_pengajuan', 'menunggu')->count() }})</span>
         </div>
         <div class="filter-tab-pill" onclick="filterStatus('disetujui', this)">
             <span>✅ Sedang Dipinjam</span>
-            <span style="opacity: 0.7;">({{ $peminjamans->where('status_pengajuan', 'disetujui')->whereNull('pengembalian')->count() }})</span>
+            <span class="filter-tab-count">({{ $peminjamans->where('status_pengajuan', 'disetujui')->whereNull('pengembalian')->count() }})</span>
         </div>
         <div class="filter-tab-pill" onclick="filterStatus('returning', this)">
             <span>🔄 Menunggu Verifikasi Kembali</span>
-            <span style="opacity: 0.7;">({{ $peminjamans->filter(fn($p) => $p->pengembalian && $p->pengembalian->status === 'menunggu')->count() }})</span>
+            <span class="filter-tab-count">({{ $peminjamans->filter(fn($p) => $p->pengembalian && $p->pengembalian->status === 'menunggu')->count() }})</span>
         </div>
         <div class="filter-tab-pill" onclick="filterStatus('returned', this)">
             <span>📦 Selesai</span>
-            <span style="opacity: 0.7;">({{ $peminjamans->filter(fn($p) => $p->pengembalian && $p->pengembalian->status === 'selesai')->count() }})</span>
+            <span class="filter-tab-count">({{ $peminjamans->filter(fn($p) => $p->pengembalian && $p->pengembalian->status === 'selesai')->count() }})</span>
         </div>
         <div class="filter-tab-pill" onclick="filterStatus('ditolak', this)">
             <span>❌ Ditolak</span>
-            <span style="opacity: 0.7;">({{ $peminjamans->where('status_pengajuan', 'ditolak')->count() }})</span>
+            <span class="filter-tab-count">({{ $peminjamans->where('status_pengajuan', 'ditolak')->count() }})</span>
         </div>
     </div>
 

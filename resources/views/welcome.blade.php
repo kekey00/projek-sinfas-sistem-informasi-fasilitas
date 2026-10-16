@@ -307,21 +307,21 @@
         .closing-band { display: flex; align-items: center; justify-content: space-between; gap: 28px; margin: 0 max(24px, calc((100vw - 1280px) / 2)); padding: 34px 42px; border-radius: 24px; background: linear-gradient(110deg, #1e3a8a 0%, #4338ca 52%, #6d28d9 100%); color: #fff; box-shadow: 0 18px 36px -12px rgba(44, 74, 124, .42); }
         .closing-band p { margin: 0; font: 600 21px 'Outfit', sans-serif; }
         .closing-band .button { flex: 0 0 auto; }
-        .site-footer { margin-top: 72px; padding: 56px max(24px, calc((100vw - 1280px) / 2)) 28px; border-top: 1px solid rgba(255, 255, 255, .24); background: linear-gradient(115deg, #172554 0%, #1e3a8a 52%, #312e81 100%); color: #EAF1FB; }
-        .footer-grid { display: grid; grid-template-columns: minmax(240px, 1.8fr) repeat(3, minmax(140px, 1fr)); gap: clamp(28px, 5vw, 76px); padding-bottom: 42px; }
-        .footer-brand { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 20px; color: #fff; }
-        .footer-brand-mark { display: block; width: 48px; height: 48px; flex: 0 0 auto; border-radius: 14px; box-shadow: 0 5px 16px rgba(23, 40, 69, .28); }
+        .site-footer { margin-top: 72px; padding: 42px max(24px, calc((100vw - 1280px) / 2)) 26px; border-top: 1px solid rgba(255, 255, 255, .28); background: linear-gradient(115deg, #172554 0%, #1e3a8a 52%, #312e81 100%); color: rgba(255, 255, 255, .94); }
+        .footer-grid { display: grid; grid-template-columns: minmax(280px, 1.8fr) repeat(3, minmax(150px, 1fr)); gap: clamp(28px, 5vw, 72px); align-items: start; padding-bottom: 30px; }
+        .footer-brand { display: inline-flex; align-items: center; gap: 16px; margin-bottom: 20px; color: #fff; }
+        .footer-brand-mark { display: block; width: 54px; height: 54px; flex: 0 0 auto; border-radius: 16px; box-shadow: 0 8px 18px rgba(23, 40, 69, .22); }
         .footer-brand-copy { display: grid; gap: 5px; }
-        .footer-brand-name { font: 800 23px/1 'Outfit', sans-serif; letter-spacing: .2px; }
-        .footer-brand-caption { color: #EAF1FB; font-size: 10px; font-weight: 600; line-height: 1.3; }
-        .footer-about p { max-width: 390px; margin: 0; color: #F1F5F9; font-size: 14px; line-height: 1.8; }
-        .footer-column h2 { margin: 5px 0 20px; color: #fff; font: 700 15px 'Outfit', sans-serif; }
-        .footer-links { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
-        .footer-links li, .footer-links a { color: #EAF1FB; font-size: 13px; line-height: 1.7; }
-        .footer-links a { transition: color .18s ease; }
-        .footer-links a:hover { color: #fff; }
-        .footer-links a:focus-visible { border-radius: 3px; outline: 2px solid #fff; outline-offset: 4px; }
-        .footer-bottom { display: flex; justify-content: center; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, .24); color: #EAF1FB; font-size: 12px; text-align: center; }
+        .footer-brand-name { font: 800 28px/1 'Outfit', sans-serif; letter-spacing: .2px; }
+        .footer-brand-caption { color: rgba(255, 255, 255, .9); font-size: 11px; font-weight: 600; line-height: 1.3; }
+        .footer-about p { max-width: 490px; margin: 0; color: rgba(255, 255, 255, .9); font-size: 15px; line-height: 1.75; }
+        .footer-column h2 { margin: 6px 0 18px; color: #fff; font: 700 26px 'Outfit', sans-serif; }
+        .footer-links { display: grid; gap: 15px; margin: 0; padding: 0; list-style: none; }
+        .footer-links li, .footer-links a { color: rgba(255, 255, 255, .92); font-size: 16px; line-height: 1.7; }
+        .footer-links a { transition: opacity .18s ease, transform .18s ease; }
+        .footer-links a:hover { opacity: 1; transform: translateX(2px); }
+        .footer-links a:focus-visible { border-radius: 3px; outline: 2px solid rgba(255,255,255,.9); outline-offset: 4px; }
+        .footer-bottom { display: flex; justify-content: center; padding-top: 22px; border-top: 1px solid rgba(255, 255, 255, .28); color: rgba(255, 255, 255, .92); font-size: 13px; text-align: center; }
 
         @media (max-width: 1024px) {
             .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 40px; }
