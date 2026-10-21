@@ -39,11 +39,13 @@ class BarangController extends Controller
             if ($request->kategori === 'sering_dipinjam') {
                 $query->withCount('peminjamans')->orderBy('peminjamans_count', 'desc');
             } else {
-                $query->where('id_kategori', $request->kategori);
+                $query->where('id_kategori', $request->kategori)->orderBy('nama_barang', 'asc');
             }
+        } else {
+            $query->orderBy('nama_barang', 'asc');
         }
 
-        $barangs   = $query->get();
+        $barangs   = $query->paginate(8)->withQueryString();
         $kategoris = Kategori::all();
 
         return view('user.dashboard', compact('barangs', 'kategoris'));

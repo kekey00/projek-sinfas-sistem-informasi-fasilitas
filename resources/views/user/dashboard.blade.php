@@ -460,6 +460,75 @@
         .facility-section-heading { align-items: flex-start; }
         .facility-section-heading h2 { font-size: 18px; }
     }
+
+    /* MODERN SINFAS PAGINATION */
+    .user-pagination-wrapper {
+        margin-top: 36px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border-subtle);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+    .user-pagination-info {
+        font-size: 13.5px;
+        color: var(--text-muted);
+        font-weight: 500;
+    }
+    .user-pagination-info strong {
+        color: var(--text-main);
+        font-weight: 700;
+    }
+    .user-pagination-pills {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #FFFFFF;
+        padding: 5px 8px;
+        border-radius: var(--radius-pill);
+        border: 1.5px solid #E2E8F0;
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+    .user-page-btn {
+        min-width: 36px;
+        height: 36px;
+        padding: 0 10px;
+        border-radius: var(--radius-pill);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 700;
+        color: #475569;
+        text-decoration: none;
+        transition: all 0.18s ease;
+        gap: 4px;
+        border: 1px solid transparent;
+        font-family: inherit;
+    }
+    .user-page-btn:hover:not(.disabled):not(.active) {
+        background: #F1F5F9;
+        color: #1E293B;
+        border-color: #CBD5E1;
+        transform: translateY(-1px);
+    }
+    .user-page-btn.active {
+        background: linear-gradient(135deg, #3B5998 0%, #2C4A7C 100%);
+        color: #FFFFFF !important;
+        box-shadow: 0 3px 10px rgba(44, 74, 124, 0.28);
+    }
+    .user-page-btn.disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+        color: #94A3B8;
+    }
+    .user-page-ellipsis {
+        padding: 0 4px;
+        color: #94A3B8;
+        font-size: 13px;
+    }
 </style>
 @endsection
 
@@ -577,11 +646,11 @@
             @elseif(request()->filled('q'))
                 🔍 Hasil Pencarian: "{{ request('q') }}"
             @else
-                🔥 Sering Dipinjam
+                ✨ Semua Fasilitas
             @endif
         </h2>
         <span class="facility-section-count">
-            {{ $barangs->count() }} fasilitas
+            {{ $barangs->total() }} fasilitas
         </span>
     </div>
 
@@ -642,6 +711,55 @@
             </div>
         @endforelse
     </div>
+
+    <!-- PAGINATION SINFAS MODERN -->
+    @if($barangs->hasPages())
+        <div class="user-pagination-wrapper">
+            <div class="user-pagination-info">
+                Menampilkan <strong>{{ $barangs->firstItem() ?? 0 }}</strong> &ndash; <strong>{{ $barangs->lastItem() ?? 0 }}</strong> dari <strong>{{ $barangs->total() }}</strong> fasilitas
+            </div>
+            <div class="user-pagination-pills">
+                {{-- Tombol Sebelumnya --}}
+                @if($barangs->onFirstPage())
+                    <span class="user-page-btn disabled" aria-disabled="true">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        <span>Prev</span>
+                    </span>
+                @else
+                    <a href="{{ $barangs->previousPageUrl() }}" class="user-page-btn" rel="prev">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        <span>Prev</span>
+                    </a>
+                @endif
+
+                {{-- Nomor Halaman --}}
+                @for($p = 1; $p <= $barangs->lastPage(); $p++)
+                    @if($p == 1 || $p == $barangs->lastPage() || ($p >= $barangs->currentPage() - 1 && $p <= $barangs->currentPage() + 1))
+                        @if($p == $barangs->currentPage())
+                            <span class="user-page-btn active" aria-current="page">{{ $p }}</span>
+                        @else
+                            <a href="{{ $barangs->url($p) }}" class="user-page-btn">{{ $p }}</a>
+                        @endif
+                    @elseif($p == 2 || $p == $barangs->lastPage() - 1)
+                        <span class="user-page-ellipsis">&hellip;</span>
+                    @endif
+                @endfor
+
+                {{-- Tombol Selanjutnya --}}
+                @if($barangs->hasMorePages())
+                    <a href="{{ $barangs->nextPageUrl() }}" class="user-page-btn" rel="next">
+                        <span>Next</span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </a>
+                @else
+                    <span class="user-page-btn disabled" aria-disabled="true">
+                        <span>Next</span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </span>
+                @endif
+            </div>
+        </div>
+    @endif
 
     <script>
         function toggleFilterDropdown(event) {

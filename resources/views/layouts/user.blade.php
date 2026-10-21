@@ -656,6 +656,10 @@
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
                             <span>Status Pinjaman</span>
                         </a>
+                        <a href="{{ route('user.notifikasi') }}" class="dropdown-menu-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                            <span>Semua Notifikasi</span>
+                        </a>
 
                         <div style="height: 1px; background: var(--border-subtle); margin: 6px 0;"></div>
 
@@ -794,9 +798,19 @@
                 @endif
             </div>
 
+            <!-- Notif Modal Pagination -->
+            <div id="user-notif-pagination" style="display: none; padding: 10px 18px; border-top: 1px solid #F1F5F9; align-items: center; justify-content: space-between; font-size: 12px; color: #64748B; background: #FAFBFD;">
+                <span id="user-notif-page-info">Halaman 1 dari 1</span>
+                <div style="display: inline-flex; align-items: center; gap: 4px;">
+                    <button type="button" id="user-notif-prev-btn" onclick="changeNotifPage(-1)" style="border: 1px solid #CBD5E1; background: #fff; border-radius: 6px; padding: 3px 8px; font-size: 11.5px; font-weight: 600; cursor: pointer; color: #334155; transition: all 0.15s;">&larr; Prev</button>
+                    <span id="user-notif-page-numbers" style="display: inline-flex; gap: 4px;"></span>
+                    <button type="button" id="user-notif-next-btn" onclick="changeNotifPage(1)" style="border: 1px solid #CBD5E1; background: #fff; border-radius: 6px; padding: 3px 8px; font-size: 11.5px; font-weight: 600; cursor: pointer; color: #334155; transition: all 0.15s;">Next &rarr;</button>
+                </div>
+            </div>
+
             <!-- Modal Footer -->
             <div style="padding: 14px 20px; border-top: 1px solid #F1F5F9; display: flex; gap: 10px;">
-                <a href="{{ route('user.status') }}" class="btn-genz-primary" style="flex: 1; font-size: 13.5px; padding: 10px 16px;">Lihat Status Pengajuan</a>
+                <a href="{{ route('user.notifikasi') }}" class="btn-genz-primary" style="flex: 1; font-size: 13.5px; padding: 10px 16px; text-align: center;">Lihat Semua Notifikasi</a>
                 <button type="button" class="btn-genz-secondary" onclick="toggleNotifModal()" style="font-size: 13.5px; padding: 10px 16px;">Tutup</button>
             </div>
         </div>
@@ -931,23 +945,45 @@
 
         // Realtime Polling User (Live check persetujuan admin & status pinjaman tanpa refresh)
         (function() {
+            let allUserNotifications = @json(isset($userNotifications) ? $userNotifications->values() : []);
+            let notifCurrentPage = 1;
+            const notifPerPage = 4;
+
+            window.changeNotifPage = function(delta) {
+                const totalPages = Math.ceil(allUserNotifications.length / notifPerPage);
+                const target = notifCurrentPage + delta;
+                if (target >= 1 && target <= totalPages) {
+                    notifCurrentPage = target;
+                    renderNotificationList(allUserNotifications);
+                }
+            };
+
+            window.goToNotifPage = function(page) {
+                notifCurrentPage = page;
+                renderNotificationList(allUserNotifications);
+            };
+
             // Simpan status sebelumnya di memory
             let knownStatuses = {};
             let isInitial = true;
 
-            // Render ulang list notifikasi di modal
+            // Render ulang list notifikasi di modal dengan Pagination
             function renderNotificationList(notifications) {
+                allUserNotifications = notifications || [];
                 const listEl = document.getElementById('user-notif-list');
                 const subEl = document.getElementById('user-notif-subtitle');
+                const pagEl = document.getElementById('user-notif-pagination');
                 if (!listEl) return;
 
+                const total = allUserNotifications.length;
                 if (subEl) {
-                    subEl.textContent = notifications.length > 0 
-                        ? `${notifications.length} pemberitahuan aktif` 
+                    subEl.textContent = total > 0 
+                        ? `${total} pemberitahuan aktif` 
                         : 'Tidak ada pemberitahuan';
                 }
 
-                if (!notifications || notifications.length === 0) {
+                if (total === 0) {
+                    if (pagEl) pagEl.style.display = 'none';
                     listEl.innerHTML = `
                         <div style="text-align: center; padding: 36px 20px;">
                             <div style="width: 72px; height: 72px; border-radius: 50%; background: #F0FDF4; color: #10B981; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 32px;">
@@ -962,12 +998,54 @@
                     return;
                 }
 
+                const totalPages = Math.ceil(total / notifPerPage);
+                if (notifCurrentPage > totalPages) notifCurrentPage = totalPages;
+                if (notifCurrentPage < 1) notifCurrentPage = 1;
+
+                if (pagEl) {
+                    pagEl.style.display = totalPages > 1 ? 'flex' : 'none';
+                    const pageInfo = document.getElementById('user-notif-page-info');
+                    if (pageInfo) {
+                        pageInfo.textContent = `Halaman ${notifCurrentPage} dari ${totalPages} (${total} total)`;
+                    }
+
+                    const prevBtn = document.getElementById('user-notif-prev-btn');
+                    const nextBtn = document.getElementById('user-notif-next-btn');
+                    if (prevBtn) {
+                        prevBtn.disabled = notifCurrentPage <= 1;
+                        prevBtn.style.opacity = notifCurrentPage <= 1 ? '0.4' : '1';
+                        prevBtn.style.cursor = notifCurrentPage <= 1 ? 'not-allowed' : 'pointer';
+                    }
+                    if (nextBtn) {
+                        nextBtn.disabled = notifCurrentPage >= totalPages;
+                        nextBtn.style.opacity = notifCurrentPage >= totalPages ? '0.4' : '1';
+                        nextBtn.style.cursor = notifCurrentPage >= totalPages ? 'not-allowed' : 'pointer';
+                    }
+
+                    const numbersContainer = document.getElementById('user-notif-page-numbers');
+                    if (numbersContainer) {
+                        let numHtml = '';
+                        for (let p = 1; p <= totalPages; p++) {
+                            const isActive = p === notifCurrentPage;
+                            numHtml += `
+                                <button type="button" onclick="goToNotifPage(${p})" style="min-width: 24px; height: 24px; border-radius: 6px; font-size: 11.5px; font-weight: ${isActive ? '800' : '600'}; background: ${isActive ? '#3B5998' : '#F1F5F9'}; color: ${isActive ? '#fff' : '#475569'}; border: 1px solid ${isActive ? '#3B5998' : '#CBD5E1'}; cursor: pointer;">
+                                    ${p}
+                                </button>
+                            `;
+                        }
+                        numbersContainer.innerHTML = numHtml;
+                    }
+                }
+
                 const borderMap = { overdue: '#FCA5A5', warning: '#FCD34D', pending: '#93C5FD', active: '#A7F3D0' };
                 const bgMap     = { overdue: '#FEF2F2', warning: '#FFFBEB', pending: '#EFF6FF', active: '#F0FDF4' };
                 const titleMap  = { overdue: '#DC2626', warning: '#D97706', pending: '#2563EB', active: '#059669' };
 
+                const startIdx = (notifCurrentPage - 1) * notifPerPage;
+                const pageItems = allUserNotifications.slice(startIdx, startIdx + notifPerPage);
+
                 let html = '';
-                notifications.forEach(n => {
+                pageItems.forEach(n => {
                     const borderColor = borderMap[n.type] || '#E2E8F0';
                     const bgColor     = bgMap[n.type] || '#F8FAFC';
                     const titleColor  = titleMap[n.type] || '#475569';
@@ -987,6 +1065,11 @@
                     `;
                 });
                 listEl.innerHTML = html;
+            }
+
+            // Inisialisasi awal list notifikasi di modal saat halaman pertama dimuat
+            if (allUserNotifications.length > 0) {
+                renderNotificationList(allUserNotifications);
             }
 
             async function checkUserLiveUpdates() {

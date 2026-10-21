@@ -29,6 +29,60 @@ class PeminjamanController extends Controller
     }
 
     /**
+     * Halaman khusus Semua Notifikasi User dengan Pagination
+     */
+    public function notifikasi(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user || $user->role !== 'siswa') {
+            return redirect()->route('login');
+        }
+
+        $allNotifs = self::getUserNotifications($user);
+        $totalAll = $allNotifs->count();
+
+        // Filter tab
+        $tab = $request->get('filter', 'all');
+        if ($tab !== 'all') {
+            $allNotifs = $allNotifs->filter(function ($n) use ($tab) {
+                if ($tab === 'attention') {
+                    return in_array($n['type'], ['overdue', 'warning']);
+                }
+                return $n['type'] === $tab;
+            });
+        }
+
+        // Pagination Collection (6 notifikasi per halaman)
+        $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage() ?: 1;
+        $perPage = 6;
+        $currentPageItems = $allNotifs->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $paginatedNotifications = new \Illuminate\Pagination\LengthAwarePaginator(
+            $currentPageItems,
+            $allNotifs->count(),
+            $perPage,
+            $currentPage,
+            [
+                'path' => \Illuminate\Pagination\Paginator::resolveCurrentPath(),
+                'query' => $request->query(),
+            ]
+        );
+
+        $rawAll = self::getUserNotifications($user);
+        $counts = [
+            'all'       => $totalAll,
+            'attention' => $rawAll->filter(fn($n) => in_array($n['type'], ['overdue', 'warning']))->count(),
+            'pending'   => $rawAll->filter(fn($n) => $n['type'] === 'pending')->count(),
+            'active'    => $rawAll->filter(fn($n) => $n['type'] === 'active')->count(),
+        ];
+
+        return view('user.notifikasi', [
+            'notifications' => $paginatedNotifications,
+            'currentFilter' => $tab,
+            'counts'        => $counts,
+        ]);
+    }
+
+    /**
      * Simpan pengajuan peminjaman dari form user.
      */
     public function store(Request $request)
