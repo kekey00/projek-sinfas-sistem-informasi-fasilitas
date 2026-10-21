@@ -825,11 +825,19 @@
                             $isBuktiFile = $bukti && (str_starts_with($bukti, 'pengembalian/') || str_contains($bukti, '.'));
                         @endphp
                         @if($isBuktiFile)
+                            @php
+                                $ext = strtolower(pathinfo($bukti, PATHINFO_EXTENSION));
+                                $isVideo = in_array($ext, ['mp4', 'mov', 'avi', 'webm', 'mkv']);
+                            @endphp
                             <div class="evidence-icons">
-                                <button type="button" class="evidence-icon-btn" title="Lihat Foto Bukti dari Siswa"
+                                <button type="button" class="evidence-icon-btn" title="Lihat Bukti {{ $isVideo ? 'Video' : 'Foto' }} dari Siswa"
                                         style="border-color: #3B5998; color: #3B5998; background: #EEF2FF;"
                                         onclick="previewEvidenceFile('{{ asset('storage/' . $bukti) }}', '{{ addslashes($active->barang->nama_barang ?? '') }}', '{{ addslashes($active->siswa->nama ?? 'Siswa') }}')">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                                    @if($isVideo)
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                                    @else
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                                    @endif
                                 </button>
                             </div>
                         @elseif($bukti)
@@ -1010,9 +1018,13 @@
                     <td style="font-size: 13px; color: #64748B;">
                         @if($hist->pengembalian && $hist->pengembalian->bukti_foto_video)
                             @if(Str::startsWith($hist->pengembalian->bukti_foto_video, 'pengembalian/'))
+                                @php
+                                    $histExt = strtolower(pathinfo($hist->pengembalian->bukti_foto_video, PATHINFO_EXTENSION));
+                                    $isHistVideo = in_array($histExt, ['mp4', 'mov', 'avi', 'webm', 'mkv']);
+                                @endphp
                                 <button type="button" class="btn-action-text edit" style="display:inline-flex; align-items:center; gap:5px; color:#0F172A; font-weight:600; background:#F8FAFC; border:1px solid #E2E8F0; padding:4px 10px; border-radius:6px; cursor:pointer;"
                                         onclick="previewEvidenceFile('{{ asset('storage/' . $hist->pengembalian->bukti_foto_video) }}', '{{ addslashes($hist->barang->nama_barang ?? '') }}', '{{ addslashes($hist->siswa->nama ?? '') }}')">
-                                    Lihat Bukti Foto
+                                    {{ $isHistVideo ? '🎬 Lihat Video' : '📸 Lihat Foto' }}
                                 </button>
                             @else
                                 <span>{{ $hist->pengembalian->bukti_foto_video }}</span>
@@ -1249,6 +1261,7 @@
         <p style="font-size:12.5px; color:#64748B; margin-bottom:12px;" id="evidenceSubtitle">Pemeriksaan fisik alat</p>
         <div id="evidenceContainer" style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:16px; margin: 12px 0; min-height:140px; display:flex; align-items:center; justify-content:center;">
             <img id="evidenceImg" src="" style="max-width:100%; max-height:280px; border-radius:8px; display:none;" alt="Bukti Foto">
+            <video id="evidenceVideo" controls style="max-width:100%; max-height:280px; border-radius:8px; display:none; background:#000;"></video>
             <div id="evidenceEmpty" style="color:#64748B; font-size:12.5px; line-height: 1.6;">
                 <strong>Pemeriksaan Fisik Langsung</strong><br>
                 Bukti fisik alat dapat dicek saat serah terima barang atau diunggah langsung melalui form konfirmasi pengembalian.
@@ -1341,9 +1354,30 @@
         document.getElementById('evidenceTitle').innerText = 'Bukti Pengembalian: ' + itemName;
         document.getElementById('evidenceSubtitle').innerText = 'Peminjam: ' + studentName;
         var img = document.getElementById('evidenceImg');
-        img.src = fileUrl;
-        img.style.display = 'block';
-        document.getElementById('evidenceEmpty').style.display = 'none';
+        var video = document.getElementById('evidenceVideo');
+        var empty = document.getElementById('evidenceEmpty');
+        if (empty) empty.style.display = 'none';
+
+        var ext = fileUrl.split('.').pop().toLowerCase();
+        var isVideo = ['mp4', 'mov', 'webm', 'avi', 'mkv'].includes(ext);
+
+        if (isVideo) {
+            if (img) { img.style.display = 'none'; img.src = ''; }
+            if (video) {
+                video.src = fileUrl;
+                video.style.display = 'block';
+            }
+        } else {
+            if (video) {
+                video.pause();
+                video.style.display = 'none';
+                video.src = '';
+            }
+            if (img) {
+                img.src = fileUrl;
+                img.style.display = 'block';
+            }
+        }
         openModal('evidencePreviewModal');
     }
 

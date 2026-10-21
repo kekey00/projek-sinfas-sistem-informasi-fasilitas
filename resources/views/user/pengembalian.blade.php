@@ -384,14 +384,14 @@
                     @enderror
                 </div>
 
-                <!-- UNGGAH BUKTI FOTO -->
+                <!-- UNGGAH BUKTI FOTO ATAU VIDEO (WAJIB) -->
                 <div class="form-group-vibe">
                     <label class="label-vibe-bold">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-                        <span>Unggah Foto Kondisi Barang</span>
+                        <span>Unggah Bukti Foto / Video Kondisi Fisik <span style="color: #EF4444;">* (Wajib)</span></span>
                     </label>
 
-                    <div class="dropzone-vibe-box" onclick="document.getElementById('bukti_foto').click()">
+                    <div class="dropzone-vibe-box" id="dropzoneBox" onclick="document.getElementById('bukti_foto').click()">
                         <div class="dropzone-icon-circle">
                             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -399,21 +399,30 @@
                                 <line x1="12" y1="3" x2="12" y2="15"></line>
                             </svg>
                         </div>
-                        <div style="font-size: 14px; font-weight: 800; color: var(--text-main); margin-bottom: 4px;" id="dropzone-label">
-                            Pilih atau Seret Foto Fisik ke Sini 📸
+                        <div style="font-size: 14.5px; font-weight: 800; color: var(--text-main); margin-bottom: 4px;" id="dropzone-label">
+                            Pilih atau Seret Foto / Video ke Sini 📸🎬
                         </div>
                         <div style="font-size: 12.5px; color: var(--text-muted);">
-                            Format JPG, PNG, atau WebP (Maksimal 5 MB)
+                            Format Foto (JPG, PNG, WebP) atau Video (MP4, MOV, WebM) &bull; Maksimal 25 MB
                         </div>
-                        <input type="file" id="bukti_foto" name="bukti_foto" accept="image/*" style="display: none;" onchange="previewUpload(this)">
+                        <div style="font-size: 11.5px; color: #EF4444; font-weight: 700; margin-top: 6px;">
+                            * Wajib dilampirkan agar pengajuan pengembalian dapat diproses oleh Admin.
+                        </div>
+                        <input type="file" id="bukti_foto" name="bukti_foto" accept="image/*,video/*" required style="display: none;" onchange="previewUpload(this)">
                     </div>
 
-                    <div class="preview-box-holder" id="preview-box">
-                        <img id="img-preview" src="" alt="Preview Bukti">
+                    <div class="preview-box-holder" id="preview-box" style="display: none; margin-top: 16px; text-align: center; background: #F8FAFC; padding: 14px; border-radius: var(--radius-md); border: 1.5px solid #E2E8F0;">
+                        <img id="img-preview" src="" alt="Preview Bukti Foto" style="max-height: 220px; max-width: 100%; border-radius: var(--radius-md); border: 2px solid #E2E8F0; display: none; margin: 0 auto;">
+                        <video id="video-preview" controls style="max-height: 240px; max-width: 100%; border-radius: var(--radius-md); border: 2px solid #E2E8F0; display: none; margin: 0 auto; background: #000;"></video>
+                        <div id="file-meta-info" style="font-size: 12.5px; font-weight: 700; color: #334155; margin-top: 8px;"></div>
                     </div>
+
+                    <span id="bukti_foto_client_error" style="font-size: 12px; color: var(--badge-rose); display: none; margin-top: 6px; font-weight: 700;">
+                        ⚠️ Harap lampirkan bukti foto atau video fisik sebelum mengirimkan formulir.
+                    </span>
 
                     @error('bukti_foto')
-                        <span style="font-size:12px; color:var(--badge-rose); display:block; margin-top:4px;">{{ $message }}</span>
+                        <span style="font-size:12px; color:var(--badge-rose); display:block; margin-top:4px; font-weight: 700;">{{ $message }}</span>
                     @enderror
                 </div>
 
@@ -454,17 +463,74 @@
         const label = document.getElementById('dropzone-label');
         const box = document.getElementById('preview-box');
         const img = document.getElementById('img-preview');
+        const video = document.getElementById('video-preview');
+        const meta = document.getElementById('file-meta-info');
+        const errEl = document.getElementById('bukti_foto_client_error');
+        const dropBox = document.getElementById('dropzoneBox');
 
         if (input.files && input.files[0]) {
             const file = input.files[0];
-            label.textContent = '📸 ' + file.name;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                img.src = e.target.result;
+
+            // Validasi ukuran maksimal 25 MB (25 * 1024 * 1024 bytes)
+            if (file.size > 26214400) {
+                alert('⚠️ Ukuran file melebihi batas maksimal 25 MB. Silakan pilih foto atau video yang lebih kecil.');
+                input.value = '';
+                box.style.display = 'none';
+                label.textContent = 'Pilih atau Seret Foto / Video ke Sini 📸🎬';
+                return;
+            }
+
+            if (errEl) errEl.style.display = 'none';
+            if (dropBox) dropBox.style.borderColor = '#10B981';
+
+            const sizeFormatted = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+            const isVideo = file.type.startsWith('video/');
+
+            if (isVideo) {
+                label.textContent = '🎬 ' + file.name + ' (' + sizeFormatted + ')';
+                img.style.display = 'none';
+                img.src = '';
+
+                video.src = URL.createObjectURL(file);
+                video.style.display = 'block';
+                meta.innerHTML = `📹 <strong>File Video:</strong> ${file.name} &bull; <span style="color:#059669;">${sizeFormatted}</span>`;
                 box.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
+            } else {
+                label.textContent = '📸 ' + file.name + ' (' + sizeFormatted + ')';
+                video.style.display = 'none';
+                video.src = '';
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    meta.innerHTML = `🖼️ <strong>File Foto:</strong> ${file.name} &bull; <span style="color:#059669;">${sizeFormatted}</span>`;
+                    box.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        } else {
+            box.style.display = 'none';
+            label.textContent = 'Pilih atau Seret Foto / Video ke Sini 📸🎬';
         }
     }
+
+    // Validasi saat submit: Wajib melampirkan foto atau video
+    document.getElementById('form-pengembalian').addEventListener('submit', function(e) {
+        const fileInput = document.getElementById('bukti_foto');
+        const errEl = document.getElementById('bukti_foto_client_error');
+        const dropBox = document.getElementById('dropzoneBox');
+
+        if (!fileInput.files || fileInput.files.length === 0) {
+            e.preventDefault();
+            if (errEl) errEl.style.display = 'block';
+            if (dropBox) {
+                dropBox.style.borderColor = '#EF4444';
+                dropBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            alert('⚠️ Peringatan: Anda wajib melampirkan bukti foto atau video kondisi fisik barang sebelum mengajukan pengembalian!');
+            return false;
+        }
+    });
 </script>
 @endsection

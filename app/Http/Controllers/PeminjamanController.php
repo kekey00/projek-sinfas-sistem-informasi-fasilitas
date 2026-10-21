@@ -166,13 +166,15 @@ class PeminjamanController extends Controller
         $request->validate([
             'tanggal_kembali' => 'required|date',
             'kondisi_barang'  => 'required|in:Baik,Kurang Baik,Rusak Berat',
-            'bukti_foto'      => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'bukti_foto'      => 'required|file|mimes:jpeg,png,jpg,webp,mp4,mov,avi,webm,mkv|max:25600',
             'catatan'         => 'nullable|string|max:500',
         ], [
             'tanggal_kembali.required' => 'Tanggal pengembalian wajib diisi.',
             'kondisi_barang.required'  => 'Pilih kondisi barang saat dikembalikan.',
-            'bukti_foto.image'         => 'File bukti harus berupa gambar (JPG, PNG, WebP).',
-            'bukti_foto.max'           => 'Ukuran foto maksimal 5 MB.',
+            'bukti_foto.required'      => 'Pengajuan pengembalian barang wajib menyertakan bukti foto atau video fisik.',
+            'bukti_foto.file'          => 'Bukti harus berupa file foto atau video yang valid.',
+            'bukti_foto.mimes'         => 'Format file bukti harus berupa foto (JPG, JPEG, PNG, WebP) atau video (MP4, MOV, WebM, AVI).',
+            'bukti_foto.max'           => 'Ukuran file foto atau video maksimal 25 MB.',
         ]);
 
         $peminjaman = Peminjaman::with('barang')
@@ -184,10 +186,7 @@ class PeminjamanController extends Controller
         }
 
         DB::transaction(function () use ($request, $peminjaman) {
-            $fotoPath = null;
-            if ($request->hasFile('bukti_foto')) {
-                $fotoPath = $request->file('bukti_foto')->store('pengembalian', 'public');
-            }
+            $mediaPath = $request->file('bukti_foto')->store('pengembalian', 'public');
 
             // Simpan pengembalian dengan status menunggu verifikasi admin
             Pengembalian::create([
@@ -195,14 +194,14 @@ class PeminjamanController extends Controller
                 'kode_pinjam'      => $peminjaman->kode_pinjam,
                 'tanggal_kembali'  => $request->tanggal_kembali,
                 'kondisi_barang'   => $request->kondisi_barang,
-                'bukti_foto_video' => $fotoPath ?? $request->catatan,
+                'bukti_foto_video' => $mediaPath,
                 'status'           => 'menunggu',
             ]);
 
             // Catatan: Stok barang belum dipulihkan disini, akan dipulihkan saat Admin Sarana memverifikasi pengembalian.
         });
 
-        return redirect()->route('user.status')->with('success', 'Laporan pengembalian barang "' . ($peminjaman->barang->nama_barang ?? 'Barang') . '" berhasil diajukan! Menunggu verifikasi fisik dari Admin.');
+        return redirect()->route('user.status')->with('success', 'Laporan pengembalian barang "' . ($peminjaman->barang->nama_barang ?? 'Barang') . '" berhasil diajukan dengan bukti foto/video! Menunggu verifikasi fisik dari Admin.');
     }
 
     /**
