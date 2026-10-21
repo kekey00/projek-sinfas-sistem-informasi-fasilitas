@@ -529,6 +529,200 @@
         color: #94A3B8;
         font-size: 13px;
     }
+
+    /* ─── DASHBOARD 2-COLUMN LAYOUT WITH SIDE CARD WIDGET ─── */
+    .dashboard-layout-columns {
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: 28px;
+        align-items: start;
+    }
+    .dashboard-main-column {
+        min-width: 0;
+    }
+    .dashboard-side-column {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        position: sticky;
+        top: 96px;
+    }
+
+    /* SIDE CARD WIDGET COMMON */
+    .side-card-widget {
+        background: #FFFFFF;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+        transition: all 0.25s ease;
+    }
+    .side-card-widget:hover {
+        border-color: #CBD5E1;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
+    }
+    .side-card-header {
+        padding: 16px 20px;
+        border-bottom: 1px solid #F1F5F9;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
+    .side-card-title {
+        font-size: 14px;
+        font-weight: 800;
+        color: #0F172A;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+    }
+    .side-card-body {
+        padding: 18px 20px;
+    }
+
+    /* WIDGET 1: USER PROFILE CARD */
+    .side-profile-hero {
+        background: linear-gradient(135deg, #2C4A7C 0%, #3B5998 60%, #5B8DEF 100%);
+        color: #FFFFFF;
+        padding: 22px 20px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .side-profile-hero::before {
+        content: '';
+        position: absolute;
+        top: -30px;
+        right: -30px;
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .side-avatar-circle {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #FFFFFF;
+        color: #2C4A7C;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: 900;
+        margin: 0 auto 12px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+        border: 3px solid rgba(255, 255, 255, 0.4);
+    }
+    .side-profile-name {
+        font-size: 16px;
+        font-weight: 800;
+        margin-bottom: 4px;
+        letter-spacing: -0.2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .side-profile-nis {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.9);
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 2px 10px;
+        border-radius: var(--radius-pill);
+        font-weight: 600;
+    }
+    .side-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        padding: 14px 16px;
+        background: #F8FAFC;
+        border-bottom: 1px solid #E2E8F0;
+        text-align: center;
+    }
+    .side-stat-box {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    .side-stat-num {
+        font-size: 16px;
+        font-weight: 800;
+        color: #0F172A;
+    }
+    .side-stat-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: #64748B;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    /* WIDGET 2: ACTIVE LOAN ITEM */
+    .side-loan-item {
+        background: #F8FAFC;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 14px;
+        padding: 12px 14px;
+        margin-bottom: 10px;
+        transition: transform 0.15s ease;
+    }
+    .side-loan-item:hover {
+        transform: translateY(-2px);
+        border-color: #93C5FD;
+        background: #FFFFFF;
+    }
+    .side-loan-title {
+        font-size: 13.5px;
+        font-weight: 800;
+        color: #0F172A;
+        margin-bottom: 4px;
+    }
+    .side-loan-deadline {
+        font-size: 11.5px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 8px;
+    }
+    .side-loan-action-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+        padding: 7px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        background: #3B5998;
+        color: #FFFFFF;
+        transition: all 0.15s ease;
+    }
+    .side-loan-action-btn:hover {
+        background: #2C4A7C;
+    }
+
+    /* RESPONSIVE LAYOUT */
+    @media (max-width: 1100px) {
+        .dashboard-layout-columns {
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+        }
+    }
+    @media (max-width: 950px) {
+        .dashboard-layout-columns {
+            grid-template-columns: 1fr;
+        }
+        .dashboard-side-column {
+            position: static;
+            margin-top: 20px;
+        }
+    }
 </style>
 @endsection
 
@@ -566,8 +760,14 @@
         $isPopular = ($activeKat === 'sering_dipinjam');
     @endphp
 
-    <!-- SEARCH & FILTER ROW -->
-    <div class="search-filter-shell">
+    <!-- ─── 2-COLUMN DASHBOARD LAYOUT ─── -->
+    <div class="dashboard-layout-columns">
+        
+        <!-- KOLOM UTAMA (KIRI): PENCARIAN, FILTER, GRID BARANG, & PAGINATION -->
+        <div class="dashboard-main-column">
+
+            <!-- SEARCH & FILTER ROW -->
+            <div class="search-filter-shell">
         <form method="GET" action="{{ route('user.dashboard') }}" id="search-form" class="search-row-flex">
             <input type="hidden" name="kategori" value="{{ $activeKat }}">
             
@@ -760,6 +960,125 @@
             </div>
         </div>
     @endif
+
+        </div> <!-- /.dashboard-main-column -->
+
+        <!-- ─── KOLOM KANAN: SIDE CARD WIDGETS ─── -->
+        <aside class="dashboard-side-column">
+            
+            <!-- 1. KARTU PROFIL & STATS SISWA -->
+            <div class="side-card-widget">
+                <div class="side-profile-hero">
+                    <div class="side-avatar-circle">
+                        {{ strtoupper(substr(Auth::user()->nama ?? 'U', 0, 2)) }}
+                    </div>
+                    <div class="side-profile-name">{{ Auth::user()->nama ?? 'Siswa SINFAS' }}</div>
+                    <div class="side-profile-nis">NIS: {{ Auth::user()->nis ?? '-' }}</div>
+                </div>
+                <div class="side-stats-grid">
+                    <div class="side-stat-box">
+                        <span class="side-stat-num">{{ $userTotalLoans ?? 0 }}</span>
+                        <span class="side-stat-label">Total Pinjam</span>
+                    </div>
+                    <div class="side-stat-box">
+                        <span class="side-stat-num" style="color: #D97706;">{{ $userPendingLoans ?? 0 }}</span>
+                        <span class="side-stat-label">Antrean</span>
+                    </div>
+                    <div class="side-stat-box">
+                        <span class="side-stat-num" style="color: #2563EB;">{{ isset($userActiveLoans) ? $userActiveLoans->count() : 0 }}</span>
+                        <span class="side-stat-label">Sedang Bawa</span>
+                    </div>
+                </div>
+                <div style="padding: 12px 18px; text-align: center;">
+                    <a href="{{ route('user.profile') }}" style="font-size: 12px; font-weight: 700; color: #3B5998; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                        <span>Kelola Profil & Password</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2. KARTU PINJAMAN AKTIF KAMU (LIVE TRACKER) -->
+            <div class="side-card-widget">
+                <div class="side-card-header">
+                    <h4 class="side-card-title">
+                        <span>📦</span>
+                        <span>Pinjaman Aktif</span>
+                    </h4>
+                    @if(isset($userActiveLoans) && $userActiveLoans->count() > 0)
+                        <span style="font-size: 11px; font-weight: 800; background: #EFF6FF; color: #2563EB; padding: 2px 8px; border-radius: var(--radius-pill); border: 1px solid #BFDBFE;">
+                            {{ $userActiveLoans->count() }} Fasilitas
+                        </span>
+                    @endif
+                </div>
+                <div class="side-card-body" style="padding: 14px 16px;">
+                    @if(isset($userActiveLoans) && $userActiveLoans->count() > 0)
+                        @foreach($userActiveLoans as $pjm)
+                            @php
+                                $now = \Carbon\Carbon::now();
+                                $deadline = $pjm->tanggal_kembali;
+                                $isOverdue = $deadline && $deadline->lt($now->startOfDay());
+                                $isNearDeadline = $deadline && !$isOverdue && $deadline->lte($now->copy()->addDays(1)->endOfDay());
+                            @endphp
+                            <div class="side-loan-item" style="{{ $isOverdue ? 'border-color: #FECACA; background: #FEF2F2;' : ($isNearDeadline ? 'border-color: #FDE68A; background: #FFFBEB;' : '') }}">
+                                <div class="side-loan-title">{{ $pjm->barang->nama_barang ?? 'Fasilitas' }}</div>
+                                <div class="side-loan-deadline" style="color: {{ $isOverdue ? '#DC2626' : ($isNearDeadline ? '#D97706' : '#64748B') }};">
+                                    <span>{{ $isOverdue ? '🚨 Terlambat!' : ($isNearDeadline ? '⚠️ Tenggat Besok!' : '⏳ Tenggat:') }}</span>
+                                    <strong>{{ $deadline ? $deadline->format('d M Y') : '-' }}</strong>
+                                </div>
+                                <a href="{{ route('user.pengembalian.create', $pjm->kode_pinjam) }}" class="side-loan-action-btn" style="{{ $isOverdue ? 'background: #DC2626;' : '' }}">
+                                    <span>Kembalikan Barang</span>
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                </a>
+                            </div>
+                        @endforeach
+                    @else
+                        <!-- State Kosong (Bebas Tanggungan) -->
+                        <div style="text-align: center; padding: 18px 10px;">
+                            <div style="width: 48px; height: 48px; border-radius: 50%; background: #ECFDF5; color: #10B981; display: flex; align-items: center; justify-content: center; font-size: 22px; margin: 0 auto 10px;">
+                                ✓
+                            </div>
+                            <div style="font-size: 14px; font-weight: 800; color: #0F172A; margin-bottom: 3px;">Bebas Tanggungan! ✨</div>
+                            <p style="font-size: 12px; color: #64748B; line-height: 1.5; margin: 0;">
+                                Kamu tidak sedang meminjam fasilitas apa pun saat ini.
+                            </p>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            <!-- 3. KARTU JAM OPERASIONAL & BANTUAN -->
+            <div class="side-card-widget" style="background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);">
+                <div class="side-card-header">
+                    <h4 class="side-card-title">
+                        <span>🕒</span>
+                        <span>Ruang Sarana</span>
+                    </h4>
+                    <span style="font-size: 11px; font-weight: 700; color: #10B981; background: #ECFDF5; padding: 2px 7px; border-radius: 6px;">Buka</span>
+                </div>
+                <div class="side-card-body" style="padding: 14px 18px; font-size: 12.5px; color: #475569; line-height: 1.6;">
+                    <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px;">
+                        <span style="font-size: 16px;">🏢</span>
+                        <div>
+                            <strong style="color: #0F172A; display: block;">Lokasi Pelayanan</strong>
+                            <span>Ruang Sarpras & Inventaris (Gedung A, Lt. 1)</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;">
+                        <span style="font-size: 16px;">⏱️</span>
+                        <div>
+                            <strong style="color: #0F172A; display: block;">Jam Layanan</strong>
+                            <span>Senin &ndash; Jumat &bull; 07.00 &ndash; 16.00 WIB</span>
+                        </div>
+                    </div>
+                    <button type="button" onclick="toggleHelpModal()" style="width: 100%; background: #F1F5F9; border: 1px solid #CBD5E1; border-radius: 8px; padding: 8px 12px; font-size: 12px; font-weight: 700; color: #334155; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.15s;" onmouseover="this.style.background='#E2E8F0'" onmouseout="this.style.background='#F1F5F9'">
+                        <span>Panduan Cara Pinjam</span>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    </button>
+                </div>
+            </div>
+
+        </aside>
+    </div> <!-- /.dashboard-layout-columns -->
 
     <script>
         function toggleFilterDropdown(event) {
