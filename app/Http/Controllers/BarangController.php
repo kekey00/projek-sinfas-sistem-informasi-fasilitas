@@ -48,33 +48,7 @@ class BarangController extends Controller
         $barangs   = $query->paginate(8)->withQueryString();
         $kategoris = Kategori::all();
 
-        // Data untuk Side Card Widget Pengguna
-        $user = \Illuminate\Support\Facades\Auth::user();
-        $userActiveLoans = collect();
-        $userTotalLoans = 0;
-        $userPendingLoans = 0;
-
-        if ($user && $user->role === 'siswa') {
-            $userActiveLoans = \App\Models\Peminjaman::with('barang')
-                ->where('nis', $user->nis)
-                ->where('status_pengajuan', 'disetujui')
-                ->whereDoesntHave('pengembalian')
-                ->orderBy('tanggal_kembali', 'asc')
-                ->get();
-
-            $userTotalLoans = \App\Models\Peminjaman::where('nis', $user->nis)->count();
-            $userPendingLoans = \App\Models\Peminjaman::where('nis', $user->nis)
-                ->where('status_pengajuan', 'menunggu')
-                ->count();
-        }
-
-        return view('user.dashboard', compact(
-            'barangs',
-            'kategoris',
-            'userActiveLoans',
-            'userTotalLoans',
-            'userPendingLoans'
-        ));
+        return view('user.dashboard', compact('barangs', 'kategoris'));
     }
 
     /**
