@@ -529,7 +529,7 @@
         color: #94A3B8;
         font-size: 13px;
     }
-    </style>
+</style>
 @endsection
 
 @section('content')
@@ -789,6 +789,7 @@
                 const btn = document.getElementById('btnFilterTrigger');
                 if (menu) menu.classList.remove('open');
                 if (btn) btn.classList.remove('open');
-
+            }
+        });
     </script>
 @endsection
