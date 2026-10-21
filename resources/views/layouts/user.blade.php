@@ -499,6 +499,82 @@
             margin-top: auto;
         }
 
+        /* ─── REALTIME TOAST NOTIFICATIONS ─── */
+        .user-toast-container {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 999999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            pointer-events: none;
+            max-width: 400px;
+            width: calc(100% - 48px);
+        }
+        .user-toast-card {
+            pointer-events: auto;
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 16px 18px;
+            box-shadow: 0 16px 36px rgba(15, 23, 42, 0.16), 0 4px 12px rgba(15, 23, 42, 0.06);
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            border: 1.5px solid #E2E8F0;
+            transform: translateY(-20px) scale(0.96);
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .user-toast-card.show {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        .user-toast-card.success {
+            border-color: #A7F3D0;
+            background: linear-gradient(180deg, #FFFFFF 0%, #F0FDF4 100%);
+        }
+        .user-toast-card.error {
+            border-color: #FECDD3;
+            background: linear-gradient(180deg, #FFFFFF 0%, #FFF1F2 100%);
+        }
+        .user-toast-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+        .user-toast-icon.success { background: #DCFCE7; color: #15803D; }
+        .user-toast-icon.error { background: #FFE4E6; color: #E11D48; }
+        .user-toast-content { flex: 1; min-width: 0; }
+        .user-toast-title { font-size: 14px; font-weight: 800; color: #0F172A; margin-bottom: 3px; }
+        .user-toast-message { font-size: 12.5px; color: #475569; line-height: 1.5; }
+        .user-toast-close {
+            background: none;
+            border: none;
+            color: #94A3B8;
+            cursor: pointer;
+            font-size: 20px;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.15s ease;
+        }
+        .user-toast-close:hover { color: #0F172A; }
+
+        @keyframes badgeBounceAnim {
+            0% { transform: scale(1); }
+            35% { transform: scale(1.4); }
+            65% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+        .badge-bounce {
+            animation: badgeBounceAnim 0.5s ease-in-out;
+        }
+
         @media (max-width: 768px) {
             .navbar-shell { padding: 12px 18px; gap: 12px; }
             .navbar-shell > div:first-child { gap: 12px !important; min-width: 0; }
@@ -552,9 +628,8 @@
                 <!-- NOTIF BTN -->
                 <button type="button" class="icon-action-btn" onclick="toggleNotifModal()" title="Notifikasi" id="btn-notif-top">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                    @if(isset($userNotifications) && $userNotifications->count() > 0)
-                        <span style="position: absolute; top: 5px; right: 5px; min-width: 18px; height: 18px; border-radius: 9px; background: #5B8DEF; box-shadow: 0 0 8px #5B8DEF; color: #fff; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; padding: 0 4px;">{{ $userNotifications->count() }}</span>
-                    @endif
+                    @php $notifInitCount = isset($userNotifications) ? $userNotifications->count() : 0; @endphp
+                    <span id="user-notif-badge" style="position: absolute; top: 5px; right: 5px; min-width: 18px; height: 18px; border-radius: 9px; background: #5B8DEF; box-shadow: 0 0 8px #5B8DEF; color: #fff; font-size: 10px; font-weight: 800; display: {{ $notifInitCount > 0 ? 'flex' : 'none' }}; align-items: center; justify-content: center; padding: 0 4px; transition: all 0.2s ease;">{{ $notifInitCount }}</span>
                 </button>
 
                 <!-- USER AVATAR DROPDOWN -->
@@ -653,7 +728,7 @@
                     </div>
                     <div>
                         <h3 style="font-size: 18px; font-weight: 800; color: #0F172A; margin: 0;">Notifikasi</h3>
-                        <p style="font-size: 12px; color: #94A3B8; margin: 2px 0 0; font-weight: 500;">
+                        <p id="user-notif-subtitle" style="font-size: 12px; color: #94A3B8; margin: 2px 0 0; font-weight: 500;">
                             @if(isset($userNotifications) && $userNotifications->count() > 0)
                                 {{ $userNotifications->count() }} pemberitahuan aktif
                             @else
@@ -668,7 +743,7 @@
             </div>
 
             <!-- Notification List -->
-            <div style="max-height: 380px; overflow-y: auto; padding: 12px 16px;">
+            <div id="user-notif-list" style="max-height: 380px; overflow-y: auto; padding: 12px 16px;">
                 @if(isset($userNotifications) && $userNotifications->count() > 0)
                     @foreach($userNotifications as $notif)
                         @php
@@ -789,6 +864,221 @@
                     alertEl.remove();
                 }, 4500);
             }
+        })();
+
+        // Web Audio API Chime generator
+        function playSinfasUserChime(type = 'success') {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+                if (ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+                const notes = type === 'success' ? [523.25, 659.25, 783.99] : [587.33, 440];
+                notes.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.12);
+                    gain.gain.setValueAtTime(0.001, ctx.currentTime + idx * 0.12);
+                    gain.gain.exponentialRampToValueAtTime(0.15, ctx.currentTime + idx * 0.12 + 0.02);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + idx * 0.12 + 0.35);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(ctx.currentTime + idx * 0.12);
+                    osc.stop(ctx.currentTime + idx * 0.12 + 0.4);
+                });
+            } catch (e) {
+                // Ignore audio restriction
+            }
+        }
+
+        // Floating Toast Notification function for User
+        window.showUserToast = function(type, title, message) {
+            let container = document.getElementById('user-toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'user-toast-container';
+                container.className = 'user-toast-container';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            toast.className = `user-toast-card ${type}`;
+            const iconSymbol = type === 'success' ? '✨' : '⚠️';
+
+            toast.innerHTML = `
+                <div class="user-toast-icon ${type}">${iconSymbol}</div>
+                <div class="user-toast-content">
+                    <div class="user-toast-title">${title}</div>
+                    <div class="user-toast-message">${message}</div>
+                </div>
+                <button type="button" class="user-toast-close" onclick="this.closest('.user-toast-card').remove()">&times;</button>
+            `;
+
+            container.appendChild(toast);
+            // Trigger animation
+            requestAnimationFrame(() => {
+                toast.classList.add('show');
+            });
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 6000);
+        };
+
+        // Realtime Polling User (Live check persetujuan admin & status pinjaman tanpa refresh)
+        (function() {
+            // Simpan status sebelumnya di memory
+            let knownStatuses = {};
+            let isInitial = true;
+
+            // Render ulang list notifikasi di modal
+            function renderNotificationList(notifications) {
+                const listEl = document.getElementById('user-notif-list');
+                const subEl = document.getElementById('user-notif-subtitle');
+                if (!listEl) return;
+
+                if (subEl) {
+                    subEl.textContent = notifications.length > 0 
+                        ? `${notifications.length} pemberitahuan aktif` 
+                        : 'Tidak ada pemberitahuan';
+                }
+
+                if (!notifications || notifications.length === 0) {
+                    listEl.innerHTML = `
+                        <div style="text-align: center; padding: 36px 20px;">
+                            <div style="width: 72px; height: 72px; border-radius: 50%; background: #F0FDF4; color: #10B981; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 32px;">
+                                ✅
+                            </div>
+                            <h4 style="font-size: 18px; font-weight: 800; color: #0F172A; margin: 0 0 6px;">Semua Beres! 🎉</h4>
+                            <p style="font-size: 13px; color: #94A3B8; margin: 0; line-height: 1.5;">
+                                Tidak ada barang yang perlu dikembalikan atau menunggu verifikasi saat ini.
+                            </p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const borderMap = { overdue: '#FCA5A5', warning: '#FCD34D', pending: '#93C5FD', active: '#A7F3D0' };
+                const bgMap     = { overdue: '#FEF2F2', warning: '#FFFBEB', pending: '#EFF6FF', active: '#F0FDF4' };
+                const titleMap  = { overdue: '#DC2626', warning: '#D97706', pending: '#2563EB', active: '#059669' };
+
+                let html = '';
+                notifications.forEach(n => {
+                    const borderColor = borderMap[n.type] || '#E2E8F0';
+                    const bgColor     = bgMap[n.type] || '#F8FAFC';
+                    const titleColor  = titleMap[n.type] || '#475569';
+                    const shortKode   = n.kode.length > 16 ? n.kode.substring(0, 16) + '...' : n.kode;
+
+                    html += `
+                        <div style="background: ${bgColor}; border: 1.5px solid ${borderColor}; border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 12px; transition: transform 0.15s ease;" onmouseover="this.style.transform='translateX(4px)'" onmouseout="this.style.transform='none'">
+                            <div style="font-size: 22px; flex-shrink: 0; margin-top: 1px;">${n.icon}</div>
+                            <div style="flex: 1; min-width: 0;">
+                                <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px;">
+                                    <span style="font-size: 13px; font-weight: 800; color: ${titleColor};">${n.title}</span>
+                                    <span style="font-size: 10.5px; color: #94A3B8; font-weight: 500; white-space: nowrap;">#${shortKode}</span>
+                                </div>
+                                <p style="font-size: 12.5px; color: #475569; line-height: 1.55; margin: 0;">${n.message}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+                listEl.innerHTML = html;
+            }
+
+            async function checkUserLiveUpdates() {
+                try {
+                    const res = await fetch("{{ route('user.live-check') }}", {
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+                    if (!res.ok) return;
+                    const data = await res.json();
+                    if (!data.success) return;
+
+                    // Update badge notifikasi di header
+                    const badge = document.getElementById('user-notif-badge');
+                    if (badge) {
+                        badge.textContent = data.count;
+                        if (data.count > 0) {
+                            badge.style.display = 'flex';
+                        } else {
+                            badge.style.display = 'none';
+                        }
+                    }
+
+                    // Render ulang daftar notifikasi modal
+                    renderNotificationList(data.notifications);
+
+                    // Deteksi perubahan status pada riwayat peminjaman siswa
+                    if (data.recent_loans && Array.isArray(data.recent_loans)) {
+                        data.recent_loans.forEach(loan => {
+                            const prevStatus = knownStatuses[loan.kode_pinjam];
+                            const currentStatus = loan.status_pengajuan;
+                            const prevRetStatus = knownStatuses[loan.kode_pinjam + '_ret'];
+                            const currentRetStatus = loan.status_pengembalian;
+
+                            if (!isInitial && prevStatus) {
+                                // 1. Perubahan dari Menunggu -> Disetujui
+                                if (prevStatus === 'menunggu' && currentStatus === 'disetujui') {
+                                    playSinfasUserChime('success');
+                                    if (badge) {
+                                        badge.classList.remove('badge-bounce');
+                                        void badge.offsetWidth;
+                                        badge.classList.add('badge-bounce');
+                                    }
+                                    window.showUserToast(
+                                        'success',
+                                        '🎉 Pengajuan Disetujui!',
+                                        `Peminjaman "${loan.nama_barang}" (#${loan.kode_pinjam}) telah DISETUJUI oleh Admin. Silakan ambil barang di ruang sarana.`
+                                    );
+                                    window.dispatchEvent(new CustomEvent('sinfas:loan-status-changed', { detail: loan }));
+                                }
+                                // 2. Perubahan dari Menunggu -> Ditolak
+                                else if (prevStatus === 'menunggu' && currentStatus === 'ditolak') {
+                                    playSinfasUserChime('alert');
+                                    window.showUserToast(
+                                        'error',
+                                        '❌ Pengajuan Ditolak',
+                                        `Pengajuan pinjam "${loan.nama_barang}" (#${loan.kode_pinjam}) ditolak oleh Admin Sarana.`
+                                    );
+                                    window.dispatchEvent(new CustomEvent('sinfas:loan-status-changed', { detail: loan }));
+                                }
+                                // 3. Pengembalian selesai diverifikasi
+                                else if (prevRetStatus === 'menunggu' && currentRetStatus === 'selesai') {
+                                    playSinfasUserChime('success');
+                                    window.showUserToast(
+                                        'success',
+                                        '✅ Pengembalian Selesai!',
+                                        `Pengembalian "${loan.nama_barang}" telah diverifikasi oleh Admin. Terima kasih telah merawat fasilitas!`
+                                    );
+                                    window.dispatchEvent(new CustomEvent('sinfas:loan-status-changed', { detail: loan }));
+                                }
+                            }
+
+                            // Simpan status saat ini
+                            knownStatuses[loan.kode_pinjam] = currentStatus;
+                            if (currentRetStatus) {
+                                knownStatuses[loan.kode_pinjam + '_ret'] = currentRetStatus;
+                            }
+                        });
+                    }
+
+                    isInitial = false;
+                } catch (e) {
+                    // Silently ignore network hiccup
+                }
+            }
+
+            // Polling interval setiap 5 detik
+            setInterval(checkUserLiveUpdates, 5000);
+            // Inisialisasi awal setelah 1.5 detik
+            setTimeout(checkUserLiveUpdates, 1500);
         })();
     </script>
     @yield('scripts')

@@ -514,5 +514,12 @@
             }
         });
     }
+
+    // Tangkap perubahan status peminjaman real-time tanpa refresh manual
+    window.addEventListener('sinfas:loan-status-changed', function(e) {
+        setTimeout(function() {
+            window.location.reload();
+        }, 1500);
+    });
 </script>
 @endsection

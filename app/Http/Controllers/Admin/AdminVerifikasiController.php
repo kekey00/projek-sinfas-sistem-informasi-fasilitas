@@ -196,4 +196,46 @@ class AdminVerifikasiController extends Controller
             ->with('success', 'Pengembalian alat untuk peminjaman #' . $peminjaman->kode_pinjam . ' berhasil diverifikasi & stok fisik diperbarui!')
             ->with('toast_title', 'Konfirmasi pengembalian barang berhasil');
     }
+
+    /**
+     * Endpoint polling AJAX untuk real-time update Admin Sarana
+     */
+    public function liveCheck()
+    {
+        $pendingLoansCount = Peminjaman::where('status_pengajuan', 'menunggu')->count();
+        $pendingReturnsCount = Pengembalian::where('status', 'menunggu')->count();
+        $totalPending = $pendingLoansCount + $pendingReturnsCount;
+
+        $latestPending = Peminjaman::with(['barang', 'siswa'])
+            ->where('status_pengajuan', 'menunggu')
+            ->latest('created_at')
+            ->first();
+
+        $latestReturn = Pengembalian::with(['peminjaman.barang', 'peminjaman.siswa'])
+            ->where('status', 'menunggu')
+            ->latest('created_at')
+            ->first();
+
+        return response()->json([
+            'success'         => true,
+            'pending_loans'   => $pendingLoansCount,
+            'pending_returns' => $pendingReturnsCount,
+            'total_pending'   => $totalPending,
+            'latest_pending'  => $latestPending ? [
+                'kode_pinjam' => $latestPending->kode_pinjam,
+                'nama_siswa'  => $latestPending->siswa->nama ?? 'Siswa',
+                'nama_barang' => $latestPending->barang->nama_barang ?? 'Barang',
+                'created_at'  => $latestPending->created_at ? $latestPending->created_at->diffForHumans() : '',
+                'timestamp'   => $latestPending->created_at ? $latestPending->created_at->timestamp : 0,
+            ] : null,
+            'latest_return'   => $latestReturn ? [
+                'kode_kembali'=> $latestReturn->kode_kembali,
+                'kode_pinjam' => $latestReturn->kode_pinjam,
+                'nama_siswa'  => $latestReturn->peminjaman->siswa->nama ?? 'Siswa',
+                'nama_barang' => $latestReturn->peminjaman->barang->nama_barang ?? 'Barang',
+                'created_at'  => $latestReturn->created_at ? $latestReturn->created_at->diffForHumans() : '',
+                'timestamp'   => $latestReturn->created_at ? $latestReturn->created_at->timestamp : 0,
+            ] : null,
+        ]);
+    }
 }

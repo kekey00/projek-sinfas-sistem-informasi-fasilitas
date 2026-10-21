@@ -265,6 +265,17 @@
             padding: 1px 7px;
             min-width: 20px;
             text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        @keyframes badgePulseAnim {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); background: #DC2626; box-shadow: 0 0 10px rgba(220, 38, 38, 0.6); }
+            100% { transform: scale(1); }
+        }
+
+        .nav-badge.pulse {
+            animation: badgePulseAnim 0.5s ease-in-out 3;
         }
 
         /* Logout di bawah sidebar */
@@ -855,14 +866,14 @@
                         Verifikasi
                         @php
                             try {
-                                $pendingCount = \App\Models\Peminjaman::where('status_pengajuan','menunggu')->count();
+                                $pendingLoans = \App\Models\Peminjaman::where('status_pengajuan','menunggu')->count();
+                                $pendingReturns = \App\Models\Pengembalian::where('status','menunggu')->count();
+                                $pendingCount = $pendingLoans + $pendingReturns;
                             } catch(\Exception $e) {
                                 $pendingCount = 0;
                             }
                         @endphp
-                        @if($pendingCount > 0)
-                            <span class="nav-badge">{{ $pendingCount }}</span>
-                        @endif
+                        <span id="admin-verif-badge" class="nav-badge" style="{{ $pendingCount > 0 ? '' : 'display:none;' }}">{{ $pendingCount }}</span>
                     </a>
                     <a href="{{ route('admin.riwayat.index') }}" class="nav-link-item {{ (request()->routeIs('admin.riwayat.*') || (request()->routeIs('admin.verifikasi.*') && request('tab') === 'history')) ? 'active' : '' }}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -938,11 +949,12 @@
                         <span>{{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</span>
                     </div>
 
-                    <button class="topbar-btn" title="Notifikasi" onclick="window.showSinfasToast('success', 'Sistem SINFAS Aktif', 'Semua layanan berjalan lancar.')">
+                    <button class="topbar-btn" id="topbar-notif-btn" title="Notifikasi Verifikasi" style="position: relative;" onclick="window.location.href='{{ route('admin.verifikasi.index') }}'">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                         </svg>
+                        <span id="topbar-notif-dot" style="{{ $pendingCount > 0 ? '' : 'display:none;' }} position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; border-radius: 50%; background: #EF4444; box-shadow: 0 0 6px #EF4444;"></span>
                     </button>
 
                     <a href="{{ route('admin.profile') }}" class="topbar-profile-trigger" style="text-decoration:none;">
@@ -1162,6 +1174,119 @@
                 setTimeout(() => el.remove(), 250);
             });
         }, 4000);
+
+        // Web Audio API Chime generator
+        function playSinfasChime(type = 'alert') {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+                if (ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+                const notes = type === 'success' ? [523.25, 659.25, 783.99] : [587.33, 880];
+                notes.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.12);
+                    gain.gain.setValueAtTime(0.001, ctx.currentTime + idx * 0.12);
+                    gain.gain.exponentialRampToValueAtTime(0.15, ctx.currentTime + idx * 0.12 + 0.02);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + idx * 0.12 + 0.35);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(ctx.currentTime + idx * 0.12);
+                    osc.stop(ctx.currentTime + idx * 0.12 + 0.4);
+                });
+            } catch (e) {
+                // Ignore audio policy restriction
+            }
+        }
+
+        // Realtime Polling Admin Sarana (Live check peminjaman & pengembalian tanpa refresh)
+        (function() {
+            let lastPendingCount = {{ $pendingCount }};
+            let lastPendingLoanId = null;
+            let lastPendingReturnId = null;
+            let isInitial = true;
+
+            async function checkAdminLiveUpdates() {
+                try {
+                    const res = await fetch("{{ route('admin.live-check') }}", {
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+                    if (!res.ok) return;
+                    const data = await res.json();
+                    if (!data.success) return;
+
+                    const currentTotal = data.total_pending;
+                    const currentLoanId = data.latest_pending ? data.latest_pending.kode_pinjam : null;
+                    const currentReturnId = data.latest_return ? data.latest_return.kode_kembali : null;
+
+                    // Update badge di sidebar & topbar secara langsung
+                    const badge = document.getElementById('admin-verif-badge');
+                    const dot = document.getElementById('topbar-notif-dot');
+
+                    if (badge) {
+                        badge.textContent = currentTotal;
+                        badge.style.display = currentTotal > 0 ? 'inline-block' : 'none';
+                    }
+                    if (dot) {
+                        dot.style.display = currentTotal > 0 ? 'block' : 'none';
+                    }
+
+                    // Deteksi jika ada pengajuan baru yang masuk
+                    if (!isInitial && currentTotal > lastPendingCount) {
+                        if (currentLoanId && currentLoanId !== lastPendingLoanId) {
+                            playSinfasChime('alert');
+                            if (badge) {
+                                badge.classList.remove('pulse');
+                                void badge.offsetWidth;
+                                badge.classList.add('pulse');
+                            }
+                            const namaSiswa = data.latest_pending.nama_siswa;
+                            const namaBarang = data.latest_pending.nama_barang;
+                            window.showSinfasToast(
+                                'success',
+                                '🔔 Pengajuan Peminjaman Baru!',
+                                `${namaSiswa} baru saja mengajukan pinjaman "${namaBarang}" (#${currentLoanId}).`
+                            );
+                            window.dispatchEvent(new CustomEvent('sinfas:new-loan-request', { detail: data.latest_pending }));
+                        } else if (currentReturnId && currentReturnId !== lastPendingReturnId) {
+                            playSinfasChime('alert');
+                            if (badge) {
+                                badge.classList.remove('pulse');
+                                void badge.offsetWidth;
+                                badge.classList.add('pulse');
+                            }
+                            const namaSiswa = data.latest_return.nama_siswa;
+                            const namaBarang = data.latest_return.nama_barang;
+                            window.showSinfasToast(
+                                'success',
+                                '📦 Laporan Pengembalian Baru!',
+                                `${namaSiswa} telah mengajukan pengembalian "${namaBarang}".`
+                            );
+                            window.dispatchEvent(new CustomEvent('sinfas:new-return-request', { detail: data.latest_return }));
+                        }
+                    }
+
+                    lastPendingCount = currentTotal;
+                    lastPendingLoanId = currentLoanId;
+                    lastPendingReturnId = currentReturnId;
+                    isInitial = false;
+                } catch (err) {
+                    // Silently ignore network hiccup
+                }
+            }
+
+            // Polling setiap 5 detik
+            setInterval(checkAdminLiveUpdates, 5000);
+            // Inisialisasi awal setelah 2 detik
+            setTimeout(checkAdminLiveUpdates, 2000);
+        })();
     </script>
 
     @yield('scripts')

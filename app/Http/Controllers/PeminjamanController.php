@@ -150,4 +150,141 @@ class PeminjamanController extends Controller
 
         return redirect()->route('user.status')->with('success', 'Laporan pengembalian barang "' . ($peminjaman->barang->nama_barang ?? 'Barang') . '" berhasil diajukan! Menunggu verifikasi fisik dari Admin.');
     }
+
+    /**
+     * Dapatkan daftar notifikasi aktif untuk user siswa
+     */
+    public static function getUserNotifications($user)
+    {
+        $notifications = collect();
+        if (!$user || $user->role !== 'siswa') {
+            return $notifications;
+        }
+
+        $now = \Carbon\Carbon::now();
+
+        // 1. Peminjaman yang masih menunggu verifikasi admin
+        $pending = Peminjaman::with('barang')
+            ->where('nis', $user->nis)
+            ->where('status_pengajuan', 'menunggu')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        foreach ($pending as $pjm) {
+            $notifications->push([
+                'type'    => 'pending',
+                'icon'    => '⏳',
+                'title'   => 'Menunggu Persetujuan',
+                'message' => 'Pengajuan pinjam "' . ($pjm->barang->nama_barang ?? 'Fasilitas') . '" sedang menunggu verifikasi admin.',
+                'kode'    => $pjm->kode_pinjam,
+                'date'    => $pjm->created_at ? $pjm->created_at->format('d M Y H:i') : '-',
+            ]);
+        }
+
+        // 2. Pengembalian yang sedang menunggu verifikasi admin
+        $pendingReturns = Peminjaman::with(['barang', 'pengembalian'])
+            ->where('nis', $user->nis)
+            ->whereHas('pengembalian', function ($q) {
+                $q->where('status', 'menunggu');
+            })
+            ->latest('updated_at')
+            ->get();
+
+        foreach ($pendingReturns as $pjm) {
+            $notifications->push([
+                'type'    => 'pending',
+                'icon'    => '📦',
+                'title'   => 'Pengembalian Diverifikasi',
+                'message' => 'Laporan pengembalian "' . ($pjm->barang->nama_barang ?? 'Fasilitas') . '" sedang dicek oleh admin.',
+                'kode'    => $pjm->kode_pinjam,
+                'date'    => $pjm->pengembalian->created_at ? $pjm->pengembalian->created_at->format('d M Y H:i') : '-',
+            ]);
+        }
+
+        // 3. Barang disetujui tapi belum dikembalikan (aktif dipinjam)
+        $active = Peminjaman::with(['barang', 'pengembalian'])
+            ->where('nis', $user->nis)
+            ->where('status_pengajuan', 'disetujui')
+            ->whereDoesntHave('pengembalian')
+            ->orderBy('tanggal_kembali', 'asc')
+            ->get();
+
+        foreach ($active as $pjm) {
+            $deadline = $pjm->tanggal_kembali;
+            $isOverdue = $deadline && $deadline->lt($now->startOfDay());
+            $isNearDeadline = $deadline && !$isOverdue && $deadline->lte($now->copy()->addDays(1)->endOfDay());
+
+            if ($isOverdue) {
+                $notifications->push([
+                    'type'    => 'overdue',
+                    'icon'    => '🚨',
+                    'title'   => 'Terlambat Dikembalikan!',
+                    'message' => '"' . ($pjm->barang->nama_barang ?? 'Fasilitas') . '" sudah melewati tenggat kembali (' . $deadline->format('d M Y') . '). Segera kembalikan!',
+                    'kode'    => $pjm->kode_pinjam,
+                    'date'    => $deadline->format('d M Y'),
+                ]);
+            } elseif ($isNearDeadline) {
+                $notifications->push([
+                    'type'    => 'warning',
+                    'icon'    => '⚠️',
+                    'title'   => 'Mendekati Tenggat',
+                    'message' => '"' . ($pjm->barang->nama_barang ?? 'Fasilitas') . '" harus dikembalikan paling lambat ' . $deadline->format('d M Y') . '.',
+                    'kode'    => $pjm->kode_pinjam,
+                    'date'    => $deadline->format('d M Y'),
+                ]);
+            } else {
+                $notifications->push([
+                    'type'    => 'active',
+                    'icon'    => '📦',
+                    'title'   => 'Belum Dikembalikan',
+                    'message' => '"' . ($pjm->barang->nama_barang ?? 'Fasilitas') . '" masih dalam masa pinjam. Kembali: ' . ($deadline ? $deadline->format('d M Y') : '-') . '.',
+                    'kode'    => $pjm->kode_pinjam,
+                    'date'    => $pjm->tanggal_pinjam ? $pjm->tanggal_pinjam->format('d M Y') : '-',
+                ]);
+            }
+        }
+
+        // Urutkan prioritas: overdue -> warning -> pending -> active
+        $priority = ['overdue' => 0, 'warning' => 1, 'pending' => 2, 'active' => 3];
+        return $notifications->sortBy(function ($n) use ($priority) {
+            return $priority[$n['type']] ?? 99;
+        })->values();
+    }
+
+    /**
+     * Endpoint live-check AJAX untuk auto-refresh notifikasi dan deteksi status peminjaman siswa
+     */
+    public function liveCheck()
+    {
+        $user = Auth::user();
+        if (!$user || $user->role !== 'siswa') {
+            return response()->json(['success' => false], 403);
+        }
+
+        $notifications = self::getUserNotifications($user);
+
+        // Ambil data pinjaman terbaru untuk mendeteksi perubahan status (disetujui/ditolak/selesai)
+        $recentLoans = Peminjaman::with(['barang', 'pengembalian'])
+            ->where('nis', $user->nis)
+            ->orderBy('updated_at', 'desc')
+            ->limit(20)
+            ->get()
+            ->map(function ($p) {
+                return [
+                    'kode_pinjam'         => $p->kode_pinjam,
+                    'nama_barang'         => $p->barang->nama_barang ?? 'Fasilitas',
+                    'status_pengajuan'    => $p->status_pengajuan,
+                    'has_pengembalian'    => $p->pengembalian ? true : false,
+                    'status_pengembalian' => $p->pengembalian ? $p->pengembalian->status : null,
+                    'updated_at'          => $p->updated_at ? $p->updated_at->timestamp : 0,
+                ];
+            });
+
+        return response()->json([
+            'success'       => true,
+            'count'         => $notifications->count(),
+            'notifications' => $notifications,
+            'recent_loans'  => $recentLoans,
+        ]);
+    }
 }

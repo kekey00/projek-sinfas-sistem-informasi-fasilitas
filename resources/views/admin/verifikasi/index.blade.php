@@ -1346,5 +1346,24 @@
         document.getElementById('evidenceEmpty').style.display = 'none';
         openModal('evidencePreviewModal');
     }
+
+    // Auto-update tabel verifikasi secara real-time saat ada pengajuan baru tanpa harus refresh manual
+    window.addEventListener('sinfas:new-loan-request', function(e) {
+        const hasOpenModal = document.querySelector('.modal-overlay.active, .modal-overlay.open');
+        if (!hasOpenModal) {
+            setTimeout(function() {
+                window.location.reload();
+            }, 1800);
+        }
+    });
+
+    window.addEventListener('sinfas:new-return-request', function(e) {
+        const hasOpenModal = document.querySelector('.modal-overlay.active, .modal-overlay.open');
+        if (!hasOpenModal) {
+            setTimeout(function() {
+                window.location.reload();
+            }, 1800);
+        }
+    });
 </script>
 @endsection

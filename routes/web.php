@@ -53,6 +53,9 @@ Route::middleware(['auth'])->group(function () {
     // Status Pengajuan (Daftar & Riwayat Pinjaman)
     Route::get('/user/status', [PeminjamanController::class, 'status'])->name('user.status');
 
+    // Live Check Realtime Notifications User
+    Route::get('/user/live-check', [PeminjamanController::class, 'liveCheck'])->name('user.live-check');
+
     // Form Pengembalian Barang
     Route::get('/user/pengembalian/{kode_pinjam}', [PeminjamanController::class, 'createPengembalian'])->name('user.pengembalian.create');
     Route::post('/user/pengembalian/{kode_pinjam}', [PeminjamanController::class, 'storePengembalian'])->name('user.pengembalian.store');
@@ -67,6 +70,9 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('admin')->name('admin.')->middleware(['admin.sarana'])->group(function () {
         // Dashboard Admin Sarana
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+        // Live Check Realtime Notifications Admin
+        Route::get('/live-check', [AdminVerifikasiController::class, 'liveCheck'])->name('live-check');
 
         // Master Data Barang / Alat
         Route::get('/barang', [AdminBarangController::class, 'index'])->name('barang.index');
