@@ -117,6 +117,54 @@
             text-decoration: none;
         }
 
+        /* School Logo Badge (Navbar) */
+        .school-logo-badge-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .school-logo-divider {
+            width: 1px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
+        }
+
+        .school-logo-img-nav {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+            border-radius: 8px;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .school-logo-badge-nav:hover .school-logo-img-nav {
+            transform: scale(1.08);
+        }
+
+        .school-name-text-nav {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .school-name-text-nav strong {
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.1;
+            letter-spacing: -0.2px;
+        }
+
+        .school-name-text-nav span {
+            font-size: 9.5px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 0.3px;
+        }
+
         .brand-icon-wrap {
             width: 42px;
             height: 42px;
@@ -288,6 +336,80 @@
             letter-spacing: 0.5px;
             color: var(--brand-cyan-light);
             margin-bottom: 22px;
+        }
+
+        /* Hero School Identity Badge */
+        .hero-school-identity {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 22px 14px 16px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 20px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            margin-bottom: 28px;
+            animation: floatBadge 4s ease-in-out infinite;
+        }
+
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .hero-school-logo-glow {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 20px rgba(91, 141, 239, 0.25), inset 0 0 12px rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-school-logo-glow::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 50%);
+            border-radius: inherit;
+        }
+
+        .hero-school-logo-glow img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-school-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-school-info strong {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.15;
+            letter-spacing: -0.3px;
+        }
+
+        .hero-school-info span {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.65);
+            margin-top: 3px;
+            letter-spacing: 0.2px;
         }
 
         .live-pulse-dot {
@@ -960,6 +1082,44 @@
             color: var(--brand-cyan-light);
         }
 
+        /* Footer School Logo */
+        .footer-school-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            max-width: 280px;
+        }
+
+        .footer-school-badge img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.2));
+        }
+
+        .footer-school-badge-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-school-badge-text strong {
+            font-size: 12px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .footer-school-badge-text span {
+            font-size: 10px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.55);
+        }
+
         .footer-col-title {
             font-family: 'Outfit', sans-serif;
             font-size: 16px;
@@ -1150,6 +1310,38 @@
                 display: none;
             }
 
+            .school-name-text-nav {
+                display: none;
+            }
+
+            .school-logo-img-nav {
+                width: 32px;
+                height: 32px;
+            }
+
+            .hero-school-identity {
+                padding: 10px 16px 10px 12px;
+                gap: 12px;
+            }
+
+            .hero-school-logo-glow {
+                width: 44px;
+                height: 44px;
+            }
+
+            .hero-school-logo-glow img {
+                width: 32px;
+                height: 32px;
+            }
+
+            .hero-school-info strong {
+                font-size: 14px;
+            }
+
+            .hero-school-info span {
+                font-size: 10px;
+            }
+
             .hero-edutech {
                 padding: 56px 0 96px;
             }
@@ -1197,15 +1389,23 @@
     <!-- 1. STICKY SINFAS GLASS NAVBAR -->
     <header class="glass-navbar-wrap">
         <div class="container navbar-flex">
-            <a href="{{ url('/') }}" class="brand-link">
-                <div class="brand-icon-wrap">
-                    @include('components.sinfas-logo', ['class' => 'brand-logo-img', 'variant' => 'user'])
+            <div class="school-logo-badge-nav">
+                <a href="{{ url('/') }}" class="brand-link">
+                    <div class="brand-icon-wrap">
+                        @include('components.sinfas-logo', ['class' => 'brand-logo-img', 'variant' => 'user'])
+                    </div>
+                    <div class="brand-text-block">
+                        <span class="brand-title">SINFAS<span>.</span></span>
+                        <span class="brand-sub">Sistem Informasi Fasilitas</span>
+                    </div>
+                </a>
+                <div class="school-logo-divider"></div>
+                <img src="{{ asset('images/logo-smkn11-bandung.png') }}" alt="Logo SMKN 11 Bandung" class="school-logo-img-nav">
+                <div class="school-name-text-nav">
+                    <strong>SMKN 11</strong>
+                    <span>Bandung</span>
                 </div>
-                <div class="brand-text-block">
-                    <span class="brand-title">SINFAS<span>.</span></span>
-                    <span class="brand-sub">Sistem Informasi Fasilitas</span>
-                </div>
-            </a>
+            </div>
 
             <nav>
                 <ul class="nav-links-row">
@@ -1248,6 +1448,17 @@
         <section class="hero-edutech">
             <div class="container hero-grid-2col">
                 <div>
+                    {{-- School Identity Badge --}}
+                    <div class="hero-school-identity">
+                        <div class="hero-school-logo-glow">
+                            <img src="{{ asset('images/logo-smkn11-bandung.png') }}" alt="Logo SMKN 11 Bandung">
+                        </div>
+                        <div class="hero-school-info">
+                            <strong>SMK Negeri 11 Bandung</strong>
+                            <span>Sistem Informasi Fasilitas & Sarpras Sekolah</span>
+                        </div>
+                    </div>
+
                     <div class="hero-kicker-pill">
                         <span class="live-pulse-dot"></span>
                         <span>PLATFORM FASILITAS & SARPRAS SEKOLAH</span>
@@ -1637,6 +1848,13 @@
                             @include('components.sinfas-logo', ['class' => 'brand-logo-img', 'style' => 'width: 18px; height: 18px;'])
                         </div>
                         <span>SINFAS<span>.</span></span>
+                    </div>
+                    <div class="footer-school-badge">
+                        <img src="{{ asset('images/logo-smkn11-bandung.png') }}" alt="Logo SMKN 11 Bandung">
+                        <div class="footer-school-badge-text">
+                            <strong>SMK Negeri 11 Bandung</strong>
+                            <span>Jl. Budhi Cilember No. 17</span>
+                        </div>
                     </div>
                     <p class="footer-contact-block" style="max-width: 340px;">
                         Sistem Informasi Fasilitas Sekolah yang menghadirkan transparansi, kemudahan, dan akuntabilitas peminjaman sarana prasarana demi kelancaran kegiatan belajar.
