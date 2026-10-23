@@ -9,6 +9,44 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        @media (max-width: 767px) {
+            .login-card > .card-decor-left {
+                display: none !important;
+            }
+
+            .login-form-panel {
+                padding: 16px !important;
+            }
+
+            .login-form-panel .text-center {
+                margin-bottom: 0.75rem;
+            }
+
+            .login-brand-logo {
+                width: 40px !important;
+                height: 40px !important;
+            }
+
+            .login-form-panel .playful-title {
+                font-size: 28px;
+            }
+
+            .login-form-panel form > :not([hidden]) ~ :not([hidden]) {
+                margin-top: 0.5rem;
+            }
+
+            .login-form-panel .sinfas-input {
+                padding: 9px 12px;
+            }
+
+            .login-form-panel > a.mt-5 {
+                margin-top: 0.75rem;
+                padding-top: 0.5rem;
+                padding-bottom: 0.5rem;
+            }
+        }
+    </style>
 </head>
 <body class="sinfas-bg">
     

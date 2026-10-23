@@ -184,43 +184,6 @@ body {
   z-index: 0;
 }
 
-@media (max-width: 767px) {
-  .login-card > .card-decor-left {
-    display: none !important;
-  }
-
-  .login-form-panel {
-    padding: 16px !important;
-  }
-
-  .login-form-panel .text-center {
-    margin-bottom: 0.75rem;
-  }
-
-  .login-brand-logo {
-    width: 40px !important;
-    height: 40px !important;
-  }
-
-  .login-form-panel .playful-title {
-    font-size: 28px;
-  }
-
-  .login-form-panel form > :not([hidden]) ~ :not([hidden]) {
-    margin-top: 0.5rem;
-  }
-
-  .login-form-panel .sinfas-input {
-    padding: 9px 12px;
-  }
-
-  .login-form-panel > a.mt-5 {
-    margin-top: 0.75rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-  }
-}
-
 .sinfas-label {
   font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
   font-weight: 600;
