@@ -3,663 +3,1546 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="SINFAS membantu siswa menemukan dan meminjam fasilitas sekolah dengan lebih mudah.">
+    <meta name="description" content="SINFAS — Sistem Informasi & Inventaris Fasilitas Sekolah Terpadu. Akses peminjaman sarana prasarana mudah, transparan, dan realtime.">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,{{ base64_encode(file_get_contents(public_path('images/sinfas-logo.svg'))) }}">
-    <title>SINFAS — Fasilitas sekolah, lebih gampang</title>
+    <title>SINFAS — Sistem Informasi Fasilitas Sekolah Modern</title>
+
+    <!-- Google Fonts: Outfit (Headings) & Plus Jakarta Sans (Body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --ink: #0f172a;
-            --paper: #f1f5fa;
-            --primary: #4f46e5;
-            --primary-dark: #2c4a7c;
-            --primary-soft: #eef2ff;
-            --cyan: #06b6d4;
-            --muted: #64748b;
-            --border: #e2e8f0;
-            --brand-gradient: linear-gradient(135deg, #6b8dd6 0%, #4f46e5 52%, #2c4a7c 100%);
+            --navy-deep: #070d1e;
+            --navy-dark: #0f172a;
+            --navy-slate: #1e293b;
+            --blue-glow: #2563eb;
+            --blue-electric: #3b82f6;
+            --cyan-glow: #06b6d4;
+            --cyan-light: #67e8f9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --text-light: #94a3b8;
+            --bg-canvas: #f8fafc;
+            --surface-glass: rgba(255, 255, 255, 0.88);
+            --border-glass: rgba(226, 232, 240, 0.85);
+            --gradient-primary: linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #06b6d4 100%);
+            --gradient-hero: linear-gradient(180deg, #070d1e 0%, #0f172a 60%, #1e293b 100%);
+            --radius-pill: 9999px;
+            --radius-card: 24px;
+            --radius-sub: 16px;
+            --shadow-glow: 0 12px 36px -8px rgba(37, 99, 235, 0.38);
+            --shadow-card: 0 20px 40px -15px rgba(15, 23, 42, 0.07);
         }
 
-        * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
+        * {
+            box-sizing: border-box;
             margin: 0;
-            color: var(--ink);
-            background: var(--paper);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            background-image: linear-gradient(rgba(15, 23, 42, .025) 1px, transparent 1px), linear-gradient(90deg, rgba(15, 23, 42, .025) 1px, transparent 1px), radial-gradient(at 0% 0%, rgba(107, 141, 214, .16) 0, transparent 42%), radial-gradient(at 100% 100%, rgba(79, 70, 229, .09) 0, transparent 46%);
-            background-size: 34px 34px, 34px 34px, auto, auto;
+            padding: 0;
         }
-        a { color: inherit; text-decoration: none; }
-        .site-header {
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.22s ease;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .container {
+            width: min(100% - 48px, 1240px);
+            margin: 0 auto;
+        }
+
+        /* ----------------------------------------------------
+           NAVBAR (Sticky Glass)
+        ---------------------------------------------------- */
+        .glass-navbar-wrap {
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
+            background: rgba(7, 13, 30, 0.82);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-flex {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 100%;
-            height: 82px;
-            margin: 0;
-            padding: 0 max(32px, calc((100vw - 1280px) / 2));
-            border-bottom: 1px solid rgba(226, 232, 240, .85);
-            background: rgba(248, 250, 252, .92);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            box-shadow: 0 4px 20px rgba(15, 23, 42, .04);
         }
-        .brand { display: inline-flex; align-items: center; gap: 11px; }
-        .brand-mark {
-            display: grid;
-            width: 44px;
-            height: 44px;
-            place-items: center;
-            border-radius: 14px;
-            background: var(--brand-gradient);
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(79, 70, 229, .25);
-            object-fit: cover;
-        }
-        .brand-text { display: inline-flex; flex-direction: column; }
-        .brand-name {
-            font: 800 23px/1 'Outfit', sans-serif;
-            letter-spacing: 0;
-            color: var(--primary-dark);
-        }
-        .brand-caption { margin-top: 4px; color: var(--muted); font-size: 10px; font-weight: 600; line-height: 1; }
-        .main-nav { display: flex; align-items: center; gap: 4px; padding: 4px; border: 1px solid var(--border); border-radius: 9999px; background: rgba(241, 245, 249, .8); color: #475569; font-size: 13px; font-weight: 700; }
-        .main-nav a { padding: 9px 16px; border-radius: 9999px; transition: color .18s ease, background .18s ease; }
-        .main-nav a:hover { color: var(--primary); background: #fff; }
-        .mobile-nav { display: none; position: relative; }
-        .mobile-nav summary { display: flex; min-height: 40px; align-items: center; gap: 8px; padding: 0 12px; border: 1px solid var(--border); border-radius: 10px; background: #fff; color: var(--ink); cursor: pointer; font-size: 12px; font-weight: 700; list-style: none; }
-        .mobile-nav summary::-webkit-details-marker { display: none; }
-        .mobile-nav summary svg { width: 16px; height: 16px; }
-        .mobile-nav-links { position: absolute; top: calc(100% + 10px); right: 0; z-index: 110; display: grid; width: min(250px, calc(100vw - 36px)); padding: 6px; border: 1px solid var(--border); border-radius: 12px; background: #fff; box-shadow: 0 12px 28px rgba(15, 23, 42, .16); }
-        .mobile-nav-links a { padding: 12px; border-radius: 8px; color: #475569; font-size: 13px; font-weight: 700; }
-        .mobile-nav-links a:hover { background: var(--primary-soft); color: var(--primary); }
-        .login-link:hover { color: var(--primary); }
-        .header-actions { display: flex; align-items: center; gap: 18px; font-size: 13px; font-weight: 700; }
-        .button {
+
+        .brand-link {
             display: inline-flex;
-            min-height: 44px;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+        }
+
+        .brand-icon-badge {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: var(--gradient-primary);
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            padding: 0 20px;
-            border: 0;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #5b63e9 0%, #4f46e5 48%, #1d4ed8 100%);
-            color: #fff;
-            font-size: 13px;
-            font-weight: 700;
-            box-shadow: 0 8px 20px rgba(44, 74, 124, .24);
-            transition: transform .18s ease, box-shadow .18s ease;
+            color: #ffffff;
+            box-shadow: 0 4px 18px rgba(37, 99, 235, 0.45);
         }
-        .button:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(79, 70, 229, .32); }
-        .button svg { width: 17px; height: 17px; }
-        .hero {
-            position: relative;
-            isolation: isolate;
+
+        .brand-text-block {
             display: flex;
-            width: min(calc(100% - 48px), 1240px);
-            min-height: clamp(540px, calc(100svh - 108px), 680px);
-            align-items: center;
-            overflow: hidden;
-            margin: 24px auto 0;
-            border: 1px solid rgba(255, 255, 255, .2);
-            border-radius: 32px;
-            background: var(--primary-dark);
-            color: #fff;
-            box-shadow: 0 24px 48px -12px rgba(44, 74, 124, .42);
+            flex-direction: column;
         }
-        .hero::before { position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, transparent 0 56%, rgba(103, 232, 249, .08) 56.1%, transparent 56.3%), linear-gradient(180deg, rgba(255,255,255,.1), transparent 18%); content: ''; pointer-events: none; }
-        .hero::after { position: absolute; top: 22px; right: 28px; width: 110px; height: 110px; border: 1px solid rgba(255,255,255,.18); border-radius: 50%; box-shadow: 0 0 0 18px rgba(255,255,255,.025), 0 0 0 36px rgba(255,255,255,.02); content: ''; pointer-events: none; }
-        .hero-image {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center 44%;
-            animation: image-breathe 12s ease-in-out infinite alternate;
+
+        .brand-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1;
+            color: #ffffff;
         }
-        .hero-shade {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(110deg, rgba(14, 31, 64, .96) 0%, rgba(28, 51, 90, .86) 43%, rgba(79, 70, 229, .46) 100%);
+
+        .brand-title span {
+            color: var(--cyan-light);
         }
-        .hero-inner {
-            position: relative;
-            z-index: 2;
-            display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
-            align-items: center;
-            gap: 48px;
-            width: min(calc(100% - 80px), 1120px);
-            margin: 0 auto;
-            padding: 56px 0 76px;
-        }
-        .hero-copy-block { animation: copy-arrive .55s both cubic-bezier(.2,.8,.2,1); }
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 26px;
-            padding: 7px 13px;
-            border: 1px solid rgba(255, 255, 255, .28);
-            border-radius: 9999px;
-            background: rgba(255, 255, 255, .13);
-            color: #fff;
-            font-size: 11px;
+
+        .brand-sub {
+            font-size: 10px;
             font-weight: 700;
-            letter-spacing: .5px;
+            color: var(--cyan-light);
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin-top: 3px;
         }
-        .eyebrow::before { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); content: ''; }
-        h1, h2, h3, p { margin-top: 0; }
-        h1 {
-            max-width: 650px;
-            margin-bottom: 20px;
-            font: 800 clamp(54px, 6vw, 78px)/.98 'Outfit', sans-serif;
-            letter-spacing: 0;
-            text-shadow: 0 6px 22px rgba(15, 23, 42, .2);
+
+        .nav-links-row {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
         }
-        h1 span { color: #67e8f9; }
-        .hero-copy { max-width: 520px; margin-bottom: 32px; color: rgba(255,255,255,.84); font-size: 16px; line-height: 1.75; }
-        .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
-        .hero-secondary { display: inline-flex; align-items: center; gap: 9px; padding: 12px 16px; border: 1px solid rgba(255,255,255,.38); border-radius: 10px; background: rgba(255,255,255,.1); color: #fff; font-size: 13px; font-weight: 700; transition: background .18s ease; }
-        .hero-secondary svg { width: 16px; height: 16px; }
-        .hero-secondary:hover { background: rgba(255,255,255,.2); }
-        .hero-product-card {
+
+        .nav-links-row a {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
             position: relative;
-            padding: 26px;
-            border: 1px solid rgba(255,255,255,.68);
-            border-radius: 26px;
-            background: rgba(255,255,255,.94);
-            color: var(--ink);
-            box-shadow: 0 24px 60px rgba(15, 23, 42, .24);
-            backdrop-filter: blur(16px);
-            animation: card-arrive .75s .16s both cubic-bezier(.2,.8,.2,1);
-            transition: transform .28s ease, box-shadow .28s ease;
         }
-        .hero-product-card:hover { transform: translateY(-8px) rotate(-.5deg); box-shadow: 0 30px 70px rgba(15, 23, 42, .3); }
-        .hero-product-card::before { position: absolute; top: -1px; left: 28px; right: 28px; height: 3px; border-radius: 0 0 999px 999px; background: linear-gradient(90deg, #22d3ee, #818cf8, #f472b6); content: ''; }
-        .product-card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-        .product-card-mark { display: grid; width: 42px; height: 42px; flex: 0 0 auto; place-items: center; border-radius: 13px; background: var(--primary-soft); color: var(--primary); }
-        .product-card-mark svg { width: 22px; height: 22px; }
-        .product-card-header-text { display: flex; flex-direction: column; gap: 2px; }
-        .product-card-kicker { display: block; color: var(--primary); font-size: 10px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; }
-        .product-card-heading { display: block; margin: 0; font: 700 14px/1.3 'Outfit', sans-serif; color: var(--ink); }
-        .product-card-title { max-width: 290px; margin-bottom: 20px; font: 700 24px/1.15 'Outfit', sans-serif; }
-        .product-list { border-top: 1px solid var(--border); }
-        .product-row { display: flex; align-items: center; gap: 13px; padding: 14px 0; border-bottom: 1px solid var(--border); }
-        .product-row-icon { display: grid; width: 38px; height: 38px; flex: 0 0 auto; place-items: center; border-radius: 12px; background: #eef2ff; color: var(--primary); }
-        .product-row:nth-child(2) .product-row-icon { background: #ecfeff; color: #0891b2; }
-        .product-row:nth-child(3) .product-row-icon { background: #fdf2f8; color: #db2777; }
-        .product-row-icon svg { width: 19px; height: 19px; }
-        .product-row-copy { display: grid; gap: 3px; }
-        .product-row-copy strong { font-size: 12px; font-weight: 800; }
-        .product-row-copy span { color: var(--muted); font-size: 10px; }
-        .product-row-check { width: 17px; height: 17px; margin-left: auto; color: #10b981; }
-        .product-card-foot { display: flex; align-items: center; gap: 8px; margin-top: 18px; color: var(--muted); font-size: 10px; font-weight: 600; }
-        .product-card-foot svg { width: 15px; height: 15px; color: var(--primary); }
-        @keyframes copy-arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes card-arrive { from { opacity: 0; transform: translateY(18px) rotate(1deg); } to { opacity: 1; transform: translateY(0) rotate(0); } }
-        @keyframes image-breathe { from { transform: scale(1); } to { transform: scale(1.045); } }
-        .hero-live { position: absolute; top: 30px; right: max(42px, calc((100% - 1120px) / 2)); z-index: 3; display: inline-flex; align-items: center; gap: 8px; padding: 8px 11px; border: 1px solid rgba(255,255,255,.23); border-radius: 999px; background: rgba(15,23,42,.24); color: rgba(255,255,255,.9); font-size: 10px; font-weight: 800; letter-spacing: .5px; backdrop-filter: blur(12px); }
-        .hero-live::before { width: 7px; height: 7px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 4px rgba(52,211,153,.16); content: ''; }
-        .hero-note {
+
+        .nav-links-row a:hover {
+            color: #ffffff;
+        }
+
+        .nav-links-row a::after {
+            content: '';
             position: absolute;
-            right: auto;
-            left: max(40px, calc((100% - 1120px) / 2));
-            bottom: 30px;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 2px;
+            background: var(--cyan-glow);
+            transition: width 0.22s ease;
+            border-radius: var(--radius-pill);
+        }
+
+        .nav-links-row a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta-wrap {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 9px 13px;
-            border: 1px solid rgba(255,255,255,.22);
-            border-radius: 9999px;
-            background: rgba(15, 23, 42, .24);
-            color: rgba(255,255,255,.9);
-            font-size: 11px;
-            font-weight: 600;
         }
-        .note-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); }
-        .hero-proof { display: flex; align-items: center; gap: 12px; margin-top: 30px; color: rgba(255,255,255,.72); font-size: 11px; font-weight: 600; }
-        .proof-avatars { display: flex; padding-left: 7px; }
-        .proof-avatar { display: grid; width: 28px; height: 28px; margin-left: -7px; place-items: center; border: 2px solid rgba(255,255,255,.75); border-radius: 50%; background: #a5b4fc; color: #1e1b4b; font: 800 10px 'Outfit', sans-serif; }
-        .proof-avatar:nth-child(2) { background: #67e8f9; }
-        .proof-avatar:nth-child(3) { background: #fcd34d; }
-        .proof-avatar:nth-child(4) { background: #f9a8d4; }
-        .hero-stat { position: absolute; right: 36px; bottom: 31px; display: flex; align-items: center; gap: 9px; color: rgba(255,255,255,.86); font-size: 11px; font-weight: 700; }
-        .hero-stat strong { color: #67e8f9; font: 800 18px 'Outfit', sans-serif; }
-        .intro-strip {
+
+        .btn-glow-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 10px 24px;
+            border-radius: var(--radius-pill);
+            background: var(--gradient-primary);
+            color: #ffffff !important;
+            font-size: 13px;
+            font-weight: 700;
+            box-shadow: var(--shadow-glow);
+            transition: all 0.25s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-glow-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 40px -6px rgba(6, 182, 212, 0.5);
+        }
+
+        /* ----------------------------------------------------
+           HERO SECTION (Edu-Tech Dark Canvas + Floating Glass)
+        ---------------------------------------------------- */
+        .hero-edutech {
+            background: var(--gradient-hero);
+            color: #ffffff;
+            position: relative;
+            padding: 80px 0 130px;
+            overflow: hidden;
+        }
+
+        /* Radial ambient light blooms */
+        .hero-edutech::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: 15%;
+            width: 650px;
+            height: 650px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.28) 0%, transparent 68%);
+            pointer-events: none;
+            filter: blur(50px);
+        }
+
+        .hero-edutech::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 5%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, transparent 70%);
+            pointer-events: none;
+            filter: blur(60px);
+        }
+
+        .hero-grid-2col {
+            display: grid;
+            grid-template-columns: 1.15fr 0.95fr;
+            align-items: center;
+            gap: 52px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-kicker-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            backdrop-filter: blur(8px);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--cyan-light);
+            margin-bottom: 22px;
+        }
+
+        .live-pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.35);
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+            70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .hero-heading {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(42px, 5.2vw, 64px);
+            font-weight: 800;
+            line-height: 1.08;
+            letter-spacing: -1.2px;
+            margin-bottom: 22px;
+        }
+
+        .gradient-headline {
+            background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 50%, #a7f3d0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtext {
+            font-size: 16px;
+            line-height: 1.75;
+            color: rgba(255, 255, 255, 0.78);
+            max-width: 530px;
+            margin-bottom: 38px;
+        }
+
+        .hero-btn-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-glass-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s ease;
+        }
+
+        .btn-glass-secondary:hover {
+            background: rgba(255, 255, 255, 0.16);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Right: Modern Glass Dashboard Mockup */
+        .glass-showcase-panel {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 28px;
+            padding: 28px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            position: relative;
+        }
+
+        .showcase-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 32px;
-            width: min(100% - 64px, 1280px);
-            margin: 0 auto;
-            padding: 34px 0;
-            border-bottom: 1px solid var(--border);
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
         }
-        .intro-copy { display: grid; gap: 7px; }
-        .intro-strip p { max-width: 560px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
-        .intro-tag { flex: 0 0 auto; color: var(--primary); font: 700 13px 'Outfit', sans-serif; }
-        .trust-stats { display: flex; align-items: center; gap: 24px; }
-        .trust-stat { display: grid; gap: 2px; }
-        .trust-stat strong { font: 800 22px/1 'Outfit', sans-serif; color: var(--ink); }
-        .trust-stat span { color: var(--muted); font-size: 10px; font-weight: 700; }
-        .steps-section { padding: 104px 32px 112px; }
-        .steps-wrap { width: min(100%, 1280px); margin: 0 auto; }
-        .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 36px; margin-bottom: 46px; }
-        .section-kicker { margin-bottom: 12px; color: var(--primary); font-size: 11px; font-weight: 800; }
-        h2 { max-width: 570px; margin-bottom: 0; font: 700 42px/1.08 'Outfit', sans-serif; letter-spacing: 0; }
-        .section-heading > p { max-width: 340px; margin: 0 0 4px; color: var(--muted); font-size: 14px; line-height: 1.7; }
-        .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        .step { min-height: 222px; padding: 24px 26px 26px; border: 1px solid #e8eef6; border-radius: 20px; background: rgba(255,255,255,.88); box-shadow: 0 8px 24px -12px rgba(30, 41, 80, .22), 0 1px 3px rgba(0, 0, 0, .03); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
-        .step:hover { transform: translateY(-6px); border-color: #c7d2fe; box-shadow: 0 18px 34px -16px rgba(79, 70, 229, .34); }
-        .step + .step { padding-left: 24px; border-left: 1px solid #e8eef6; }
-        .step-number { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; color: var(--primary); font: 700 13px 'Outfit', sans-serif; }
-        .step-number svg { width: 22px; height: 22px; }
-        h3 { margin-bottom: 9px; font: 700 20px 'Outfit', sans-serif; }
-        .step p { max-width: 310px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
-        .roles-section { padding: 88px 32px 94px; border-top: 1px solid rgba(226, 232, 240, .8); border-bottom: 1px solid rgba(226, 232, 240, .8); background: rgba(255, 255, 255, .72); }
-        .roles-wrap { width: min(100%, 1160px); margin: 0 auto; }
-        .roles-heading { max-width: 720px; margin: 0 auto 38px; text-align: center; }
-        .roles-heading h2 { max-width: 680px; margin: 0 auto 12px; }
-        .roles-heading > p:last-child { max-width: 570px; margin: 0 auto; color: var(--muted); font-size: 14px; line-height: 1.7; }
-        .roles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; }
-        .role-card { min-height: 290px; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff; box-shadow: 0 8px 24px -16px rgba(44, 74, 124, .24); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
-        .role-card:hover { transform: translateY(-4px); border-color: rgba(91, 141, 239, .42); box-shadow: 0 16px 30px -16px rgba(59, 89, 152, .26); }
-        .role-card-head { display: flex; align-items: center; gap: 13px; margin-bottom: 24px; }
-        .role-icon { display: grid; width: 46px; height: 46px; flex: 0 0 auto; place-items: center; border-radius: 13px; background: #eef4ff; color: #3b5998; }
-        .role-card:nth-child(2) .role-icon { background: #ecfeff; color: #0891b2; }
-        .role-card:nth-child(3) .role-icon { background: #ecfdf5; color: #059669; }
-        .role-icon svg { width: 23px; height: 23px; }
-        .role-kicker { display: block; margin-bottom: 3px; color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; }
-        .role-card h3 { margin: 0; color: #1e293b; font-size: 19px; }
-        .role-card > p { min-height: 44px; margin-bottom: 18px; color: #64748b; font-size: 12px; line-height: 1.65; }
-        .role-list { display: grid; gap: 11px; margin: 0; padding: 16px 0 0; border-top: 1px solid #edf2f7; list-style: none; }
-        .role-list li { display: flex; align-items: flex-start; gap: 9px; color: #475569; font-size: 11px; line-height: 1.5; }
-        .role-list li::before { width: 6px; height: 6px; flex: 0 0 auto; margin-top: 5px; border-radius: 50%; background: #5b8def; content: ''; }
-        .role-card:nth-child(2) .role-list li::before { background: #06b6d4; }
-        .role-card:nth-child(3) .role-list li::before { background: #10b981; }
-        .roles-action { display: flex; justify-content: center; margin-top: 30px; }
-        .faq-section { padding: 100px 32px 108px; border-top: 1px solid rgba(226, 232, 240, .8); border-bottom: 1px solid rgba(226, 232, 240, .8); background: rgba(255, 255, 255, .72); scroll-margin-top: 82px; }
-        .faq-wrap { display: grid; grid-template-columns: minmax(260px, .82fr) minmax(0, 1.18fr); align-items: start; gap: 76px; width: min(100%, 1160px); margin: 0 auto; }
-        .faq-intro h2 { margin-bottom: 16px; font-size: 40px; }
-        .faq-intro > p:not(.section-kicker) { max-width: 380px; margin-bottom: 24px; color: var(--muted); font-size: 14px; line-height: 1.75; }
-        .faq-login-link { display: inline-flex; align-items: center; gap: 8px; color: var(--primary); font-size: 13px; font-weight: 800; }
-        .faq-login-link svg { width: 16px; height: 16px; transition: transform .18s ease; }
-        .faq-login-link:hover svg { transform: translateX(4px); }
-        .faq-list { border-top: 1px solid var(--border); }
-        .faq-item { border-bottom: 1px solid var(--border); }
-        .faq-item summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 21px 0; color: var(--ink); cursor: pointer; font-size: 14px; font-weight: 800; list-style: none; }
-        .faq-item summary::-webkit-details-marker { display: none; }
-        .faq-item summary::after { content: '+'; flex: 0 0 auto; color: var(--primary); font: 500 24px/1 'Outfit', sans-serif; }
-        .faq-item[open] summary::after { content: '-'; }
-        .faq-item summary:hover { color: var(--primary); }
-        .faq-item summary:focus-visible { border-radius: 4px; outline: 2px solid var(--primary); outline-offset: 4px; }
-        .faq-answer { max-width: 600px; padding: 0 42px 21px 0; color: var(--muted); font-size: 13px; line-height: 1.75; }
-        .closing-band { display: flex; align-items: center; justify-content: space-between; gap: 28px; margin: 0 max(24px, calc((100vw - 1280px) / 2)); padding: 34px 42px; border-radius: 24px; background: linear-gradient(110deg, #1e3a8a 0%, #4338ca 52%, #6d28d9 100%); color: #fff; box-shadow: 0 18px 36px -12px rgba(44, 74, 124, .42); }
-        .closing-band p { margin: 0; font: 600 21px 'Outfit', sans-serif; }
-        .closing-band .button { flex: 0 0 auto; }
-        .site-footer { margin-top: 72px; padding: 42px max(24px, calc((100vw - 1280px) / 2)) 26px; border-top: 1px solid rgba(255, 255, 255, .28); background: linear-gradient(115deg, #172554 0%, #1e3a8a 52%, #312e81 100%); color: rgba(255, 255, 255, .94); }
-        .footer-grid { display: grid; grid-template-columns: minmax(280px, 1.8fr) repeat(3, minmax(150px, 1fr)); gap: clamp(28px, 5vw, 72px); align-items: start; padding-bottom: 30px; }
-        .footer-brand { display: inline-flex; align-items: center; gap: 16px; margin-bottom: 20px; color: #fff; }
-        .footer-brand-mark { display: block; width: 54px; height: 54px; flex: 0 0 auto; border-radius: 16px; box-shadow: 0 8px 18px rgba(23, 40, 69, .22); }
-        .footer-brand-copy { display: grid; gap: 5px; }
-        .footer-brand-name { font: 800 28px/1 'Outfit', sans-serif; letter-spacing: .2px; }
-        .footer-brand-caption { color: rgba(255, 255, 255, .9); font-size: 11px; font-weight: 600; line-height: 1.3; }
-        .footer-about p { max-width: 490px; margin: 0; color: rgba(255, 255, 255, .9); font-size: 15px; line-height: 1.75; }
-        .footer-column h2 { margin: 6px 0 18px; color: #fff; font: 700 26px 'Outfit', sans-serif; }
-        .footer-links { display: grid; gap: 15px; margin: 0; padding: 0; list-style: none; }
-        .footer-links li, .footer-links a { color: rgba(255, 255, 255, .92); font-size: 16px; line-height: 1.7; }
-        .footer-links a { transition: opacity .18s ease, transform .18s ease; }
-        .footer-links a:hover { opacity: 1; transform: translateX(2px); }
-        .footer-links a:focus-visible { border-radius: 3px; outline: 2px solid rgba(255,255,255,.9); outline-offset: 4px; }
-        .footer-bottom { display: flex; justify-content: center; padding-top: 22px; border-top: 1px solid rgba(255, 255, 255, .28); color: rgba(255, 255, 255, .92); font-size: 13px; text-align: center; }
 
+        .showcase-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar-circle-pulse {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            color: #ffffff;
+        }
+
+        .showcase-user-text strong {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .showcase-user-text span {
+            font-size: 11px;
+            color: var(--cyan-light);
+        }
+
+        .status-badge-live {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            background: rgba(16, 185, 129, 0.18);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            border-radius: var(--radius-pill);
+            color: #34d399;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* Facility Cards Inside Showcase */
+        .showcase-card-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .mini-facility-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 14px 16px;
+            transition: all 0.2s ease;
+        }
+
+        .mini-facility-row:hover {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(6, 182, 212, 0.4);
+            transform: translateX(4px);
+        }
+
+        .mini-facility-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .facility-icon-square {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            background: rgba(37, 99, 235, 0.2);
+            border: 1px solid rgba(37, 99, 235, 0.4);
+            color: var(--cyan-light);
+        }
+
+        .facility-name-block strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .facility-name-block span {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .badge-ready {
+            font-size: 11px;
+            font-weight: 700;
+            color: #34d399;
+            background: rgba(16, 185, 129, 0.15);
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+        }
+
+        .badge-queue {
+            font-size: 11px;
+            font-weight: 700;
+            color: #fbbf24;
+            background: rgba(251, 191, 36, 0.15);
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+        }
+
+        .showcase-footer-action {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .showcase-footer-action span {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .link-quick-borrow {
+            color: var(--cyan-light);
+            font-size: 12px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .link-quick-borrow:hover {
+            color: #ffffff;
+            transform: translateX(3px);
+        }
+
+        /* ----------------------------------------------------
+           METRICS COUNTER SECTION (Floating Edu-Tech KPI Bar)
+        ---------------------------------------------------- */
+        .metrics-floating-bar {
+            margin-top: -60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .metrics-glass-box {
+            background: #ffffff;
+            border-radius: var(--radius-card);
+            border: 1px solid var(--border-glass);
+            padding: 34px 44px;
+            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.12);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 28px;
+        }
+
+        .metric-cell {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-right: 1px solid #edf2f7;
+            padding-right: 16px;
+        }
+
+        .metric-cell:last-child {
+            border-right: none;
+            padding-right: 0;
+        }
+
+        .metric-icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: #eff6ff;
+            color: var(--blue-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .metric-cell:nth-child(2) .metric-icon-box { background: #ecfeff; color: #0891b2; }
+        .metric-cell:nth-child(3) .metric-icon-box { background: #ecfdf5; color: #059669; }
+        .metric-cell:nth-child(4) .metric-icon-box { background: #faf5ff; color: #7c3aed; }
+
+        .metric-val {
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--navy-dark);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .metric-desc {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            line-height: 1.35;
+        }
+
+        /* ----------------------------------------------------
+           KATALOG FASILITAS POPULER
+        ---------------------------------------------------- */
+        .catalog-section {
+            padding: 96px 0 84px;
+        }
+
+        .section-header-center {
+            text-align: center;
+            max-width: 680px;
+            margin: 0 auto 48px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--blue-glow);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(32px, 3.8vw, 44px);
+            font-weight: 800;
+            letter-spacing: -0.6px;
+            color: var(--navy-dark);
+            margin-bottom: 14px;
+        }
+
+        .section-subtitle {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        .catalog-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .facility-card-item {
+            background: #ffffff;
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow-card);
+            transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .facility-card-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 45px -15px rgba(37, 99, 235, 0.18);
+            border-color: #bfdbfe;
+        }
+
+        .card-top-category {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .category-chip {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            background: #f1f5f9;
+            color: var(--text-muted);
+        }
+
+        .availability-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #16a34a;
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--navy-dark);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .card-spec-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 22px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .card-spec-list li {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 11px;
+            border-radius: var(--radius-pill);
+            background: #f8fafc;
+            border: 1px solid var(--border-glass);
+            color: var(--navy-dark);
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .facility-card-item:hover .card-btn-action {
+            background: var(--navy-dark);
+            color: #ffffff;
+            border-color: var(--navy-dark);
+        }
+
+        /* ----------------------------------------------------
+           ALUR PEMINJAMAN (Step-by-Step Visual)
+        ---------------------------------------------------- */
+        .workflow-section {
+            background: #ffffff;
+            border-top: 1px solid var(--border-glass);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 96px 0;
+        }
+
+        .steps-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            position: relative;
+        }
+
+        .step-flow-card {
+            background: #f8fafc;
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 28px 22px;
+            position: relative;
+            transition: all 0.25s ease;
+        }
+
+        .step-flow-card:hover {
+            transform: translateY(-6px);
+            background: #ffffff;
+            border-color: var(--blue-electric);
+            box-shadow: var(--shadow-card);
+        }
+
+        .step-index-badge {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--gradient-primary);
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+        }
+
+        .step-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--navy-dark);
+            margin-bottom: 10px;
+        }
+
+        .step-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ----------------------------------------------------
+           FAQ SECTION (Interactive Accordion)
+        ---------------------------------------------------- */
+        .faq-section-wrap {
+            padding: 96px 0;
+        }
+
+        .faq-layout-split {
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            gap: 64px;
+            align-items: start;
+        }
+
+        .faq-sticky-left h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 38px;
+            font-weight: 800;
+            letter-spacing: -0.6px;
+            color: var(--navy-dark);
+            margin-bottom: 16px;
+            line-height: 1.15;
+        }
+
+        .faq-sticky-left p {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .faq-contact-card {
+            background: #ffffff;
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .faq-contact-card strong {
+            display: block;
+            font-size: 14px;
+            color: var(--navy-dark);
+            margin-bottom: 4px;
+        }
+
+        .faq-contact-card span {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .faq-accordion-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .faq-box-card {
+            background: #ffffff;
+            border: 1px solid var(--border-glass);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            transition: border-color 0.2s ease;
+        }
+
+        .faq-box-card.active {
+            border-color: var(--blue-electric);
+        }
+
+        .faq-btn-trigger {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 22px 24px;
+            text-align: left;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy-dark);
+            cursor: pointer;
+        }
+
+        .faq-btn-trigger:hover {
+            color: var(--blue-glow);
+        }
+
+        .faq-icon-arrow {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            transition: transform 0.25s ease, background 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-box-card.active .faq-icon-arrow {
+            transform: rotate(90deg);
+            background: var(--blue-glow);
+            color: #ffffff;
+        }
+
+        .faq-body-text {
+            display: none;
+            padding: 0 24px 22px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text-muted);
+            border-top: 1px solid #f8fafc;
+        }
+
+        .faq-box-card.active .faq-body-text {
+            display: block;
+        }
+
+        /* ----------------------------------------------------
+           CTA CALLOUT BANNER (Glowing Gradient Mesh)
+        ---------------------------------------------------- */
+        .callout-banner-section {
+            padding: 20px 0 84px;
+        }
+
+        .callout-card-glow {
+            background: linear-gradient(135deg, #070d1e 0%, #1e3a8a 60%, #0284c7 100%);
+            border-radius: 32px;
+            padding: 56px 48px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 36px;
+            box-shadow: 0 24px 60px -15px rgba(2, 132, 199, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .callout-card-glow::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .callout-text h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(28px, 3.5vw, 38px);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+
+        .callout-text p {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.85);
+            max-width: 560px;
+        }
+
+        /* ----------------------------------------------------
+           FOOTER (Deep Navy Premium)
+        ---------------------------------------------------- */
+        .site-footer-deep {
+            background: var(--navy-deep);
+            color: #ffffff;
+            padding: 72px 0 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer-grid-4col {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+            gap: 48px;
+            padding-bottom: 48px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-col-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 18px;
+            letter-spacing: -0.2px;
+        }
+
+        .footer-nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-nav-list a {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .footer-nav-list a:hover {
+            color: #ffffff;
+            transform: translateX(4px);
+        }
+
+        .footer-contact-block {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.72);
+            line-height: 1.7;
+        }
+
+        .footer-copyright-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 28px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* ----------------------------------------------------
+           RESPONSIVE MEDIA QUERIES
+        ---------------------------------------------------- */
         @media (max-width: 1024px) {
-            .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 40px; }
-            .footer-about { grid-column: 1 / -1; }
+            .hero-grid-2col,
+            .faq-layout-split,
+            .callout-card-glow {
+                grid-template-columns: 1fr;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .metrics-glass-box {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 28px;
+            }
+
+            .metric-cell:nth-child(2) {
+                border-right: none;
+            }
+
+            .steps-flow-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid-4col {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
-        @media (max-width: 760px) {
-            .site-header { height: 72px; padding: 0 18px; }
-            .brand-name { font-size: 20px; }
-            .main-nav, .login-link { display: none; }
-            .mobile-nav { display: block; }
-            .header-actions { gap: 0; }
-            .header-actions .button { min-height: 40px; padding: 0 14px; font-size: 12px; }
-            .hero { width: calc(100% - 28px); min-height: 0; align-items: flex-start; margin-top: 14px; border-radius: 22px; }
-            .hero-image { object-position: 58% center; }
-            .hero::after { top: 76px; right: -34px; width: 90px; height: 90px; }
-            .hero-shade { background: linear-gradient(110deg, rgba(28, 51, 90, .92), rgba(44, 74, 124, .78) 62%, rgba(79, 70, 229, .48)); }
-            .hero-inner { display: block; width: calc(100% - 40px); padding: 58px 0 76px; }
-            h1 { max-width: 560px; font-size: 44px; }
-            .eyebrow { margin-bottom: 18px; }
-            .hero-copy { max-width: 420px; font-size: 14px; }
-            .hero-product-card { margin-top: 24px; padding: 18px; border-radius: 18px; animation-delay: .08s; }
-            .product-card-top { margin-bottom: 13px; }
-            .product-card-title { margin-bottom: 14px; font-size: 20px; }
-            .product-row { padding: 9px 0; }
-            .hero-note { display: none; }
-            .hero-live { top: 20px; right: 20px; }
-            .hero-stat { right: 20px; bottom: 22px; }
-            .intro-strip { width: calc(100% - 40px); align-items: flex-start; flex-direction: column; gap: 10px; padding: 22px 0; }
-            .trust-stats { width: 100%; justify-content: space-between; gap: 12px; }
-            .trust-stat strong { font-size: 20px; }
-            .steps-section { padding: 70px 20px 76px; }
-            .section-heading { align-items: flex-start; flex-direction: column; gap: 16px; margin-bottom: 30px; }
-            h2 { font-size: 34px; }
-            .steps-grid { grid-template-columns: 1fr; }
-            .step, .step + .step { min-height: 0; padding: 20px; border: 1px solid #e8eef6; }
-            .step-number { margin-bottom: 18px; }
-            .roles-section { padding: 70px 20px 76px; }
-            .roles-heading { margin-bottom: 28px; }
-            .role-card { min-height: 0; padding: 21px; }
-            .faq-section { padding: 70px 20px 76px; }
-            .faq-wrap { grid-template-columns: 1fr; gap: 30px; }
-            .faq-intro h2 { font-size: 34px; }
-            .faq-item summary { padding: 18px 0; font-size: 13px; }
-            .faq-answer { padding-right: 28px; }
-            .closing-band { align-items: flex-start; flex-direction: column; padding: 30px 20px; }
-            .closing-band p { font-size: 19px; }
-            .site-footer { margin-top: 56px; padding: 42px 20px 22px; }
-            .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 24px; padding-bottom: 32px; }
-            .footer-about { grid-column: 1 / -1; }
-        }
-        @media (max-width: 420px) {
-            .brand-caption { display: none; }
-            h1 { font-size: 35px; }
-            .hero-inner { padding: 44px 0 56px; }
-            .hero-copy { margin-bottom: 24px; }
-            .hero-secondary { display: none; }
-            .hero-live { top: 16px; right: 16px; font-size: 9px; }
-            .hero-stat { display: none; }
-            .hero-product-card { margin-top: 20px; padding: 16px; }
-            .product-card-top { margin-bottom: 10px; }
-            .product-card-title { margin-bottom: 10px; font-size: 18px; }
-            .product-row { padding: 7px 0; }
-            .product-row-icon { width: 32px; height: 32px; }
-            .product-row-copy span, .product-card-foot { display: none; }
-            .button { min-height: 44px; }
-            .footer-grid { grid-template-columns: 1fr; gap: 26px; }
-            .footer-about { grid-column: auto; }
-            .footer-brand { margin-bottom: 14px; }
-            .footer-column h2 { margin: 0 0 12px; }
-            .footer-links { gap: 9px; }
-            .footer-bottom { justify-content: flex-start; text-align: left; }
-        }
-        @media (max-width: 360px) {
-            .mobile-nav summary { width: 40px; justify-content: center; padding: 0; font-size: 0; }
-            h1 { font-size: 34px; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-delay: 0ms !important; }
+        @media (max-width: 768px) {
+            .nav-links-row {
+                display: none;
+            }
+
+            .hero-edutech {
+                padding: 56px 0 96px;
+            }
+
+            .metrics-floating-bar {
+                margin-top: -40px;
+            }
+
+            .metrics-glass-box {
+                grid-template-columns: 1fr;
+                gap: 18px;
+                padding: 24px;
+            }
+
+            .metric-cell {
+                border-right: none;
+                border-bottom: 1px solid #f1f5f9;
+                padding-bottom: 14px;
+            }
+
+            .metric-cell:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            .steps-flow-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid-4col {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .footer-copyright-bar {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
-    <header class="site-header">
-        <a class="brand" href="{{ url('/') }}" aria-label="SINFAS, beranda">
-            @include('components.sinfas-logo', ['class' => 'brand-mark'])
-            <span class="brand-text"><span class="brand-name">SINFAS</span><span class="brand-caption">Sistem Informasi Fasilitas</span></span>
-        </a>
-        <nav class="main-nav" aria-label="Navigasi utama">
-            <a href="#cara-kerja">Cara kerja</a>
-            <a href="#tentang">Tentang SINFAS</a>
-            <a href="#peran">Untuk siapa</a>
-            <a href="#pertanyaan">FAQ</a>
-        </nav>
-        <details class="mobile-nav">
-            <summary aria-label="Buka navigasi">
-                Menu
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-            </summary>
-            <nav class="mobile-nav-links" aria-label="Navigasi mobile">
-                <a href="#cara-kerja">Cara kerja</a>
-                <a href="#tentang">Tentang SINFAS</a>
-                <a href="#peran">Untuk siapa</a>
-                <a href="#pertanyaan">FAQ</a>
-            </nav>
-        </details>
-        <div class="header-actions">
-            <a class="button" href="{{ route('login') }}">
-                Masuk
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M5 12h14"></path>
-                    <path d="m12 5 7 7-7 7"></path>
-                </svg>
+
+    <!-- 1. STICKY GLASS NAVBAR -->
+    <header class="glass-navbar-wrap">
+        <div class="container navbar-flex">
+            <a href="{{ url('/') }}" class="brand-link">
+                <div class="brand-icon-badge">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+                        <path d="M6 6h10"/>
+                        <path d="M6 10h10"/>
+                    </svg>
+                </div>
+                <div class="brand-text-block">
+                    <span class="brand-title">SINFAS<span>.</span></span>
+                    <span class="brand-sub">Sistem Fasilitas Sekolah</span>
+                </div>
             </a>
+
+            <nav>
+                <ul class="nav-links-row">
+                    <li><a href="#beranda">Beranda</a></li>
+                    <li><a href="#katalog">Fasilitas</a></li>
+                    <li><a href="#alur">Alur Pinjam</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-cta-wrap">
+                @auth
+                    @if(auth()->user()->role === 'siswa')
+                        <a href="{{ route('user.dashboard') }}" class="btn-glow-primary">
+                            <span>Portal Siswa</span>
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                    @elseif(auth()->user()->role === 'admin_sarana')
+                        <a href="{{ route('admin.dashboard') }}" class="btn-glow-primary">
+                            <span>Panel Sarpras</span>
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                    @else
+                        <a href="{{ route('sistem.dashboard') }}" class="btn-glow-primary">
+                            <span>Panel Sistem</span>
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                    @endif
+                @else
+                    <a href="{{ route('login') }}" class="btn-glow-primary">
+                        <span>Masuk ke Sistem</span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                @endauth
+            </div>
         </div>
     </header>
 
-    <main>
-        <section class="hero" id="tentang">
-            <img class="hero-image" src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=2200&q=88" alt="Ruang kelas sekolah dengan fasilitas belajar" fetchpriority="high">
-            <div class="hero-live">SISTEM AKTIF</div>
-            <div class="hero-shade" aria-hidden="true"></div>
-            <div class="hero-inner">
-                <div class="hero-copy-block">
-                    <p class="eyebrow">FASILITAS SEKOLAH, DALAM GENGGAMAN</p>
-                    <h1>Cari fasilitas,<br><span>ajukan peminjaman.</span></h1>
-                    <p class="hero-copy">Temukan fasilitas sekolah, ajukan peminjaman, dan pantau statusnya sampai selesai.</p>
-                    <div class="hero-actions">
-                        <a class="button" href="{{ route('login') }}">Cari fasilitas <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-                        <a class="hero-secondary" href="#cara-kerja">Lihat cara kerjanya <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14m7-7-7 7-7-7"/></svg></a>
+    <main id="beranda">
+        <!-- 2. HERO SECTION (Edu-Tech Dark Canvas + Glassmorphism Showcase) -->
+        <section class="hero-edutech">
+            <div class="container hero-grid-2col">
+                <div>
+                    <div class="hero-kicker-pill">
+                        <span class="live-pulse-dot"></span>
+                        <span>PLATFORM FASILITAS & SARPRAS SEKOLAH</span>
                     </div>
-                    <div class="hero-proof">
-                        <span class="proof-avatars" aria-hidden="true"><span class="proof-avatar">A</span><span class="proof-avatar">N</span><span class="proof-avatar">R</span><span class="proof-avatar">+</span></span>
-                        <span>Dipakai untuk kegiatan sekolah yang lebih tertata</span>
-                    </div>
-                </div>
-            <aside class="hero-product-card" aria-label="Alur peminjaman di SINFAS">
-                <div class="product-card-top">
-                    <span class="product-card-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5h16v14zM8 9h8M8 13h5"/><path d="m15 16 1.5 1.5L20 14"/></svg></span>
-                    <div class="product-card-header-text">
-                        <span class="product-card-kicker">PORTAL PEMINJAMAN FASILITAS</span>
-                        <span class="product-card-heading">Ajukan fasilitas sekolah</span>
-                    </div>
-                </div>
-                <p class="product-card-title">Cari, pinjam, dan pantau fasilitas.</p>
-                <div class="product-list">
-                    <div class="product-row">
-                        <span class="product-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5M8 10.8h5.6M10.8 8v5.6"/></svg></span>
-                        <span class="product-row-copy"><strong>Temukan fasilitas</strong><span>Lihat detail dan ketersediaan</span></span>
-                        <svg class="product-row-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
-                    </div>
-                    <div class="product-row">
-                        <span class="product-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></span>
-                        <span class="product-row-copy"><strong>Ajukan peminjaman</strong><span>Lengkapi kebutuhan dan jadwal</span></span>
-                        <svg class="product-row-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
-                    </div>
-                    <div class="product-row">
-                        <span class="product-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-5 5"/></svg></span>
-                        <span class="product-row-copy"><strong>Pantau pengajuan</strong><span>Cek status sampai pengembalian</span></span>
-                        <svg class="product-row-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
-                    </div>
-                </div>
-                <div class="product-card-foot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/><path d="m9 12 2 2 4-4"/></svg>Pengajuanmu tersimpan dan mudah dipantau</div>
-            </aside>
-            </div>
-            <div class="hero-note"><span class="note-dot" aria-hidden="true"></span>Semua kebutuhan kegiatan, lebih terorganisir</div>
-            <div class="hero-stat"><strong>24/7</strong><span>Akses katalog<br>kapan saja</span></div>
-        </section>
 
-        <div class="intro-strip" id="keunggulan">
-            <div class="intro-copy">
-                <span class="intro-tag">SATU PLATFORM. BANYAK KEMUNGKINAN.</span>
-                <p>Dari tugas kelompok sampai acara sekolah, temukan fasilitas yang bisa bantu ide kamu jalan.</p>
-            </div>
-            <div class="trust-stats" aria-label="Keunggulan SINFAS">
-                <span class="trust-stat"><strong>3</strong><span>Langkah mudah</span></span>
-                <span class="trust-stat"><strong>1</strong><span>Portal terpadu</span></span>
-                <span class="trust-stat"><strong>100%</strong><span>Lebih terpantau</span></span>
-            </div>
-        </div>
+                    <h1 class="hero-heading">
+                        Akses Fasilitas Belajar,<br>
+                        <span class="gradient-headline">Mudah & Real-Time.</span>
+                    </h1>
 
-        <section class="steps-section" id="cara-kerja">
-            <div class="steps-wrap">
-                <div class="section-heading">
-                    <div><p class="section-kicker">GAMPANG BANGET, SERIUS.</p><h2>Tiga langkah, langsung siap beraksi.</h2></div>
-                    <p>Proses peminjaman yang jelas bikin kamu bisa fokus ke hal yang paling penting: acaranya.</p>
-                </div>
-                <div class="steps-grid">
-                    <article class="step">
-                        <div class="step-number"><span>01 / TEMUKAN</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5M8 10.8h5.6M10.8 8v5.6"/></svg></div>
-                        <h3>Pilih yang kamu perlu</h3>
-                        <p>Jelajahi daftar fasilitas dan cek detail barang sebelum mengajukan.</p>
-                    </article>
-                    <article class="step">
-                        <div class="step-number"><span>02 / AJUKAN</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></div>
-                        <h3>Kirim permintaanmu</h3>
-                        <p>Isi kebutuhan dan jadwal peminjaman lewat akunmu.</p>
-                    </article>
-                    <article class="step">
-                        <div class="step-number"><span>03 / GAS!</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7 10 17l-5-5"/><path d="M21 12a9 9 0 1 1-5.3-8.2"/></svg></div>
-                        <h3>Pantau statusnya</h3>
-                        <p>Lihat perkembangan pengajuan dan kelola pengembalian di satu tempat.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
+                    <p class="hero-subtext">
+                        Sistem terintegrasi untuk mengecek ketersediaan laboratorium, proyektor multimedia, ruang aula, hingga perlengkapan ekstrakurikuler sekolah secara tertib dan transparan.
+                    </p>
 
-        <section class="roles-section" id="peran" aria-labelledby="roles-title">
-            <div class="roles-wrap">
-                <div class="roles-heading">
-                    <p class="section-kicker">SATU SISTEM, SEMUA TERHUBUNG</p>
-                    <h2 id="roles-title">Dibuat untuk semua yang terlibat.</h2>
-                    <p>Setiap pengguna punya alur yang jelas, dari mencari fasilitas sampai mengelola data dan pengajuan.</p>
+                    <div class="hero-btn-group">
+                        <a href="{{ route('login') }}" class="btn-glow-primary" style="padding: 13px 30px; font-size: 14px;">
+                            <span>Cari & Ajukan Fasilitas</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                        <a href="#alur" class="btn-glass-secondary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            <span>Panduan Peminjaman</span>
+                        </a>
+                    </div>
                 </div>
-                <div class="roles-grid">
-                    <article class="role-card">
-                        <div class="role-card-head">
-                            <span class="role-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg></span>
-                            <div><span class="role-kicker">UNTUK SISWA</span><h3>Lebih mudah meminjam</h3></div>
+
+                <!-- Showcase Panel: Simulated Interactive Dashboard Screen -->
+                <div class="glass-showcase-panel">
+                    <div class="showcase-header">
+                        <div class="showcase-user">
+                            <div class="avatar-circle-pulse">SF</div>
+                            <div class="showcase-user-text">
+                                <strong>Katalog Fasilitas</strong>
+                                <span>Status Ketersediaan Hari Ini</span>
+                            </div>
                         </div>
-                        <p>Temukan fasilitas yang dibutuhkan dan ketahui perkembangan pengajuanmu.</p>
-                        <ul class="role-list">
-                            <li>Cek detail dan ketersediaan barang</li>
-                            <li>Ajukan jadwal peminjaman</li>
-                            <li>Pantau status sampai pengembalian</li>
-                        </ul>
-                    </article>
-                    <article class="role-card">
-                        <div class="role-card-head">
-                            <span class="role-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m21 8-9-5-9 5 9 5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg></span>
-                            <div><span class="role-kicker">UNTUK ADMIN SARANA</span><h3>Inventaris lebih tertata</h3></div>
+                        <span class="status-badge-live">● Aktif Real-Time</span>
+                    </div>
+
+                    <div class="showcase-card-stack">
+                        <!-- Facility 1 -->
+                        <div class="mini-facility-row">
+                            <div class="mini-facility-info">
+                                <div class="facility-icon-square">📽️</div>
+                                <div class="facility-name-block">
+                                    <strong>Proyektor EPSON EB-X500</strong>
+                                    <span>Gedung Sarpras • Multimedia</span>
+                                </div>
+                            </div>
+                            <span class="badge-ready">Tersedia</span>
                         </div>
-                        <p>Kelola fasilitas sekolah dan proses peminjaman dari satu tempat.</p>
-                        <ul class="role-list">
-                            <li>Atur data barang dan kategori</li>
-                            <li>Verifikasi peminjaman dan pengembalian</li>
-                            <li>Pantau riwayat dan laporan fasilitas</li>
-                        </ul>
-                    </article>
-                    <article class="role-card">
-                        <div class="role-card-head">
-                            <span class="role-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a6 6 0 0 1 12 0v2M16 3.2a4 4 0 0 1 0 7.6M21 21v-2a6 6 0 0 0-4-5.7"/></svg></span>
-                            <div><span class="role-kicker">UNTUK ADMIN SISTEM</span><h3>Akses terkelola rapi</h3></div>
+
+                        <!-- Facility 2 -->
+                        <div class="mini-facility-row">
+                            <div class="mini-facility-info">
+                                <div class="facility-icon-square">💻</div>
+                                <div class="facility-name-block">
+                                    <strong>Laboratorium Komputer 1</strong>
+                                    <span>Lantai 2 • 36 Unit PC Siap</span>
+                                </div>
+                            </div>
+                            <span class="badge-ready">Tersedia</span>
                         </div>
-                        <p>Pastikan akun dan pengaturan sistem tetap tertata sesuai kebutuhan sekolah.</p>
-                        <ul class="role-list">
-                            <li>Kelola akun pengguna dan admin</li>
-                            <li>Atur akses sesuai peran</li>
-                            <li>Kelola pengaturan sistem</li>
-                        </ul>
-                    </article>
+
+                        <!-- Facility 3 -->
+                        <div class="mini-facility-row">
+                            <div class="mini-facility-info">
+                                <div class="facility-icon-square">🔊</div>
+                                <div class="facility-name-block">
+                                    <strong>Sound System Portable Wireless</strong>
+                                    <span>Aula Utama • Acara & Rapat</span>
+                                </div>
+                            </div>
+                            <span class="badge-queue">Dipinjam (Kembali 14:00)</span>
+                        </div>
+                    </div>
+
+                    <div class="showcase-footer-action">
+                        <span>Peminjaman online bebas antrean form</span>
+                        <a href="{{ route('login') }}" class="link-quick-borrow">
+                            Ajukan Pinjam Sekarang →
+                        </a>
+                    </div>
                 </div>
-                <div class="roles-action"><a class="button" href="{{ route('login') }}">Masuk ke SINFAS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
             </div>
         </section>
 
-        <section class="faq-section" id="pertanyaan" aria-labelledby="faq-title">
-            <div class="faq-wrap">
-                <div class="faq-intro">
-                    <p class="section-kicker">INFO PEMINJAMAN</p>
-                    <h2 id="faq-title">Masih ada yang ingin ditanyakan?</h2>
-                    <p>Kenali alur akses, pengajuan, dan pengembalian fasilitas sekolah melalui SINFAS.</p>
-                    <a class="faq-login-link" href="{{ route('login') }}">
-                        Masuk ke akun SINFAS
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        <!-- 3. METRICS FLOATING BAR (KPI Counter Edu-Tech) -->
+        <section class="container metrics-floating-bar">
+            <div class="metrics-glass-box">
+                <div class="metric-cell">
+                    <div class="metric-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                    </div>
+                    <div>
+                        <div class="metric-val">150+</div>
+                        <div class="metric-desc">Inventaris Terdata Lengkap</div>
+                    </div>
+                </div>
+
+                <div class="metric-cell">
+                    <div class="metric-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    </div>
+                    <div>
+                        <div class="metric-val">100%</div>
+                        <div class="metric-desc">Bebas Biaya Fasilitas Sekolah</div>
+                    </div>
+                </div>
+
+                <div class="metric-cell">
+                    <div class="metric-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    </div>
+                    <div>
+                        <div class="metric-val">1.2K+</div>
+                        <div class="metric-desc">Peminjaman Sukses & Tuntas</div>
+                    </div>
+                </div>
+
+                <div class="metric-cell">
+                    <div class="metric-icon-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <div>
+                        <div class="metric-val">24/7</div>
+                        <div class="metric-desc">Pengecekan Jadwal Online</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. KATALOG FASILITAS UNGGULAN -->
+        <section class="container catalog-section" id="katalog">
+            <div class="section-header-center">
+                <span class="section-tag">Katalog Sarana Prasarana</span>
+                <h2 class="section-title">Fasilitas Siap Pakai Untuk Mendukung Prestasi</h2>
+                <p class="section-subtitle">
+                    Temukan fasilitas yang Anda butuhkan untuk kegiatan belajar mengajar, praktikum, organisasi kesiswaan, hingga ekstrakurikuler.
+                </p>
+            </div>
+
+            <div class="catalog-cards-grid">
+                <!-- Card 1 -->
+                <div class="facility-card-item">
+                    <div>
+                        <div class="card-top-category">
+                            <span class="category-chip">Laboratorium</span>
+                            <span class="availability-pill">● Siap Digunakan</span>
+                        </div>
+                        <h3 class="card-title">Lab Komputer Jaringan</h3>
+                        <ul class="card-spec-list">
+                            <li>📍 Gedung Timur Lantai 2</li>
+                            <li>🖥️ Kapasitas 36 Unit PC Core i5</li>
+                            <li>⚡ Koneksi Fiber Optik Cepat</li>
+                        </ul>
+                    </div>
+                    <a href="{{ route('login') }}" class="card-btn-action">
+                        <span>Cek Ketersediaan & Pinjam</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
                 </div>
-                <div class="faq-list">
-                    <details class="faq-item">
-                        <summary>Bagaimana cara mulai mengajukan peminjaman?</summary>
-                        <div class="faq-answer">Masuk dengan akun sekolah, pilih fasilitas yang dibutuhkan, lalu isi tanggal dan keperluan peminjaman. Pengajuan akan menunggu pemeriksaan admin.</div>
-                    </details>
-                    <details class="faq-item">
-                        <summary>Bagaimana jika saya belum memiliki akun?</summary>
-                        <div class="faq-answer">Akun pengguna dikelola oleh pihak sekolah. Hubungi admin sekolah untuk mendapatkan informasi akses akun SINFAS.</div>
-                    </details>
-                    <details class="faq-item">
-                        <summary>Di mana saya bisa melihat status pengajuan?</summary>
-                        <div class="faq-answer">Setelah masuk, buka halaman status pengajuan untuk melihat perkembangan permintaan peminjamanmu.</div>
-                    </details>
-                    <details class="faq-item">
-                        <summary>Apa yang dilakukan saat mengembalikan fasilitas?</summary>
-                        <div class="faq-answer">Laporkan tanggal pengembalian dan kondisi barang melalui akunmu. Admin akan memeriksa laporan sebelum menyelesaikan proses pengembalian.</div>
-                    </details>
+
+                <!-- Card 2 -->
+                <div class="facility-card-item">
+                    <div>
+                        <div class="card-top-category">
+                            <span class="category-chip">Multimedia</span>
+                            <span class="availability-pill">● Siap Digunakan</span>
+                        </div>
+                        <h3 class="card-title">Proyektor EPSON Full HD</h3>
+                        <ul class="card-spec-list">
+                            <li>📍 Ruang Penyimpanan Sarpras</li>
+                            <li>🔌 Dilengkapi Kabel HDMI & Adaptor</li>
+                            <li>✨ Kualitas Gambar 3600 Lumens</li>
+                        </ul>
+                    </div>
+                    <a href="{{ route('login') }}" class="card-btn-action">
+                        <span>Cek Ketersediaan & Pinjam</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="facility-card-item">
+                    <div>
+                        <div class="card-top-category">
+                            <span class="category-chip">Audio & Sound</span>
+                            <span class="availability-pill">● Siap Digunakan</span>
+                        </div>
+                        <h3 class="card-title">Portable Wireless Sound</h3>
+                        <ul class="card-spec-list">
+                            <li>📍 Ruang Perlengkapan OSIS</li>
+                            <li>🎤 Termasuk 2 Mic Wireless</li>
+                            <li>🔋 Baterai Tahan Hingga 8 Jam</li>
+                        </ul>
+                    </div>
+                    <a href="{{ route('login') }}" class="card-btn-action">
+                        <span>Cek Ketersediaan & Pinjam</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="facility-card-item">
+                    <div>
+                        <div class="card-top-category">
+                            <span class="category-chip">Ruang & Aula</span>
+                            <span class="availability-pill">● Siap Digunakan</span>
+                        </div>
+                        <h3 class="card-title">Aula Serbaguna Sekolah</h3>
+                        <ul class="card-spec-list">
+                            <li>📍 Gedung Utama Lantai 3</li>
+                            <li>👥 Daya Tampung Hingga 300 Siswa</li>
+                            <li>❄️ Pendingin Ruangan (AC Central)</li>
+                        </ul>
+                    </div>
+                    <a href="{{ route('login') }}" class="card-btn-action">
+                        <span>Cek Ketersediaan & Pinjam</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
                 </div>
             </div>
         </section>
 
-        <section class="closing-band">
-            <p>Udah siap bikin sesuatu yang keren?</p>
-            <a class="button" href="{{ route('login') }}">Masuk ke SINFAS <span aria-hidden="true">↗</span></a>
+        <!-- 5. ALUR PEMINJAMAN VISUAL (Step-by-Step Interactive Workflow) -->
+        <section class="workflow-section" id="alur">
+            <div class="container">
+                <div class="section-header-center">
+                    <span class="section-tag">Alur Penggunaan</span>
+                    <h2 class="section-title">4 Langkah Mudah Meminjam Fasilitas</h2>
+                    <p class="section-subtitle">
+                        Proses digital yang dirancang efisien dan teratur, memastikan setiap aset sekolah terdokumentasi dengan baik.
+                    </p>
+                </div>
+
+                <div class="steps-flow-grid">
+                    <div class="step-flow-card">
+                        <div class="step-index-badge">01</div>
+                        <h3 class="step-title">Eksplorasi Barang</h3>
+                        <p class="step-desc">
+                            Lihat ketersediaan barang dan jadwal pemakaian secara transparan melalui portal siswa/guru.
+                        </p>
+                    </div>
+
+                    <div class="step-flow-card">
+                        <div class="step-index-badge">02</div>
+                        <h3 class="step-title">Ajukan Jadwal</h3>
+                        <p class="step-desc">
+                            Pilih tanggal peminjaman, jam mulai, jam pengembalian, serta tuliskan tujuan penggunaan.
+                        </p>
+                    </div>
+
+                    <div class="step-flow-card">
+                        <div class="step-index-badge">03</div>
+                        <h3 class="step-title">Verifikasi Cepat</h3>
+                        <p class="step-desc">
+                            Staf sarana prasarana memeriksa pengajuan dan memberikan persetujuan tanpa perlu form kertas.
+                        </p>
+                    </div>
+
+                    <div class="step-flow-card">
+                        <div class="step-index-badge">04</div>
+                        <h3 class="step-title">Ambil & Kembalikan</h3>
+                        <p class="step-desc">
+                            Ambil barang di ruang sarpras dan kembalikan tepat waktu dengan bukti foto kondisi fisik.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. FAQ SECTION (Accordion) -->
+        <section class="container faq-section-wrap" id="faq">
+            <div class="faq-layout-split">
+                <div class="faq-sticky-left">
+                    <span class="section-tag">Pusat Bantuan</span>
+                    <h2>Pertanyaan yang Sering Diajukan</h2>
+                    <p>
+                        Informasi lengkap mengenai kebijakan penggunaan fasilitas, tata tertib, dan prosedur pertanggungjawaban di lingkungan sekolah.
+                    </p>
+
+                    <div class="faq-contact-card">
+                        <strong>Ruang Sarana & Prasarana</strong>
+                        <span>Gedung A, Lantai 1 (Jam Kerja: 07.00 – 16.00 WIB)</span>
+                        <div style="margin-top: 14px;">
+                            <a href="{{ route('login') }}" class="btn-glow-primary" style="padding: 8px 18px; font-size: 12px;">
+                                Hubungi Pengelola Sarpras
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-accordion-group">
+                    <div class="faq-box-card active">
+                        <button class="faq-btn-trigger" onclick="toggleFaqBox(this)">
+                            <span>Siapa saja yang berhak meminjam fasilitas di SINFAS?</span>
+                            <span class="faq-icon-arrow">›</span>
+                        </button>
+                        <div class="faq-body-text">
+                            Seluruh civitas akademika aktif sekolah yang meliputi Siswa terdaftar, Guru Pengajar, Pembina Ekstrakurikuler, dan Staf Karyawan memiliki akun dan hak akses pengajuan.
+                        </div>
+                    </div>
+
+                    <div class="faq-box-card">
+                        <button class="faq-btn-trigger" onclick="toggleFaqBox(this)">
+                            <span>Berapa lama batas maksimal peminjaman fasilitas?</span>
+                            <span class="faq-icon-arrow">›</span>
+                        </button>
+                        <div class="faq-body-text">
+                            Peminjaman alat pada umumnya berlaku maksimal 1 hari kegiatan sekolah. Untuk kebutuhan acara multi-hari (misal kemah pramuka atau persiapan lomba), wajib mencantumkan surat rekomendasi pembina.
+                        </div>
+                    </div>
+
+                    <div class="faq-box-card">
+                        <button class="faq-btn-trigger" onclick="toggleFaqBox(this)">
+                            <span>Mengapa pengembalian wajib menyertakan foto kondisi fisik?</span>
+                            <span class="faq-icon-arrow">›</span>
+                        </button>
+                        <div class="faq-body-text">
+                            Dokumentasi foto memastikan akuntabilitas kondisi barang saat diserahkan kembali, sehingga aset sekolah tetap terpantau dengan baik dan terhindar dari kesalahpahaman.
+                        </div>
+                    </div>
+
+                    <div class="faq-box-card">
+                        <button class="faq-btn-trigger" onclick="toggleFaqBox(this)">
+                            <span>Apakah bisa mengajukan peminjaman di luar jam sekolah?</span>
+                            <span class="faq-icon-arrow">›</span>
+                        </button>
+                        <div class="faq-body-text">
+                            Bisa, pengajuan dapat dibuat kapan saja secara online melalui sistem 24 jam. Verifikasi persetujuan akan diproses pada jam kerja petugas sarpras.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. CALL TO ACTION BANNER -->
+        <section class="container callout-banner-section">
+            <div class="callout-card-glow">
+                <div class="callout-text">
+                    <h2>Siap Memaksimalkan Kegiatan Belajar & Ekskul?</h2>
+                    <p>
+                        Masuk ke akun SINFAS Anda sekarang untuk melihat jadwal dan mengajukan sarana prasarana sekolah dengan mudah.
+                    </p>
+                </div>
+                <div style="flex-shrink: 0;">
+                    <a href="{{ route('login') }}" class="btn-glow-primary" style="background: #ffffff; color: var(--navy-dark) !important; padding: 14px 32px; font-size: 14px; font-weight: 800;">
+                        <span>Masuk ke Akun Sekarang</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
         </section>
     </main>
 
-    <footer class="site-footer">
-        <div class="footer-grid">
-            <section class="footer-about" aria-label="Tentang SINFAS">
-                <a class="footer-brand" href="{{ url('/') }}" aria-label="SINFAS, kembali ke beranda">
-                    @include('components.sinfas-logo', ['class' => 'footer-brand-mark'])
-                    <span class="footer-brand-copy">
-                        <span class="footer-brand-name">SINFAS</span>
-                        <span class="footer-brand-caption">Sistem Informasi Fasilitas</span>
-                    </span>
-                </a>
-                <p>Sistem Informasi Fasilitas &amp; Sarana Prasarana Sekolah. Solusi digital terpadu untuk pengelolaan fasilitas sekolah yang efisien, transparan, dan terpercaya.</p>
-            </section>
+    <!-- 8. FOOTER (Deep Navy Premium) -->
+    <footer class="site-footer-deep">
+        <div class="container">
+            <div class="footer-grid-4col">
+                <div>
+                    <h3 class="brand-title" style="margin-bottom: 12px;">SINFAS<span>.</span></h3>
+                    <p class="footer-contact-block" style="max-width: 340px;">
+                        Sistem Informasi Fasilitas Sekolah yang menghadirkan transparansi, kemudahan, dan akuntabilitas peminjaman sarana prasarana demi kelancaran kegiatan belajar.
+                    </p>
+                </div>
 
-            <nav class="footer-column" aria-label="Navigasi footer">
-                <h2>Navigasi</h2>
-                <ul class="footer-links">
-                    <li><a href="#tentang">Beranda</a></li>
-                    <li><a href="#keunggulan">Keunggulan</a></li>
-                    <li><a href="#cara-kerja">Alur Kerja</a></li>
-                    <li><a href="{{ route('login') }}">Katalog Fasilitas</a></li>
-                </ul>
-            </nav>
+                <div>
+                    <h4 class="footer-col-title">Navigasi Cepat</h4>
+                    <ul class="footer-nav-list">
+                        <li><a href="#beranda">Beranda</a></li>
+                        <li><a href="#katalog">Katalog Fasilitas</a></li>
+                        <li><a href="#alur">Alur Peminjaman</a></li>
+                        <li><a href="#faq">Pusat Bantuan</a></li>
+                    </ul>
+                </div>
 
-            <nav class="footer-column" aria-label="Akses akun">
-                <h2>Akses Akun</h2>
-                <ul class="footer-links">
-                    <li><a href="{{ route('login') }}">Login Siswa / Guru</a></li>
-                    <li><a href="{{ route('login') }}">Login Admin Sarana</a></li>
-                    <li>Pendaftaran akun baru melalui Admin Sarana</li>
-                </ul>
-            </nav>
+                <div>
+                    <h4 class="footer-col-title">Portal Akses</h4>
+                    <ul class="footer-nav-list">
+                        <li><a href="{{ route('login') }}">Masuk Siswa</a></li>
+                        <li><a href="{{ route('login') }}">Masuk Guru & Pembina</a></li>
+                        <li><a href="{{ route('login') }}">Panel Staf Sarpras</a></li>
+                        <li><a href="{{ route('login') }}">Panel Admin Sistem</a></li>
+                    </ul>
+                </div>
 
-            <section class="footer-column" aria-label="Bantuan dan kontak">
-                <h2>Bantuan &amp; Kontak</h2>
-                <ul class="footer-links">
-                    <li><a href="#pertanyaan">FAQ</a></li>
-                    <li>Ruang Prasarana Sekolah</li>
-                    <li>Jam Operasional: 07:00–16:00</li>
-                </ul>
-            </section>
-        </div>
-        <div class="footer-bottom">
-            &copy; {{ date('Y') }} SINFAS - Sistem Informasi Fasilitas. All rights reserved.
+                <div>
+                    <h4 class="footer-col-title">Ruang Sarana Prasarana</h4>
+                    <div class="footer-contact-block">
+                        <p><strong>Gedung A, Lantai 1</strong></p>
+                        <p>Senin – Jumat: 07.00 – 16.00 WIB</p>
+                        <p style="margin-top: 6px;">Sabtu: 08.00 – 12.00 WIB</p>
+                        <p style="margin-top: 6px; color: var(--cyan-light);">Email: sarpras@sekolah.sch.id</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-copyright-bar">
+                <p>&copy; {{ date('Y') }} SINFAS — Sistem Informasi Fasilitas Sekolah. All rights reserved.</p>
+                <p>Mendukung Digitalisasi & Akuntabilitas Aset Sekolah</p>
+            </div>
         </div>
     </footer>
+
+    <!-- Interactive JavaScript -->
+    <script>
+        function toggleFaqBox(button) {
+            const currentCard = button.closest('.faq-box-card');
+            const isOpen = currentCard.classList.contains('active');
+
+            // Close all items
+            document.querySelectorAll('.faq-box-card').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Toggle selected item
+            if (!isOpen) {
+                currentCard.classList.add('active');
+            }
+        }
+    </script>
 </body>
 </html>
