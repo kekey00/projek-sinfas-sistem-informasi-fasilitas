@@ -96,7 +96,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: rgba(59, 89, 152, 0.78);
+            background: rgba(37, 99, 235, 0.78);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.16);
