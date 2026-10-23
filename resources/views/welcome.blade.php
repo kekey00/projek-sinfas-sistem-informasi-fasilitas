@@ -40,12 +40,12 @@
             --border-glow: rgba(91, 141, 239, 0.4);
             
             --radius-pill: 9999px;
-            --radius-card: 24px;
+            --radius-card: 22px;
             --radius-sub: 16px;
             
             --shadow-glow: 0 10px 30px -4px rgba(59, 89, 152, 0.45);
-            --shadow-card: 0 12px 32px -8px rgba(15, 23, 42, 0.06);
-            --shadow-card-hover: 0 20px 40px -10px rgba(59, 89, 152, 0.2);
+            --shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.06), 0 4px 10px -2px rgba(15, 23, 42, 0.02);
+            --shadow-card-hover: 0 20px 35px -8px rgba(59, 89, 152, 0.18), 0 8px 16px -4px rgba(15, 23, 42, 0.06);
         }
 
         * {
@@ -241,7 +241,6 @@
             overflow: hidden;
         }
 
-        /* Ambient light glows */
         .hero-edutech::before {
             content: '';
             position: absolute;
@@ -422,7 +421,6 @@
             font-weight: 700;
         }
 
-        /* Facility Cards Inside Showcase */
         .showcase-card-stack {
             display: flex;
             flex-direction: column;
@@ -591,16 +589,16 @@
         }
 
         /* ----------------------------------------------------
-           KATALOG FASILITAS POPULER
+           SPOILER / KATALOG BARANG USER STYLE (The Requested Section)
         ---------------------------------------------------- */
-        .catalog-section {
+        .spoiler-section {
             padding: 96px 0 84px;
         }
 
         .section-header-center {
             text-align: center;
             max-width: 680px;
-            margin: 0 auto 48px;
+            margin: 0 auto 44px;
         }
 
         .section-tag {
@@ -628,173 +626,144 @@
             line-height: 1.65;
         }
 
-        .catalog-cards-grid {
+        /* User Dashboard Grid Style */
+        .user-spoiler-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 24px;
+            margin-bottom: 40px;
         }
 
-        .facility-card-item {
-            background: #ffffff;
-            border: 1px solid var(--border-subtle);
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: var(--shadow-card);
-            transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        .card-facility-vibe {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 22px;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+            position: relative;
+            cursor: pointer;
         }
 
-        .facility-card-item:hover {
+        .card-facility-vibe:hover {
             transform: translateY(-8px);
-            box-shadow: var(--shadow-card-hover);
-            border-color: var(--border-glow);
+            box-shadow: 0 20px 35px -8px rgba(59, 89, 152, 0.18), 0 8px 16px -4px rgba(15, 23, 42, 0.06);
+            border-color: #5B8DEF;
         }
 
-        .card-top-category {
+        .card-image-aspect {
+            position: relative;
+            width: 100%;
+            height: 195px;
+            background: linear-gradient(135deg, #F8FAFC, #EEF4FF);
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
+            justify-content: center;
+            overflow: hidden;
+            padding: 14px;
         }
 
-        .category-chip {
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
+        .card-image-aspect img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.08));
+        }
+
+        .card-facility-vibe:hover .card-image-aspect img {
+            transform: scale(1.06);
+        }
+
+        /* Floating Status Pill */
+        .status-pill-floating {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 5px 12px;
             border-radius: var(--radius-pill);
-            background: #EEF4FF;
-            color: var(--brand-primary);
-        }
-
-        .availability-pill {
+            font-size: 11.5px;
+            font-weight: 800;
+            letter-spacing: 0.2px;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #10B981;
+            gap: 6px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            z-index: 2;
         }
 
-        .card-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 20px;
+        .status-pill-floating.available {
+            background: rgba(236, 253, 245, 0.95);
+            color: #047857;
+            border: 1px solid #A7F3D0;
+        }
+
+        .status-dot-pulse {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 6px #10B981;
+        }
+
+        .card-detail-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card-item-title {
+            font-size: 17px;
             font-weight: 800;
-            color: var(--brand-dark);
-            margin-bottom: 8px;
+            color: var(--text-main);
+            margin-bottom: 4px;
             line-height: 1.3;
         }
 
-        .card-spec-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 22px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid #F1F5F9;
-        }
-
-        .card-spec-list li {
-            font-size: 12px;
-            color: var(--text-muted);
+        .card-item-tag {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #3B5998;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 4px;
         }
 
-        .card-btn-action {
+        .btn-loan-request-modern {
+            margin-top: auto;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
             width: 100%;
-            padding: 11px;
+            padding: 12px 16px;
             border-radius: var(--radius-pill);
-            background: #F8FAFC;
-            border: 1px solid var(--border-subtle);
-            color: var(--brand-dark);
+            background: linear-gradient(135deg, #7BA7D9 0%, #3B5998 50%, #2C4A7C 100%);
+            color: #FFFFFF !important;
             font-size: 13px;
             font-weight: 700;
-            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(59, 89, 152, 0.35);
+            transition: all 0.22s ease;
         }
 
-        .facility-card-item:hover .card-btn-action {
-            background: var(--brand-primary);
-            color: #ffffff;
-            border-color: var(--brand-primary);
-            box-shadow: 0 4px 14px rgba(59, 89, 152, 0.3);
-        }
-
-        /* ----------------------------------------------------
-           ALUR PEMINJAMAN (Step-by-Step Visual)
-        ---------------------------------------------------- */
-        .workflow-section {
-            background: #ffffff;
-            border-top: 1px solid var(--border-subtle);
-            border-bottom: 1px solid var(--border-subtle);
-            padding: 96px 0;
-        }
-
-        .steps-flow-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            position: relative;
-        }
-
-        .step-flow-card {
-            background: #F8FAFC;
-            border: 1px solid var(--border-subtle);
-            border-radius: 20px;
-            padding: 28px 22px;
-            position: relative;
-            transition: all 0.25s ease;
-        }
-
-        .step-flow-card:hover {
-            transform: translateY(-6px);
-            background: #ffffff;
-            border-color: var(--brand-violet);
-            box-shadow: var(--shadow-card);
-        }
-
-        .step-index-badge {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: var(--brand-gradient-action);
-            color: #ffffff;
-            font-family: 'Outfit', sans-serif;
-            font-size: 18px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 18px;
-            box-shadow: 0 6px 16px rgba(59, 89, 152, 0.25);
-        }
-
-        .step-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--brand-dark);
-            margin-bottom: 10px;
-        }
-
-        .step-desc {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.6;
+        .card-facility-vibe:hover .btn-loan-request-modern {
+            background: linear-gradient(135deg, #5B8DEF 0%, #2C4A7C 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 89, 152, 0.45);
         }
 
         /* ----------------------------------------------------
            FAQ SECTION (Accordion)
         ---------------------------------------------------- */
         .faq-section-wrap {
-            padding: 96px 0;
+            padding: 80px 0 96px;
+            border-top: 1px solid var(--border-subtle);
         }
 
         .faq-layout-split {
@@ -1033,8 +1002,122 @@
         }
 
         /* ----------------------------------------------------
+           SPOILER LOGIN REQUIRED MODAL
+        ---------------------------------------------------- */
+        .spoiler-modal-shade {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .spoiler-modal-card {
+            background: #FFFFFF;
+            border-radius: 28px;
+            max-width: 440px;
+            width: 100%;
+            padding: 34px 30px;
+            box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.35);
+            text-align: center;
+            animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleUp {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .spoiler-modal-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            background: #EEF4FF;
+            color: #3B5998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            box-shadow: 0 8px 20px rgba(59, 89, 152, 0.2);
+        }
+
+        .spoiler-modal-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: #1E293B;
+            margin-bottom: 8px;
+        }
+
+        .spoiler-modal-desc {
+            font-size: 14px;
+            color: #64748B;
+            line-height: 1.6;
+            margin-bottom: 26px;
+        }
+
+        .spoiler-modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-modal-cancel {
+            flex: 1;
+            padding: 12px 18px;
+            border-radius: var(--radius-pill);
+            background: #F1F5F9;
+            color: #475569;
+            font-size: 13.5px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .btn-modal-cancel:hover {
+            background: #E2E8F0;
+            color: #0F172A;
+        }
+
+        .btn-modal-login {
+            flex: 1.4;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: var(--radius-pill);
+            background: linear-gradient(135deg, #5B8DEF 0%, #3B5998 50%, #2C4A7C 100%);
+            color: #FFFFFF !important;
+            font-size: 13.5px;
+            font-weight: 700;
+            box-shadow: 0 4px 14px rgba(59, 89, 152, 0.35);
+            transition: all 0.2s ease;
+        }
+
+        .btn-modal-login:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 22px rgba(59, 89, 152, 0.45);
+        }
+
+        /* ----------------------------------------------------
            RESPONSIVE MEDIA QUERIES
         ---------------------------------------------------- */
+        @media (max-width: 1200px) {
+            .user-spoiler-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
         @media (max-width: 1024px) {
             .hero-grid-2col,
             .faq-layout-split,
@@ -1053,7 +1136,7 @@
                 border-right: none;
             }
 
-            .steps-flow-grid {
+            .user-spoiler-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
 
@@ -1092,7 +1175,7 @@
                 padding-bottom: 0;
             }
 
-            .steps-flow-grid {
+            .user-spoiler-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -1127,8 +1210,7 @@
             <nav>
                 <ul class="nav-links-row">
                     <li><a href="#beranda">Beranda</a></li>
-                    <li><a href="#katalog">Fasilitas</a></li>
-                    <li><a href="#alur">Alur Pinjam</a></li>
+                    <li><a href="#katalog-spoiler">Daftar Fasilitas</a></li>
                     <li><a href="#faq">FAQ</a></li>
                 </ul>
             </nav>
@@ -1181,13 +1263,13 @@
                     </p>
 
                     <div class="hero-btn-group">
-                        <a href="{{ route('login') }}" class="btn-brand-primary" style="padding: 13px 30px; font-size: 14px;">
-                            <span>Cari & Ajukan Fasilitas</span>
+                        <a href="#katalog-spoiler" class="btn-brand-primary" style="padding: 13px 30px; font-size: 14px;">
+                            <span>Lihat Barang Siap Pinjam</span>
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </a>
-                        <a href="#alur" class="btn-glass-secondary">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                            <span>Panduan Peminjaman</span>
+                        <a href="{{ route('login') }}" class="btn-glass-secondary">
+                            <span>Masuk ke Akun</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                         </a>
                     </div>
                 </div>
@@ -1213,8 +1295,8 @@
                             <div class="mini-facility-info">
                                 <div class="facility-icon-square">📽️</div>
                                 <div class="facility-name-block">
-                                    <strong>Proyektor EPSON EB-X500</strong>
-                                    <span>Gedung Sarpras • Multimedia</span>
+                                    <strong>Projector Epson X300</strong>
+                                    <span>Gedung Sarpras • Elektronik</span>
                                 </div>
                             </div>
                             <span class="badge-ready">Tersedia</span>
@@ -1223,10 +1305,10 @@
                         <!-- Facility 2 -->
                         <div class="mini-facility-row">
                             <div class="mini-facility-info">
-                                <div class="facility-icon-square">💻</div>
+                                <div class="facility-icon-square">🔊</div>
                                 <div class="facility-name-block">
-                                    <strong>Laboratorium Komputer 1</strong>
-                                    <span>Lantai 2 • 36 Unit PC Siap</span>
+                                    <strong>Portable Speaker JBL</strong>
+                                    <span>Ruang Audio • Audio Visual</span>
                                 </div>
                             </div>
                             <span class="badge-ready">Tersedia</span>
@@ -1235,20 +1317,20 @@
                         <!-- Facility 3 -->
                         <div class="mini-facility-row">
                             <div class="mini-facility-info">
-                                <div class="facility-icon-square">🔊</div>
+                                <div class="facility-icon-square">📷</div>
                                 <div class="facility-name-block">
-                                    <strong>Sound System Portable Wireless</strong>
-                                    <span>Aula Utama • Acara & Rapat</span>
+                                    <strong>Kamera DSLR Canon EOS</strong>
+                                    <span>Ruang Dokumentasi OSIS</span>
                                 </div>
                             </div>
-                            <span class="badge-queue">Dipinjam (Kembali 14:00)</span>
+                            <span class="badge-ready">Tersedia</span>
                         </div>
                     </div>
 
                     <div class="showcase-footer-action">
                         <span>Peminjaman online bebas antrean form</span>
-                        <a href="{{ route('login') }}" class="link-quick-borrow">
-                            Ajukan Pinjam Sekarang →
+                        <a href="#katalog-spoiler" class="link-quick-borrow">
+                            Jelajahi Semua Barang ↓
                         </a>
                     </div>
                 </div>
@@ -1300,147 +1382,168 @@
             </div>
         </section>
 
-        <!-- 4. KATALOG FASILITAS UNGGULAN -->
-        <section class="container catalog-section" id="katalog">
+        <!-- 4. SPOILER / KATALOG BARANG SIAP DIPINJAM (Replacing the 4 workflow cards with User Dashboard Card Style) -->
+        @php
+            try {
+                $spoilerBarangs = \App\Models\Barang::with('kategori')
+                    ->where('jumlah_baik', '>', 0)
+                    ->take(8)
+                    ->get();
+            } catch (\Throwable $e) {
+                $spoilerBarangs = collect();
+            }
+
+            if ($spoilerBarangs->isEmpty()) {
+                $spoilerBarangs = collect([
+                    (object)[
+                        'kode_barang' => 'BRG-001',
+                        'nama_barang' => 'Projector Epson X300',
+                        'merk_model' => 'Epson EB-X300 Full HD',
+                        'foto' => null,
+                        'jumlah_baik' => 4,
+                        'kondisi' => 'Baik',
+                        'kategori' => (object)['nama_kategori' => 'Elektronik'],
+                        'icon' => '📽️'
+                    ],
+                    (object)[
+                        'kode_barang' => 'BRG-002',
+                        'nama_barang' => 'Portable Speaker JBL',
+                        'merk_model' => 'JBL PartyBox On-The-Go',
+                        'foto' => null,
+                        'jumlah_baik' => 2,
+                        'kondisi' => 'Baik',
+                        'kategori' => (object)['nama_kategori' => 'Audio Visual'],
+                        'icon' => '🔊'
+                    ],
+                    (object)[
+                        'kode_barang' => 'BRG-003',
+                        'nama_barang' => 'Kamera DSLR Canon EOS',
+                        'merk_model' => 'Canon EOS 3000D + Lens 18-55mm',
+                        'foto' => null,
+                        'jumlah_baik' => 3,
+                        'kondisi' => 'Baik',
+                        'kategori' => (object)['nama_kategori' => 'Audio Visual'],
+                        'icon' => '📷'
+                    ],
+                    (object)[
+                        'kode_barang' => 'BRG-004',
+                        'nama_barang' => 'Wireless Presenter Laser',
+                        'merk_model' => 'Logitech R400 Wireless',
+                        'foto' => null,
+                        'jumlah_baik' => 6,
+                        'kondisi' => 'Baik',
+                        'kategori' => (object)['nama_kategori' => 'Elektronik'],
+                        'icon' => '📡'
+                    ],
+                    (object)[
+                        'kode_barang' => 'BRG-005',
+                        'nama_barang' => 'Terminal Roll Listrik 15M',
+                        'merk_model' => 'Uticon Heavy Duty 4 Lubang',
+                        'foto' => null,
+                        'jumlah_baik' => 8,
+                        'kondisi' => 'Baik',
+                        'kategori' => (object)['nama_kategori' => 'Kelistrikan'],
+                        'icon' => '🔌'
+                    ],
+                    (object)[
+                        'kode_barang' => 'BRG-006',
+                        'nama_barang' => 'Mikroskop Binokuler Digital',
+                        'merk_model' => 'Olympus CX23 LED Praktikum',
+                        'foto' => null,
+                        'jumlah_baik' => 5,
+                        'kondisi' => 'Baik',
+                        'kategori' => (object)['nama_kategori' => 'Peralatan'],
+                        'icon' => '🔬'
+                    ],
+                    (object)[
+                        'kode_barang' => 'BRG-007',
+                        'nama_barang' => 'Set Bola Basket & Futsal',
+                        'merk_model' => 'Molten GG7X & Vantaggio',
+                        'foto' => null,
+                        'jumlah_baik' => 10,
+                        'kondisi' => 'Baik',
+                        'kategori' => (object)['nama_kategori' => 'Olahraga'],
+                        'icon' => '⚽'
+                    ],
+                    (object)[
+                        'kode_barang' => 'BRG-008',
+                        'nama_barang' => 'Walkie Talkie HT Baofeng',
+                        'merk_model' => 'Baofeng Dual Band VHF/UHF',
+                        'foto' => null,
+                        'jumlah_baik' => 6,
+                        'kondisi' => 'Baik',
+                        'kategori' => (object)['nama_kategori' => 'Komunikasi'],
+                        'icon' => '📻'
+                    ],
+                ]);
+            }
+        @endphp
+
+        <section class="container spoiler-section" id="katalog-spoiler">
             <div class="section-header-center">
-                <span class="section-tag">Katalog Sarana Prasarana</span>
-                <h2 class="section-title">Fasilitas Siap Pakai Untuk Mendukung Prestasi</h2>
+                <span class="section-tag">Cuplikan Inventaris Sarpras</span>
+                <h2 class="section-title">Barang & Fasilitas yang Siap Dipinjam</h2>
                 <p class="section-subtitle">
-                    Temukan fasilitas yang Anda butuhkan untuk kegiatan belajar mengajar, praktikum, organisasi kesiswaan, hingga ekstrakurikuler.
+                    Berikut beberapa fasilitas sekolah yang tersedia. Untuk mengajukan peminjaman atau melihat jadwal lengkap, silakan masuk dengan akun Anda.
                 </p>
             </div>
 
-            <div class="catalog-cards-grid">
-                <!-- Card 1 -->
-                <div class="facility-card-item">
-                    <div>
-                        <div class="card-top-category">
-                            <span class="category-chip">Laboratorium</span>
-                            <span class="availability-pill">● Siap Digunakan</span>
-                        </div>
-                        <h3 class="card-title">Lab Komputer Jaringan</h3>
-                        <ul class="card-spec-list">
-                            <li>📍 Gedung Timur Lantai 2</li>
-                            <li>🖥️ Kapasitas 36 Unit PC Core i5</li>
-                            <li>⚡ Koneksi Fiber Optik Cepat</li>
-                        </ul>
-                    </div>
-                    <a href="{{ route('login') }}" class="card-btn-action">
-                        <span>Cek Ketersediaan & Pinjam</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </a>
-                </div>
+            <!-- 4-Column Cards Grid Matching User Dashboard -->
+            <div class="user-spoiler-grid">
+                @foreach($spoilerBarangs as $b)
+                    @php
+                        $isAvailable = ($b->jumlah_baik ?? 0) > 0;
+                    @endphp
+                    <div class="card-facility-vibe" onclick="handleItemClick('{{ addslashes($b->nama_barang) }}', '{{ $b->kode_barang }}')">
+                        <div class="card-image-aspect">
+                            <span class="status-pill-floating {{ $isAvailable ? 'available' : 'empty' }}">
+                                <span class="status-dot-pulse"></span>
+                                <span>{{ $isAvailable ? 'Tersedia' : 'Habis' }}</span>
+                            </span>
 
-                <!-- Card 2 -->
-                <div class="facility-card-item">
-                    <div>
-                        <div class="card-top-category">
-                            <span class="category-chip">Multimedia</span>
-                            <span class="availability-pill">● Siap Digunakan</span>
+                            @if(!empty($b->foto))
+                                <img src="{{ asset('storage/' . $b->foto) }}" alt="{{ $b->nama_barang }}" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
+                                <div style="display:none; font-size: 54px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));">
+                                    {{ $b->icon ?? '📦' }}
+                                </div>
+                            @else
+                                <div style="font-size: 58px; filter: drop-shadow(0 4px 12px rgba(59, 89, 152, 0.15)); user-select: none;">
+                                    {{ $b->icon ?? '📦' }}
+                                </div>
+                            @endif
                         </div>
-                        <h3 class="card-title">Proyektor EPSON Full HD</h3>
-                        <ul class="card-spec-list">
-                            <li>📍 Ruang Penyimpanan Sarpras</li>
-                            <li>🔌 Dilengkapi Kabel HDMI & Adaptor</li>
-                            <li>✨ Kualitas Gambar 3600 Lumens</li>
-                        </ul>
-                    </div>
-                    <a href="{{ route('login') }}" class="card-btn-action">
-                        <span>Cek Ketersediaan & Pinjam</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </a>
-                </div>
 
-                <!-- Card 3 -->
-                <div class="facility-card-item">
-                    <div>
-                        <div class="card-top-category">
-                            <span class="category-chip">Audio & Sound</span>
-                            <span class="availability-pill">● Siap Digunakan</span>
-                        </div>
-                        <h3 class="card-title">Portable Wireless Sound</h3>
-                        <ul class="card-spec-list">
-                            <li>📍 Ruang Perlengkapan OSIS</li>
-                            <li>🎤 Termasuk 2 Mic Wireless</li>
-                            <li>🔋 Baterai Tahan Hingga 8 Jam</li>
-                        </ul>
-                    </div>
-                    <a href="{{ route('login') }}" class="card-btn-action">
-                        <span>Cek Ketersediaan & Pinjam</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </a>
-                </div>
+                        <div class="card-detail-body">
+                            <h3 class="card-item-title">{{ $b->nama_barang }}</h3>
+                            <div class="card-item-tag">
+                                <span>#</span>
+                                <span>{{ $b->kategori->nama_kategori ?? 'Umum' }}</span>
+                                <span>&bull;</span>
+                                <span>{{ $b->jumlah_baik ?? 1 }} unit siap</span>
+                            </div>
 
-                <!-- Card 4 -->
-                <div class="facility-card-item">
-                    <div>
-                        <div class="card-top-category">
-                            <span class="category-chip">Ruang & Aula</span>
-                            <span class="availability-pill">● Siap Digunakan</span>
+                            <button type="button" class="btn-loan-request-modern" onclick="event.stopPropagation(); handleItemClick('{{ addslashes($b->nama_barang) }}', '{{ $b->kode_barang }}')">
+                                <span>Pinjam Fasilitas</span>
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
                         </div>
-                        <h3 class="card-title">Aula Serbaguna Sekolah</h3>
-                        <ul class="card-spec-list">
-                            <li>📍 Gedung Utama Lantai 3</li>
-                            <li>👥 Daya Tampung Hingga 300 Siswa</li>
-                            <li>❄️ Pendingin Ruangan (AC Central)</li>
-                        </ul>
                     </div>
-                    <a href="{{ route('login') }}" class="card-btn-action">
-                        <span>Cek Ketersediaan & Pinjam</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </a>
-                </div>
+                @endforeach
+            </div>
+
+            <!-- Bottom notice for login -->
+            <div style="text-align: center;">
+                <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 14px;">
+                    Ingin melihat seluruh inventaris sekolah lainnya atau mengecek tanggal peminjaman?
+                </p>
+                <a href="{{ route('login') }}" class="btn-brand-primary" style="padding: 12px 28px; font-size: 13.5px;">
+                    <span>Masuk ke Portal Siswa / Guru untuk Pinjam</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
             </div>
         </section>
 
-        <!-- 5. ALUR PEMINJAMAN VISUAL (Step-by-Step Interactive Workflow) -->
-        <section class="workflow-section" id="alur">
-            <div class="container">
-                <div class="section-header-center">
-                    <span class="section-tag">Alur Penggunaan</span>
-                    <h2 class="section-title">4 Langkah Mudah Meminjam Fasilitas</h2>
-                    <p class="section-subtitle">
-                        Proses digital yang dirancang efisien dan teratur, memastikan setiap aset sekolah terdokumentasi dengan baik.
-                    </p>
-                </div>
-
-                <div class="steps-flow-grid">
-                    <div class="step-flow-card">
-                        <div class="step-index-badge">01</div>
-                        <h3 class="step-title">Eksplorasi Barang</h3>
-                        <p class="step-desc">
-                            Lihat ketersediaan barang dan jadwal pemakaian secara transparan melalui portal siswa/guru.
-                        </p>
-                    </div>
-
-                    <div class="step-flow-card">
-                        <div class="step-index-badge">02</div>
-                        <h3 class="step-title">Ajukan Jadwal</h3>
-                        <p class="step-desc">
-                            Pilih tanggal peminjaman, jam mulai, jam pengembalian, serta tuliskan tujuan penggunaan.
-                        </p>
-                    </div>
-
-                    <div class="step-flow-card">
-                        <div class="step-index-badge">03</div>
-                        <h3 class="step-title">Verifikasi Cepat</h3>
-                        <p class="step-desc">
-                            Staf sarana prasarana memeriksa pengajuan dan memberikan persetujuan tanpa perlu form kertas.
-                        </p>
-                    </div>
-
-                    <div class="step-flow-card">
-                        <div class="step-index-badge">04</div>
-                        <h3 class="step-title">Ambil & Kembalikan</h3>
-                        <p class="step-desc">
-                            Ambil barang di ruang sarpras dan kembalikan tepat waktu dengan bukti foto kondisi fisik.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 6. FAQ SECTION (Accordion) -->
+        <!-- 5. FAQ SECTION (Accordion) -->
         <section class="container faq-section-wrap" id="faq">
             <div class="faq-layout-split">
                 <div class="faq-sticky-left">
@@ -1505,7 +1608,7 @@
             </div>
         </section>
 
-        <!-- 7. CALL TO ACTION BANNER (SINFAS Gradient) -->
+        <!-- 6. CALL TO ACTION BANNER (SINFAS Gradient) -->
         <section class="container callout-banner-section">
             <div class="callout-card-glow">
                 <div class="callout-text">
@@ -1524,7 +1627,7 @@
         </section>
     </main>
 
-    <!-- 8. FOOTER (Deep Navy SINFAS) -->
+    <!-- 7. FOOTER (Deep Navy SINFAS) -->
     <footer class="site-footer-deep">
         <div class="container">
             <div class="footer-grid-4col">
@@ -1544,8 +1647,7 @@
                     <h4 class="footer-col-title">Navigasi Cepat</h4>
                     <ul class="footer-nav-list">
                         <li><a href="#beranda">Beranda</a></li>
-                        <li><a href="#katalog">Katalog Fasilitas</a></li>
-                        <li><a href="#alur">Alur Peminjaman</a></li>
+                        <li><a href="#katalog-spoiler">Daftar Fasilitas</a></li>
                         <li><a href="#faq">Pusat Bantuan</a></li>
                     </ul>
                 </div>
@@ -1578,8 +1680,52 @@
         </div>
     </footer>
 
+    <!-- LOGIN REQUIRED SPOILER MODAL -->
+    <div id="login-prompt-modal" class="spoiler-modal-shade" style="display: none;" onclick="if(event.target === this) closeLoginModal();">
+        <div class="spoiler-modal-card">
+            <div class="spoiler-modal-icon">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+            </div>
+            <h3 class="spoiler-modal-title">Masuk Terlebih Dahulu</h3>
+            <p class="spoiler-modal-desc">
+                Untuk mengajukan peminjaman fasilitas <strong id="modal-item-name" style="color: var(--brand-dark);">[Barang]</strong>, Anda harus masuk ke portal SINFAS terlebih dahulu.
+            </p>
+            <div class="spoiler-modal-actions">
+                <button type="button" class="btn-modal-cancel" onclick="closeLoginModal()">Nanti Saja</button>
+                <a href="{{ route('login') }}" class="btn-modal-login">
+                    <span>Masuk (Login)</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- Interactive JavaScript -->
     <script>
+        // Check if user is authenticated
+        const isAuthenticated = {{ auth()->check() ? 'true' : 'false' }};
+
+        function handleItemClick(itemName, itemCode) {
+            if (isAuthenticated) {
+                // If logged in, navigate directly to item detail/booking
+                window.location.href = "{{ url('/user/barang') }}/" + itemCode;
+            } else {
+                // If not logged in, show spoiler modal prompting to login
+                const modal = document.getElementById('login-prompt-modal');
+                const nameLabel = document.getElementById('modal-item-name');
+                if (nameLabel) nameLabel.textContent = itemName;
+                if (modal) modal.style.display = 'flex';
+            }
+        }
+
+        function closeLoginModal() {
+            const modal = document.getElementById('login-prompt-modal');
+            if (modal) modal.style.display = 'none';
+        }
+
         function toggleFaqBox(button) {
             const currentCard = button.closest('.faq-box-card');
             const isOpen = currentCard.classList.contains('active');
