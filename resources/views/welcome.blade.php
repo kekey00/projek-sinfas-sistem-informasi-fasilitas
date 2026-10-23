@@ -1490,7 +1490,7 @@
                     <div class="showcase-header">
                         <div class="showcase-user">
                             <div class="avatar-circle-pulse">
-                                @include('components.sinfas-logo', ['class' => 'brand-logo-img', 'style' => 'width: 20px; height: 20px;'])
+                                @include('components.sinfas-logo', ['class' => 'brand-logo-img'])
                             </div>
                             <div class="showcase-user-text">
                                 <strong>Katalog Fasilitas</strong>
@@ -1845,7 +1845,7 @@
                 <div>
                     <div class="footer-brand-title">
                         <div class="brand-icon-wrap" style="width: 32px; height: 32px; border-radius: 9px;">
-                            @include('components.sinfas-logo', ['class' => 'brand-logo-img', 'style' => 'width: 18px; height: 18px;'])
+                            @include('components.sinfas-logo', ['class' => 'brand-logo-img'])
                         </div>
                         <span>SINFAS<span>.</span></span>
                     </div>
