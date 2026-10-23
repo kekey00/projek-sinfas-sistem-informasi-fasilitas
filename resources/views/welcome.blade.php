@@ -1874,7 +1874,7 @@
                     <h4 class="footer-col-title">Portal Akses</h4>
                     <ul class="footer-nav-list">
                         <li><a href="{{ route('login') }}">Masuk Siswa</a></li>
-                        <li><a href="{{ route('login') }}">Masuk Guru & Pembina</a></li>
+                        <li><a href="{{ route('login') }}">Masuk Guru</a></li>
                         <li><a href="{{ route('login') }}">Panel Staf Sarpras</a></li>
                         <li><a href="{{ route('login') }}">Panel Admin Sistem</a></li>
                     </ul>
