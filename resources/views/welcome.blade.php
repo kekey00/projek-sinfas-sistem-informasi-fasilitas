@@ -1396,7 +1396,7 @@
                         @include('components.sinfas-logo', ['class' => 'brand-logo-img', 'variant' => 'user'])
                     </div>
                     <div class="brand-text-block">
-                        <span class="brand-title">SINFAS<span></span>
+                        <span class="brand-title">SINFAS</span>
                         <span class="brand-sub">Sistem Informasi Fasilitas</span>
                     </div>
                 </a>
