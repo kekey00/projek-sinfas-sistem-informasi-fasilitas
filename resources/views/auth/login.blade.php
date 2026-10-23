@@ -26,7 +26,7 @@
     <div class="bubble-3d login-bubble login-bubble--top-right float-reverse" style="width: 70px; height: 70px; top: 8%; right: 20%; opacity: 0.45;"></div>
 
     <!-- Main Card Container -->
-    <div class="sinfas-card max-w-[95%] md:max-w-[820px] w-full mx-auto my-auto flex-col md:flex-row shadow-2xl">
+    <div class="sinfas-card login-card max-w-[95%] md:max-w-[820px] w-full mx-auto my-auto flex-col md:flex-row shadow-2xl">
         
         <!-- Left Decorative Column (Hidden on mobile) -->
         <div class="card-decor-left hidden md:flex w-[340px] relative overflow-hidden self-stretch bg-[#F8FAFC] shrink-0 p-8 flex-col justify-between">
