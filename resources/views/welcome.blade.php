@@ -1395,7 +1395,7 @@
                         @include('components.sinfas-logo', ['class' => 'brand-logo-img', 'variant' => 'user'])
                     </div>
                     <div class="brand-text-block">
-                        <span class="brand-title">SINFAS<span>.</span></span>
+                        <span class="brand-title">SINFAS<span></span>
                         <span class="brand-sub">Sistem Informasi Fasilitas</span>
                     </div>
                 </a>
@@ -1885,7 +1885,6 @@
                     <div class="footer-contact-block">
                         <p><strong>Gedung A, Lantai 1</strong></p>
                         <p>Senin – Jumat: 07.00 – 16.00 WIB</p>
-                        <p style="margin-top: 6px;">Sabtu: 08.00 – 12.00 WIB</p>
                         <p style="margin-top: 6px; color: var(--brand-cyan-light);">Email: sarpras@sekolah.sch.id</p>
                     </div>
                 </div>
