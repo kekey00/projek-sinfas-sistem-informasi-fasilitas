@@ -188,6 +188,27 @@ body {
   .card-decor-left {
     display: none !important;
   }
+
+  .login-form-panel {
+    padding: 20px 18px !important;
+  }
+
+  .login-form-panel .text-center {
+    margin-bottom: 1rem;
+  }
+
+  .login-brand-logo {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  .login-form-panel .playful-title {
+    font-size: 32px;
+  }
+
+  .login-form-panel form > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.75rem;
+  }
 }
 
 .sinfas-label {

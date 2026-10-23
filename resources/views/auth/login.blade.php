@@ -63,10 +63,10 @@
         </div>
 
         <!-- Right Form Column -->
-        <div class="flex-1 w-full p-8 md:p-10 flex flex-col justify-center bg-white">
+        <div class="login-form-panel flex-1 w-full p-6 md:p-10 flex flex-col justify-center bg-white">
             <div class="text-center mb-6">
                 <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:8px;">
-                    @include('components.sinfas-logo', ['class' => 'drop-shadow-md', 'style' => 'width: 56px; height: 56px; object-fit: contain;'])
+                    @include('components.sinfas-logo', ['class' => 'login-brand-logo drop-shadow-md', 'style' => 'width: 56px; height: 56px; object-fit: contain;'])
                     <h1 class="playful-title" style="margin:0;">MASUK</h1>
                 </div>
                 <p class="text-xs sm:text-sm font-medium text-slate-500 font-['Outfit'] mt-1">
