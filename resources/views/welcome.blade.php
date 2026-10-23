@@ -14,26 +14,38 @@
 
     <style>
         :root {
-            --navy-deep: #070d1e;
-            --navy-dark: #0f172a;
-            --navy-slate: #1e293b;
-            --blue-glow: #2563eb;
-            --blue-electric: #3b82f6;
-            --cyan-glow: #06b6d4;
-            --cyan-light: #67e8f9;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --text-light: #94a3b8;
-            --bg-canvas: #f8fafc;
-            --surface-glass: rgba(255, 255, 255, 0.88);
-            --border-glass: rgba(226, 232, 240, 0.85);
-            --gradient-primary: linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #06b6d4 100%);
-            --gradient-hero: linear-gradient(180deg, #070d1e 0%, #0f172a 60%, #1e293b 100%);
+            /* SINFAS Official Signature Palette (Harmonized with User & Login pages) */
+            --brand-primary: #3B5998;
+            --brand-dark: #2C4A7C;
+            --brand-deep: #152238;
+            --brand-abyss: #0E1726;
+            --brand-violet: #5B8DEF;
+            --brand-light: #7BA7D9;
+            --brand-cyan: #06B6D4;
+            --brand-cyan-light: #67E8F9;
+            
+            --brand-gradient: linear-gradient(135deg, #7BA7D9 0%, #3B5998 50%, #2C4A7C 100%);
+            --brand-gradient-action: linear-gradient(135deg, #5B8DEF 0%, #3B5998 50%, #2C4A7C 100%);
+            --brand-gradient-hover: linear-gradient(135deg, #5B8DEF 0%, #2C4A7C 100%);
+            --hero-gradient: linear-gradient(165deg, #182848 0%, #2C4A7C 48%, #141F35 100%);
+            
+            --text-main: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #64748B;
+            --text-light: #94A3B8;
+            
+            --bg-canvas: #F8FAFC;
+            --surface-glass: rgba(255, 255, 255, 0.92);
+            --border-subtle: #E2E8F0;
+            --border-glow: rgba(91, 141, 239, 0.4);
+            
             --radius-pill: 9999px;
             --radius-card: 24px;
             --radius-sub: 16px;
-            --shadow-glow: 0 12px 36px -8px rgba(37, 99, 235, 0.38);
-            --shadow-card: 0 20px 40px -15px rgba(15, 23, 42, 0.07);
+            
+            --shadow-glow: 0 10px 30px -4px rgba(59, 89, 152, 0.45);
+            --shadow-card: 0 12px 32px -8px rgba(15, 23, 42, 0.06);
+            --shadow-card-hover: 0 20px 40px -10px rgba(59, 89, 152, 0.2);
         }
 
         * {
@@ -49,6 +61,10 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg-canvas);
+            background-image: radial-gradient(at 0% 0%, rgba(91, 141, 239, 0.06) 0px, transparent 50%),
+                              radial-gradient(at 100% 0%, rgba(123, 167, 217, 0.05) 0px, transparent 50%),
+                              radial-gradient(at 50% 100%, rgba(6, 182, 212, 0.04) 0px, transparent 50%);
+            background-attachment: fixed;
             color: var(--text-main);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
@@ -74,17 +90,17 @@
         }
 
         /* ----------------------------------------------------
-           NAVBAR (Sticky Glass)
+           NAVBAR (Sticky SINFAS Glass)
         ---------------------------------------------------- */
         .glass-navbar-wrap {
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: rgba(7, 13, 30, 0.82);
+            background: rgba(20, 31, 53, 0.88);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 14px 0;
             transition: all 0.3s ease;
         }
 
@@ -98,19 +114,32 @@
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            color: #ffffff;
+            text-decoration: none;
         }
 
-        .brand-icon-badge {
+        .brand-icon-wrap {
             width: 42px;
             height: 42px;
             border-radius: 12px;
-            background: var(--gradient-primary);
+            background: var(--brand-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #ffffff;
-            box-shadow: 0 4px 18px rgba(37, 99, 235, 0.45);
+            box-shadow: 0 4px 16px rgba(59, 89, 152, 0.45);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .brand-link:hover .brand-icon-wrap {
+            transform: scale(1.08) rotate(-4deg);
+        }
+
+        .brand-logo-img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
         }
 
         .brand-text-block {
@@ -121,20 +150,20 @@
         .brand-title {
             font-family: 'Outfit', sans-serif;
             font-size: 22px;
-            font-weight: 800;
+            font-weight: 900;
             letter-spacing: -0.5px;
             line-height: 1;
             color: #ffffff;
         }
 
         .brand-title span {
-            color: var(--cyan-light);
+            color: var(--brand-cyan-light);
         }
 
         .brand-sub {
             font-size: 10px;
             font-weight: 700;
-            color: var(--cyan-light);
+            color: var(--brand-light);
             letter-spacing: 0.8px;
             text-transform: uppercase;
             margin-top: 3px;
@@ -150,7 +179,7 @@
         .nav-links-row a {
             font-size: 14px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.82);
             position: relative;
         }
 
@@ -165,7 +194,7 @@
             bottom: -6px;
             width: 0;
             height: 2px;
-            background: var(--cyan-glow);
+            background: var(--brand-cyan);
             transition: width 0.22s ease;
             border-radius: var(--radius-pill);
         }
@@ -180,48 +209,49 @@
             gap: 12px;
         }
 
-        .btn-glow-primary {
+        .btn-brand-primary {
             display: inline-flex;
             align-items: center;
             gap: 9px;
             padding: 10px 24px;
             border-radius: var(--radius-pill);
-            background: var(--gradient-primary);
+            background: var(--brand-gradient-action);
             color: #ffffff !important;
             font-size: 13px;
             font-weight: 700;
             box-shadow: var(--shadow-glow);
             transition: all 0.25s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.25);
         }
 
-        .btn-glow-primary:hover {
+        .btn-brand-primary:hover {
+            background: var(--brand-gradient-hover);
             transform: translateY(-2px);
-            box-shadow: 0 16px 40px -6px rgba(6, 182, 212, 0.5);
+            box-shadow: 0 14px 34px -4px rgba(91, 141, 239, 0.55);
         }
 
         /* ----------------------------------------------------
-           HERO SECTION (Edu-Tech Dark Canvas + Floating Glass)
+           HERO SECTION (Edu-Tech SINFAS Navy-Blue)
         ---------------------------------------------------- */
         .hero-edutech {
-            background: var(--gradient-hero);
+            background: var(--hero-gradient);
             color: #ffffff;
             position: relative;
             padding: 80px 0 130px;
             overflow: hidden;
         }
 
-        /* Radial ambient light blooms */
+        /* Ambient light glows */
         .hero-edutech::before {
             content: '';
             position: absolute;
-            top: -10%;
-            left: 15%;
-            width: 650px;
-            height: 650px;
-            background: radial-gradient(circle, rgba(37, 99, 235, 0.28) 0%, transparent 68%);
+            top: -15%;
+            left: 10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(91, 141, 239, 0.26) 0%, transparent 68%);
             pointer-events: none;
-            filter: blur(50px);
+            filter: blur(55px);
         }
 
         .hero-edutech::after {
@@ -229,9 +259,9 @@
             position: absolute;
             bottom: 0;
             right: 5%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, transparent 70%);
+            width: 520px;
+            height: 520px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.22) 0%, transparent 70%);
             pointer-events: none;
             filter: blur(60px);
         }
@@ -252,12 +282,12 @@
             padding: 6px 14px;
             border-radius: var(--radius-pill);
             background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             backdrop-filter: blur(8px);
             font-size: 11px;
             font-weight: 800;
             letter-spacing: 0.5px;
-            color: var(--cyan-light);
+            color: var(--brand-cyan-light);
             margin-bottom: 22px;
         }
 
@@ -265,7 +295,7 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #10b981;
+            background: #10B981;
             box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.35);
             animation: pulseGlow 2s infinite;
         }
@@ -286,7 +316,7 @@
         }
 
         .gradient-headline {
-            background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 50%, #a7f3d0 100%);
+            background: linear-gradient(135deg, #A5C4F7 0%, #67E8F9 50%, #93C5FD 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -294,7 +324,7 @@
         .hero-subtext {
             font-size: 16px;
             line-height: 1.75;
-            color: rgba(255, 255, 255, 0.78);
+            color: rgba(255, 255, 255, 0.82);
             max-width: 530px;
             margin-bottom: 38px;
         }
@@ -334,7 +364,7 @@
             padding: 28px;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            box-shadow: 0 30px 60px -12px rgba(10, 20, 40, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
             position: relative;
         }
 
@@ -343,7 +373,7 @@
             align-items: center;
             justify-content: space-between;
             padding-bottom: 18px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
             margin-bottom: 20px;
         }
 
@@ -356,14 +386,15 @@
         .avatar-circle-pulse {
             width: 40px;
             height: 40px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
+            border-radius: 12px;
+            background: var(--brand-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
             font-size: 14px;
             color: #ffffff;
+            box-shadow: 0 4px 14px rgba(59, 89, 152, 0.35);
         }
 
         .showcase-user-text strong {
@@ -375,7 +406,7 @@
 
         .showcase-user-text span {
             font-size: 11px;
-            color: var(--cyan-light);
+            color: var(--brand-cyan-light);
         }
 
         .status-badge-live {
@@ -386,7 +417,7 @@
             background: rgba(16, 185, 129, 0.18);
             border: 1px solid rgba(16, 185, 129, 0.4);
             border-radius: var(--radius-pill);
-            color: #34d399;
+            color: #34D399;
             font-size: 11px;
             font-weight: 700;
         }
@@ -403,7 +434,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(20, 32, 56, 0.65);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             padding: 14px 16px;
@@ -411,8 +442,8 @@
         }
 
         .mini-facility-row:hover {
-            background: rgba(30, 41, 59, 0.8);
-            border-color: rgba(6, 182, 212, 0.4);
+            background: rgba(35, 53, 90, 0.85);
+            border-color: rgba(91, 141, 239, 0.4);
             transform: translateX(4px);
         }
 
@@ -430,9 +461,9 @@
             align-items: center;
             justify-content: center;
             font-size: 18px;
-            background: rgba(37, 99, 235, 0.2);
-            border: 1px solid rgba(37, 99, 235, 0.4);
-            color: var(--cyan-light);
+            background: rgba(59, 89, 152, 0.3);
+            border: 1px solid rgba(91, 141, 239, 0.4);
+            color: var(--brand-cyan-light);
         }
 
         .facility-name-block strong {
@@ -444,13 +475,13 @@
 
         .facility-name-block span {
             font-size: 11px;
-            color: var(--text-light);
+            color: var(--brand-light);
         }
 
         .badge-ready {
             font-size: 11px;
             font-weight: 700;
-            color: #34d399;
+            color: #34D399;
             background: rgba(16, 185, 129, 0.15);
             padding: 4px 10px;
             border-radius: var(--radius-pill);
@@ -459,7 +490,7 @@
         .badge-queue {
             font-size: 11px;
             font-weight: 700;
-            color: #fbbf24;
+            color: #FBBF24;
             background: rgba(251, 191, 36, 0.15);
             padding: 4px 10px;
             border-radius: var(--radius-pill);
@@ -477,11 +508,11 @@
 
         .showcase-footer-action span {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.75);
         }
 
         .link-quick-borrow {
-            color: var(--cyan-light);
+            color: var(--brand-cyan-light);
             font-size: 12px;
             font-weight: 800;
             display: inline-flex;
@@ -506,9 +537,9 @@
         .metrics-glass-box {
             background: #ffffff;
             border-radius: var(--radius-card);
-            border: 1px solid var(--border-glass);
+            border: 1px solid var(--border-subtle);
             padding: 34px 44px;
-            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.12);
+            box-shadow: var(--shadow-card);
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 28px;
@@ -518,7 +549,7 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            border-right: 1px solid #edf2f7;
+            border-right: 1px solid #EDF2F7;
             padding-right: 16px;
         }
 
@@ -531,23 +562,23 @@
             width: 48px;
             height: 48px;
             border-radius: 14px;
-            background: #eff6ff;
-            color: var(--blue-glow);
+            background: #EEF4FF;
+            color: var(--brand-primary);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
         }
 
-        .metric-cell:nth-child(2) .metric-icon-box { background: #ecfeff; color: #0891b2; }
-        .metric-cell:nth-child(3) .metric-icon-box { background: #ecfdf5; color: #059669; }
-        .metric-cell:nth-child(4) .metric-icon-box { background: #faf5ff; color: #7c3aed; }
+        .metric-cell:nth-child(2) .metric-icon-box { background: #ECFEFF; color: #0891B2; }
+        .metric-cell:nth-child(3) .metric-icon-box { background: #ECFDF5; color: #059669; }
+        .metric-cell:nth-child(4) .metric-icon-box { background: #F1F5F9; color: var(--brand-dark); }
 
         .metric-val {
             font-family: 'Outfit', sans-serif;
             font-size: 32px;
             font-weight: 800;
-            color: var(--navy-dark);
+            color: var(--brand-dark);
             line-height: 1;
             margin-bottom: 4px;
         }
@@ -576,7 +607,7 @@
             display: inline-block;
             font-size: 11px;
             font-weight: 800;
-            color: var(--blue-glow);
+            color: var(--brand-primary);
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 8px;
@@ -587,7 +618,7 @@
             font-size: clamp(32px, 3.8vw, 44px);
             font-weight: 800;
             letter-spacing: -0.6px;
-            color: var(--navy-dark);
+            color: var(--brand-dark);
             margin-bottom: 14px;
         }
 
@@ -605,7 +636,7 @@
 
         .facility-card-item {
             background: #ffffff;
-            border: 1px solid var(--border-glass);
+            border: 1px solid var(--border-subtle);
             border-radius: 20px;
             padding: 24px;
             box-shadow: var(--shadow-card);
@@ -617,8 +648,8 @@
 
         .facility-card-item:hover {
             transform: translateY(-8px);
-            box-shadow: 0 25px 45px -15px rgba(37, 99, 235, 0.18);
-            border-color: #bfdbfe;
+            box-shadow: var(--shadow-card-hover);
+            border-color: var(--border-glow);
         }
 
         .card-top-category {
@@ -633,8 +664,8 @@
             font-weight: 700;
             padding: 4px 10px;
             border-radius: var(--radius-pill);
-            background: #f1f5f9;
-            color: var(--text-muted);
+            background: #EEF4FF;
+            color: var(--brand-primary);
         }
 
         .availability-pill {
@@ -643,14 +674,14 @@
             gap: 5px;
             font-size: 11px;
             font-weight: 700;
-            color: #16a34a;
+            color: #10B981;
         }
 
         .card-title {
             font-family: 'Outfit', sans-serif;
             font-size: 20px;
             font-weight: 800;
-            color: var(--navy-dark);
+            color: var(--brand-dark);
             margin-bottom: 8px;
             line-height: 1.3;
         }
@@ -662,7 +693,7 @@
             gap: 8px;
             margin-bottom: 22px;
             padding-bottom: 16px;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid #F1F5F9;
         }
 
         .card-spec-list li {
@@ -681,18 +712,19 @@
             width: 100%;
             padding: 11px;
             border-radius: var(--radius-pill);
-            background: #f8fafc;
-            border: 1px solid var(--border-glass);
-            color: var(--navy-dark);
+            background: #F8FAFC;
+            border: 1px solid var(--border-subtle);
+            color: var(--brand-dark);
             font-size: 13px;
             font-weight: 700;
             transition: all 0.2s ease;
         }
 
         .facility-card-item:hover .card-btn-action {
-            background: var(--navy-dark);
+            background: var(--brand-primary);
             color: #ffffff;
-            border-color: var(--navy-dark);
+            border-color: var(--brand-primary);
+            box-shadow: 0 4px 14px rgba(59, 89, 152, 0.3);
         }
 
         /* ----------------------------------------------------
@@ -700,8 +732,8 @@
         ---------------------------------------------------- */
         .workflow-section {
             background: #ffffff;
-            border-top: 1px solid var(--border-glass);
-            border-bottom: 1px solid var(--border-glass);
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
             padding: 96px 0;
         }
 
@@ -713,8 +745,8 @@
         }
 
         .step-flow-card {
-            background: #f8fafc;
-            border: 1px solid var(--border-glass);
+            background: #F8FAFC;
+            border: 1px solid var(--border-subtle);
             border-radius: 20px;
             padding: 28px 22px;
             position: relative;
@@ -724,7 +756,7 @@
         .step-flow-card:hover {
             transform: translateY(-6px);
             background: #ffffff;
-            border-color: var(--blue-electric);
+            border-color: var(--brand-violet);
             box-shadow: var(--shadow-card);
         }
 
@@ -732,7 +764,7 @@
             width: 44px;
             height: 44px;
             border-radius: 12px;
-            background: var(--gradient-primary);
+            background: var(--brand-gradient-action);
             color: #ffffff;
             font-family: 'Outfit', sans-serif;
             font-size: 18px;
@@ -741,14 +773,14 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 18px;
-            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+            box-shadow: 0 6px 16px rgba(59, 89, 152, 0.25);
         }
 
         .step-title {
             font-family: 'Outfit', sans-serif;
             font-size: 18px;
             font-weight: 800;
-            color: var(--navy-dark);
+            color: var(--brand-dark);
             margin-bottom: 10px;
         }
 
@@ -759,7 +791,7 @@
         }
 
         /* ----------------------------------------------------
-           FAQ SECTION (Interactive Accordion)
+           FAQ SECTION (Accordion)
         ---------------------------------------------------- */
         .faq-section-wrap {
             padding: 96px 0;
@@ -777,7 +809,7 @@
             font-size: 38px;
             font-weight: 800;
             letter-spacing: -0.6px;
-            color: var(--navy-dark);
+            color: var(--brand-dark);
             margin-bottom: 16px;
             line-height: 1.15;
         }
@@ -791,7 +823,7 @@
 
         .faq-contact-card {
             background: #ffffff;
-            border: 1px solid var(--border-glass);
+            border: 1px solid var(--border-subtle);
             border-radius: 20px;
             padding: 24px;
             box-shadow: var(--shadow-card);
@@ -800,7 +832,7 @@
         .faq-contact-card strong {
             display: block;
             font-size: 14px;
-            color: var(--navy-dark);
+            color: var(--brand-dark);
             margin-bottom: 4px;
         }
 
@@ -817,7 +849,7 @@
 
         .faq-box-card {
             background: #ffffff;
-            border: 1px solid var(--border-glass);
+            border: 1px solid var(--border-subtle);
             border-radius: 18px;
             overflow: hidden;
             box-shadow: var(--shadow-card);
@@ -825,7 +857,7 @@
         }
 
         .faq-box-card.active {
-            border-color: var(--blue-electric);
+            border-color: var(--brand-violet);
         }
 
         .faq-btn-trigger {
@@ -838,19 +870,19 @@
             font-family: 'Outfit', sans-serif;
             font-size: 16px;
             font-weight: 700;
-            color: var(--navy-dark);
+            color: var(--brand-dark);
             cursor: pointer;
         }
 
         .faq-btn-trigger:hover {
-            color: var(--blue-glow);
+            color: var(--brand-primary);
         }
 
         .faq-icon-arrow {
             width: 28px;
             height: 28px;
             border-radius: 50%;
-            background: #f1f5f9;
+            background: #F1F5F9;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -862,7 +894,7 @@
 
         .faq-box-card.active .faq-icon-arrow {
             transform: rotate(90deg);
-            background: var(--blue-glow);
+            background: var(--brand-primary);
             color: #ffffff;
         }
 
@@ -872,7 +904,7 @@
             font-size: 14px;
             line-height: 1.7;
             color: var(--text-muted);
-            border-top: 1px solid #f8fafc;
+            border-top: 1px solid #F8FAFC;
         }
 
         .faq-box-card.active .faq-body-text {
@@ -880,14 +912,14 @@
         }
 
         /* ----------------------------------------------------
-           CTA CALLOUT BANNER (Glowing Gradient Mesh)
+           CTA CALLOUT BANNER (SINFAS Gradient)
         ---------------------------------------------------- */
         .callout-banner-section {
             padding: 20px 0 84px;
         }
 
         .callout-card-glow {
-            background: linear-gradient(135deg, #070d1e 0%, #1e3a8a 60%, #0284c7 100%);
+            background: var(--brand-gradient);
             border-radius: 32px;
             padding: 56px 48px;
             color: #ffffff;
@@ -895,7 +927,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 36px;
-            box-shadow: 0 24px 60px -15px rgba(2, 132, 199, 0.4);
+            box-shadow: 0 20px 50px -12px rgba(44, 74, 124, 0.45);
             position: relative;
             overflow: hidden;
         }
@@ -907,7 +939,7 @@
             right: -10%;
             width: 400px;
             height: 400px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.16) 0%, transparent 70%);
             pointer-events: none;
         }
 
@@ -921,15 +953,15 @@
 
         .callout-text p {
             font-size: 15px;
-            color: rgba(255, 255, 255, 0.85);
+            color: rgba(255, 255, 255, 0.9);
             max-width: 560px;
         }
 
         /* ----------------------------------------------------
-           FOOTER (Deep Navy Premium)
+           FOOTER (Deep Navy SINFAS)
         ---------------------------------------------------- */
         .site-footer-deep {
-            background: var(--navy-deep);
+            background: var(--brand-deep);
             color: #ffffff;
             padding: 72px 0 32px;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -941,6 +973,22 @@
             gap: 48px;
             padding-bottom: 48px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-brand-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-brand-title span {
+            color: var(--brand-cyan-light);
         }
 
         .footer-col-title {
@@ -961,7 +1009,7 @@
 
         .footer-nav-list a {
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.72);
+            color: rgba(255, 255, 255, 0.75);
         }
 
         .footer-nav-list a:hover {
@@ -971,7 +1019,7 @@
 
         .footer-contact-block {
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.72);
+            color: rgba(255, 255, 255, 0.75);
             line-height: 1.7;
         }
 
@@ -981,7 +1029,7 @@
             justify-content: space-between;
             padding-top: 28px;
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.65);
         }
 
         /* ----------------------------------------------------
@@ -1035,7 +1083,7 @@
 
             .metric-cell {
                 border-right: none;
-                border-bottom: 1px solid #f1f5f9;
+                border-bottom: 1px solid #F1F5F9;
                 padding-bottom: 14px;
             }
 
@@ -1063,20 +1111,16 @@
 </head>
 <body>
 
-    <!-- 1. STICKY GLASS NAVBAR -->
+    <!-- 1. STICKY SINFAS GLASS NAVBAR -->
     <header class="glass-navbar-wrap">
         <div class="container navbar-flex">
             <a href="{{ url('/') }}" class="brand-link">
-                <div class="brand-icon-badge">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
-                        <path d="M6 6h10"/>
-                        <path d="M6 10h10"/>
-                    </svg>
+                <div class="brand-icon-wrap">
+                    @include('components.sinfas-logo', ['class' => 'brand-logo-img', 'variant' => 'user'])
                 </div>
                 <div class="brand-text-block">
                     <span class="brand-title">SINFAS<span>.</span></span>
-                    <span class="brand-sub">Sistem Fasilitas Sekolah</span>
+                    <span class="brand-sub">Sistem Informasi Fasilitas</span>
                 </div>
             </a>
 
@@ -1092,23 +1136,23 @@
             <div class="nav-cta-wrap">
                 @auth
                     @if(auth()->user()->role === 'siswa')
-                        <a href="{{ route('user.dashboard') }}" class="btn-glow-primary">
+                        <a href="{{ route('user.dashboard') }}" class="btn-brand-primary">
                             <span>Portal Siswa</span>
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </a>
                     @elseif(auth()->user()->role === 'admin_sarana')
-                        <a href="{{ route('admin.dashboard') }}" class="btn-glow-primary">
+                        <a href="{{ route('admin.dashboard') }}" class="btn-brand-primary">
                             <span>Panel Sarpras</span>
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </a>
                     @else
-                        <a href="{{ route('sistem.dashboard') }}" class="btn-glow-primary">
+                        <a href="{{ route('sistem.dashboard') }}" class="btn-brand-primary">
                             <span>Panel Sistem</span>
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </a>
                     @endif
                 @else
-                    <a href="{{ route('login') }}" class="btn-glow-primary">
+                    <a href="{{ route('login') }}" class="btn-brand-primary">
                         <span>Masuk ke Sistem</span>
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
@@ -1118,7 +1162,7 @@
     </header>
 
     <main id="beranda">
-        <!-- 2. HERO SECTION (Edu-Tech Dark Canvas + Glassmorphism Showcase) -->
+        <!-- 2. HERO SECTION (Edu-Tech SINFAS Navy Canvas + Glassmorphism Showcase) -->
         <section class="hero-edutech">
             <div class="container hero-grid-2col">
                 <div>
@@ -1137,7 +1181,7 @@
                     </p>
 
                     <div class="hero-btn-group">
-                        <a href="{{ route('login') }}" class="btn-glow-primary" style="padding: 13px 30px; font-size: 14px;">
+                        <a href="{{ route('login') }}" class="btn-brand-primary" style="padding: 13px 30px; font-size: 14px;">
                             <span>Cari & Ajukan Fasilitas</span>
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </a>
@@ -1152,7 +1196,9 @@
                 <div class="glass-showcase-panel">
                     <div class="showcase-header">
                         <div class="showcase-user">
-                            <div class="avatar-circle-pulse">SF</div>
+                            <div class="avatar-circle-pulse">
+                                @include('components.sinfas-logo', ['class' => 'brand-logo-img', 'style' => 'width: 20px; height: 20px;'])
+                            </div>
                             <div class="showcase-user-text">
                                 <strong>Katalog Fasilitas</strong>
                                 <span>Status Ketersediaan Hari Ini</span>
@@ -1408,7 +1454,7 @@
                         <strong>Ruang Sarana & Prasarana</strong>
                         <span>Gedung A, Lantai 1 (Jam Kerja: 07.00 – 16.00 WIB)</span>
                         <div style="margin-top: 14px;">
-                            <a href="{{ route('login') }}" class="btn-glow-primary" style="padding: 8px 18px; font-size: 12px;">
+                            <a href="{{ route('login') }}" class="btn-brand-primary" style="padding: 8px 18px; font-size: 12px;">
                                 Hubungi Pengelola Sarpras
                             </a>
                         </div>
@@ -1459,7 +1505,7 @@
             </div>
         </section>
 
-        <!-- 7. CALL TO ACTION BANNER -->
+        <!-- 7. CALL TO ACTION BANNER (SINFAS Gradient) -->
         <section class="container callout-banner-section">
             <div class="callout-card-glow">
                 <div class="callout-text">
@@ -1469,7 +1515,7 @@
                     </p>
                 </div>
                 <div style="flex-shrink: 0;">
-                    <a href="{{ route('login') }}" class="btn-glow-primary" style="background: #ffffff; color: var(--navy-dark) !important; padding: 14px 32px; font-size: 14px; font-weight: 800;">
+                    <a href="{{ route('login') }}" class="btn-brand-primary" style="background: #ffffff; color: var(--brand-dark) !important; padding: 14px 32px; font-size: 14px; font-weight: 800; box-shadow: 0 10px 25px rgba(0,0,0,0.18);">
                         <span>Masuk ke Akun Sekarang</span>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
@@ -1478,12 +1524,17 @@
         </section>
     </main>
 
-    <!-- 8. FOOTER (Deep Navy Premium) -->
+    <!-- 8. FOOTER (Deep Navy SINFAS) -->
     <footer class="site-footer-deep">
         <div class="container">
             <div class="footer-grid-4col">
                 <div>
-                    <h3 class="brand-title" style="margin-bottom: 12px;">SINFAS<span>.</span></h3>
+                    <div class="footer-brand-title">
+                        <div class="brand-icon-wrap" style="width: 32px; height: 32px; border-radius: 9px;">
+                            @include('components.sinfas-logo', ['class' => 'brand-logo-img', 'style' => 'width: 18px; height: 18px;'])
+                        </div>
+                        <span>SINFAS<span>.</span></span>
+                    </div>
                     <p class="footer-contact-block" style="max-width: 340px;">
                         Sistem Informasi Fasilitas Sekolah yang menghadirkan transparansi, kemudahan, dan akuntabilitas peminjaman sarana prasarana demi kelancaran kegiatan belajar.
                     </p>
@@ -1515,7 +1566,7 @@
                         <p><strong>Gedung A, Lantai 1</strong></p>
                         <p>Senin – Jumat: 07.00 – 16.00 WIB</p>
                         <p style="margin-top: 6px;">Sabtu: 08.00 – 12.00 WIB</p>
-                        <p style="margin-top: 6px; color: var(--cyan-light);">Email: sarpras@sekolah.sch.id</p>
+                        <p style="margin-top: 6px; color: var(--brand-cyan-light);">Email: sarpras@sekolah.sch.id</p>
                     </div>
                 </div>
             </div>
