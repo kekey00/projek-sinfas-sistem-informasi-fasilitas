@@ -96,10 +96,11 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: rgba(20, 31, 53, 0.88);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(20, 31, 53, 0.58);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+            box-shadow: 0 8px 32px rgba(7, 19, 38, 0.16);
             padding: 14px 0;
             transition: all 0.3s ease;
         }
