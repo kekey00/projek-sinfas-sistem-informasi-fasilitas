@@ -1435,7 +1435,7 @@
                     @endif
                 @else
                     <a href="{{ route('login') }}" class="btn-brand-primary">
-                        <span>Masuk ke Sistem</span>
+                        <span>Masuk</span>
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
                 @endauth
