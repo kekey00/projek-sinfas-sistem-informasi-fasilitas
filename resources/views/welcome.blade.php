@@ -1473,7 +1473,7 @@
                     </h1>
 
                     <p class="hero-subtext">
-                        Sistem terintegrasi untuk mengecek ketersediaan laboratorium, proyektor multimedia, ruang aula, hingga perlengkapan ekstrakurikuler sekolah secara tertib dan transparan.
+                        Temukan fasilitas sekolah yang tersedia, ajukan peminjaman dengan mudah, dan pantau statusnya secara real-time dalam satu platform.
                     </p>
 
                     <div class="hero-btn-group">
