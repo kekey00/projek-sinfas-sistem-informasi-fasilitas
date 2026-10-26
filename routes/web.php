@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminBarangController;
 use App\Http\Controllers\Admin\AdminKategoriController;
 use App\Http\Controllers\Admin\AdminLaporanController;
+use App\Http\Controllers\Admin\AdminNotificationController;
 use App\Http\Controllers\Admin\AdminVerifikasiController;
 use App\Http\Controllers\Sistem\SistemDashboardController;
 use App\Http\Controllers\Sistem\SistemAkunController;
@@ -76,6 +77,7 @@ Route::middleware(['auth'])->group(function () {
 
         // Live Check Realtime Notifications Admin
         Route::get('/live-check', [AdminVerifikasiController::class, 'liveCheck'])->name('live-check');
+        Route::get('/notifikasi', [AdminNotificationController::class, 'index'])->name('notifications.index');
 
         // Master Data Barang / Alat
         Route::get('/barang', [AdminBarangController::class, 'index'])->name('barang.index');
@@ -177,4 +179,3 @@ Route::get('/storage/{path}', function ($path) {
 
     abort(404);
 })->where('path', '.*');
-

@@ -834,6 +834,15 @@
             <div class="sidebar-nav-wrap">
                 <div class="section-heading">MENU UTAMA</div>
                 <nav class="sidebar-nav-list">
+                    @php
+                        try {
+                            $pendingLoans = \App\Models\Peminjaman::where('status_pengajuan', 'menunggu')->count();
+                            $pendingReturns = \App\Models\Pengembalian::where('status', 'menunggu')->count();
+                            $pendingCount = $pendingLoans + $pendingReturns;
+                        } catch (\Exception $e) {
+                            $pendingCount = 0;
+                        }
+                    @endphp
                     <a href="{{ route('admin.dashboard') }}" class="nav-link-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
@@ -858,21 +867,20 @@
                         </svg>
                         Kategori
                     </a>
+                    <a href="{{ route('admin.notifications.index') }}" class="nav-link-item {{ request()->routeIs('admin.notifications.*') ? 'active' : '' }}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M10 21h4"></path>
+                        </svg>
+                        Pusat Notifikasi
+                        <span id="admin-notifications-badge" class="nav-badge" style="{{ $pendingCount > 0 ? '' : 'display:none;' }}">{{ $pendingCount }}</span>
+                    </a>
                     <a href="{{ route('admin.verifikasi.index') }}" class="nav-link-item {{ (request()->routeIs('admin.verifikasi.*') && request('tab') !== 'history' && !request()->routeIs('admin.riwayat.*')) ? 'active' : '' }}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 11l3 3L22 4"></path>
                             <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
                         </svg>
                         Verifikasi
-                        @php
-                            try {
-                                $pendingLoans = \App\Models\Peminjaman::where('status_pengajuan','menunggu')->count();
-                                $pendingReturns = \App\Models\Pengembalian::where('status','menunggu')->count();
-                                $pendingCount = $pendingLoans + $pendingReturns;
-                            } catch(\Exception $e) {
-                                $pendingCount = 0;
-                            }
-                        @endphp
                         <span id="admin-verif-badge" class="nav-badge" style="{{ $pendingCount > 0 ? '' : 'display:none;' }}">{{ $pendingCount }}</span>
                     </a>
                     <a href="{{ route('admin.riwayat.index') }}" class="nav-link-item {{ (request()->routeIs('admin.riwayat.*') || (request()->routeIs('admin.verifikasi.*') && request('tab') === 'history')) ? 'active' : '' }}">
@@ -949,7 +957,7 @@
                         <span>{{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</span>
                     </div>
 
-                    <button class="topbar-btn" id="topbar-notif-btn" title="Notifikasi Verifikasi" style="position: relative;" onclick="window.location.href='{{ route('admin.verifikasi.index') }}'">
+                    <button class="topbar-btn" id="topbar-notif-btn" type="button" title="Pusat Notifikasi" aria-label="Buka Pusat Notifikasi" style="position: relative;" onclick="window.location.href='{{ route('admin.notifications.index') }}'">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
@@ -1143,7 +1151,7 @@
             }
         });
 
-        window.showSinfasToast = function(type, title, subtitle) {
+        window.showSinfasToast = function(type, title, subtitle, href = null) {
             const container = document.getElementById('toastContainer');
             if (!container) return;
             const toast = document.createElement('div');
@@ -1151,14 +1159,46 @@
             const icon = type === 'success' ? '✓' : '✗';
             const iconClass = type === 'success' ? 'success' : 'error';
             const sub = subtitle || (type === 'success' ? 'Data berhasil disimpan.' : 'Terjadi kesalahan.');
-            toast.innerHTML = `
-                <div class="toast-icon-circle ${iconClass}">${icon}</div>
-                <div class="toast-text-wrap">
-                    <div class="toast-title">${title}</div>
-                    <div class="toast-subtitle">${sub}</div>
-                </div>
-                <button type="button" class="toast-close-btn" onclick="this.closest('.sinfas-toast-card').remove()">&times;</button>
-            `;
+            const iconElement = document.createElement('div');
+            iconElement.className = `toast-icon-circle ${iconClass}`;
+            iconElement.textContent = icon;
+
+            const textWrap = document.createElement('div');
+            textWrap.className = 'toast-text-wrap';
+            const titleElement = document.createElement('div');
+            titleElement.className = 'toast-title';
+            titleElement.textContent = title;
+            const subtitleElement = document.createElement('div');
+            subtitleElement.className = 'toast-subtitle';
+            subtitleElement.textContent = sub;
+            textWrap.append(titleElement, subtitleElement);
+
+            const closeButton = document.createElement('button');
+            closeButton.type = 'button';
+            closeButton.className = 'toast-close-btn';
+            closeButton.setAttribute('aria-label', 'Tutup notifikasi');
+            closeButton.textContent = '×';
+            closeButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                toast.remove();
+            });
+
+            toast.append(iconElement, textWrap, closeButton);
+            if (href) {
+                toast.setAttribute('role', 'link');
+                toast.setAttribute('tabindex', '0');
+                toast.setAttribute('aria-label', `${title}. Buka pusat notifikasi.`);
+                toast.style.cursor = 'pointer';
+                toast.addEventListener('click', (event) => {
+                    if (!event.target.closest('button')) window.location.assign(href);
+                });
+                toast.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        window.location.assign(href);
+                    }
+                });
+            }
             container.appendChild(toast);
             setTimeout(() => {
                 toast.style.opacity = '0';
@@ -1228,11 +1268,16 @@
 
                     // Update badge di sidebar & topbar secara langsung
                     const badge = document.getElementById('admin-verif-badge');
+                    const notificationsBadge = document.getElementById('admin-notifications-badge');
                     const dot = document.getElementById('topbar-notif-dot');
 
                     if (badge) {
                         badge.textContent = currentTotal;
                         badge.style.display = currentTotal > 0 ? 'inline-block' : 'none';
+                    }
+                    if (notificationsBadge) {
+                        notificationsBadge.textContent = currentTotal;
+                        notificationsBadge.style.display = currentTotal > 0 ? 'inline-block' : 'none';
                     }
                     if (dot) {
                         dot.style.display = currentTotal > 0 ? 'block' : 'none';
@@ -1252,7 +1297,8 @@
                             window.showSinfasToast(
                                 'success',
                                 '🔔 Pengajuan Peminjaman Baru!',
-                                `${namaSiswa} baru saja mengajukan pinjaman "${namaBarang}" (#${currentLoanId}).`
+                                `${namaSiswa} baru saja mengajukan pinjaman "${namaBarang}" (#${currentLoanId}).`,
+                                "{{ route('admin.notifications.index') }}"
                             );
                             window.dispatchEvent(new CustomEvent('sinfas:new-loan-request', { detail: data.latest_pending }));
                         } else if (currentReturnId && currentReturnId !== lastPendingReturnId) {
@@ -1267,7 +1313,8 @@
                             window.showSinfasToast(
                                 'success',
                                 '📦 Laporan Pengembalian Baru!',
-                                `${namaSiswa} telah mengajukan pengembalian "${namaBarang}".`
+                                `${namaSiswa} telah mengajukan pengembalian "${namaBarang}".`,
+                                "{{ route('admin.notifications.index') }}"
                             );
                             window.dispatchEvent(new CustomEvent('sinfas:new-return-request', { detail: data.latest_return }));
                         }
