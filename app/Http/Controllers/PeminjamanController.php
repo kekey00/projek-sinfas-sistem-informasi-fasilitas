@@ -28,6 +28,18 @@ class PeminjamanController extends Controller
         return view('user.status', compact('peminjamans'));
     }
 
+    public function showStatus(string $kode_pinjam)
+    {
+        $user = Auth::user();
+        abort_unless($user->role === 'siswa' && $user->nis, 403);
+
+        $peminjaman = Peminjaman::with(['barang.kategori', 'pengembalian'])
+            ->where('nis', $user->nis)
+            ->findOrFail($kode_pinjam);
+
+        return view('user.status_detail', compact('peminjaman'));
+    }
+
     /**
      * Halaman khusus Semua Notifikasi User dengan Pagination
      */

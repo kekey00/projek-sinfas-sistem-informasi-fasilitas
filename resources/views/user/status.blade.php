@@ -102,6 +102,11 @@
         box-shadow: var(--shadow-card-hover);
     }
 
+    .loan-card-vibe:focus-visible {
+        outline: 3px solid #5B8DEF;
+        outline-offset: 3px;
+    }
+
     .card-main-row {
         display: flex;
         align-items: center;
@@ -341,7 +346,7 @@
                 }
             @endphp
 
-            <div class="loan-card-vibe" data-status="{{ $filterCategory }}" id="card-loan-{{ $pjm->kode_pinjam }}">
+            <div class="loan-card-vibe" data-status="{{ $filterCategory }}" data-detail-url="{{ route('user.status.show', $pjm->kode_pinjam) }}" aria-label="Lihat detail pengajuan {{ $pjm->kode_pinjam }}" role="link" tabindex="0" style="cursor:pointer;" id="card-loan-{{ $pjm->kode_pinjam }}">
                 <div class="card-main-row">
                     <div class="card-left-identity">
                         <div class="thumb-aspect-box">
@@ -514,6 +519,21 @@
             }
         });
     }
+
+    document.querySelectorAll('.loan-card-vibe[data-detail-url]').forEach(card => {
+        const openDetails = event => {
+            if (event.target.closest('a, button')) return;
+            window.location.assign(card.dataset.detailUrl);
+        };
+
+        card.addEventListener('click', openDetails);
+        card.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                window.location.assign(card.dataset.detailUrl);
+            }
+        });
+    });
 
     // Tangkap perubahan status peminjaman real-time tanpa refresh manual
     window.addEventListener('sinfas:loan-status-changed', function(e) {

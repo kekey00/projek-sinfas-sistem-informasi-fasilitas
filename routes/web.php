@@ -53,6 +53,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Status Pengajuan (Daftar & Riwayat Pinjaman)
     Route::get('/user/status', [PeminjamanController::class, 'status'])->name('user.status');
+    Route::get('/user/status/{kode_pinjam}', [PeminjamanController::class, 'showStatus'])->name('user.status.show');
 
     // Halaman Semua Notifikasi dengan Pagination
     Route::get('/user/notifikasi', [PeminjamanController::class, 'notifikasi'])->name('user.notifikasi');
