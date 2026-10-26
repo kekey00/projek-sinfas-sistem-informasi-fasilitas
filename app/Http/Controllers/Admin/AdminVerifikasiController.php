@@ -68,14 +68,6 @@ class AdminVerifikasiController extends Controller
         ));
     }
 
-    public function showHistory(string $kode_pinjam)
-    {
-        $peminjaman = Peminjaman::with(['barang.kategori', 'siswa', 'pengembalian'])
-            ->findOrFail($kode_pinjam);
-
-        return view('admin.verifikasi.detail', compact('peminjaman'));
-    }
-
     /**
      * Setujui pengajuan peminjaman.
      */

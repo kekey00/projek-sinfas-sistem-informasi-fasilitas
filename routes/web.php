@@ -102,7 +102,6 @@ Route::middleware(['auth'])->group(function () {
             $request->merge(['tab' => 'history']);
             return app(\App\Http\Controllers\Admin\AdminVerifikasiController::class)->index($request);
         })->name('riwayat.index');
-        Route::get('/riwayat/{kode_pinjam}', [AdminVerifikasiController::class, 'showHistory'])->name('riwayat.show');
 
         // Laporan peminjaman barang
         Route::get('/laporan', [AdminLaporanController::class, 'index'])->name('laporan.index');
