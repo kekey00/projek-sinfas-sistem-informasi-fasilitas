@@ -109,6 +109,10 @@
     .verif-table tbody tr:hover td {
         background: #F8FAFC;
     }
+    .history-row:focus-visible {
+        outline: 2px solid #3B5998;
+        outline-offset: -2px;
+    }
 
     /* Student Avatar Circle */
     .verif-student-cell {
@@ -935,7 +939,10 @@
             </thead>
             <tbody>
                 @forelse($historyLoans as $hist)
-                <tr>
+                <tr class="history-row" tabindex="0" role="link"
+                    aria-label="Lihat detail peminjaman {{ $hist->kode_pinjam }}"
+                    data-detail-url="{{ route('admin.riwayat.show', $hist->kode_pinjam) }}"
+                    style="cursor:pointer;">
                     <td>
                         @php
                             $borrowerType = strtolower($hist->siswa->role ?? '') === 'guru' ? 'Guru' : 'Siswa';
@@ -1273,9 +1280,24 @@
     </div>
 </div>
 
-@endsection
-
 @section('scripts')
+<script>
+    document.querySelectorAll('.history-row').forEach((row) => {
+        const openDetails = (event) => {
+            if (event.target.closest('a, button')) return;
+            window.location.assign(row.dataset.detailUrl);
+        };
+
+        row.addEventListener('click', openDetails);
+        row.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                window.location.assign(row.dataset.detailUrl);
+            }
+        });
+    });
+</script>
+
 <script>
     /* ── APPROVE ── */
     function openApproveModal(kodePinjam, studentName, itemName) {
