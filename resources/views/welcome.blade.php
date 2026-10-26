@@ -283,7 +283,9 @@
            HERO SECTION (Edu-Tech SINFAS Navy-Blue)
         ---------------------------------------------------- */
         .hero-edutech {
-            background: var(--hero-gradient);
+            background:
+                linear-gradient(110deg, rgba(21, 34, 56, 0.88) 0%, rgba(44, 74, 124, 0.78) 54%, rgba(39, 47, 92, 0.76) 100%),
+                url('{{ asset('images/classroom-background.jpg') }}') center / cover no-repeat;
             color: #ffffff;
             position: relative;
             padding: 80px 0 130px;
