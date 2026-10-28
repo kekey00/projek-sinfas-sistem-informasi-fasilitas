@@ -179,35 +179,31 @@
         .nav-links-row {
             display: flex;
             align-items: center;
-            gap: 32px;
+            gap: 8px;
             list-style: none;
+            padding: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: var(--radius-pill);
+            background: rgba(15, 35, 75, 0.16);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
 
         .nav-links-row a {
+            display: inline-flex;
+            align-items: center;
+            min-height: 38px;
+            padding: 0 18px;
+            border-radius: var(--radius-pill);
             font-size: 14px;
             font-weight: 600;
             color: rgba(255, 255, 255, 0.82);
             position: relative;
+            transition: color 0.22s ease, background 0.22s ease;
         }
 
         .nav-links-row a:hover {
             color: #ffffff;
-        }
-
-        .nav-links-row a::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -6px;
-            width: 0;
-            height: 2px;
-            background: var(--brand-cyan);
-            transition: width 0.22s ease;
-            border-radius: var(--radius-pill);
-        }
-
-        .nav-links-row a:hover::after {
-            width: 100%;
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .nav-cta-wrap {
