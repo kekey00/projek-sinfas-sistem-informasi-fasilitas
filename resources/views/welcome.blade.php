@@ -1510,7 +1510,7 @@
                                 <div class="facility-icon-square">📽️</div>
                                 <div class="facility-name-block">
                                     <strong>Projector Epson X300</strong>
-                                    <span>Gedung Sarpras • Elektronik</span>
+                                    <span>Di Ruang Sapras</span>
                                 </div>
                             </div>
                             <span class="badge-ready">Tersedia</span>
@@ -1522,7 +1522,7 @@
                                 <div class="facility-icon-square">🔊</div>
                                 <div class="facility-name-block">
                                     <strong>Portable Speaker JBL</strong>
-                                    <span>Ruang Audio • Audio Visual</span>
+                                    <span>Di Ruang Sapras</span>
                                 </div>
                             </div>
                             <span class="badge-ready">Tersedia</span>
@@ -1534,7 +1534,7 @@
                                 <div class="facility-icon-square">📷</div>
                                 <div class="facility-name-block">
                                     <strong>Kamera DSLR Canon EOS</strong>
-                                    <span>Ruang Dokumentasi OSIS</span>
+                                    <span>Di Ruang Sapras</span>
                                 </div>
                             </div>
                             <span class="badge-ready">Tersedia</span>
