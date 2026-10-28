@@ -121,7 +121,22 @@
         .navbar-brand-group {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
+        }
+
+        .navbar-school-divider {
+            width: 1px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
+        }
+
+        .navbar-school-logo {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+            flex-shrink: 0;
         }
 
         .brand-icon-wrap {
@@ -1267,6 +1282,11 @@
                 display: none;
             }
 
+            .navbar-school-logo {
+                width: 32px;
+                height: 32px;
+            }
+
             .hero-school-identity {
                 padding: 10px 16px 10px 12px;
                 gap: 12px;
@@ -1347,6 +1367,8 @@
                         <span class="brand-sub">Sistem Informasi Fasilitas</span>
                     </div>
                 </a>
+                <div class="navbar-school-divider"></div>
+                <img src="{{ asset('images/logo-smkn11-bandung.png') }}" alt="Logo SMKN 11 Bandung" class="navbar-school-logo">
             </div>
 
             <nav>
