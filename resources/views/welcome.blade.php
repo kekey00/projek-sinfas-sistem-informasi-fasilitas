@@ -118,52 +118,10 @@
             text-decoration: none;
         }
 
-        /* School Logo Badge (Navbar) */
-        .school-logo-badge-nav {
+        .navbar-brand-group {
             display: inline-flex;
             align-items: center;
-            gap: 14px;
-        }
-
-        .school-logo-divider {
-            width: 1px;
-            height: 32px;
-            background: rgba(255, 255, 255, 0.2);
-            flex-shrink: 0;
-        }
-
-        .school-logo-img-nav {
-            width: 38px;
-            height: 38px;
-            object-fit: contain;
-            border-radius: 8px;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
-            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .school-logo-badge-nav:hover .school-logo-img-nav {
-            transform: scale(1.08);
-        }
-
-        .school-name-text-nav {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .school-name-text-nav strong {
-            font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            font-weight: 800;
-            color: #ffffff;
-            line-height: 1.1;
-            letter-spacing: -0.2px;
-        }
-
-        .school-name-text-nav span {
-            font-size: 9.5px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.6);
-            letter-spacing: 0.3px;
+            gap: 12px;
         }
 
         .brand-icon-wrap {
@@ -1313,15 +1271,6 @@
                 display: none;
             }
 
-            .school-name-text-nav {
-                display: none;
-            }
-
-            .school-logo-img-nav {
-                width: 32px;
-                height: 32px;
-            }
-
             .hero-school-identity {
                 padding: 10px 16px 10px 12px;
                 gap: 12px;
@@ -1392,7 +1341,7 @@
     <!-- 1. STICKY SINFAS GLASS NAVBAR -->
     <header class="glass-navbar-wrap">
         <div class="container navbar-flex">
-            <div class="school-logo-badge-nav">
+            <div class="navbar-brand-group">
                 <a href="{{ url('/') }}" class="brand-link">
                     <div class="brand-icon-wrap">
                         @include('components.sinfas-logo', ['class' => 'brand-logo-img', 'variant' => 'user'])
@@ -1402,12 +1351,6 @@
                         <span class="brand-sub">Sistem Informasi Fasilitas</span>
                     </div>
                 </a>
-                <div class="school-logo-divider"></div>
-                <img src="{{ asset('images/logo-smkn11-bandung.png') }}" alt="Logo SMKN 11 Bandung" class="school-logo-img-nav">
-                <div class="school-name-text-nav">
-                    <strong>SMKN 11</strong>
-                    <span>Bandung</span>
-                </div>
             </div>
 
             <nav>
