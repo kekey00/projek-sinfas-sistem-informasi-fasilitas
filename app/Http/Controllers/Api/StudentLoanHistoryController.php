@@ -24,22 +24,15 @@ class StudentLoanHistoryController extends Controller
             'data' => [
                 'summary' => [
                     'total_pengajuan' => $peminjamans->count(),
-                    'total_dipinjam' => $peminjamans->where('status_pengajuan', 'disetujui')->count(),
-                    'menunggu_verifikasi' => $peminjamans->where('status_pengajuan', 'menunggu')->count(),
-                    'ditolak' => $peminjamans->where('status_pengajuan', 'ditolak')->count(),
+                    'total_dipinjam' => $peminjamans->filter(fn (Peminjaman $peminjaman) => $this->resolveLoanStatus($peminjaman) === 'disetujui')->count(),
+                    'menunggu_verifikasi' => $peminjamans->filter(fn (Peminjaman $peminjaman) => in_array($this->resolveLoanStatus($peminjaman), ['menunggu', 'menunggu_pengembalian'], true))->count(),
+                    'ditolak' => $peminjamans->filter(fn (Peminjaman $peminjaman) => $this->resolveLoanStatus($peminjaman) === 'ditolak')->count(),
                 ],
                 'items' => $peminjamans->map(function (Peminjaman $peminjaman) {
-                    $statusPengembalian = $peminjaman->pengembalian?->status;
-                    $status = match ($statusPengembalian) {
-                        'selesai' => 'selesai',
-                        'menunggu' => 'menunggu_pengembalian',
-                        default => $peminjaman->status_pengajuan,
-                    };
-
                     return [
                         'kode_pinjam' => $peminjaman->kode_pinjam,
                         'nama_barang' => $peminjaman->barang?->nama_barang ?? 'Barang',
-                        'status' => $status,
+                        'status' => $this->resolveLoanStatus($peminjaman),
                         'tanggal_pengajuan' => $peminjaman->created_at?->toIso8601String(),
                         'tanggal_pinjam' => $peminjaman->tanggal_pinjam?->format('Y-m-d'),
                         'jam_pinjam' => $peminjaman->jam_pinjam,
@@ -51,5 +44,20 @@ class StudentLoanHistoryController extends Controller
                 })->values(),
             ],
         ]);
+    }
+
+    private function resolveLoanStatus(Peminjaman $peminjaman): string
+    {
+        $statusPengembalian = $peminjaman->pengembalian?->status;
+
+        if ($statusPengembalian === 'selesai') {
+            return 'selesai';
+        }
+
+        if ($statusPengembalian === 'menunggu') {
+            return 'menunggu_pengembalian';
+        }
+
+        return $peminjaman->status_pengajuan ?? 'menunggu';
     }
 }

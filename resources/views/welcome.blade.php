@@ -1690,7 +1690,7 @@
                     Ingin melihat seluruh inventaris sekolah lainnya atau mengecek tanggal peminjaman?
                 </p>
                 <a href="{{ route('login') }}" class="btn-brand-primary" style="padding: 12px 28px; font-size: 13.5px;">
-                    <span>Masuk ke Portal Siswa / Guru untuk Pinjam</span>
+                    <span>Masuk sekarang untuk Pinjam</span>
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
             </div>
