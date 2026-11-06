@@ -1,19 +1,13 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('peminjaman', function (Blueprint $table) {
-            $table->enum('status_pengajuan', ['menunggu', 'disetujui', 'ditolak', 'dibatalkan'])
-                ->default('menunggu')
-                ->change();
-        });
+        DB::statement("ALTER TABLE `peminjaman` MODIFY COLUMN `status_pengajuan` ENUM('menunggu', 'disetujui', 'ditolak', 'dibatalkan') NOT NULL DEFAULT 'menunggu'");
     }
 
     public function down(): void
@@ -22,10 +16,6 @@ return new class extends Migration
             ->where('status_pengajuan', 'dibatalkan')
             ->update(['status_pengajuan' => 'ditolak']);
 
-        Schema::table('peminjaman', function (Blueprint $table) {
-            $table->enum('status_pengajuan', ['menunggu', 'disetujui', 'ditolak'])
-                ->default('menunggu')
-                ->change();
-        });
+        DB::statement("ALTER TABLE `peminjaman` MODIFY COLUMN `status_pengajuan` ENUM('menunggu', 'disetujui', 'ditolak') NOT NULL DEFAULT 'menunggu'");
     }
 };
