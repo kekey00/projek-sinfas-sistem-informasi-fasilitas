@@ -1383,7 +1383,7 @@
                 @auth
                     @if(auth()->user()->role === 'siswa')
                         <a href="{{ route('user.dashboard') }}" class="btn-brand-primary">
-                            <span>Portal Siswa</span>
+                            <span>Masuk</span>
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </a>
                     @elseif(auth()->user()->role === 'admin_sarana')
