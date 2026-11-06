@@ -985,7 +985,7 @@
                             <div style="font-size: 11px; color: #059669; font-weight: 600; margin-top: 2px;">
                                 ⏰ {{ $hist->pengembalian->created_at?->format('H:i') ?? '-' }} WIB
                             </div>
-                        @elseif($hist->status_pengajuan === 'ditolak')
+                        @elseif(in_array($hist->status_pengajuan, ['ditolak', 'dibatalkan'], true))
                             <span style="color: #94A3B8;">-</span>
                         @elseif($hist->tanggal_kembali)
                             <span style="font-weight: 500; color: #64748B;">
@@ -1008,6 +1008,10 @@
                             @endphp
                             <span style="display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:999px; font-size:11.5px; font-weight:600; {{ $style }}">
                                 Dikembalikan ({{ $cond }})
+                            </span>
+                        @elseif($hist->status_pengajuan === 'dibatalkan')
+                            <span style="display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:999px; font-size:11.5px; font-weight:600; background:#F1F5F9; color:#475569; border:1px solid #CBD5E1;">
+                                Dibatalkan oleh peminjam
                             </span>
                         @else
                             <span style="display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:999px; font-size:11.5px; font-weight:600; background:#FEF2F2; color:#991B1B; border:1px solid #FEE2E2;">

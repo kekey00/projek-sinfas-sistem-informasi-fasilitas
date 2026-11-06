@@ -150,6 +150,34 @@ class PeminjamanController extends Controller
             ->with('success', 'Pengajuan peminjaman "' . $barang->nama_barang . '" berhasil dikirim!');
     }
 
+    public function cancel(string $kode_pinjam)
+    {
+        $user = Auth::user();
+        abort_unless($user->role === 'siswa' && $user->nis, 403);
+
+        $peminjaman = DB::transaction(function () use ($user, $kode_pinjam) {
+            $peminjaman = Peminjaman::where('nis', $user->nis)
+                ->lockForUpdate()
+                ->findOrFail($kode_pinjam);
+
+            if ($peminjaman->status_pengajuan !== 'menunggu') {
+                return null;
+            }
+
+            $peminjaman->update(['status_pengajuan' => 'dibatalkan']);
+
+            return $peminjaman;
+        });
+
+        if (!$peminjaman) {
+            return redirect()->route('user.status')
+                ->with('error', 'Peminjaman hanya dapat dibatalkan saat masih menunggu verifikasi.');
+        }
+
+        return redirect()->route('user.status')
+            ->with('success', 'Pengajuan peminjaman berhasil dibatalkan.');
+    }
+
     /**
      * Tampilkan form pengembalian barang.
      */

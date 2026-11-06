@@ -27,6 +27,7 @@ class StudentLoanHistoryController extends Controller
                     'total_dipinjam' => $peminjamans->filter(fn (Peminjaman $peminjaman) => $this->resolveLoanStatus($peminjaman) === 'disetujui')->count(),
                     'menunggu_verifikasi' => $peminjamans->filter(fn (Peminjaman $peminjaman) => in_array($this->resolveLoanStatus($peminjaman), ['menunggu', 'menunggu_pengembalian'], true))->count(),
                     'ditolak' => $peminjamans->filter(fn (Peminjaman $peminjaman) => $this->resolveLoanStatus($peminjaman) === 'ditolak')->count(),
+                    'dibatalkan' => $peminjamans->filter(fn (Peminjaman $peminjaman) => $this->resolveLoanStatus($peminjaman) === 'dibatalkan')->count(),
                 ],
                 'items' => $peminjamans->map(function (Peminjaman $peminjaman) {
                     return [

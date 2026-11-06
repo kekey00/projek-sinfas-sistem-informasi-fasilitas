@@ -201,6 +201,12 @@
         border: 1.5px solid #FECDD3;
     }
 
+    .status-badge-genz.cancelled {
+        background: #F1F5F9;
+        color: #475569;
+        border: 1.5px solid #CBD5E1;
+    }
+
     .status-badge-genz.returned {
         background: #F0FDF4;
         color: #15803D;
@@ -305,7 +311,7 @@
             <span class="filter-tab-count">({{ $peminjamans->count() }})</span>
         </div>
         <div class="filter-tab-pill" onclick="filterStatus('menunggu', this)">
-            <span>⏳ Menunggu Persetujuan</span>
+            <span>⏳ Menunggu Verifikasi</span>
             <span class="filter-tab-count">({{ $peminjamans->where('status_pengajuan', 'menunggu')->count() }})</span>
         </div>
         <div class="filter-tab-pill" onclick="filterStatus('disetujui', this)">
@@ -324,6 +330,10 @@
             <span>❌ Ditolak</span>
             <span class="filter-tab-count">({{ $peminjamans->where('status_pengajuan', 'ditolak')->count() }})</span>
         </div>
+        <div class="filter-tab-pill" onclick="filterStatus('dibatalkan', this)">
+            <span>↩️ Dibatalkan</span>
+            <span class="filter-tab-count">({{ $peminjamans->where('status_pengajuan', 'dibatalkan')->count() }})</span>
+        </div>
     </div>
 
     <!-- CARDS LIST -->
@@ -336,6 +346,7 @@
                 $isApproved = $pjm->status_pengajuan === 'disetujui' && !$pjm->pengembalian;
                 $isPending = $pjm->status_pengajuan === 'menunggu';
                 $isRejected = $pjm->status_pengajuan === 'ditolak';
+                $isCancelled = $pjm->status_pengajuan === 'dibatalkan';
 
                 if ($isReturned) {
                     $filterCategory = 'returned';
@@ -357,6 +368,7 @@
                                     <rect x="2" y="7" width="20" height="14" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M12 3v4"/><path d="M8 3h8"/>
                                 </svg>
                             @endif
+
                         </div>
 
                         <div class="item-meta-column">
@@ -374,6 +386,7 @@
                                     @else
                                         {{ $pjm->tanggal_kembali ? $pjm->tanggal_kembali->format('d M Y') : '-' }}
                                     @endif
+
                                 </span>
                                 @if($pjm->nomor_telepon)
                                     <span>&bull;</span>
@@ -408,7 +421,12 @@
                         @elseif($isPending)
                             <span class="status-badge-genz pending">
                                 <span class="badge-dot"></span>
-                                <span>Menunggu Persetujuan</span>
+                                <span>Menunggu Verifikasi</span>
+                            </span>
+                        @elseif($isCancelled)
+                            <span class="status-badge-genz cancelled">
+                                <span class="badge-dot"></span>
+                                <span>Dibatalkan</span>
                             </span>
                         @elseif($isRejected)
                             <span class="status-badge-genz rejected">
@@ -429,6 +447,19 @@
                             <span>Ajukan Pengembalian</span>
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                         </a>
+                    </div>
+                @endif
+
+                @if($isPending)
+                    <div class="card-footer-action-row">
+                        <span style="font-size: 13px; color: #92400E; font-weight: 600;">
+                            Pengajuan sedang menunggu verifikasi admin.
+                        </span>
+                        <button type="button" class="btn-return-vibe" style="background: #FFF1F2; color: #BE123C; box-shadow: none; border: 1px solid #FECDD3;"
+                                data-cancel-url="{{ route('user.peminjaman.cancel', $pjm->kode_pinjam) }}"
+                                onclick="event.stopPropagation(); openCancelLoanModal(this.dataset.cancelUrl, this)">
+                            Batalkan Peminjaman
+                        </button>
                     </div>
                 @endif
 
@@ -453,6 +484,12 @@
                         <div>
                             <strong>Catatan Penolakan:</strong> Permintaan peminjaman belum dapat disetujui oleh admin sarana prasarana. Silakan periksa kembali jadwal peminjaman atau pilih unit lain.
                         </div>
+                    </div>
+                @endif
+
+                @if($isCancelled)
+                    <div class="returned-vibe-box">
+                        Pengajuan peminjaman ini telah dibatalkan.
                     </div>
                 @endif
 
@@ -487,7 +524,7 @@
                     <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
             </div>
-            <h3 style="font-size: 22px; font-weight: 900; letter-spacing: -0.4px; margin-bottom: 8px;">Menunggu Persetujuan Admin ⏳</h3>
+            <h3 style="font-size: 22px; font-weight: 900; letter-spacing: -0.4px; margin-bottom: 8px;">Menunggu Verifikasi Admin ⏳</h3>
             <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px;">
                 Permintaan peminjaman Anda telah terkirim ke dalam antrean. Mohon tunggu konfirmasi dari Admin Sarpras.
             </p>
@@ -497,10 +534,61 @@
         </div>
     </div>
 
+    <div class="modal-shade" id="cancel-loan-modal" aria-hidden="true">
+        <div class="modal-box-vibe" role="dialog" aria-modal="true" aria-labelledby="cancel-loan-title">
+            <div class="modal-pulse-circle" style="background:#FFF1F2; color:#E11D48;">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M10 14 21 3"></path><path d="M21 3 14.5 21a.5.5 0 0 1-.95.02L10 14l-7.02-3.55A.5.5 0 0 1 3 9.5L21 3"></path>
+                </svg>
+            </div>
+            <h3 id="cancel-loan-title" style="font-size: 21px; font-weight: 900; margin-bottom: 8px; color: #1E293B;">Batalkan Peminjaman?</h3>
+            <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px;">
+                Apakah kamu yakin ingin membatalkan pengajuan peminjaman ini?
+            </p>
+            <form method="POST" id="cancel-loan-form" style="display:flex; gap:10px;">
+                @csrf
+                <button type="button" class="btn-genz-secondary" style="flex:1;" onclick="closeCancelLoanModal()">Tidak</button>
+                <button type="submit" class="btn-genz-primary" style="flex:1; background:#E11D48; box-shadow:0 4px 14px rgba(225,29,72,.25);">Iya, Batalkan</button>
+            </form>
+        </div>
+    </div>
+
 @endsection
 
 @section('scripts')
 <script>
+    let cancelLoanTrigger = null;
+
+    function openCancelLoanModal(action, trigger) {
+        const modal = document.getElementById('cancel-loan-modal');
+        const form = document.getElementById('cancel-loan-form');
+        if (!modal || !form) return;
+
+        cancelLoanTrigger = trigger;
+        form.action = action;
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        modal.querySelector('button[type="button"]').focus();
+    }
+
+    function closeCancelLoanModal() {
+        const modal = document.getElementById('cancel-loan-modal');
+        if (!modal) return;
+
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        cancelLoanTrigger?.focus();
+        cancelLoanTrigger = null;
+    }
+
+    document.getElementById('cancel-loan-modal')?.addEventListener('click', function(event) {
+        if (event.target === this) closeCancelLoanModal();
+    });
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') closeCancelLoanModal();
+    });
+
     function closeApprovalModal() {
         const modal = document.getElementById('waiting-approval-modal');
         if (modal) modal.classList.remove('open');

@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('kode_barang', 30);
             $table->date('tanggal_pinjam');
             $table->text('keterangan_penggunaan')->nullable();
-            $table->enum('status_pengajuan', ['menunggu', 'disetujui', 'ditolak'])->default('menunggu');
+            $table->enum('status_pengajuan', ['menunggu', 'disetujui', 'ditolak', 'dibatalkan'])->default('menunggu');
             $table->timestamps();
 
             $table->foreign('nis')->references('nis')->on('siswa');

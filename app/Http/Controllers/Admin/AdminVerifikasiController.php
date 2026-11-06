@@ -53,7 +53,7 @@ class AdminVerifikasiController extends Controller
                 $q->whereHas('pengembalian', function ($p) {
                     $p->where('status', 'selesai');
                 })
-                ->orWhere('status_pengajuan', 'ditolak');
+                ->orWhereIn('status_pengajuan', ['ditolak', 'dibatalkan']);
             })
             ->latest('updated_at')
             ->paginate(10, ['*'], 'hist_page')

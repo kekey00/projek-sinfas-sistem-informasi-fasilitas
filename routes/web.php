@@ -50,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Kirim pengajuan peminjaman
     Route::post('/user/peminjaman', [PeminjamanController::class, 'store'])->name('user.peminjaman.store');
+    Route::post('/user/peminjaman/{kode_pinjam}/batal', [PeminjamanController::class, 'cancel'])->name('user.peminjaman.cancel');
 
     // Status Pengajuan (Daftar & Riwayat Pinjaman)
     Route::get('/user/status', [PeminjamanController::class, 'status'])->name('user.status');

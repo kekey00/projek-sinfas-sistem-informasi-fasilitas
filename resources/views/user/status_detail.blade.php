@@ -131,6 +131,7 @@
     .loan-detail-status.returning { background: #FFF7E6; border-color: #F5D999; color: #8A5B00; }
     .loan-detail-status.approved { background: #EAF6F1; border-color: #B9E1D0; color: #176B4D; }
     .loan-detail-status.rejected { background: #FCEDEE; border-color: #F1C8CC; color: #9B3038; }
+    .loan-detail-status.cancelled { background: #F1F5F9; border-color: #CBD5E1; color: #475569; }
     .loan-detail-status.returned { background: #EAF6F1; border-color: #B9E1D0; color: #176B4D; }
 
     .loan-detail-section {
@@ -272,11 +273,14 @@
         $statusLabel = 'Menunggu verifikasi pengembalian';
         $statusClass = 'returning';
     } elseif ($peminjaman->status_pengajuan === 'menunggu') {
-        $statusLabel = 'Menunggu persetujuan';
+        $statusLabel = 'Menunggu verifikasi';
         $statusClass = 'pending';
     } elseif ($peminjaman->status_pengajuan === 'ditolak') {
         $statusLabel = 'Ditolak';
         $statusClass = 'rejected';
+    } elseif ($peminjaman->status_pengajuan === 'dibatalkan') {
+        $statusLabel = 'Dibatalkan';
+        $statusClass = 'cancelled';
     } else {
         $statusLabel = 'Disetujui · Sedang dipinjam';
         $statusClass = 'approved';
