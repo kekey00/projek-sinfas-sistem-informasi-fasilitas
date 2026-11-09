@@ -151,3 +151,4 @@ return new class extends Migration
         Schema::dropIfExists('log_status_peminjaman');
     }
 };
+

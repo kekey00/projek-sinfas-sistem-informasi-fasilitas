@@ -156,3 +156,4 @@ JOIN `siswa` s ON p.nis = s.nis
 JOIN `barang` b ON p.kode_barang = b.kode_barang
 JOIN `kategori` k ON b.id_kategori = k.id_kategori
 WHERE p.status_pengajuan = 'disetujui';
+
