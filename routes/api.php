@@ -7,12 +7,11 @@ use App\Http\Controllers\Api\StudentLoanHistoryController;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes
+| Rute API SINFAS
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
+| Di file ini seluruh endpoint API sistem informasi fasilitas didaftarkan.
+| Rute-rute ini dimuat oleh RouteServiceProvider dan masuk ke dalam grup middleware "api".
 |
 */
 

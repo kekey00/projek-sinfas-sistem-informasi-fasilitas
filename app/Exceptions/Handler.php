@@ -19,7 +19,8 @@ use Throwable;
 class Handler extends ExceptionHandler
 {
     /**
-     * The list of the inputs that are never flashed to the session on validation exceptions.
+     * Daftar input sensitif yang tidak boleh disimpan ke session flash saat terjadi error validasi.
+     * Mencegah kata sandi terbuka kembali ke form demi keamanan data pengguna.
      *
      * @var array<int, string>
      */
@@ -30,7 +31,8 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Register the exception handling callbacks for the application.
+     * Daftarkan fungsi penanganan (callback) exception untuk aplikasi SINFAS.
+     * Digunakan untuk mencatat log error atau mengubah respon error sesuai kebutuhan.
      */
     public function register(): void
     {

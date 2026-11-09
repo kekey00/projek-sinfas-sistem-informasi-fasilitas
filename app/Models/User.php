@@ -8,12 +8,20 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * Model Pengguna Dasar (User).
+ *
+ * Model pengguna bawaan Laravel yang dapat digunakan sebagai referensi otentikasi alternatif.
+ * Pada sistem SINFAS, entitas otentikasi utama menggunakan Model Akun.
+ *
+ * @package App\Models
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Atribut yang dapat diisi secara massal (mass assignable).
      *
      * @var array<int, string>
      */
@@ -24,7 +32,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Atribut yang disembunyikan saat data diserialisasi ke bentuk array atau JSON.
      *
      * @var array<int, string>
      */
@@ -34,7 +42,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
+     * Konversi tipe data otomatis (type casting) untuk atribut model.
      *
      * @var array<string, string>
      */

@@ -4,10 +4,17 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Middleware\TrustHosts as Middleware;
 
+/**
+ * Middleware Kepercayaan Host (Trust Hosts).
+ *
+ * Mengamankan header Host dari manipulasi DNS rebinding atau host injection.
+ *
+ * @package App\Http\Middleware
+ */
 class TrustHosts extends Middleware
 {
     /**
-     * Get the host patterns that should be trusted.
+     * Dapatkan pola host domain yang dipercaya oleh aplikasi.
      *
      * @return array<int, string|null>
      */

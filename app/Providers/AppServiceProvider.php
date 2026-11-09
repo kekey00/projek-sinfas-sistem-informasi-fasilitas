@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Mem-bootstrap dan menginisialisasi layanan aplikasi saat request pertama kali dijalankan.
+     * Menginisialisasi dan menjalankan layanan utama aplikasi saat sistem pertama kali aktif.
      */
     public function boot(): void
     {

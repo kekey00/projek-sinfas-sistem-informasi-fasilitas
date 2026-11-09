@@ -8,12 +8,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Middleware Pengalihan Pengguna yang Sudah Login.
+ *
+ * Mencegah pengguna yang sudah login untuk membuka kembali halaman login/registrasi publik,
+ * dan langsung mengarahkannya ke dashboard.
+ *
+ * @package App\Http\Middleware
+ */
 class RedirectIfAuthenticated
 {
     /**
-     * Handle an incoming request.
+     * Tangani request yang masuk dan periksa status login pengguna.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string  ...$guards
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {

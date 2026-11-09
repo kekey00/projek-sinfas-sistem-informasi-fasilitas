@@ -5,10 +5,17 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+/**
+ * Kernel Perintah Konsol SINFAS.
+ *
+ * Mengelola penjadwalan tugas otomatis (cron job) dan pendaftaran perintah artisan khusus aplikasi.
+ *
+ * @package App\Console
+ */
 class Kernel extends ConsoleKernel
 {
     /**
-     * Define the application's command schedule.
+     * Tentukan jadwal tugas berkala (cron job) untuk aplikasi.
      */
     protected function schedule(Schedule $schedule): void
     {
@@ -16,7 +23,7 @@ class Kernel extends ConsoleKernel
     }
 
     /**
-     * Register the commands for the application.
+     * Daftarkan perintah artisan khusus untuk aplikasi SINFAS.
      */
     protected function commands(): void
     {

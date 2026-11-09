@@ -4,12 +4,19 @@ namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
+/**
+ * Kernel HTTP Aplikasi SINFAS.
+ *
+ * Mendaftarkan tumpukan middleware global, grup rute (web & api), dan alias middleware otorisasi.
+ *
+ * @package App\Http
+ */
 class Kernel extends HttpKernel
 {
     /**
-     * The application's global HTTP middleware stack.
+     * Tumpukan middleware HTTP global aplikasi.
      *
-     * These middleware are run during every request to your application.
+     * Middleware ini dijalankan pada setiap request yang masuk ke sistem SINFAS.
      *
      * @var array<int, class-string|string>
      */
@@ -24,7 +31,7 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * The application's route middleware groups.
+     * Grup middleware untuk rute web dan API.
      *
      * @var array<string, array<int, class-string|string>>
      */
@@ -46,9 +53,9 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * The application's middleware aliases.
+     * Alias middleware yang dapat digunakan pada pendefinisian rute di routes/web.php.
      *
-     * Aliases may be used instead of class names to conveniently assign middleware to routes and groups.
+     * Termasuk otorisasi khusus peran SINFAS: admin.sarana dan admin.sistem.
      *
      * @var array<string, class-string|string>
      */

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Event;
 class EventServiceProvider extends ServiceProvider
 {
     /**
-     * The event to listener mappings for the application.
+     * Pemetaan event ke listener untuk aplikasi.
      *
      * @var array<class-string, array<int, class-string>>
      */
@@ -29,7 +29,7 @@ class EventServiceProvider extends ServiceProvider
     ];
 
     /**
-     * Register any events for your application.
+     * Daftarkan event dan listener untuk aplikasi SINFAS.
      */
     public function boot(): void
     {
@@ -37,7 +37,7 @@ class EventServiceProvider extends ServiceProvider
     }
 
     /**
-     * Determine if events and listeners should be automatically discovered.
+     * Tentukan apakah event dan listener harus ditemukan secara otomatis.
      */
     public function shouldDiscoverEvents(): bool
     {
