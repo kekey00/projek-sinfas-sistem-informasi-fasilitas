@@ -110,13 +110,20 @@ class AdminVerifikasiController extends Controller
         }
 
         DB::transaction(function () use ($peminjaman, $barang) {
-            // Update status peminjaman
+            $stokAwal = DB::table('barang')->where('kode_barang', $barang->kode_barang)->value('jumlah_baik');
+
+            // Update status peminjaman (memicu TRIGGER trg_peminjaman_after_update di MySQL jika terpasang)
             $peminjaman->update([
                 'status_pengajuan' => 'disetujui',
             ]);
 
-            // Kurangi stok barang kondisi baik
-            $barang->decrement('jumlah_baik', 1);
+            // Cek apakah trigger basis data sudah otomatis memotong stok
+            $stokTerkini = DB::table('barang')->where('kode_barang', $barang->kode_barang)->value('jumlah_baik');
+
+            // Fallback: Jika trigger database belum aktif di lingkungan lokal user, kurangi stok via Eloquent
+            if ($stokTerkini == $stokAwal) {
+                $barang->decrement('jumlah_baik', 1);
+            }
         });
 
         return back()
@@ -200,6 +207,9 @@ class AdminVerifikasiController extends Controller
                 $fotoPath = $request->file('bukti_foto')->store('pengembalian', 'public');
             }
 
+            // Ambil snapshot stok sebelum status pengembalian diselesaikan
+            $stokAwal = DB::table('barang')->where('kode_barang', $peminjaman->kode_barang)->first();
+
             if ($existingPengembalian) {
                 // Update catatan pengembalian dari siswa menjadi 'selesai'
                 $dataToUpdate = [
@@ -223,9 +233,15 @@ class AdminVerifikasiController extends Controller
                 ]);
             }
 
-            // Pulihkan / sesuaikan stok alat sesuai kondisi saat diverifikasi
+            // Cek snapshot stok setelah update/insert (apakah TRIGGER MySQL sudah memulihkan stok)
+            $stokTerkini = DB::table('barang')->where('kode_barang', $peminjaman->kode_barang)->first();
             $barang = $peminjaman->barang;
-            if ($barang) {
+
+            // Fallback: Jika trigger basis data belum aktif di lingkungan lokal user, pulihkan via Eloquent
+            if ($barang && $stokAwal && $stokTerkini
+                && $stokAwal->jumlah_baik == $stokTerkini->jumlah_baik
+                && $stokAwal->jumlah_kurang_baik == $stokTerkini->jumlah_kurang_baik
+                && $stokAwal->jumlah_rusak_berat == $stokTerkini->jumlah_rusak_berat) {
                 if ($request->kondisi_barang === 'Baik') {
                     $barang->increment('jumlah_baik', 1);
                 } elseif ($request->kondisi_barang === 'Kurang Baik') {
