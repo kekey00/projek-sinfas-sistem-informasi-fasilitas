@@ -155,6 +155,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/settings', [SistemSettingsController::class, 'index'])->name('settings.index');
         Route::put('/settings', [SistemSettingsController::class, 'update'])->name('settings.update');
         Route::post('/settings/backup', [SistemSettingsController::class, 'backup'])->name('settings.backup');
+        Route::post('/settings/restore', [SistemSettingsController::class, 'restore'])->name('settings.restore');
         Route::post('/settings/clear-cache', [SistemSettingsController::class, 'clearCache'])->name('settings.clear-cache');
     });
 

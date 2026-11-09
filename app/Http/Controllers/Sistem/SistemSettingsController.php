@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Sistem;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Controller Konfigurasi & Pengaturan Sistem (Super Admin)
@@ -36,7 +37,17 @@ class SistemSettingsController extends Controller
             'timezone'              => 'Asia/Jakarta',
         ];
 
-        return view('sistem.settings.index', compact('settings'));
+        // Ambil histori log aktivitas dari tabel audit log (Use Case: Log Aktivitas)
+        try {
+            $logs = DB::table('log_status_peminjaman')
+                ->orderByDesc('id_log')
+                ->take(15)
+                ->get();
+        } catch (\Throwable $e) {
+            $logs = collect();
+        }
+
+        return view('sistem.settings.index', compact('settings', 'logs'));
     }
 
     /**
@@ -86,6 +97,28 @@ class SistemSettingsController extends Controller
 
         return redirect()->route('sistem.settings.index')
             ->with('success', 'Backup database berhasil dijalankan pada ' . now()->format('d M Y, H:i') . '!');
+    }
+
+    /**
+     * Memulihkan basis data sistem dari berkas cadangan (Use Case: Restore Data).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function restore(Request $request)
+    {
+        $request->validate([
+            'backup_file' => 'required|file|max:20480',
+        ], [
+            'backup_file.required' => 'Pilih file backup database (.sql) terlebih dahulu.',
+            'backup_file.file'     => 'Berkas backup yang diunggah tidak valid.',
+            'backup_file.max'      => 'Ukuran berkas backup maksimal 20 MB.',
+        ]);
+
+        $fileName = $request->file('backup_file')->getClientOriginalName();
+
+        return redirect()->route('sistem.settings.index')
+            ->with('success', 'Proses Restore Data berhasil disimulasikan dari berkas: ' . $fileName);
     }
 
     /**

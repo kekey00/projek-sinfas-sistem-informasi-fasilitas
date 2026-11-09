@@ -263,6 +263,18 @@
                         </button>
                     </form>
                 </div>
+
+                {{-- Form Restore Data --}}
+                <div style="margin-top: 14px; padding-top: 14px; border-top: 1px dashed #E2E8F0;">
+                    <form action="{{ route('sistem.settings.restore') }}" method="POST" enctype="multipart/form-data" style="display: flex; gap: 8px; align-items: center;">
+                        @csrf
+                        <input type="file" name="backup_file" accept=".sql,.gz" required style="font-size: 12px; color: #64748B; flex: 1;">
+                        <button type="submit" class="btn-sys-action btn-backup" style="padding: 6px 14px; font-size: 12px;" onclick="return confirm('Apakah Anda yakin ingin memulihkan (restore) data dari file ini?')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.21"/></svg>
+                            Restore Data
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -323,6 +335,57 @@
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    {{-- ── Log Aktivitas Sistem (Use Case: Log Aktivitas) ── --}}
+    <div class="settings-card settings-card-full" style="margin-top: 24px;">
+        <div class="settings-card-header">
+            <div class="settings-card-icon icon-blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+            </div>
+            <div>
+                <div class="settings-card-title">Log Aktivitas Sistem (Audit Trail)</div>
+                <div class="settings-card-sub">Histori rekaman audit perubahan transaksi yang dicatat otomatis oleh Database Trigger</div>
+            </div>
+        </div>
+        <div class="settings-card-body" style="padding: 0; overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <thead>
+                    <tr style="background: #F8FAFC; border-bottom: 1px solid #E2E8F0; text-align: left; color: #64748B;">
+                        <th style="padding: 12px 16px;">ID Log</th>
+                        <th style="padding: 12px 16px;">Kode Transaksi</th>
+                        <th style="padding: 12px 16px;">Status Lama</th>
+                        <th style="padding: 12px 16px;">Status Baru</th>
+                        <th style="padding: 12px 16px;">Waktu Perubahan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($logs as $log)
+                    <tr style="border-bottom: 1px solid #F1F5F9;">
+                        <td style="padding: 12px 16px; font-weight: 700; color: #3B82F6;">#{{ $log->id_log }}</td>
+                        <td style="padding: 12px 16px; font-weight: 600; color: #1E293B;">{{ $log->kode_pinjam }}</td>
+                        <td style="padding: 12px 16px;">
+                            <span style="background: #F1F5F9; color: #475569; padding: 2px 8px; border-radius: 4px; font-size: 11.5px;">{{ $log->status_lama ?? 'awal' }}</span>
+                        </td>
+                        <td style="padding: 12px 16px;">
+                            <span style="background: #EFF6FF; color: #1D4ED8; font-weight: 600; padding: 2px 8px; border-radius: 4px; font-size: 11.5px;">{{ $log->status_baru }}</span>
+                        </td>
+                        <td style="padding: 12px 16px; color: #64748B; font-size: 12px;">{{ $log->waktu_perubahan }}</td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" style="padding: 24px; text-align: center; color: #94A3B8;">Belum ada rekaman log aktivitas transaksi tercatat.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 
