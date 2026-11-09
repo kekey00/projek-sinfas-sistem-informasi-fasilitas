@@ -6,10 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 
+/**
+ * Controller Konfigurasi & Pengaturan Sistem (Super Admin)
+ *
+ * Mengelola parameter operasional global: jam buka/tutup layanan sarana,
+ * batas maksimal hari peminjaman, preferensi backup basis data, dan utilitas cache server.
+ */
 class SistemSettingsController extends Controller
 {
     /**
-     * Tampilkan halaman pengaturan sistem.
+     * Menampilkan formulir konfigurasi global dan status sistem.
+     *
+     * @return \Illuminate\View\View Tampilan halaman pengaturan sistem.
      */
     public function index()
     {
@@ -32,7 +40,10 @@ class SistemSettingsController extends Controller
     }
 
     /**
-     * Simpan pengaturan sistem.
+     * Memvalidasi dan menyimpan pembaruan konfigurasi operasional sistem.
+     *
+     * @param  \Illuminate\Http\Request  $request  Input form pengaturan.
+     * @return \Illuminate\Http\RedirectResponse   Redirect kembali membawa pesan sukses.
      */
     public function update(Request $request)
     {
@@ -63,7 +74,10 @@ class SistemSettingsController extends Controller
     }
 
     /**
-     * Jalankan backup manual.
+     * Memicu proses pencadangan (backup) basis data secara manual.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function backup(Request $request)
     {
@@ -75,7 +89,10 @@ class SistemSettingsController extends Controller
     }
 
     /**
-     * Clear cache aplikasi.
+     * Membersihkan file cache aplikasi dan compiled views untuk menyegarkan sistem.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function clearCache(Request $request)
     {

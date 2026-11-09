@@ -11,10 +11,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Controller Manajemen Inventaris Alat & Fasilitas (Admin Sarana)
+ *
+ * Mengelola pendataan seluruh aset sarana dan prasarana sekolah:
+ * - Menampilkan katalog inventaris dengan pencarian, filter kategori, dan kondisi fisik.
+ * - Menambahkan barang baru beserta upload foto aset dan auto-generate kode barang (BRG-XXX).
+ * - Memperbarui rincian spesifikasi, kondisi, dan jumlah stok fisik (Baik, Kurang Baik, Rusak Berat).
+ * - Menghapus aset dengan proteksi integritas: dilarang menghapus barang yang sedang dipinjam siswa.
+ */
 class AdminBarangController extends Controller
 {
     /**
-     * Tampilkan daftar seluruh alat/barang.
+     * Menampilkan daftar katalog seluruh inventaris alat/barang dengan pagination dan multi-filter.
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request dengan opsi query: 'q' (keyword), 'kategori', 'kondisi'.
+     * @return \Illuminate\View\View Tampilan tabel inventaris barang admin.
      */
     public function index(Request $request)
     {
@@ -50,7 +62,18 @@ class AdminBarangController extends Controller
     }
 
     /**
-     * Simpan data alat/barang baru.
+     * Menyimpan data alat/barang baru ke dalam database inventaris.
+     *
+     * Aturan Bisnis:
+     * - Jika kode_barang dikosongkan, sistem meng-generate otomatis format BRG-XXX yang berurutan.
+     * - Kondisi utama barang otomatis dihitung: 'Baik' jika jumlah_baik > 0, 
+     *   'Kurang Baik' jika jumlah_baik = 0 tapi jumlah_kurang_baik > 0, dan 'Rusak Berat' jika sisanya.
+     * - Berkas foto disimpan di public storage (folder 'barang').
+     *
+     * @param  \Illuminate\Http\Request  $request  Data form penambahan aset barang.
+     * @return \Illuminate\Http\RedirectResponse  Redirect ke daftar barang dengan flash message sukses.
+     *
+     * @throws \Illuminate\Validation\ValidationException Jika data tidak valid atau kode barang duplikat.
      */
     public function store(Request $request)
     {
@@ -133,7 +156,17 @@ class AdminBarangController extends Controller
     }
 
     /**
-     * Perbarui data alat/barang.
+     * Memperbarui rincian spesifikasi, foto, dan stok kondisi barang.
+     *
+     * Aturan Bisnis:
+     * - Jika ada unggahan foto baru, foto lama di storage akan dihapus untuk menghemat ruang disk.
+     * - Kondisi utama dievaluasi ulang berdasarkan persebaran jumlah unit (Baik, Kurang Baik, Rusak Berat).
+     *
+     * @param  \Illuminate\Http\Request  $request  Data form perubahan rincian aset.
+     * @param  string                    $kode     Kode unik barang (Primary Key).
+     * @return \Illuminate\Http\RedirectResponse   Redirect ke index barang membawa pesan sukses.
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException Jika barang tidak ditemukan.
      */
     public function update(Request $request, string $kode)
     {
@@ -193,7 +226,14 @@ class AdminBarangController extends Controller
     }
 
     /**
-     * Hapus data alat/barang.
+     * Menghapus data barang dari inventaris dengan proteksi relasi data.
+     *
+     * Aturan Bisnis & Integritas Data:
+     * - DILARANG menghapus barang yang saat ini sedang aktif dipinjam siswa atau masih berstatus 'menunggu'.
+     * - Menggunakan DB::transaction untuk menghapus riwayat terkait dan file foto di storage secara bersih.
+     *
+     * @param  string  $kode  Kode unik barang yang akan dihapus.
+     * @return \Illuminate\Http\RedirectResponse  Redirect kembali dengan notifikasi sukses atau error.
      */
     public function destroy(string $kode)
     {

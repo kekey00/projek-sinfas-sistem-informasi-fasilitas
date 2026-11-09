@@ -10,10 +10,17 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\Peminjaman;
 use Carbon\Carbon;
 
+/**
+ * Service Provider Utama Aplikasi SINFAS
+ *
+ * Mengelola inisialisasi layanan global aplikasi saat proses booting:
+ * 1. Mekanisme auto-patch skema enum basis data di server hosting (menjamin nilai 'dibatalkan' selalu terdaftar).
+ * 2. View Composer global yang menyuntikkan koleksi notifikasi siswa aktif ke seluruh halaman bertema 'layouts.user'.
+ */
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Mendaftarkan binding layanan aplikasi ke service container.
      */
     public function register(): void
     {
@@ -21,22 +28,27 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Mem-bootstrap dan menginisialisasi layanan aplikasi saat request pertama kali dijalankan.
      */
     public function boot(): void
     {
-        // Auto-fix: pastikan enum status_pengajuan punya nilai 'dibatalkan'
+        // Mekanisme Auto-Fix Skema Enum Database:
+        // Berfungsi memodifikasi kolom enum 'status_pengajuan' pada tabel 'peminjaman'
+        // agar memiliki opsi 'dibatalkan'. Eksekusi ini di-cache selamanya (Cache::forever)
+        // sehingga hanya dijalankan sekali saja dan tidak membebani performa server.
         if (!Cache::has('enum_dibatalkan_added')) {
             try {
                 DB::statement("ALTER TABLE `peminjaman` MODIFY COLUMN `status_pengajuan` ENUM('menunggu', 'disetujui', 'ditolak', 'dibatalkan') NOT NULL DEFAULT 'menunggu'");
                 Cache::forever('enum_dibatalkan_added', true);
             } catch (\Exception $e) {
-                // Sudah dimodifikasi atau tabel belum ada
+                // Tabel belum dimigrasi atau database engine tidak mendukung ALTER TABLE
                 Cache::forever('enum_dibatalkan_added', true);
             }
         }
 
-        // Share notification data with user layout
+        // Global View Composer:
+        // Menyediakan variabel $userNotifications secara otomatis ke layout pengguna (layouts.user)
+        // sehingga badge notifikasi selalu sinkron tanpa perlu query manual di setiap method controller.
         View::composer('layouts.user', function ($view) {
             $notifications = collect();
             if (Auth::check()) {

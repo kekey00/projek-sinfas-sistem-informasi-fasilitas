@@ -10,53 +10,123 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+/**
+ * Controller Pelaporan & Rekapitulasi Sarana Prasarana (Admin Sarana)
+ *
+ * Mengelola pembuatan laporan operasional dan pencetakan dokumen PDF landscape A4:
+ * 1. Laporan Frekuensi Peminjaman (identifikasi barang terpopuler & paling sering digunakan).
+ * 2. Laporan Rekapitulasi Kondisi Fisik Alat (monitoring kerusakan & pemeliharaan).
+ * 3. Laporan Keterlambatan Pengembalian (analisis disiplin pengembalian sarana).
+ * 4. Laporan Rekapitulasi Inventaris Keseluruhan.
+ */
 class AdminLaporanController extends Controller
 {
+    /**
+     * Menampilkan menu utama pusat laporan sarana.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         return view('admin.laporan.index');
     }
 
+    /**
+     * Menampilkan laporan frekuensi peminjaman alat berbasis filter rentang tanggal & kategori.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
+     */
     public function frekuensi(Request $request)
     {
         return view('admin.laporan.frekuensi', $this->reportData($request));
     }
 
+    /**
+     * Mengekspor dan mengunduh laporan frekuensi peminjaman dalam format berkas PDF (A4 Landscape).
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response Unduhan file PDF.
+     */
     public function frekuensiPdf(Request $request)
     {
         return $this->downloadPdf($request, 'frekuensi', 'laporan-frekuensi-peminjaman');
     }
 
+    /**
+     * Menampilkan laporan rekapitulasi kondisi barang saat dikembalikan.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
+     */
     public function kondisi(Request $request)
     {
         return view('admin.laporan.kondisi', $this->reportData($request));
     }
 
+    /**
+     * Mengekspor laporan kondisi barang dalam format PDF.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function kondisiPdf(Request $request)
     {
         return $this->downloadPdf($request, 'kondisi', 'laporan-kondisi-barang');
     }
 
+    /**
+     * Menampilkan laporan analisis keterlambatan pengembalian alat.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
+     */
     public function keterlambatan(Request $request)
     {
         return view('admin.laporan.keterlambatan', $this->reportData($request));
     }
 
+    /**
+     * Mengekspor laporan keterlambatan pengembalian dalam format PDF.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function keterlambatanPdf(Request $request)
     {
         return $this->downloadPdf($request, 'keterlambatan', 'laporan-keterlambatan-pengembalian');
     }
 
+    /**
+     * Menampilkan laporan rekapitulasi inventaris barang.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
+     */
     public function inventaris(Request $request)
     {
         return view('admin.laporan.inventaris', $this->reportData($request));
     }
 
+    /**
+     * Mengekspor laporan rekapitulasi inventaris ke PDF.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function inventarisPdf(Request $request)
     {
         return $this->downloadPdf($request, 'inventaris', 'laporan-rekapitulasi-inventaris');
     }
 
+    /**
+     * Helper untuk me-render view blade laporan ke stream unduhan berkas PDF DomPDF.
+     *
+     * @param  \Illuminate\Http\Request  $request   Parameter filter data.
+     * @param  string                    $report    Nama template view PDF.
+     * @param  string                    $filename  Nama file unduhan tanpa ekstensi.
+     * @return \Illuminate\Http\Response
+     */
     private function downloadPdf(Request $request, string $report, string $filename)
     {
         return Pdf::loadView('admin.laporan.pdf.' . $report, $this->reportData($request))
@@ -64,6 +134,12 @@ class AdminLaporanController extends Controller
             ->download($filename . '.pdf');
     }
 
+    /**
+     * Memproses data agregasi peminjaman, frekuensi, kondisi, dan keterlambatan untuk laporan.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array Dataset teragregasi untuk view dan PDF.
+     */
     private function reportData(Request $request): array
     {
         $validated = $request->validate([

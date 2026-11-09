@@ -7,10 +7,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Controller Autentikasi Pengguna & Manajemen Sesi
+ *
+ * Mengelola gerbang masuk (login multi-pengidentifikasi) dan keluar (logout) sistem:
+ * - Fleksibilitas login menggunakan Username, NIS (Siswa), atau NIP (Pegawai).
+ * - Redirect cerdas sesuai role: 'admin_sarana', 'admin_sistem', atau 'siswa'.
+ * - Proteksi regenerasi sesi dan token CSRF saat login & logout.
+ */
 class AuthController extends Controller
 {
     /**
-     * Tampilkan halaman login.
+     * Menampilkan antarmuka formulir login.
+     *
+     * Jika sesi pengguna sudah aktif, otomatis dialihkan ke dashboard sesuai role.
+     *
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function showLogin()
     {
@@ -23,7 +35,10 @@ class AuthController extends Controller
     }
 
     /**
-     * Proses login: cek username atau NIS & password di tabel akun.
+     * Memproses verifikasi kredensial login pengguna.
+     *
+     * @param  \Illuminate\Http\Request  $request  Input form login (username/NIS/NIP dan password).
+     * @return \Illuminate\Http\RedirectResponse  Redirect ke dashboard role atau kembali dengan pesan error.
      */
     public function login(Request $request)
     {
@@ -55,9 +70,11 @@ class AuthController extends Controller
     }
 
     /**
-     * Arahkan pengguna ke dashboard sesuai role-nya.
+     * Mengarahkan pengguna ke dashboard yang sesuai dengan peran (role) hak aksesnya.
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
-    private function redirectByRole()
+    private function redirectByRole(): \Illuminate\Http\RedirectResponse
     {
         $role = Auth::user()->role;
 
@@ -73,9 +90,12 @@ class AuthController extends Controller
     }
 
     /**
-     * Proses logout.
+     * Memproses keluar sistem (logout), memusnahkan sesi aktif, dan mereset token CSRF.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse Redirect kembali ke halaman login.
      */
-    public function logout(Request $request)
+    public function logout(Request $request): \Illuminate\Http\RedirectResponse
     {
         Auth::logout();
         $request->session()->invalidate();

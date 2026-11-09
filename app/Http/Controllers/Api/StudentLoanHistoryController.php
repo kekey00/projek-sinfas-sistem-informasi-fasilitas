@@ -7,8 +7,22 @@ use App\Models\Peminjaman;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+/**
+ * Controller API Riwayat Peminjaman Siswa (Mobile / REST API)
+ *
+ * Menyediakan endpoint JSON untuk aplikasi seluler atau integrasi pihak ketiga,
+ * mengembalikan ringkasan statistik (summary) dan daftar riwayat peminjaman siswa.
+ */
 class StudentLoanHistoryController extends Controller
 {
+    /**
+     * Mengambil daftar transaksi peminjaman milik siswa terautentikasi dalam format JSON.
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP Request dengan token/session siswa.
+     * @return \Illuminate\Http\JsonResponse Respon JSON berisi ringkasan metrik dan daftar item peminjaman.
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException Jika pengguna bukan siswa (HTTP 403).
+     */
     public function index(Request $request): JsonResponse
     {
         $akun = $request->user();
@@ -47,6 +61,12 @@ class StudentLoanHistoryController extends Controller
         ]);
     }
 
+    /**
+     * Menentukan status tampilan peminjaman berdasarkan relasi pengembalian.
+     *
+     * @param  \App\Models\Peminjaman  $peminjaman  Model peminjaman beserta relasi pengembalian.
+     * @return string Status terformat ('selesai', 'menunggu_pengembalian', atau status_pengajuan).
+     */
     private function resolveLoanStatus(Peminjaman $peminjaman): string
     {
         $statusPengembalian = $peminjaman->pengembalian?->status;

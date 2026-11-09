@@ -8,8 +8,22 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Controller Autentikasi API Seluler Siswa (Sanctum Token Auth)
+ *
+ * Mengelola otentikasi REST API untuk aplikasi mobile kesiswaan SINFAS:
+ * - Login siswa menggunakan identifier (Username / NIS) dan Password.
+ * - Mengembalikan Bearer Token Sanctum ('sinfas-mobile') untuk sesi API.
+ * - Menghapus token saat pengguna keluar dari aplikasi seluler (logout).
+ */
 class StudentMobileAuthController extends Controller
 {
+    /**
+     * Memproses otentikasi login siswa untuk aplikasi seluler dan menerbitkan token Sanctum.
+     *
+     * @param  \Illuminate\Http\Request  $request  Input JSON berisi 'identifier' (username/NIS) dan 'password'.
+     * @return \Illuminate\Http\JsonResponse Respon JSON berisi Bearer Token dan data ringkas profil siswa.
+     */
     public function login(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -43,6 +57,12 @@ class StudentMobileAuthController extends Controller
         ]);
     }
 
+    /**
+     * Menghapus personal access token Sanctum yang sedang aktif saat pengguna logout dari aplikasi mobile.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()?->delete();

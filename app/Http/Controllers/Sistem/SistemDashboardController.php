@@ -5,8 +5,18 @@ namespace App\Http\Controllers\Sistem;
 use App\Http\Controllers\Controller;
 use App\Models\Akun;
 
+/**
+ * Controller Dashboard Admin Sistem (Super Admin)
+ *
+ * Menampilkan ringkasan metrik kesehatan server, statistik akun, dan pemeliharaan sistem.
+ */
 class SistemDashboardController extends Controller
 {
+    /**
+     * Menampilkan halaman dashboard utama admin sistem.
+     *
+     * @return \Illuminate\View\View Tampilan metrik akun dan status sistem.
+     */
     public function index()
     {
         // Statistik Akun langsung dari database

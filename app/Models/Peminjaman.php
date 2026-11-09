@@ -4,6 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Model Peminjaman
+ * 
+ * Merepresentasikan entitas transaksi peminjaman sarana dan prasarana oleh siswa di SMKN 11 Bandung.
+ * Mengelola status siklus hidup peminjaman: 'menunggu', 'disetujui', 'ditolak', 'dibatalkan'.
+ *
+ * @property string $kode_pinjam
+ * @property string $nis
+ * @property string $nomor_telepon
+ * @property string $kode_barang
+ * @property \Carbon\Carbon $tanggal_pinjam
+ * @property \Carbon\Carbon $tanggal_kembali
+ * @property string|null $keterangan_penggunaan
+ * @property string $status_pengajuan
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ */
 class Peminjaman extends Model
 {
     protected $table      = 'peminjaman';
@@ -43,7 +60,14 @@ class Peminjaman extends Model
     }
 
     /**
-     * Generate kode pinjam unik: PJM-YYYYMMDD-XXXX
+     * Menghasilkan kode transaksi peminjaman unik otomatis.
+     *
+     * Format: PJM-YYYYMMDD-XXXX (contoh: PJM-20261109-0001).
+     * Aturan Bisnis:
+     * - Nomor urut (4 digit) direset setiap pergantian tanggal.
+     * - Diurutkan berdasarkan kode terakhir yang tercatat di database hari ini.
+     *
+     * @return string Kode peminjaman terformat unik sepanjang 21 karakter.
      */
     public static function generateKode(): string
     {

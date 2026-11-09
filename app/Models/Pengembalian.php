@@ -4,6 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Model Pengembalian
+ *
+ * Merepresentasikan pencatatan pelaporan dan verifikasi fisik pengembalian sarana/prasarana.
+ * Menyimpan rekam jejak kondisi fisik barang (Baik, Kurang Baik, Rusak Berat) serta berkas bukti visual.
+ *
+ * @property string $kode_kembali
+ * @property string $kode_pinjam
+ * @property \Carbon\Carbon $tanggal_kembali
+ * @property string $kondisi_barang
+ * @property string|null $bukti_foto_video
+ * @property string $status ('menunggu', 'selesai')
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ */
 class Pengembalian extends Model
 {
     protected $table      = 'pengembalian';
@@ -30,7 +45,11 @@ class Pengembalian extends Model
     }
 
     /**
-     * Generate kode kembali unik: KMB-YYYYMMDD-XXXX
+     * Menghasilkan kode unik pelaporan pengembalian barang secara otomatis.
+     *
+     * Format: KMB-YYYYMMDD-XXXX (contoh: KMB-20261109-0001).
+     *
+     * @return string Kode pengembalian terformat unik.
      */
     public static function generateKode(): string
     {

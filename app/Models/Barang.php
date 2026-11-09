@@ -4,6 +4,29 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Model Barang (Aset Sarana & Prasarana)
+ *
+ * Merepresentasikan inventaris alat praktik, fasilitas, atau sarana sekolah.
+ * Menyimpan detail spesifikasi fisik serta rincian stok kondisi: jumlah_baik, jumlah_kurang_baik, jumlah_rusak_berat.
+ *
+ * @property string $kode_barang
+ * @property int $id_kategori
+ * @property string $nama_barang
+ * @property string|null $merk_model
+ * @property string|null $no_seri_pabrik
+ * @property string|null $ukuran_dimensi
+ * @property string|null $bahan
+ * @property int|null $tahun_pembelian
+ * @property int $jumlah_baik
+ * @property int $jumlah_kurang_baik
+ * @property int $jumlah_rusak_berat
+ * @property string|null $keterangan
+ * @property string|null $foto
+ * @property string $kondisi
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ */
 class Barang extends Model
 {
     protected $table      = 'barang';

@@ -4,6 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Model Kategori Sarana
+ *
+ * Mengelompokkan inventaris fasilitas sekolah (contoh: Multimedia, Elektronika, Jaringan, Olahraga).
+ *
+ * @property int $id_kategori
+ * @property string $nama_kategori
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ */
 class Kategori extends Model
 {
     protected $table      = 'kategori';

@@ -9,10 +9,25 @@ use App\Models\Pengembalian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Controller Admin Verifikasi Sarana & Prasarana
+ *
+ * Mengelola antrean verifikasi persetujuan permohonan pinjam alat,
+ * penolakan pengajuan, verifikasi fisik barang yang dikembalikan,
+ * serta penyesuaian otomatis stok fisik barang (Baik, Kurang Baik, Rusak Berat).
+ */
 class AdminVerifikasiController extends Controller
 {
     /**
-     * Halaman Verifikasi Pengajuan & Pengembalian (dengan Tabs).
+     * Menampilkan dashboard verifikasi peminjaman dan pengembalian sarana (berbasis multi-tab & pagination).
+     *
+     * Tab yang tersedia:
+     * 1. 'requests': Permohonan baru yang membutuhkan persetujuan/penolakan (status: 'menunggu').
+     * 2. 'returns' : Pengembalian alat yang menunggu konfirmasi fisik dari petugas.
+     * 3. 'history' : Seluruh arsip peminjaman yang telah selesai, ditolak, atau dibatalkan.
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request dengan opsi parameter query 'tab'.
+     * @return \Illuminate\View\View Tampilan dashboard verifikasi admin.
      */
     public function index(Request $request)
     {
@@ -69,7 +84,17 @@ class AdminVerifikasiController extends Controller
     }
 
     /**
-     * Setujui pengajuan peminjaman.
+     * Menyetujui permohonan peminjaman sarana dan memotong stok fisik barang.
+     *
+     * Aturan Bisnis & Transaksi:
+     * - Status permohonan harus masih 'menunggu'.
+     * - Stok fisik barang kondisi baik (`jumlah_baik`) minimal tersedia 1 unit.
+     * - Dibungkus dalam DB Transaction: status diubah ke 'disetujui' dan stok dipotong secara atomik (-1).
+     *
+     * @param  string  $kode_pinjam  Kode unik transaksi peminjaman (contoh: PJM-20261109-0001).
+     * @return \Illuminate\Http\RedirectResponse  Redirect kembali dengan flash notification hasil persetujuan.
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException Jika kode peminjaman tidak ditemukan (HTTP 404).
      */
     public function approve(string $kode_pinjam)
     {
@@ -100,7 +125,15 @@ class AdminVerifikasiController extends Controller
     }
 
     /**
-     * Tolak pengajuan peminjaman.
+     * Menolak permohonan peminjaman sarana oleh admin dengan menyertakan alasan.
+     *
+     * Aturan Bisnis:
+     * - Pengajuan hanya bisa ditolak bila statusnya masih 'menunggu'.
+     * - Catatan penolakan ditambahkan ke kolom `keterangan_penggunaan` agar terbaca oleh siswa.
+     *
+     * @param  \Illuminate\Http\Request  $request      HTTP request membawa data alasan penolakan.
+     * @param  string                    $kode_pinjam  Kode unik transaksi peminjaman.
+     * @return \Illuminate\Http\RedirectResponse       Redirect kembali ke panel admin.
      */
     public function reject(Request $request, string $kode_pinjam)
     {
@@ -125,7 +158,18 @@ class AdminVerifikasiController extends Controller
     }
 
     /**
-     * Verifikasi penerimaan pengembalian alat dan pencatatan kondisi barang.
+     * Memverifikasi kondisi fisik penerimaan alat kembali dan memulihkan stok inventaris sekolah.
+     *
+     * Aturan Bisnis & Penyesuaian Stok:
+     * - Memverifikasi kondisi aktual barang saat diserahkan ke ruang sarana (Baik / Kurang Baik / Rusak Berat).
+     * - Jika kondisi 'Baik', kolom `jumlah_baik` bertambah 1.
+     * - Jika 'Kurang Baik', kolom `jumlah_kurang_baik` bertambah 1 (perlu pemeliharaan ringan).
+     * - Jika 'Rusak Berat', kolom `jumlah_rusak_berat` bertambah 1 (perlu perbaikan/penghapusan aset).
+     * - Menandai status pengembalian menjadi 'selesai'.
+     *
+     * @param  \Illuminate\Http\Request  $request      Data form verifikasi fisik pengembalian.
+     * @param  string                    $kode_pinjam  Kode transaksi peminjaman.
+     * @return \Illuminate\Http\RedirectResponse       Redirect kembali membawa pesan sukses & pemulihan stok.
      */
     public function verifikasiPengembalian(Request $request, string $kode_pinjam)
     {
@@ -198,9 +242,14 @@ class AdminVerifikasiController extends Controller
     }
 
     /**
-     * Endpoint polling AJAX untuk real-time update Admin Sarana
+     * Endpoint API polling AJAX untuk auto-refresh dashboard verifikasi admin secara berkala (real-time).
+     *
+     * Menghitung jumlah permohonan baru dan pengembalian yang belum diproses,
+     * serta mengembalikan data terkini untuk memicu notifikasi toast/audio pada panel admin.
+     *
+     * @return \Illuminate\Http\JsonResponse Respon JSON berisi penghitung dan rincian transaksi baru.
      */
-    public function liveCheck()
+    public function liveCheck(): \Illuminate\Http\JsonResponse
     {
         $pendingLoansCount = Peminjaman::where('status_pengajuan', 'menunggu')->count();
         $pendingReturnsCount = Pengembalian::where('status', 'menunggu')->count();

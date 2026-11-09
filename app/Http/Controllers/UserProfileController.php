@@ -10,10 +10,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Controller Profil Pengguna (Siswa)
+ *
+ * Mengelola informasi profil pribadi siswa, nomor kontak WhatsApp, dan pergantian kata sandi mandiri.
+ */
 class UserProfileController extends Controller
 {
     /**
-     * Tampilkan halaman My Profile.
+     * Menampilkan halaman profil siswa terautentikasi beserta data biodata master.
+     *
+     * @return \Illuminate\View\View Tampilan profil akun dan biodata siswa.
      */
     public function index()
     {
@@ -24,7 +31,14 @@ class UserProfileController extends Controller
     }
 
     /**
-     * Perbarui data profil dan/atau ganti kata sandi.
+     * Memperbarui informasi biodata profil dan/atau mengubah kata sandi siswa.
+     *
+     * Aturan Bisnis:
+     * - Jika mengganti password, verifikasi password lama (current_password) wajib sesuai.
+     * - Sinkronisasi perubahan nama dan nomor telepon dilakukan secara atomik di tabel 'akun' dan 'siswa'.
+     *
+     * @param  \Illuminate\Http\Request  $request  Input data profil dan password baru.
+     * @return \Illuminate\Http\RedirectResponse   Redirect kembali membawa pesan sukses.
      */
     public function update(Request $request)
     {

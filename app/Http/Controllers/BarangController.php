@@ -6,10 +6,20 @@ use App\Models\Barang;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 
+/**
+ * Controller Katalog Sarana & Fasilitas (Siswa / Publik)
+ *
+ * Mengelola antarmuka katalog peminjaman barang untuk siswa:
+ * - Pencarian multi-kriteria (nama alat, merk, kategori, ketersediaan stok).
+ * - Menampilkan detail spesifikasi teknis alat sebelum mengajukan pinjaman.
+ */
 class BarangController extends Controller
 {
     /**
-     * Halaman dashboard user — tampil daftar barang dengan filter search & kategori.
+     * Menampilkan katalog barang/sarana bagi siswa dengan pagination dan pencarian cerdas.
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request dengan parameter pencarian 'q' dan filter 'kategori'.
+     * @return \Illuminate\View\View Tampilan katalog kartu barang siswa.
      */
     public function index(Request $request)
     {
@@ -52,7 +62,12 @@ class BarangController extends Controller
     }
 
     /**
-     * Halaman detail barang + form pengajuan peminjaman.
+     * Menampilkan halaman detail spesifikasi sarana dan form isian peminjaman alat.
+     *
+     * @param  string  $kode  Kode unik barang (contoh: BRG-001).
+     * @return \Illuminate\View\View Tampilan detail alat dan form pengajuan pinjam.
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException Jika barang tidak ditemukan (HTTP 404).
      */
     public function show(string $kode)
     {

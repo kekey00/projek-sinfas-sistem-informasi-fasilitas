@@ -8,10 +8,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Controller Manajemen Akun Pengguna (Super Admin / Admin Sistem)
+ *
+ * Mengelola seluruh entitas akun pengguna di lingkungan aplikasi SINFAS:
+ * - Menampilkan daftar akun dengan pencarian nama/username/NIS/NIP dan filter role.
+ * - Registrasi akun baru (siswa, admin_sarana, admin_sistem) beserta sinkronisasi data master.
+ * - Memperbarui profil akun & penyesuaian password baru.
+ * - Fitur darurat reset password default ('sinfas123') jika pengguna lupa kata sandi.
+ * - Proteksi keamanan: melarang admin menghapus akun miliknya sendiri yang sedang aktif.
+ */
 class SistemAkunController extends Controller
 {
     /**
-     * Tampilkan daftar semua akun.
+     * Menampilkan daftar seluruh akun pengguna beserta ringkasan statistik per role.
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request dengan opsi query 'q' dan 'role'.
+     * @return \Illuminate\View\View Tampilan tabel manajemen akun.
      */
     public function index(Request $request)
     {
@@ -47,7 +60,18 @@ class SistemAkunController extends Controller
     }
 
     /**
-     * Simpan akun baru.
+     * Menyimpan data akun pengguna baru dan menyinkronkan data profil master.
+     *
+     * Aturan Bisnis & Integritas:
+     * - Username harus unik di seluruh sistem.
+     * - Jika role 'siswa', data NIS disinkronkan ke tabel 'siswa' menggunakan updateOrInsert.
+     * - Jika role pegawai (admin_sarana/admin_sistem), NIP disinkronkan ke tabel 'pegawai'.
+     * - Kata sandi di-hash menggunakan algoritma Bcrypt (Hash::make).
+     *
+     * @param  \Illuminate\Http\Request  $request  Data form pembuatan akun baru.
+     * @return \Illuminate\Http\RedirectResponse  Redirect kembali ke daftar akun dengan pesan sukses.
+     *
+     * @throws \Illuminate\Validation\ValidationException Jika validasi username/password gagal.
      */
     public function store(Request $request)
     {
@@ -109,7 +133,11 @@ class SistemAkunController extends Controller
     }
 
     /**
-     * Perbarui akun.
+     * Memperbarui informasi data akun dan password baru (opsional).
+     *
+     * @param  \Illuminate\Http\Request  $request  Data perubahan akun.
+     * @param  int                       $id       ID akun (Primary Key id_akun).
+     * @return \Illuminate\Http\RedirectResponse   Redirect ke index akun membawa pesan sukses.
      */
     public function update(Request $request, int $id)
     {
@@ -152,7 +180,13 @@ class SistemAkunController extends Controller
     }
 
     /**
-     * Hapus akun.
+     * Menghapus akun pengguna dari sistem.
+     *
+     * Aturan Keamanan:
+     * - Administrator sistem DILARANG menghapus akunnya sendiri yang sedang digunakan saat ini.
+     *
+     * @param  int  $id  ID akun yang akan dihapus.
+     * @return \Illuminate\Http\RedirectResponse  Redirect kembali dengan notifikasi sukses/error.
      */
     public function destroy(int $id)
     {
@@ -172,7 +206,10 @@ class SistemAkunController extends Controller
     }
 
     /**
-     * Reset password akun ke password default.
+     * Mereset kata sandi akun pengguna ke nilai default sekolah ('sinfas123').
+     *
+     * @param  int  $id  ID akun yang akan direset kata sandinya.
+     * @return \Illuminate\Http\RedirectResponse  Redirect kembali dengan informasi password default.
      */
     public function resetPassword(int $id)
     {

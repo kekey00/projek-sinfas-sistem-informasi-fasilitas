@@ -8,8 +8,28 @@ use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Controller Dashboard Admin Sarana & Prasarana
+ *
+ * Menghimpun dan memvisualisasikan data analitik operasional sarana sekolah:
+ * - Kartu indikator kinerja utama (KPI): permohonan menunggu, total unit alat, barang aktif dipinjam, barang rusak.
+ * - Antrean 3 permohonan pinjam teratas untuk tindakan cepat.
+ * - Riwayat 10 transaksi peminjaman mutakhir.
+ * - Data tren peminjaman semesteran (Januari - Juni) untuk grafik visualisasi Bar/Line Chart.
+ */
 class AdminDashboardController extends Controller
 {
+    /**
+     * Menampilkan dashboard utama administrasi sarana dan prasarana.
+     *
+     * Menghitung statistik inventaris secara agregat dari database:
+     * - Menghitung jumlah permohonan status 'menunggu'.
+     * - Menghitung akumulasi fisik seluruh alat (jumlah_baik + jumlah_kurang_baik + jumlah_rusak_berat).
+     * - Menghitung peminjaman berstatus 'disetujui' yang belum diverifikasi kembali.
+     * - Menyiapkan dataset chart 7 item sarana terpopuler.
+     *
+     * @return \Illuminate\View\View Tampilan antarmuka dashboard admin.
+     */
     public function index()
     {
         // 1. Hitung Kartu Statistik (Sesuai database)

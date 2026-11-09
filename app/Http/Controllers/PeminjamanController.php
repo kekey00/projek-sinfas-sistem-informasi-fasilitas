@@ -12,10 +12,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Controller Peminjaman (Siswa / Pengguna)
+ *
+ * Mengelola seluruh siklus hidup interaksi peminjaman fasilitas oleh siswa,
+ * meliputi: pengajuan baru, monitoring status, pembatalan permohonan,
+ * pelaporan pengembalian barang fisik, dan kalkulasi notifikasi pengingat tenggat.
+ */
 class PeminjamanController extends Controller
 {
     /**
-     * Halaman Status Pengajuan User (Daftar semua pinjaman user)
+     * Menampilkan daftar seluruh riwayat dan status pengajuan peminjaman milik siswa yang sedang login.
+     *
+     * @return \Illuminate\View\View Tampilan halaman riwayat status peminjaman user.
      */
     public function status()
     {
@@ -28,6 +37,17 @@ class PeminjamanController extends Controller
         return view('user.status', compact('peminjamans'));
     }
 
+    /**
+     * Menampilkan detail lengkap informasi satu transaksi peminjaman.
+     *
+     * Prasyarat: Pengguna harus berstatus siswa dan hanya dapat melihat transaksi miliknya sendiri.
+     *
+     * @param  string  $kode_pinjam  Kode unik transaksi peminjaman (contoh: PJM-20261109-0001).
+     * @return \Illuminate\View\View Tampilan detail peminjaman.
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException Jika pengguna bukan siswa (HTTP 403).
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException  Jika kode transaksi tidak ditemukan (HTTP 404).
+     */
     public function showStatus(string $kode_pinjam)
     {
         $user = Auth::user();
@@ -41,7 +61,10 @@ class PeminjamanController extends Controller
     }
 
     /**
-     * Halaman khusus Semua Notifikasi User dengan Pagination
+     * Menampilkan pusat notifikasi siswa dengan dukungan pagination dan filter tab.
+     *
+     * @param  \Illuminate\Http\Request  $request  HTTP request dengan opsi query filter (all, attention, pending, active).
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse Tampilan daftar notifikasi berpaginasi.
      */
     public function notifikasi(Request $request)
     {
@@ -95,7 +118,20 @@ class PeminjamanController extends Controller
     }
 
     /**
-     * Simpan pengajuan peminjaman dari form user.
+     * Memproses dan menyimpan permohonan peminjaman sarana baru dari form siswa.
+     *
+     * Aturan Bisnis & Validasi:
+     * - Barang harus ada di database dan stok kondisi baik (`jumlah_baik`) minimal 1 unit.
+     * - Tanggal pinjam minimal hari ini (tidak boleh tanggal lampau).
+     * - Tanggal rencana kembali tidak boleh mendahului tanggal pinjam.
+     * - Menyimpan nomor WhatsApp aktif ke profil akun & data siswa.
+     * - Menghasilkan kode peminjaman otomatis melalui Peminjaman::generateKode().
+     * - Status awal transaksi diset menjadi 'menunggu' untuk diverifikasi admin sarana.
+     *
+     * @param  \Illuminate\Http\Request  $request  Data form permohonan peminjaman.
+     * @return \Illuminate\Http\RedirectResponse  Redirect ke halaman status riwayat pinjam siswa.
+     *
+     * @throws \Illuminate\Validation\ValidationException Jika input data tidak memenuhi kriteria validasi.
      */
     public function store(Request $request)
     {
@@ -117,7 +153,7 @@ class PeminjamanController extends Controller
 
         $barang = Barang::findOrFail($request->kode_barang);
 
-        // Cek stok barang tersedia
+        // Cek ketersediaan stok fisik barang siap pakai
         if ($barang->jumlah_baik < 1) {
             return back()->withErrors(['stok' => 'Maaf, barang ini sedang tidak tersedia untuk dipinjam.'])->withInput();
         }
@@ -150,6 +186,20 @@ class PeminjamanController extends Controller
             ->with('success', 'Pengajuan peminjaman "' . $barang->nama_barang . '" berhasil dikirim!');
     }
 
+    /**
+     * Membatalkan permohonan peminjaman yang diajukan oleh siswa.
+     *
+     * Aturan Bisnis & Konkurensi:
+     * - Hanya siswa pemilik pengajuan yang berhak membatalkan permohonannya.
+     * - Pengajuan hanya bisa dibatalkan jika statusnya masih 'menunggu' verifikasi admin.
+     * - Menggunakan database transaction dan row-level locking (lockForUpdate) untuk menghindari
+     *   race condition jika admin menyetujui/menolak pada saat yang bersamaan.
+     *
+     * @param  string  $kode_pinjam  Kode unik transaksi peminjaman (contoh: PJM-20261109-0001).
+     * @return \Illuminate\Http\RedirectResponse  Redirect kembali ke status peminjaman dengan flash message.
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException Jika pengguna bukan siswa (HTTP 403).
+     */
     public function cancel(string $kode_pinjam)
     {
         $user = Auth::user();
@@ -179,7 +229,14 @@ class PeminjamanController extends Controller
     }
 
     /**
-     * Tampilkan form pengembalian barang.
+     * Menampilkan formulir pelaporan pengembalian barang bagi siswa.
+     *
+     * Prasyarat:
+     * - Status peminjaman harus 'disetujui'.
+     * - Belum pernah mengajukan pengembalian sebelumnya untuk kode pinjam tersebut.
+     *
+     * @param  string  $kode_pinjam  Kode transaksi peminjaman (contoh: PJM-20261109-0001).
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse Form view pengembalian atau redirect jika syarat tidak terpenuhi.
      */
     public function createPengembalian(string $kode_pinjam)
     {
@@ -199,7 +256,18 @@ class PeminjamanController extends Controller
     }
 
     /**
-     * Proses pengajuan pengembalian barang dari user.
+     * Memproses pelaporan pengembalian sarana oleh siswa beserta upload bukti fisik foto/video.
+     *
+     * Aturan Bisnis & Efek Samping:
+     * - Wajib melampirkan berkas bukti fisik (JPG, PNG, WebP atau Video MP4/MOV) maksimal 25 MB.
+     * - Status pengembalian awal diset 'menunggu' untuk menunggu verifikasi fisik oleh admin sarana.
+     * - Catatan: Stok barang fisik belum dipulihkan di tahap ini, melainkan saat admin memverifikasi fisik barang.
+     *
+     * @param  \Illuminate\Http\Request  $request  Data form pengembalian (tanggal_kembali, kondisi_barang, bukti_foto, catatan).
+     * @param  string  $kode_pinjam  Kode transaksi peminjaman.
+     * @return \Illuminate\Http\RedirectResponse  Redirect ke halaman status dengan pesan konfirmasi.
+     *
+     * @throws \Illuminate\Validation\ValidationException Jika berkas bukti fisik atau input tidak valid.
      */
     public function storePengembalian(Request $request, string $kode_pinjam)
     {
@@ -245,7 +313,16 @@ class PeminjamanController extends Controller
     }
 
     /**
-     * Dapatkan daftar notifikasi aktif untuk user siswa
+     * Mengalkulasi dan menyusun daftar notifikasi cerdas bagi siswa berdasarkan status & tenggat waktu.
+     *
+     * Kategori & Urutan Skala Prioritas:
+     * 1. 'overdue' (Tingkat 0) : Melewati tanggal rencana pengembalian (peringatan darurat).
+     * 2. 'warning' (Tingkat 1) : Mendekati batas waktu (sisa <= 24 jam).
+     * 3. 'pending' (Tingkat 2) : Pengajuan peminjaman/pengembalian sedang diverifikasi staf.
+     * 4. 'active'  (Tingkat 3) : Barang dalam masa pinjam aktif normal.
+     *
+     * @param  \App\Models\Akun|\Illuminate\Contracts\Auth\Authenticatable|null  $user  Objek user siswa terautentikasi.
+     * @return \Illuminate\Support\Collection  Koleksi array notifikasi yang telah diurutkan prioritasnya.
      */
     public static function getUserNotifications($user)
     {
@@ -345,9 +422,14 @@ class PeminjamanController extends Controller
     }
 
     /**
-     * Endpoint live-check AJAX untuk auto-refresh notifikasi dan deteksi status peminjaman siswa
+     * Endpoint API AJAX live-check untuk pembaruan waktu nyata (real-time polling) pada UI siswa.
+     *
+     * Berfungsi memantau perubahan status persetujuan peminjaman dan memperbarui
+     * badge notifikasi secara asinkron tanpa reload seluruh halaman.
+     *
+     * @return \Illuminate\Http\JsonResponse Respon JSON berisi status, counter notifikasi, dan daftar pinjaman mutakhir.
      */
-    public function liveCheck()
+    public function liveCheck(): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user();
         if (!$user || $user->role !== 'siswa') {
