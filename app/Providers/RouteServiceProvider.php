@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
+/**
+ * Service Provider Konfigurasi dan Pemetaan Routing SINFAS.
+ *
+ * Mengatur rute web, rute API mobile, rate limiting, dan binding rute
+ * untuk seluruh alur transaksi peminjaman sarana dan fasilitas sekolah.
+ *
+ * @package App\Providers
+ */
 class RouteServiceProvider extends ServiceProvider
 {
     /**

@@ -6,6 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Membuat tabel 'notifikasi' untuk pencatatan riwayat pemberitahuan status peminjaman.
+     *
+     * @return void
+     */
+
     public function up(): void
     {
         Schema::create('notifikasi', function (Blueprint $table) {
@@ -16,6 +22,12 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+    /**
+     * Membatalkan migrasi dan menghapus tabel 'notifikasi'.
+     *
+     * @return void
+     */
+
 
     public function down(): void
     {

@@ -50,9 +50,26 @@ class Akun extends Authenticatable
         'password' => 'hashed',
     ];
 
+    /**
+     * Relasi ke tabel siswa (belongs-to via NIS).
+     * Menghubungkan akun pengguna dengan data profil siswa berdasarkan Nomor Induk Siswa.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function siswa()
     {
         return $this->belongsTo(Siswa::class, 'nis', 'nis');
+    }
+
+    /**
+     * Relasi ke tabel pegawai (belongs-to via NIP).
+     * Menghubungkan akun pengguna dengan data profil pegawai/staf sarpras berdasarkan NIP.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'nip', 'nip');
     }
 }
 

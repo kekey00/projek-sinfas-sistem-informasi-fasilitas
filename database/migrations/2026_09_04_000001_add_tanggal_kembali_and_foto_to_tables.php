@@ -6,6 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Menambahkan kolom 'tanggal_kembali' pada peminjaman dan 'foto' pada master barang sarana.
+     *
+     * @return void
+     */
+
     public function up(): void
     {
         // Tambah kolom foto ke tabel barang
@@ -19,6 +25,12 @@ return new class extends Migration
             $table->date('tanggal_kembali')->nullable()->after('tanggal_pinjam');
         });
     }
+    /**
+     * Menghapus kembali kolom 'tanggal_kembali' dan 'foto' jika terjadi rollback.
+     *
+     * @return void
+     */
+
 
     public function down(): void
     {

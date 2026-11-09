@@ -21,11 +21,23 @@ class Kategori extends Model
 
     protected $fillable = ['nama_kategori'];
 
+    /**
+     * Relasi ke tabel barang (one-to-many).
+     * Mengambil seluruh daftar barang sarana yang termasuk dalam kategori ini.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function barangs()
     {
         return $this->hasMany(Barang::class, 'id_kategori', 'id_kategori');
     }
 
+    /**
+     * Alias untuk relasi barangs().
+     * Disediakan sebagai penamaan singular agar konsisten dengan konvensi pemanggilan.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function barang()
     {
         return $this->barangs();

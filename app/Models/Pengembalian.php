@@ -39,6 +39,12 @@ class Pengembalian extends Model
         'tanggal_kembali' => 'date',
     ];
 
+    /**
+     * Relasi ke tabel peminjaman (belongs-to).
+     * Menghubungkan catatan pengembalian dengan transaksi peminjaman asal berdasarkan kode pinjam.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function peminjaman()
     {
         return $this->belongsTo(Peminjaman::class, 'kode_pinjam', 'kode_pinjam');

@@ -6,6 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Membuat tabel 'barang' inventaris sarana sekolah beserta kuantitas kondisi fisik (baik, rusak, dll).
+     *
+     * @return void
+     */
+
     public function up(): void
     {
         Schema::create('barang', function (Blueprint $table) {
@@ -24,6 +30,12 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+    /**
+     * Membatalkan migrasi dan menghapus tabel 'barang'.
+     *
+     * @return void
+     */
+
 
     public function down(): void
     {

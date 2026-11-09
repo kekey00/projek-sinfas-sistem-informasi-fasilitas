@@ -52,16 +52,34 @@ class Barang extends Model
         'kondisi',
     ];
 
+    /**
+     * Relasi ke tabel kategori (belongs-to).
+     * Menghubungkan barang sarana dengan kategori induknya (misal: Multimedia, Elektronika).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'id_kategori', 'id_kategori');
     }
 
+    /**
+     * Relasi ke tabel peminjaman (one-to-many).
+     * Mengambil seluruh riwayat transaksi peminjaman yang pernah dilakukan terhadap barang ini.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function peminjamans()
     {
         return $this->hasMany(Peminjaman::class, 'kode_barang', 'kode_barang');
     }
 
+    /**
+     * Alias untuk relasi peminjamans().
+     * Disediakan sebagai penamaan singular agar konsisten dengan konvensi pemanggilan.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function peminjaman()
     {
         return $this->peminjamans();

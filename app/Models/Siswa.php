@@ -32,11 +32,23 @@ class Siswa extends Model
         'jenis_kelamin',
     ];
 
+    /**
+     * Relasi ke tabel akun (one-to-one).
+     * Mengambil akun login yang terhubung dengan siswa ini berdasarkan Nomor Induk Siswa.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function akun()
     {
         return $this->hasOne(Akun::class, 'nis', 'nis');
     }
 
+    /**
+     * Relasi ke tabel peminjaman (one-to-many).
+     * Mengambil seluruh riwayat transaksi peminjaman sarana yang dilakukan oleh siswa ini.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function peminjaman()
     {
         return $this->hasMany(Peminjaman::class, 'nis', 'nis');

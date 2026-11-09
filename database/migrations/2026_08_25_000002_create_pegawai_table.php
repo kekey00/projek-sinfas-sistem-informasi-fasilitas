@@ -6,6 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Membuat tabel master 'pegawai' untuk identitas staf sarana prasarana dan tenaga kependidikan.
+     *
+     * @return void
+     */
+
     public function up(): void
     {
         Schema::create('pegawai', function (Blueprint $table) {
@@ -14,6 +20,12 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+    /**
+     * Membatalkan migrasi dan menghapus tabel 'pegawai'.
+     *
+     * @return void
+     */
+
 
     public function down(): void
     {

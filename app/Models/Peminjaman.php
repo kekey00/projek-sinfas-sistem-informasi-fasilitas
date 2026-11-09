@@ -45,16 +45,34 @@ class Peminjaman extends Model
         'tanggal_kembali' => 'date',
     ];
 
+    /**
+     * Relasi ke tabel barang (belongs-to).
+     * Menghubungkan transaksi peminjaman dengan barang sarana yang dipinjam berdasarkan kode barang.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function barang()
     {
         return $this->belongsTo(Barang::class, 'kode_barang', 'kode_barang');
     }
 
+    /**
+     * Relasi ke tabel akun/siswa (belongs-to via NIS).
+     * Menghubungkan transaksi peminjaman dengan akun siswa peminjam berdasarkan Nomor Induk Siswa.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function siswa()
     {
         return $this->belongsTo(\App\Models\Akun::class, 'nis', 'nis');
     }
 
+    /**
+     * Relasi ke tabel pengembalian (one-to-one).
+     * Mengambil data pengembalian yang terkait dengan transaksi peminjaman ini.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function pengembalian()
     {
         return $this->hasOne(Pengembalian::class, 'kode_pinjam', 'kode_pinjam');

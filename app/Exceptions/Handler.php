@@ -5,6 +5,17 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
+/**
+ * Exception Handler Utama Aplikasi SINFAS (Rubrik No. 6: Exception / Error Handling).
+ *
+ * Kelas ini bertugas menangkap, mencatat (logging), dan mengelola seluruh pengecualian (exception)
+ * serta error runtime yang terjadi pada sistem informasi fasilitas sekolah.
+ *
+ * Mengamankan data sensitif seperti password dari session flash saat terjadi error validasi,
+ * serta menyediakan mekanisme penanganan error terpusat untuk HTTP request dan response API.
+ *
+ * @package App\Exceptions
+ */
 class Handler extends ExceptionHandler
 {
     /**

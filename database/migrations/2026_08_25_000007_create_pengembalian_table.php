@@ -6,6 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Membuat tabel 'pengembalian' untuk pelaporan dan verifikasi fisik pengembalian sarana fasilitas.
+     *
+     * @return void
+     */
+
     public function up(): void
     {
         Schema::create('pengembalian', function (Blueprint $table) {
@@ -21,6 +27,12 @@ return new class extends Migration
             $table->foreign('kode_pinjam')->references('kode_pinjam')->on('peminjaman');
         });
     }
+    /**
+     * Membatalkan migrasi dan menghapus tabel 'pengembalian'.
+     *
+     * @return void
+     */
+
 
     public function down(): void
     {

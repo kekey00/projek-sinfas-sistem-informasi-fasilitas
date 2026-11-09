@@ -6,6 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Membuat tabel 'peminjaman' transaksi peminjaman sarana oleh siswa dengan kode pinjam terformat unik.
+     *
+     * @return void
+     */
+
     public function up(): void
     {
         Schema::create('peminjaman', function (Blueprint $table) {
@@ -21,6 +27,12 @@ return new class extends Migration
             $table->foreign('kode_barang')->references('kode_barang')->on('barang');
         });
     }
+    /**
+     * Membatalkan migrasi dan menghapus tabel 'peminjaman'.
+     *
+     * @return void
+     */
+
 
     public function down(): void
     {

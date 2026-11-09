@@ -7,6 +7,14 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 
+/**
+ * Service Provider Event dan Listener SINFAS.
+ *
+ * Mendaftarkan event listener aplikasi untuk menangani siklus hidup
+ * proses transaksi, autentikasi, dan pengiriman notifikasi peminjaman.
+ *
+ * @package App\Providers
+ */
 class EventServiceProvider extends ServiceProvider
 {
     /**

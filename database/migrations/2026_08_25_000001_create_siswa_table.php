@@ -6,6 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Membuat tabel master 'siswa' untuk menyimpan identitas profil siswa SMKN 11 Bandung.
+     *
+     * @return void
+     */
+
     public function up(): void
     {
         Schema::create('siswa', function (Blueprint $table) {
@@ -16,6 +22,12 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+    /**
+     * Membatalkan migrasi dan menghapus tabel 'siswa'.
+     *
+     * @return void
+     */
+
 
     public function down(): void
     {

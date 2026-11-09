@@ -6,6 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Membuat tabel 'akun' sebagai entitas otentikasi utama pengguna dengan role (siswa, admin_sarana, admin_sistem).
+     *
+     * @return void
+     */
+
     public function up(): void
     {
         Schema::create('akun', function (Blueprint $table) {
@@ -23,6 +29,12 @@ return new class extends Migration
             $table->foreign('nip')->references('nip')->on('pegawai')->nullOnDelete();
         });
     }
+    /**
+     * Membatalkan migrasi dan menghapus tabel 'akun'.
+     *
+     * @return void
+     */
+
 
     public function down(): void
     {
