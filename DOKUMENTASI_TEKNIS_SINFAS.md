@@ -227,5 +227,42 @@ php artisan serve
 Aplikasi dapat diakses melalui browser di `http://127.0.0.1:8000`.
 
 ---
+
+## 8. ARSITEKTUR BASIS DATA LANJUTAN (STORED PROCEDURE, FUNCTION, TRIGGER & VIEW)
+
+Untuk memenuhi rubrik rekayasa perangkat lunak dan basis data tingkat lanjut, SINFAS mengimplementasikan otomasi langsung di level DBMS MySQL:
+
+### 1. Stored Procedure & Stored Function (Rubrik Poin No. 7)
+* **`sp_rekap_peminjaman_siswa(IN p_nis VARCHAR(20))`** *(Stored Procedure)*:
+  * **Tujuan:** Menarik rekap riwayat peminjaman siswa per NIS langsung via database engine.
+  * **Pemanggilan di Kode:** Model `Peminjaman::callStoredProcedureRekap($nis)` dan Controller `AdminLaporanController::rekapSiswa($nis)`.
+  * **Rute URL:** `GET /admin/laporan/rekap-siswa/{nis}`
+* **`fn_total_unit_barang(p_kode_barang VARCHAR(30)) RETURNS INT`** *(Stored Function)*:
+  * **Tujuan:** Menghitung total fisik alat (`jumlah_baik + jumlah_kurang_baik + jumlah_rusak_berat`).
+  * **Pemanggilan di Kode:** Accessor Eloquent Model `$barang->total_unit`.
+* **`fn_status_ketersediaan_barang(p_kode_barang VARCHAR(30)) RETURNS VARCHAR(30)`** *(Stored Function)*:
+  * **Tujuan:** Mengembalikan status ketersediaan sarana (`Tersedia` / `Habis Dipinjam`).
+  * **Pemanggilan di Kode:** Accessor Eloquent Model `$barang->status_ketersediaan`.
+
+### 2. Database Trigger (Rubrik Poin No. 8)
+* **`trg_peminjaman_after_update`** *(AFTER UPDATE ON `peminjaman`)*:
+  * Otomatis memotong stok fisik `jumlah_baik` sebesar 1 unit saat pengajuan diubah statusnya menjadi `'disetujui'`.
+  * Otomatis memulihkan stok (+1) jika transaksi yang disetujui dibatalkan/ditolak.
+  * Mencatat riwayat audit perubahan status ke tabel `log_status_peminjaman`.
+* **`trg_pengembalian_after_update` & `trg_pengembalian_after_insert`** *(ON `pengembalian`)*:
+  * Otomatis menambah kembali stok ke kondisi fisik yang sesuai saat admin menyelesaikan pengembalian (`status = 'selesai'`).
+* **`trg_cegah_stok_negatif`** *(BEFORE UPDATE ON `barang`)*:
+  * Membatalkan transaksi (*rollback*) dan melempar pesan error `SQLSTATE 45000` jika ada modifikasi yang membuat stok minus (`jumlah_baik < 0`).
+
+### 3. Database View (Rubrik Poin No. 9)
+* **`v_peminjaman_aktif`**:
+  * View gabungan relasi `peminjaman`, `siswa`, `barang`, dan `kategori` khusus untuk transaksi yang sedang berjalan (`status_pengajuan = 'disetujui'`).
+  * Dipetakan ke Model Eloquent `App\Models\PeminjamanAktif` dan rute `GET /admin/laporan/peminjaman-aktif`.
+* **`v_rekap_inventaris`**:
+  * View rekapitulasi inventaris alat per kategori lengkap dengan akumulasi unit dan status ketersediaan.
+  * Dipetakan ke Model Eloquent `App\Models\RekapInventarisView` dan rute `GET /admin/laporan/view-inventaris`.
+
+---
+
 *Dokumentasi ini diperbarui secara berkala sesuai dengan evolusi kode program aplikasi SINFAS.*
 
