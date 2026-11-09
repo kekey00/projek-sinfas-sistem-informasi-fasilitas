@@ -29,3 +29,4 @@ class RekapInventarisView extends Model
     protected $keyType = 'string';
     public $timestamps = false;
 }
+
