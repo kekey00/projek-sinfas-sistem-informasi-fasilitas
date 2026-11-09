@@ -115,6 +115,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/laporan/keterlambatan/pdf', [AdminLaporanController::class, 'keterlambatanPdf'])->name('laporan.keterlambatan.pdf');
         Route::get('/laporan/inventaris', [AdminLaporanController::class, 'inventaris'])->name('laporan.inventaris');
         Route::get('/laporan/inventaris/pdf', [AdminLaporanController::class, 'inventarisPdf'])->name('laporan.inventaris.pdf');
+        Route::get('/laporan/rekap-siswa/{nis}', [AdminLaporanController::class, 'rekapSiswa'])->name('laporan.rekap-siswa');
 
         // Profil Admin Sarana
         Route::get('/profile', function () {

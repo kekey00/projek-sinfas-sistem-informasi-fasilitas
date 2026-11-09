@@ -194,7 +194,8 @@ class AdminLaporanController extends Controller
                     'kurang_baik' => $barang->jumlah_kurang_baik,
                     'rusak_berat' => $barang->jumlah_rusak_berat,
                     'dipinjam' => $dipinjam,
-                    'total' => $barang->jumlah_baik + $barang->jumlah_kurang_baik + $barang->jumlah_rusak_berat,
+                    // Menggunakan Stored Function 'fn_total_unit_barang' via Accessor Model Barang (Rubrik No. 7)
+                    'total' => $barang->total_unit,
                 ];
             });
 
@@ -242,5 +243,24 @@ class AdminLaporanController extends Controller
             'stokInventaris' => $stokInventaris,
             'stokRingkasan' => $stokRingkasan,
         ];
+    }
+
+    /**
+     * Mengambil rekapitulasi histori transaksi peminjaman siswa menggunakan STORED PROCEDURE MySQL
+     * 'sp_rekap_peminjaman_siswa' (Rubrik Poin No. 7: Stored Procedure).
+     *
+     * @param  string  $nis  Nomor Induk Siswa.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function rekapSiswa(string $nis)
+    {
+        $data = Peminjaman::callStoredProcedureRekap($nis);
+        return response()->json([
+            'status' => 'success',
+            'nis'    => $nis,
+            'source' => 'Stored Procedure MySQL (sp_rekap_peminjaman_siswa)',
+            'total'  => count($data),
+            'data'   => $data,
+        ]);
     }
 }

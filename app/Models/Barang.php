@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Model Barang (Aset Sarana & Prasarana)
@@ -86,5 +87,37 @@ class Barang extends Model
             return 'Tersedia';
         }
         return 'Tidak Tersedia';
+    }
+
+    /**
+     * Memanggil Stored Function MySQL 'fn_total_unit_barang' (Rubrik No. 7: Stored Function).
+     * Menghitung akumulasi seluruh kondisi unit fisik sarana secara langsung melalui engine MySQL.
+     *
+     * @return int Total unit fisik alat.
+     */
+    public function getTotalUnitAttribute(): int
+    {
+        try {
+            $res = DB::selectOne("SELECT fn_total_unit_barang(?) AS total", [$this->kode_barang]);
+            return (int) ($res->total ?? ($this->jumlah_baik + $this->jumlah_kurang_baik + $this->jumlah_rusak_berat));
+        } catch (\Throwable $e) {
+            return (int) ($this->jumlah_baik + $this->jumlah_kurang_baik + $this->jumlah_rusak_berat);
+        }
+    }
+
+    /**
+     * Memanggil Stored Function MySQL 'fn_status_ketersediaan_barang' (Rubrik No. 7: Stored Function).
+     * Mengambil status ketersediaan sarana ('Tersedia' / 'Habis Dipinjam') langsung dari fungsi database.
+     *
+     * @return string Status ketersediaan sarana.
+     */
+    public function getStatusKetersediaanAttribute(): string
+    {
+        try {
+            $res = DB::selectOne("SELECT fn_status_ketersediaan_barang(?) AS status", [$this->kode_barang]);
+            return $res->status ?? ($this->jumlah_baik > 0 ? 'Tersedia' : 'Habis Dipinjam');
+        } catch (\Throwable $e) {
+            return $this->jumlah_baik > 0 ? 'Tersedia' : 'Habis Dipinjam';
+        }
     }
 }

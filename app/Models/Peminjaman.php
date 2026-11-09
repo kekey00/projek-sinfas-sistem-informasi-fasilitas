@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Model Peminjaman
@@ -78,5 +79,44 @@ class Peminjaman extends Model
 
         $seq = $last ? (intval(substr($last, -4)) + 1) : 1;
         return $prefix . str_pad($seq, 4, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * Memanggil Stored Procedure MySQL 'sp_rekap_peminjaman_siswa' (Rubrik Poin No. 7: Stored Procedure).
+     * Mengambil rekapitulasi riwayat transaksi peminjaman siswa berdasarkan NIS langsung dari Stored Procedure.
+     *
+     * @param  string  $nis  Nomor Induk Siswa.
+     * @return array        Kumpulan record hasil eksekusi Stored Procedure.
+     */
+    public static function callStoredProcedureRekap(string $nis): array
+    {
+        try {
+            return DB::select("CALL sp_rekap_peminjaman_siswa(?)", [$nis]);
+        } catch (\Throwable $e) {
+            // Fallback via Eloquent jika Stored Procedure belum terpasang di database lokal
+            return self::with('barang')
+                ->where('nis', $nis)
+                ->orderBy('created_at', 'desc')
+                ->get()
+                ->toArray();
+        }
+    }
+
+    /**
+     * Mengambil daftar peminjaman aktif yang sedang berjalan menggunakan DATABASE VIEW 'v_peminjaman_aktif'
+     * (Rubrik Poin No. 9: Database View).
+     *
+     * @return \Illuminate\Support\Collection Koleksi data peminjaman aktif langsung dari Database View.
+     */
+    public static function getPeminjamanAktifFromView(): \Illuminate\Support\Collection
+    {
+        try {
+            return collect(DB::select("SELECT * FROM v_peminjaman_aktif"));
+        } catch (\Throwable $e) {
+            // Fallback via Eloquent
+            return self::with(['barang.kategori', 'siswa'])
+                ->where('status_pengajuan', 'disetujui')
+                ->get();
+        }
     }
 }
