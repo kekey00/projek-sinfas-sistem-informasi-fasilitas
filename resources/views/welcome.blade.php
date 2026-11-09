@@ -1730,7 +1730,7 @@
 
                     <div class="faq-contact-card">
                         <strong>Ruang Sarana & Prasarana</strong>
-                        <span>Gedung A, Lantai 1 (Jam Kerja: 07.00 – 16.00 WIB)</span>
+                        <span>Gedung A, Lantai 1 (Jam Kerja: 06.30 – 15.00 WIB)</span>
                         <div style="margin-top: 14px;">
                             <a href="{{ route('login') }}" class="btn-brand-primary" style="padding: 8px 18px; font-size: 12px;">
                                 Hubungi Pengelola Sarpras
@@ -1848,7 +1848,7 @@
                     <h4 class="footer-col-title">Ruang Sarana Prasarana</h4>
                     <div class="footer-contact-block">
                         <p><strong>Gedung A, Lantai 1</strong></p>
-                        <p>Senin – Jumat: 07.00 – 15.00 WIB</p>
+                        <p>Senin – Jumat: 06.30 – 15.00 WIB</p>
                         <p style="margin-top: 6px; color: var(--brand-cyan-light);">Email: sarpras@sekolah.sch.id</p>
                     </div>
                 </div>
