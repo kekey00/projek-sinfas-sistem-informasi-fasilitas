@@ -215,7 +215,7 @@ return new class extends Migration
             END
         ");
 
-        // 9. DATABASE VIEW: v_peminjaman_aktif
+        // 9. DATABASE VIEW 1: v_peminjaman_aktif (Data Peminjaman Aktif Terintegrasi)
         DB::unprepared("DROP VIEW IF EXISTS `v_peminjaman_aktif`");
         DB::unprepared("
             CREATE VIEW `v_peminjaman_aktif` AS
@@ -236,6 +236,27 @@ return new class extends Migration
             JOIN `kategori` k ON b.id_kategori = k.id_kategori
             WHERE p.status_pengajuan = 'disetujui'
         ");
+
+        // 10. DATABASE VIEW 2: v_rekap_inventaris (Rekapitulasi Fisik Inventaris Sarpras)
+        DB::unprepared("DROP VIEW IF EXISTS `v_rekap_inventaris`");
+        DB::unprepared("
+            CREATE VIEW `v_rekap_inventaris` AS
+            SELECT 
+                b.kode_barang,
+                b.nama_barang,
+                b.merk_model,
+                k.nama_kategori,
+                b.jumlah_baik,
+                b.jumlah_kurang_baik,
+                b.jumlah_rusak_berat,
+                (b.jumlah_baik + b.jumlah_kurang_baik + b.jumlah_rusak_berat) AS total_unit,
+                CASE 
+                    WHEN b.jumlah_baik > 0 THEN 'Tersedia' 
+                    ELSE 'Habis Dipinjam' 
+                END AS status_ketersediaan
+            FROM `barang` b
+            JOIN `kategori` k ON b.id_kategori = k.id_kategori
+        ");
     }
 
     /**
@@ -243,6 +264,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        DB::unprepared("DROP VIEW IF EXISTS `v_rekap_inventaris`");
         DB::unprepared("DROP VIEW IF EXISTS `v_peminjaman_aktif`");
         DB::unprepared("DROP FUNCTION IF EXISTS `fn_status_ketersediaan_barang`");
         DB::unprepared("DROP FUNCTION IF EXISTS `fn_total_unit_barang`");

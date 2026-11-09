@@ -116,6 +116,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/laporan/inventaris', [AdminLaporanController::class, 'inventaris'])->name('laporan.inventaris');
         Route::get('/laporan/inventaris/pdf', [AdminLaporanController::class, 'inventarisPdf'])->name('laporan.inventaris.pdf');
         Route::get('/laporan/rekap-siswa/{nis}', [AdminLaporanController::class, 'rekapSiswa'])->name('laporan.rekap-siswa');
+        Route::get('/laporan/peminjaman-aktif', [AdminLaporanController::class, 'peminjamanAktif'])->name('laporan.peminjaman-aktif');
+        Route::get('/laporan/view-inventaris', [AdminLaporanController::class, 'rekapInventarisView'])->name('laporan.view-inventaris');
 
         // Profil Admin Sarana
         Route::get('/profile', function () {

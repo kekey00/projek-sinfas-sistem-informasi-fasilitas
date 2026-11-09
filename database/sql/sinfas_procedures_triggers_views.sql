@@ -230,7 +230,7 @@ DELIMITER ;
 
 
 -- ------------------------------------------------------------------------------
--- 9. DATABASE VIEW: v_peminjaman_aktif
+-- 9. DATABASE VIEW 1: v_peminjaman_aktif
 -- Tujuan: View gabungan relasi tabel peminjaman, siswa, barang, dan kategori
 --         khusus untuk transaksi peminjaman yang sedang aktif ('disetujui').
 -- Cara Panggil: SELECT * FROM v_peminjaman_aktif;
@@ -253,3 +253,28 @@ JOIN `siswa` s ON p.nis = s.nis
 JOIN `barang` b ON p.kode_barang = b.kode_barang
 JOIN `kategori` k ON b.id_kategori = k.id_kategori
 WHERE p.status_pengajuan = 'disetujui';
+
+
+-- ------------------------------------------------------------------------------
+-- 10. DATABASE VIEW 2: v_rekap_inventaris
+-- Tujuan: View rekapitulasi inventaris barang per kategori lengkap dengan
+--         akumulasi total unit dan status ketersediaan secara otomatis.
+-- Cara Panggil: SELECT * FROM v_rekap_inventaris;
+-- ------------------------------------------------------------------------------
+DROP VIEW IF EXISTS `v_rekap_inventaris`;
+CREATE VIEW `v_rekap_inventaris` AS
+SELECT 
+    b.kode_barang,
+    b.nama_barang,
+    b.merk_model,
+    k.nama_kategori,
+    b.jumlah_baik,
+    b.jumlah_kurang_baik,
+    b.jumlah_rusak_berat,
+    (b.jumlah_baik + b.jumlah_kurang_baik + b.jumlah_rusak_berat) AS total_unit,
+    CASE 
+        WHEN b.jumlah_baik > 0 THEN 'Tersedia' 
+        ELSE 'Habis Dipinjam' 
+    END AS status_ketersediaan
+FROM `barang` b
+JOIN `kategori` k ON b.id_kategori = k.id_kategori;

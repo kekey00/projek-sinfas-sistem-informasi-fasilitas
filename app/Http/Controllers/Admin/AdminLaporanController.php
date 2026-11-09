@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Kategori;
 use App\Models\Peminjaman;
+use App\Models\PeminjamanAktif;
+use App\Models\RekapInventarisView;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -262,5 +264,56 @@ class AdminLaporanController extends Controller
             'total'  => count($data),
             'data'   => $data,
         ]);
+    }
+
+    /**
+     * Mengambil daftar peminjaman aktif langsung dari DATABASE VIEW 'v_peminjaman_aktif'
+     * (Rubrik Poin No. 9: Database View).
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function peminjamanAktif()
+    {
+        try {
+            $data = PeminjamanAktif::all();
+            return response()->json([
+                'status' => 'success',
+                'source' => 'Database View (v_peminjaman_aktif)',
+                'total'  => $data->count(),
+                'data'   => $data,
+            ]);
+        } catch (\Throwable $e) {
+            $data = Peminjaman::getPeminjamanAktifFromView();
+            return response()->json([
+                'status' => 'success',
+                'source' => 'Database View Fallback (v_peminjaman_aktif)',
+                'total'  => $data->count(),
+                'data'   => $data,
+            ]);
+        }
+    }
+
+    /**
+     * Mengambil rekapitulasi inventaris langsung dari DATABASE VIEW 'v_rekap_inventaris'
+     * (Rubrik Poin No. 9: Database View).
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function rekapInventarisView()
+    {
+        try {
+            $data = RekapInventarisView::all();
+            return response()->json([
+                'status' => 'success',
+                'source' => 'Database View (v_rekap_inventaris)',
+                'total'  => $data->count(),
+                'data'   => $data,
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
