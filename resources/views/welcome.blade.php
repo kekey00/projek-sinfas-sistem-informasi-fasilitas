@@ -1847,7 +1847,7 @@
                 <div>
                     <h4 class="footer-col-title">Ruang Sarana Prasarana</h4>
                     <div class="footer-contact-block">
-                        <p><strong>Gedung A, Lantai 1</strong></p>
+                        <p><strong>Gedung Sarana Prasarana</strong></p>
                         <p>Senin – Jumat: 06.30 – 15.00 WIB</p>
                         <p style="margin-top: 6px; color: var(--brand-cyan-light);">Email: sarpras@sekolah.sch.id</p>
                     </div>
